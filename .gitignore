@@ -1,0 +1,112 @@
+# =========================================================
+# DATASETS
+# =========================================================
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+data/checksums/*
+
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+
+# Keep manifest definitions
+!data/manifests/
+!data/manifests/*.csv
+!data/manifests/*.yaml
+!data/manifests/*.json
+
+
+# =========================================================
+# MODEL ARTIFACTS
+# =========================================================
+models/checkpoints/*
+experiments/runs/*
+
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.h5
+*.tflite
+
+
+# =========================================================
+# PYTHON
+# =========================================================
+__pycache__/
+*.py[cod]
+*.pyd
+
+.venv/
+venv/
+env/
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+
+# =========================================================
+# NOTEBOOKS
+# =========================================================
+.ipynb_checkpoints/
+
+
+# =========================================================
+# ENVIRONMENT AND SECRETS
+# =========================================================
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+
+# =========================================================
+# LOGS AND TEMPORARY FILES
+# =========================================================
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+~$*
+
+temp/
+tmp/
+cache/
+
+
+# =========================================================
+# OPERATING SYSTEM
+# =========================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# =========================================================
+# IDE
+# =========================================================
+.idea/
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+
+
+# =========================================================
+# GENERATED REPORT OUTPUTS
+# =========================================================
+reports/figures/generated/
+reports/tables/generated/
+# Track lightweight reproducibility checksum records
+!data/checksums/
+!data/checksums/**/
+!data/checksums/**/*.csv

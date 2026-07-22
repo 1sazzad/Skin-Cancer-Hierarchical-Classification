@@ -1,0 +1,1 @@
+﻿run_id,phase,stage,dataset,model,variant,seed,split_manifest,config_path,git_commit,status,started_at,completed_at,primary_metric,primary_metric_value,checkpoint_path,predictions_path,metrics_path,notes

@@ -1,0 +1,65 @@
+﻿datasets:
+  isic2019:
+    full_name: "ISIC 2019 Challenge Training Dataset"
+    role: "primary_development_internal_evaluation"
+    status: "not_acquired"
+    enabled: true
+    license: "CC-BY-NC"
+    expected:
+      image_count: 25331
+      ground_truth_rows: 25331
+      metadata_rows: 25331
+    official_sources:
+      training_images:
+        url: "https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_Input.zip"
+        local_path: "data/raw/isic2019/archives/ISIC_2019_Training_Input.zip"
+      ground_truth:
+        url: "https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_GroundTruth.csv"
+        local_path: "data/raw/isic2019/metadata/ISIC_2019_Training_GroundTruth.csv"
+      metadata:
+        url: "https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_Metadata.csv"
+        local_path: "data/raw/isic2019/metadata/ISIC_2019_Training_Metadata.csv"
+    permitted_uses:
+      - stage_1_development
+      - stage_2_development
+      - flat_baseline
+      - hierarchical_model
+      - internal_validation
+      - internal_testing
+      - calibration
+      - explainability
+      - efficiency_analysis
+
+  emb:
+    full_name: "Erasmus MC Melanoma Dataset"
+    role: "stage_3_feasibility_and_modelling"
+    status: "not_acquired"
+    enabled: false
+    activation_condition: "severity_labels_complete_valid_and_leakage_safe"
+    permitted_uses:
+      - stage_3_label_audit
+      - conditional_stage_3_development
+
+  hiba:
+    full_name: "Hospital Italiano de Buenos Aires Skin Lesion Dataset"
+    role: "mandatory_external_evaluation"
+    status: "not_acquired"
+    enabled: false
+    evaluation_mode: "frozen_zero_shot"
+    forbidden_uses:
+      - training
+      - fine_tuning
+      - architecture_selection
+      - hyperparameter_tuning
+      - threshold_selection
+      - calibration_fitting
+      - preprocessing_selection
+      - checkpoint_selection
+
+  mra_midas:
+    full_name: "MRA-MIDAS"
+    role: "optional_second_external_evaluation"
+    status: "not_acquired"
+    enabled: false
+    activation_condition: "mandatory_experiments_completed"
+    evaluation_mode: "frozen_zero_shot"

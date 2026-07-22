@@ -1,0 +1,87 @@
+﻿project:
+  name: "Skin Cancer Hierarchical Classification"
+  slug: "skin_cancer_hierarchical_classification"
+  current_phase: "phase_01"
+  source_of_truth: "local_project_directory"
+  primary_modality: "dermoscopic_image"
+  clinical_use_status: "research_only"
+
+hierarchy:
+  stage_1:
+    name: "malignancy_detection"
+    task_type: "binary_classification"
+    labels:
+      - malignant
+      - non_malignant
+
+  stage_2:
+    name: "malignant_lesion_classification"
+    task_type: "multiclass_classification"
+    gate: "stage_1_malignant"
+    labels:
+      - melanoma
+      - bcc
+      - scc
+    evaluation_modes:
+      - standalone
+      - oracle_gate
+      - predicted_gate
+      - end_to_end
+
+  stage_3:
+    name: "melanoma_severity_classification"
+    status: "feasibility_dependent"
+    preferred_target: "t_category"
+    fallback_target: "breslow_group"
+
+paths:
+  raw_data: "data/raw"
+  interim_data: "data/interim"
+  processed_data: "data/processed"
+  manifests: "data/manifests"
+  checksums: "data/checksums"
+  configurations: "configs"
+  experiment_runs: "experiments/runs"
+  checkpoints: "models/checkpoints"
+  reports: "reports"
+
+reproducibility:
+  primary_seed: 42
+  hash_algorithm: "sha256"
+  record_git_commit: true
+  record_environment: true
+  preserve_resolved_configuration: true
+  deterministic_execution_when_supported: true
+
+model_selection:
+  allowed_split:
+    - validation
+  forbidden_sources:
+    - internal_test
+    - hiba
+    - mra_midas
+  primary_metrics:
+    - macro_f1
+    - balanced_accuracy
+  secondary_metrics:
+    - per_class_recall
+    - roc_auc
+    - expected_calibration_error
+
+external_evaluation:
+  hiba:
+    mode: "frozen_zero_shot"
+    mandatory: true
+  mra_midas:
+    mode: "optional_frozen_zero_shot"
+    mandatory: false
+
+git_policy:
+  track_raw_data: false
+  track_archives: false
+  track_checkpoints: false
+  track_large_run_artifacts: false
+  track_configs: true
+  track_manifests: true
+  track_lightweight_metrics: true
+  track_source_checksums: true
