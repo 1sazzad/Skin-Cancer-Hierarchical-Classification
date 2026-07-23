@@ -924,3 +924,60 @@ Each must receive a new decision identifier.
 **Next decision identifier:** `D-011`
 
 The initial project scope, architecture, data responsibilities, evaluation boundaries, reproducibility rules, and naming standards are now formally recorded.
+
+---
+
+## D-011 — Primary ISIC 2019 hierarchical label mapping
+
+**Date:** 2026-07-23
+**Status:** Accepted
+**Phase:** Phase 01
+
+### Decision
+
+- MEL, BCC, and SCC are mapped to the Stage 1 malignant class.
+- NV, BKL, DF, and VASC are mapped to the Stage 1 non_malignant class.
+- MEL, BCC, and SCC form the Stage 2 melanoma, bcc, and scc classes.
+- AK is excluded from the primary Stage 1 and Stage 2 tasks.
+- UNK is excluded because the diagnosis is unknown.
+
+### Rationale
+
+AK is premalignant and does not fit cleanly into the locked malignant versus non_malignant primary task. Assigning it to either class would introduce an avoidable clinical and methodological ambiguity.
+
+### Consequences
+
+- Primary Stage 1 experiments use only rows where include_stage_1 equals 1.
+- Primary Stage 2 experiments use only rows where include_stage_2 equals 1.
+- AK may be evaluated later only through an explicitly declared sensitivity analysis.
+
+---
+
+## D-012 — Leakage-aware ISIC 2019 split policy
+
+**Date:** 2026-07-23
+**Status:** Accepted
+**Phase:** Phase 01
+
+### Decision
+
+- Train, validation, and internal test partitions use a deterministic 70/15/15 split with seed 42.
+- Images sharing a non-empty lesion_id must remain in the same partition.
+- Images sharing an exact file SHA-256 must remain in the same partition.
+- The transitive connected component of lesion-ID and exact-hash relations is treated as one indivisible split group.
+- Components containing conflicting diagnoses or hierarchy labels are excluded from primary development.
+
+### Identified exclusion
+
+One four-image component joining BCN_0000237 and BCN_0003560 contains byte-identical images labelled both MEL and NV. All four images are excluded using the reason cross_diagnosis_exact_duplicate_component.
+
+### Validation
+
+- Split-group overlap count: 0
+- Lesion-ID overlap count: 0
+- Exact-hash overlap count: 0
+- Leakage validation: passed
+
+### Limitation
+
+ISIC 2019 metadata does not provide patient_id. The split is lesion-aware and exact-duplicate-aware, but patient-independent separation cannot be guaranteed.

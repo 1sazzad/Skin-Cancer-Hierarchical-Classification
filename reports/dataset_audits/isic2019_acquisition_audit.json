@@ -1,0 +1,39 @@
+﻿{
+    "dataset":  "isic2019",
+    "acquisition_status":  "complete",
+    "validated_at_utc":  "2026-07-23T03:47:38.2772551Z",
+    "expected_record_count":  25331,
+    "counts":  {
+                   "images":  25331,
+                   "ground_truth_rows":  25331,
+                   "metadata_rows":  25331
+               },
+    "validation":  {
+                       "zip_opened_successfully":  true,
+                       "zip_jpeg_entry_count_valid":  true,
+                       "csv_required_columns_valid":  true,
+                       "ground_truth_one_hot_valid":  true,
+                       "image_ids_unique":  true,
+                       "ground_truth_ids_unique":  true,
+                       "metadata_ids_unique":  true,
+                       "image_ground_truth_ids_match":  true,
+                       "metadata_ground_truth_ids_match":  true
+                   },
+    "identifier_availability":  {
+                                    "patient_id_column_available":  false,
+                                    "lesion_id_column_available":  true,
+                                    "non_empty_lesion_id_count":  23247
+                                },
+    "class_distribution":  {
+                               "MEL":  4522,
+                               "NV":  12875,
+                               "BCC":  3323,
+                               "AK":  867,
+                               "BKL":  2624,
+                               "DF":  239,
+                               "VASC":  253,
+                               "SCC":  628,
+                               "UNK":  0
+                           },
+    "source_checksum_file":  "data/checksums/isic2019/isic2019_source_file_sha256.csv"
+}

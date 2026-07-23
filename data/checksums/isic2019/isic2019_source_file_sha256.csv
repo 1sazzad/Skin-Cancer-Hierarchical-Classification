@@ -1,0 +1,4 @@
+﻿"dataset","source_key","source_file","source_url","sha256","size_bytes","verified_at_utc"
+"isic2019","training_images","ISIC_2019_Training_Input.zip","https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_Input.zip","5075020b720c8f1b9b7f3ff85326c55ce0435e5906c41fbd338994feef886df1","9771618190","2026-07-23T03:47:38.2772551Z"
+"isic2019","ground_truth","ISIC_2019_Training_GroundTruth.csv","https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_GroundTruth.csv","aa88e9638fe4df9ef330dc4ba22fa4bd475c44af692fffb870c73091ab25cdcd","1291479","2026-07-23T03:47:38.2772551Z"
+"isic2019","metadata","ISIC_2019_Training_Metadata.csv","https://isic-archive.s3.amazonaws.com/challenges/2019/ISIC_2019_Training_Metadata.csv","d93994a8ed201d474de9a7af7e17ec30929cbc4a5220659ecbde17cbe83e9316","1214351","2026-07-23T03:47:38.2772551Z"

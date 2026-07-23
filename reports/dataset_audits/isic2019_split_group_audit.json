@@ -1,0 +1,67 @@
+{
+  "dataset": "isic2019",
+  "status": "complete",
+  "manifest_rows": 25331,
+  "exact_duplicate_hash_audit": {
+    "unique_hash_count": 25281,
+    "duplicate_hash_group_count": 50,
+    "images_in_duplicate_hash_groups": 100,
+    "cross_lesion_duplicate_group_count": 10,
+    "cross_diagnosis_duplicate_group_count": 2
+  },
+  "lesion_group_audit": {
+    "non_empty_lesion_id_rows": 23247,
+    "unique_non_empty_lesion_ids": 11847,
+    "missing_lesion_id_rows": 2084,
+    "lesion_label_conflict_group_count": 0
+  },
+  "connected_component_grouping": {
+    "strategy": "connected_components_of_shared_lesion_id_or_exact_file_sha256",
+    "component_count": 13927,
+    "repeated_component_count": 5057,
+    "images_in_repeated_components": 16461,
+    "maximum_component_size": 31,
+    "component_size_distribution": {
+      "1": 8870,
+      "2": 2504,
+      "3": 1304,
+      "4": 469,
+      "5": 246,
+      "6": 199,
+      "7": 112,
+      "8": 59,
+      "9": 54,
+      "10": 25,
+      "11": 18,
+      "12": 19,
+      "13": 10,
+      "14": 7,
+      "15": 3,
+      "16": 3,
+      "17": 5,
+      "18": 3,
+      "19": 6,
+      "20": 6,
+      "21": 1,
+      "24": 1,
+      "26": 1,
+      "27": 1,
+      "31": 1
+    },
+    "cross_diagnosis_component_count": 1,
+    "cross_stage_1_label_component_count": 1,
+    "cross_stage_2_label_component_count": 0
+  },
+  "recommended_split_policy": {
+    "primary_grouping": "connected component based on lesion_id and exact image SHA-256",
+    "missing_lesion_id_fallback": "exact-hash component when duplicated; otherwise image-level singleton",
+    "patient_level_split_possible": false,
+    "limitation": "ISIC 2019 metadata has no patient_id column. Lesion-aware grouping reduces known leakage but cannot guarantee patient-independent splits."
+  },
+  "outputs": {
+    "duplicate_hash_groups": "reports/dataset_audits/isic2019_exact_duplicate_hash_groups.csv",
+    "lesion_label_conflicts": "reports/dataset_audits/isic2019_lesion_label_conflicts.csv",
+    "missing_lesion_distribution": "reports/dataset_audits/isic2019_missing_lesion_id_distribution.csv",
+    "audit": "reports/dataset_audits/isic2019_split_group_audit.json"
+  }
+}

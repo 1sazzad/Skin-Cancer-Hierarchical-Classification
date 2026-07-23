@@ -1,0 +1,115 @@
+{
+  "dataset": "isic2019",
+  "status": "complete",
+  "policy": {
+    "ak_policy": "exclude",
+    "unknown_policy": "exclude",
+    "stage_1_malignant_classes": [
+      "MEL",
+      "BCC",
+      "SCC"
+    ],
+    "stage_1_non_malignant_classes": [
+      "NV",
+      "BKL",
+      "DF",
+      "VASC"
+    ],
+    "stage_2_classes": [
+      "MEL",
+      "BCC",
+      "SCC"
+    ]
+  },
+  "counts": {
+    "ground_truth_rows": 25331,
+    "metadata_rows": 25331,
+    "image_files": 25331,
+    "manifest_rows": 25331,
+    "stage_1_eligible": 24464,
+    "stage_1_excluded": 867,
+    "stage_2_eligible": 8473
+  },
+  "class_distribution_original": {
+    "AK": 867,
+    "BCC": 3323,
+    "BKL": 2624,
+    "DF": 239,
+    "MEL": 4522,
+    "NV": 12875,
+    "SCC": 628,
+    "VASC": 253
+  },
+  "class_distribution_stage_1": {
+    "malignant": 8473,
+    "non_malignant": 15991
+  },
+  "class_distribution_stage_2": {
+    "bcc": 3323,
+    "melanoma": 4522,
+    "scc": 628
+  },
+  "exclusions": {
+    "actinic_keratosis_excluded_from_primary_binary_task": 867
+  },
+  "metadata_missingness": {
+    "age_approx": 437,
+    "sex": 384,
+    "anatom_site_general": 2631,
+    "lesion_id": 2084
+  },
+  "identifier_audit": {
+    "patient_id_column_available": false,
+    "lesion_id_column_available": true,
+    "non_empty_lesion_id_rows": 23247,
+    "unique_non_empty_lesion_ids": 11847,
+    "repeated_lesion_group_count": 5059,
+    "images_in_repeated_lesion_groups": 16459,
+    "maximum_images_per_lesion": 31,
+    "recommended_split_group": "lesion_id",
+    "fallback_required_for_missing_lesion_id": true
+  },
+  "image_audit": {
+    "decode_check_performed": true,
+    "per_image_sha256_computed": true,
+    "invalid_image_count": 0,
+    "image_mode_distribution": {
+      "RGB": 25331
+    },
+    "top_dimension_distribution": {
+      "1024x1024": 12414,
+      "600x450": 10015,
+      "1024x680": 1121,
+      "1024x768": 774,
+      "1024x682": 173,
+      "1024x685": 156,
+      "1024x764": 81,
+      "1024x681": 78,
+      "767x576": 68,
+      "1024x679": 68,
+      "919x802": 54,
+      "1024x683": 40,
+      "1024x684": 36,
+      "1024x677": 33,
+      "1022x767": 22,
+      "1024x678": 21,
+      "1024x686": 17,
+      "824x719": 16,
+      "1024x676": 14,
+      "1024x716": 10
+    },
+    "unique_dimension_count": 101
+  },
+  "identifier_consistency": {
+    "ground_truth_ids_unique": true,
+    "metadata_ids_unique": true,
+    "image_ids_unique": true,
+    "ground_truth_metadata_ids_match": true,
+    "ground_truth_image_ids_match": true
+  },
+  "outputs": {
+    "manifest": "data/manifests/isic2019_dataset_manifest.csv",
+    "class_distribution": "reports/dataset_audits/isic2019_class_distribution.csv",
+    "audit": "reports/dataset_audits/isic2019_manifest_audit.json"
+  }
+}

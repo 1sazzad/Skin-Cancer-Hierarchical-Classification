@@ -1,0 +1,139 @@
+{
+  "dataset": "isic2019",
+  "status": "complete",
+  "seed": 42,
+  "requested_ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "grouping_policy": {
+    "relations": [
+      "shared_non_empty_lesion_id",
+      "shared_exact_file_sha256"
+    ],
+    "transitive_closure": true,
+    "patient_level_split_possible": false,
+    "missing_lesion_id_fallback": "exact-hash group when duplicated; otherwise singleton"
+  },
+  "component_counts": {
+    "total_components": 13927,
+    "assigned_components": 13926,
+    "excluded_components": 1,
+    "excluded_images": 4,
+    "maximum_component_size": 31
+  },
+  "exclusions": [
+    {
+      "split_group_id": "isic2019_group_0c3cd9f2569e2e2f",
+      "image_count": 4,
+      "image_ids": [
+        "ISIC_0067502",
+        "ISIC_0067980",
+        "ISIC_0069013",
+        "ISIC_0071017"
+      ],
+      "lesion_ids": [
+        "BCN_0000237",
+        "BCN_0003560"
+      ],
+      "diagnosis": "MEL|NV",
+      "reason": "cross_diagnosis_exact_duplicate_component"
+    }
+  ],
+  "split_counts_all_non_conflict_rows": {
+    "train": 17731,
+    "validation": 3798,
+    "test": 3798
+  },
+  "excluded_row_count": 4,
+  "primary_stage_1_counts": {
+    "train": {
+      "malignant": 5931,
+      "non_malignant": 11193
+    },
+    "validation": {
+      "malignant": 1270,
+      "non_malignant": 2398
+    },
+    "test": {
+      "malignant": 1270,
+      "non_malignant": 2398
+    }
+  },
+  "primary_stage_2_counts": {
+    "train": {
+      "bcc": 2327,
+      "melanoma": 3164,
+      "scc": 440
+    },
+    "validation": {
+      "bcc": 498,
+      "melanoma": 678,
+      "scc": 94
+    },
+    "test": {
+      "bcc": 498,
+      "melanoma": 678,
+      "scc": 94
+    }
+  },
+  "class_ratio_errors_original_diagnosis": {
+    "AK": {
+      "train": 0.00011534025374859702,
+      "validation": -5.7670126874270755e-05,
+      "test": -5.7670126874270755e-05
+    },
+    "BCC": {
+      "train": 0.0002708396027686355,
+      "validation": -0.00013541980138429,
+      "test": -0.00013541980138429
+    },
+    "BKL": {
+      "train": 0.00045731707317075987,
+      "validation": -0.00022865853658535218,
+      "test": -0.00022865853658535218
+    },
+    "DF": {
+      "train": -0.001255230125522977,
+      "validation": 0.0006276150627615162,
+      "test": 0.0006276150627615162
+    },
+    "MEL": {
+      "train": 0.0,
+      "validation": 0.0,
+      "test": 0.0
+    },
+    "NV": {
+      "train": -7.768197001434274e-06,
+      "validation": 3.8840985007448925e-06,
+      "test": 3.8840985007448925e-06
+    },
+    "SCC": {
+      "train": 0.0006369426751592355,
+      "validation": -0.00031847133757961776,
+      "test": -0.00031847133757961776
+    },
+    "VASC": {
+      "train": -0.00039525691699604515,
+      "validation": 0.00019762845849802257,
+      "test": 0.00019762845849802257
+    }
+  },
+  "leakage_validation": {
+    "split_group_overlap_count": 0,
+    "lesion_id_overlap_count": 0,
+    "exact_hash_overlap_count": 0,
+    "passed": true
+  },
+  "limitations": [
+    "ISIC 2019 metadata does not provide patient_id, so patient-independent splitting cannot be guaranteed.",
+    "Rows with missing lesion_id are grouped by exact hash when duplicated and otherwise treated as singletons."
+  ],
+  "outputs": {
+    "split_groups": "data/manifests/isic2019_split_groups_seed42.csv",
+    "split_manifest": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+    "class_distribution": "reports/dataset_audits/isic2019_split_class_distribution_seed42.csv",
+    "audit": "reports/dataset_audits/isic2019_split_audit_seed42.json"
+  }
+}

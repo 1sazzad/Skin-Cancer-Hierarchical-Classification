@@ -1,8 +1,8 @@
-﻿datasets:
+datasets:
   isic2019:
     full_name: "ISIC 2019 Challenge Training Dataset"
     role: "primary_development_internal_evaluation"
-    status: "not_acquired"
+    status: "acquired_and_integrity_validated"
     enabled: true
     license: "CC-BY-NC"
     expected:

@@ -1,0 +1,10 @@
+diagnosis_original,diagnosis_canonical,count,stage_1_label,stage_2_label,include_stage_1,include_stage_2,exclusion_reason
+MEL,melanoma,4522,malignant,melanoma,1,1,
+NV,melanocytic_nevus,12875,non_malignant,,1,0,
+BCC,basal_cell_carcinoma,3323,malignant,bcc,1,1,
+AK,actinic_keratosis,867,,,0,0,actinic_keratosis_excluded_from_primary_binary_task
+BKL,benign_keratosis_like_lesion,2624,non_malignant,,1,0,
+DF,dermatofibroma,239,non_malignant,,1,0,
+VASC,vascular_lesion,253,non_malignant,,1,0,
+SCC,squamous_cell_carcinoma,628,malignant,scc,1,1,
+UNK,unknown,0,,,0,0,unknown_diagnosis

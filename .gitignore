@@ -110,3 +110,6 @@ reports/tables/generated/
 !data/checksums/
 !data/checksums/**/
 !data/checksums/**/*.csv
+
+# Local Python environment
+.venv/
