@@ -1,7 +1,7 @@
-﻿project:
+project:
   name: "Skin Cancer Hierarchical Classification"
   slug: "skin_cancer_hierarchical_classification"
-  current_phase: "phase_01"
+  current_phase: "phase_02"
   source_of_truth: "local_project_directory"
   primary_modality: "dermoscopic_image"
   clinical_use_status: "research_only"

@@ -1,0 +1,16 @@
+stage,split,class_index,label,count,split_total,proportion
+stage_1,internal_test,0,non_malignant,2398,3668,0.65376227
+stage_1,internal_test,1,malignant,1270,3668,0.34623773
+stage_1,train,0,non_malignant,11193,17124,0.65364401
+stage_1,train,1,malignant,5931,17124,0.34635599
+stage_1,validation,0,non_malignant,2398,3668,0.65376227
+stage_1,validation,1,malignant,1270,3668,0.34623773
+stage_2,internal_test,0,melanoma,678,1270,0.53385827
+stage_2,internal_test,1,bcc,498,1270,0.39212598
+stage_2,internal_test,2,scc,94,1270,0.07401575
+stage_2,train,0,melanoma,3164,5931,0.53346822
+stage_2,train,1,bcc,2327,5931,0.39234530
+stage_2,train,2,scc,440,5931,0.07418648
+stage_2,validation,0,melanoma,678,1270,0.53385827
+stage_2,validation,1,bcc,498,1270,0.39212598
+stage_2,validation,2,scc,94,1270,0.07401575

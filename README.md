@@ -1,4 +1,4 @@
-# Skin Cancer Hierarchical Classification
+﻿# Skin Cancer Hierarchical Classification
 
 A final-year research project investigating a lightweight conditional
 hierarchical framework for dermoscopic skin-lesion classification,
@@ -6,7 +6,7 @@ external generalisation, imbalance-aware learning, and explainability.
 
 ## Current Phase
 
-Phase 00 — Project foundation, scope definition, and reproducibility setup.
+Phase 02 â€” Preprocessing pipeline, dataset loaders, and baseline preparation.
 
 ## Project Directory
 

@@ -1,2 +1,10 @@
-Pillow
-PyYAML
+# Phase 02 runtime dependencies
+# Validated with Python 3.11.9
+
+Pillow==12.3.0
+PyYAML==6.0.3
+numpy==2.4.6
+pandas==3.0.5
+scikit-learn==1.9.0
+torch==2.13.0
+torchvision==0.28.0

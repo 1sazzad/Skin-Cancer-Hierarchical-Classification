@@ -981,3 +981,133 @@ One four-image component joining BCN_0000237 and BCN_0003560 contains byte-ident
 ### Limitation
 
 ISIC 2019 metadata does not provide patient_id. The split is lesion-aware and exact-duplicate-aware, but patient-independent separation cannot be guaranteed.
+
+---
+
+## D-013 â€” Lock Phase 02 preprocessing and manifest-driven loading policy
+
+**Date:** 2026-07-24
+**Status:** Accepted
+**Phase:** Phase 02
+**Owner:** Research lead
+
+### Context
+
+The project requires one reproducible preprocessing and loading policy shared by
+Stage 1, Stage 2, and fair baseline comparisons. The frozen leakage-aware split
+manifest already contains the image paths, partition assignments, hierarchy
+labels, inclusion flags, split-group identifiers, and exact-image hashes.
+
+### Decision
+
+- Images are read directly from the untouched raw dataset at runtime.
+- No duplicate resized image collection is created under `data/processed/`.
+- The frozen split manifest
+  `data/manifests/isic2019_train_val_test_split_seed42.csv` is the single
+  loader source.
+- Every selected row must satisfy `split_included == 1`, the requested split,
+  and the relevant stage-inclusion flag.
+- Stage 1 class indices are `non_malignant: 0` and `malignant: 1`.
+- Stage 2 class indices are `melanoma: 0`, `bcc: 1`, and `scc: 2`.
+- Model input size is 224 x 224 with ImageNet mean and standard-deviation
+  normalization.
+- Training uses moderate random resized cropping, horizontal and vertical
+  flipping, limited rotation, and mild colour jitter.
+- Validation and internal-test preprocessing use deterministic resize,
+  centre-crop, tensor conversion, and normalization.
+- DataLoader sampling and workers use explicit seeded generators and worker
+  initialization.
+- Full training remains blocked until the automated tests, real-data smoke
+  test, and class-count reconciliation pass.
+
+### Rationale
+
+This policy preserves the frozen split, avoids undocumented preprocessing,
+keeps raw data unchanged, minimizes storage duplication, and ensures that flat
+and hierarchical experiments can use equivalent inputs.
+
+### Risks and Trade-offs
+
+- Runtime transformations use additional CPU time.
+- ImageNet normalization may not be domain-optimal, but it provides a standard
+  starting point for pretrained ImageNet backbones.
+- Stochastic training augmentation prevents bitwise-identical samples while
+  remaining procedurally reproducible under the recorded seed policy.
+
+### Impacted Files or Components
+
+- `src/data/`
+- `src/utils/reproducibility.py`
+- `tests/`
+- baseline experiment configurations
+- Phase 02 class-statistics reports
+
+### Impact on Existing Experiments
+
+No experiment is invalidated because model training has not started.
+
+### Review Trigger
+
+Review only through a new decision if validation-only evidence later supports a
+different resolution, normalization, or augmentation policy.
+
+### Final Outcome
+
+The Phase 02 preprocessing, filtering, and dataloader policy is locked.
+
+---
+
+## D-014 â€” Prepare EfficientNet-B0 as the initial clean baseline backbone
+
+**Date:** 2026-07-24
+**Status:** Accepted
+**Phase:** Phase 02
+**Owner:** Research lead
+
+### Context
+
+A standard pretrained image-classification backbone is needed to verify the
+training pipeline and provide a clean reference before imbalance-aware or
+hierarchical innovations are introduced.
+
+### Decision
+
+- EfficientNet-B0 with ImageNet pretrained weights is prepared as the initial
+  Stage 1 and Stage 2 baseline backbone.
+- Stage 1 uses a two-output classification head.
+- Stage 2 uses a three-output classification head.
+- The clean baseline uses ordinary cross-entropy.
+- Weighted sampling, class-weighted loss, and focal loss are disabled.
+- This is a reference baseline, not the final proposed architecture.
+- Full training is not permitted until Phase 02 tests and the real-data smoke
+  test pass.
+
+### Rationale
+
+EfficientNet-B0 is compact enough for the available compute environment while
+providing a well-established pretrained baseline for later fair comparisons.
+
+### Risks and Trade-offs
+
+- The architecture may not become the final lightweight model.
+- Minority-class performance may be weak without imbalance treatment; that
+  weakness is intentionally measured by the clean baseline.
+
+### Impacted Files or Components
+
+- `configs/experiments/stage01_isic2019_efficientnet_b0_cross_entropy.yaml`
+- `configs/experiments/stage02_isic2019_efficientnet_b0_cross_entropy.yaml`
+- future model and training modules
+
+### Impact on Existing Experiments
+
+No experiment is affected because training has not started.
+
+### Review Trigger
+
+Review after the clean baseline is evaluated on validation data or if hardware
+constraints prevent practical training.
+
+### Final Outcome
+
+EfficientNet-B0 is prepared as the initial standard baseline.

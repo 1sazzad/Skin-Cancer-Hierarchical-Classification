@@ -1,0 +1,78 @@
+{
+  "stage_1": {
+    "internal_test": {
+      "class_counts": {
+        "malignant": 1270,
+        "non_malignant": 2398
+      },
+      "class_proportions": {
+        "malignant": 0.3462377317339149,
+        "non_malignant": 0.6537622682660851
+      },
+      "total": 3668
+    },
+    "train": {
+      "class_counts": {
+        "malignant": 5931,
+        "non_malignant": 11193
+      },
+      "class_proportions": {
+        "malignant": 0.3463559915907498,
+        "non_malignant": 0.6536440084092502
+      },
+      "total": 17124
+    },
+    "validation": {
+      "class_counts": {
+        "malignant": 1270,
+        "non_malignant": 2398
+      },
+      "class_proportions": {
+        "malignant": 0.3462377317339149,
+        "non_malignant": 0.6537622682660851
+      },
+      "total": 3668
+    }
+  },
+  "stage_2": {
+    "internal_test": {
+      "class_counts": {
+        "bcc": 498,
+        "melanoma": 678,
+        "scc": 94
+      },
+      "class_proportions": {
+        "bcc": 0.3921259842519685,
+        "melanoma": 0.5338582677165354,
+        "scc": 0.07401574803149606
+      },
+      "total": 1270
+    },
+    "train": {
+      "class_counts": {
+        "bcc": 2327,
+        "melanoma": 3164,
+        "scc": 440
+      },
+      "class_proportions": {
+        "bcc": 0.3923453043331647,
+        "melanoma": 0.5334682178384758,
+        "scc": 0.07418647782835947
+      },
+      "total": 5931
+    },
+    "validation": {
+      "class_counts": {
+        "bcc": 498,
+        "melanoma": 678,
+        "scc": 94
+      },
+      "class_proportions": {
+        "bcc": 0.3921259842519685,
+        "melanoma": 0.5338582677165354,
+        "scc": 0.07401574803149606
+      },
+      "total": 1270
+    }
+  }
+}

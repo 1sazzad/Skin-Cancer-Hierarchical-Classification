@@ -1,0 +1,55 @@
+experiment:
+  status: prepared_not_trained
+  research_stage: stage01
+  dataset: isic2019
+  model: efficientnet_b0
+  variant: cross_entropy
+  seed: 42
+
+data:
+  split_manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
+  task: stage_1
+  class_to_index:
+    non_malignant: 0
+    malignant: 1
+  enforce_split_included: true
+  enforce_stage_inclusion: true
+
+transforms:
+  image_size: 224
+  eval_resize_size: 256
+  normalization: imagenet
+  train:
+    random_resized_crop_scale: [0.85, 1.0]
+    random_resized_crop_ratio: [0.90, 1.10]
+    horizontal_flip_probability: 0.5
+    vertical_flip_probability: 0.5
+    rotation_degrees: 15
+    brightness_jitter: 0.10
+    contrast_jitter: 0.10
+    saturation_jitter: 0.10
+    hue_jitter: 0.02
+  validation_and_test:
+    deterministic: true
+    resize_shorter_side: 256
+    center_crop: 224
+
+loader:
+  batch_size: 32
+  num_workers_local_cpu: 0
+  shuffle_train_only: true
+  pin_memory_local_cpu: false
+  reproducible_worker_seeding: true
+
+model:
+  architecture: efficientnet_b0
+  pretrained_weights: imagenet
+  number_of_classes: 2
+
+training:
+  loss: cross_entropy
+  weighted_sampler: false
+  class_weights: null
+  focal_loss: false
+  full_training_allowed: false
+  unlock_condition: phase02_tests_and_smoke_test_pass
