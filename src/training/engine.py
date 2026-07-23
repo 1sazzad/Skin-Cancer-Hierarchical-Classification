@@ -1,10 +1,10 @@
-"""Minimal reusable classification training and evaluation engine."""
+"""Reusable classification training and evaluation engine."""
 
 from __future__ import annotations
 
 from contextlib import nullcontext
 from dataclasses import dataclass
-from typing import Iterable, Mapping, Sequence
+from typing import Iterable, Mapping
 
 import torch
 import torch.nn as nn
@@ -48,12 +48,16 @@ def run_classification_epoch(
     device: torch.device | str,
     *,
     optimizer: Optimizer | None = None,
+    gradient_scaler: torch.amp.GradScaler | None = None,
+    amp_enabled: bool = False,
     max_batches: int | None = None,
 ) -> EpochResult:
     """Run one classification pass.
 
     Passing an optimizer enables training. Omitting it performs inference-only
-    evaluation. ``max_batches`` is intended for deterministic smoke tests.
+    evaluation. CUDA automatic mixed precision is enabled only when requested
+    and the resolved device is CUDA. ``max_batches`` is reserved for smoke and
+    sanity runs and must not be used for reported full-training results.
     """
 
     if max_batches is not None and max_batches <= 0:
@@ -61,6 +65,12 @@ def run_classification_epoch(
 
     resolved_device = torch.device(device)
     training = optimizer is not None
+    use_amp = bool(amp_enabled and resolved_device.type == "cuda")
+    if gradient_scaler is not None and not training:
+        raise ValueError("gradient_scaler is only valid when optimizer is provided.")
+    if use_amp and training and gradient_scaler is None:
+        raise ValueError("CUDA AMP training requires a gradient_scaler.")
+
     model.train(training)
 
     total_loss = 0.0
@@ -81,19 +91,30 @@ def run_classification_epoch(
             if training:
                 optimizer.zero_grad(set_to_none=True)
 
-            logits = model(images)
-            if not isinstance(logits, torch.Tensor) or logits.ndim != 2:
-                raise ValueError("Model output must be a rank-2 logits tensor.")
-            if logits.shape[0] != targets.shape[0]:
-                raise ValueError("Logit and target batch sizes do not match.")
+            with torch.autocast(
+                device_type=resolved_device.type,
+                dtype=torch.float16,
+                enabled=use_amp,
+            ):
+                logits = model(images)
+                if not isinstance(logits, torch.Tensor) or logits.ndim != 2:
+                    raise ValueError("Model output must be a rank-2 logits tensor.")
+                if logits.shape[0] != targets.shape[0]:
+                    raise ValueError("Logit and target batch sizes do not match.")
 
-            loss = criterion(logits, targets)
-            if loss.ndim != 0 or not torch.isfinite(loss):
-                raise ValueError("Criterion must return one finite scalar loss.")
+                loss = criterion(logits, targets)
+                if loss.ndim != 0 or not torch.isfinite(loss):
+                    raise ValueError("Criterion must return one finite scalar loss.")
 
             if training:
-                loss.backward()
-                optimizer.step()
+                if use_amp:
+                    assert gradient_scaler is not None
+                    gradient_scaler.scale(loss).backward()
+                    gradient_scaler.step(optimizer)
+                    gradient_scaler.update()
+                else:
+                    loss.backward()
+                    optimizer.step()
 
             batch_size = int(targets.shape[0])
             total_loss += float(loss.detach().item()) * batch_size
