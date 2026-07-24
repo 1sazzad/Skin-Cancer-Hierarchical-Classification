@@ -113,3 +113,6 @@ reports/tables/generated/
 
 # Local Python environment
 .venv/
+
+# Local experiment outputs
+/runs/
