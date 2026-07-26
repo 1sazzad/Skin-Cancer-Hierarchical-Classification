@@ -86,6 +86,25 @@ class IndexLogitModel(nn.Module):
         return self.lookup[indices]
 
 
+class OutputDtypeModel(nn.Module):
+    def __init__(
+        self,
+        model: nn.Module,
+        output_dtype: torch.dtype,
+    ) -> None:
+        super().__init__()
+        self.model = model
+        self.output_dtype = output_dtype
+
+    def forward(
+        self,
+        images: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.model(images).to(
+            dtype=self.output_dtype
+        )
+
+
 def _loader() -> DataLoader:
     return DataLoader(
         TinyHierarchicalDataset(),
@@ -169,6 +188,38 @@ def test_collect_hierarchical_predictions_uses_locked_union() -> None:
         "image_4",
         "image_5",
     ]
+
+
+def test_collect_promotes_half_precision_probabilities() -> None:
+    collection = collect_hierarchical_predictions(
+        OutputDtypeModel(
+            _stage_1_model(),
+            torch.float16,
+        ),
+        OutputDtypeModel(
+            _stage_2_model(),
+            torch.float16,
+        ),
+        _loader(),
+        device="cpu",
+    )
+
+    assert collection.stage_1_probabilities.dtype == np.float32
+    assert collection.stage_2_probabilities.dtype == np.float32
+
+    assert np.isfinite(
+        collection.stage_1_probabilities
+    ).all()
+
+    executed_probabilities = (
+        collection.stage_2_probabilities[
+            collection.stage_2_execution_mask
+        ]
+    )
+
+    assert np.isfinite(
+        executed_probabilities
+    ).all()
 
 
 def _protocol(

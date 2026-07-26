@@ -242,7 +242,7 @@ def collect_hierarchical_predictions(
             )
 
             stage_1_probabilities = torch.softmax(
-                stage_1_logits,
+                stage_1_logits.float(),
                 dim=1,
             ).cpu()
             stage_1_predictions = stage_1_probabilities.argmax(
@@ -286,7 +286,7 @@ def collect_hierarchical_predictions(
                 )
 
                 executed_probabilities = torch.softmax(
-                    stage_2_logits,
+                    stage_2_logits.float(),
                     dim=1,
                 ).cpu()
                 executed_predictions = (
