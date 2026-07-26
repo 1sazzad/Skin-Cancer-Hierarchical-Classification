@@ -919,9 +919,9 @@ Each must receive a new decision identifier.
 
 # 7. Current Decision Log Status
 
-**Current phase:** Phase 00
-**Last updated:** 2026-07-22
-**Next decision identifier:** `D-011`
+**Current phase:** Phase 05
+**Last updated:** 2026-07-27
+**Next decision identifier:** `D-017`
 
 The initial project scope, architecture, data responsibilities, evaluation boundaries, reproducibility rules, and naming standards are now formally recorded.
 
@@ -1116,9 +1116,9 @@ EfficientNet-B0 is prepared as the initial standard baseline.
 
 ## D-015 - Select Class-Balanced Focal Loss as the Frozen Stage 2 Model
 
-**Date:** 2026-07-26  
-**Status:** Accepted  
-**Phase:** Phase 04  
+**Date:** 2026-07-26
+**Status:** Accepted
+**Phase:** Phase 04
 **Owner:** Research lead
 
 ### Context
@@ -1181,4 +1181,115 @@ experiment.
 The epoch-8 class-balanced focal-loss checkpoint is frozen as the selected
 Stage 2 model. Its one-time internal-test result is locked, and Phase 04 is
 complete.
+
+---
+
+## D-016 - Lock the Phase 05 Hierarchical Result and Routing Interpretation
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 05
+**Owner:** Research lead
+
+### Context
+
+The frozen Stage 1 and selected class-balanced focal Stage 2 checkpoints were
+combined in the locked conditional hierarchy. A one-time internal-test
+evaluation was required to measure actual predicted-gate performance, oracle
+routing performance, conditional execution, and error propagation.
+
+### Decision
+
+Accept and lock the successful Phase 05 predicted-gate result as the primary
+hierarchical internal-test result.
+
+- Predicted-gate four-class macro-F1: `0.605367`
+- Predicted-gate accuracy: `0.740185`
+- Predicted-gate balanced accuracy: `0.631199`
+- Oracle-gate four-class macro-F1: `0.793656`
+- Absolute macro-F1 loss from Stage 1 propagation: `0.188289`
+- Production-style Stage 2 execution count: `1544 / 3668`
+- Production-style Stage 2 execution rate: approximately `42.09%`
+- Rerun permitted: `false`
+
+### Rationale
+
+The evaluation used frozen checkpoints, the predeclared argmax gate, the frozen
+seed-42 leakage-aware split, and a locked output policy. Oracle-versus-predicted
+analysis shows that Stage 1 routing is the dominant end-to-end bottleneck, while
+SCC discrimination remains a secondary Stage 2 limitation.
+
+### Supporting Evidence
+
+- Malignant lesions blocked by Stage 1: `255 / 1270`
+- Non-malignant lesions incorrectly routed: `529 / 2398`
+- Subtype errors after correct malignant routing: `169 / 1015`
+- Oracle-gated Stage 2 macro-F1: `0.724875`
+- Oracle-gated SCC F1: `0.459893`
+- Locked result artifact count: `16`
+- Checksum entries verified locally: `18 / 18`
+- Local archive SHA-256:
+  `48455c488ecc74f5d859f796a343399ff9653eaf8b439de38d478bfc4362475a`
+
+### Numerical Consistency Note
+
+Five borderline non-malignant Stage 1 predictions differed from the earlier
+standalone Phase 03 evaluation despite use of the same frozen checkpoint. All
+five probabilities were close to the `0.5` decision boundary.
+
+The difference is consistent with small floating-point changes under different
+inference execution configurations. No malignant predictions changed, and no
+checkpoint, label mapping, architecture, or gate policy changed.
+
+The Phase 03 result remains the authoritative standalone baseline result. The
+Phase 05 result remains the authoritative end-to-end hierarchical result.
+
+### Failed Attempt and Recovery
+
+Attempt 1 failed before metrics and before creation of the locked result
+directory because half-precision probabilities could not be assigned to a
+float32 collection tensor.
+
+The failed attempt was preserved. The implementation was corrected by promoting
+logits to float32 before probability collection. Regression tests, synthetic
+CUDA validation, and checkpoint preflight passed before the successful recovery
+attempt.
+
+No model weight, checkpoint, hyperparameter, label, or routing decision changed.
+
+### Risks and Trade-offs
+
+- End-to-end macro-F1 is substantially below the oracle-gate diagnostic ceiling.
+- Stage 1 blocks approximately one fifth of malignant samples.
+- SCC remains weak even with oracle routing.
+- Results represent one seed and one internal dataset.
+- A direct flat four-class comparator is still required.
+- No clinical or external-generalisation claim is supported yet.
+
+### Impacted Files or Components
+
+- `configs/evaluation/phase05_hierarchical_internal_test.yaml`
+- `src/evaluation/hierarchical_inference_engine.py`
+- `runs/phase05_hierarchical_internal_test/`
+- `reports/phase05/conditional_hierarchical_internal_evaluation.md`
+- `reports/phase05/stage01_numerical_consistency_audit.csv`
+- `experiments/experiment_registry.csv`
+
+### Impact on Existing Experiments
+
+Phase 03 and Phase 04 results remain valid and locked. Their internal-test
+results must not be rerun or used for retuning. Phase 05 does not replace the
+standalone reports; it adds the end-to-end hierarchical evaluation view.
+
+### Review Trigger
+
+The locked result must not be reviewed or replaced through another internal-test
+run. Any alternative gate, threshold, model, or routing method must be declared
+as a separate experiment and must not use the locked internal-test result for
+selection.
+
+### Final Outcome
+
+Phase 05 is complete. The reportable hierarchical result is frozen. Phase 06
+will train and evaluate a fair direct flat four-class comparator.
 
