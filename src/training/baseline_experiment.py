@@ -74,8 +74,10 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         raise ValueError("full_training_allowed must be true for a runnable config.")
 
     task = data.get("task")
-    if task not in {"stage_1", "stage_2"}:
-        raise ValueError("data.task must be stage_1 or stage_2.")
+    if task not in {"stage_1", "stage_2", "flat_four_class"}:
+        raise ValueError(
+            "data.task must be stage_1, stage_2, or flat_four_class."
+        )
 
     if model.get("architecture") != "efficientnet_b0":
         raise ValueError("The controlled runner currently supports efficientnet_b0 only.")
@@ -93,6 +95,27 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
     number_of_classes = int(model.get("number_of_classes", -1))
     if number_of_classes != len(class_to_index):
         raise ValueError("model.number_of_classes does not match class_to_index.")
+
+    if task == "flat_four_class":
+        expected_mapping = {
+            "non_malignant": 0,
+            "melanoma": 1,
+            "bcc": 2,
+            "scc": 3,
+        }
+        if class_to_index != expected_mapping:
+            raise ValueError(
+                "flat_four_class requires exact class order "
+                "[non_malignant, melanoma, bcc, scc]."
+            )
+        if data.get("label_source") != "diagnosis_canonical":
+            raise ValueError(
+                "flat_four_class requires data.label_source='diagnosis_canonical'."
+            )
+        if data.get("label_mapping_strategy") != "phase06_flat_four_class_v1":
+            raise ValueError(
+                "flat_four_class requires the phase06_flat_four_class_v1 mapping."
+            )
 
     loss_name = training.get("loss")
     supported_losses = {
@@ -663,6 +686,11 @@ def run_baseline_experiment(
     summary = {
         "run_name": experiment["run_name"],
         "task": data["task"],
+        "class_names": class_names,
+        "class_to_index": deepcopy(data["class_to_index"]),
+        "label_source": data.get("label_source"),
+        "label_mapping_strategy": data.get("label_mapping_strategy"),
+        "selection_metric": training["selection_metric"],
         "sanity_run": sanity_run,
         "reportable_as_full_result": not sanity_run,
         "best_epoch": best_epoch,
