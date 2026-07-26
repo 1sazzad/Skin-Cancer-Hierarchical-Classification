@@ -18,13 +18,20 @@ def _row(
     *,
     split_included: str = "1",
 ) -> dict[str, str]:
+    canonical_by_labels = {
+        ("non_malignant", ""): "melanocytic_nevus",
+        ("malignant", "melanoma"): "melanoma",
+        ("malignant", "bcc"): "basal_cell_carcinoma",
+        ("malignant", "scc"): "squamous_cell_carcinoma",
+        ("", ""): "actinic_keratosis",
+    }
     return {
         "dataset": "isic2019",
         "image_id": image_id,
         "image_path": image_path,
         "source_split": "official_training_pool",
         "diagnosis_original": "",
-        "diagnosis_canonical": "",
+        "diagnosis_canonical": canonical_by_labels[(stage_1_label, stage_2_label)],
         "stage_1_label": stage_1_label,
         "stage_2_label": stage_2_label,
         "stage_3_label": "",
