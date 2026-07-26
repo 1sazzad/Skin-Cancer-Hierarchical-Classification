@@ -1,0 +1,59 @@
+﻿evaluation:
+  name: phase05_conditional_hierarchical_internal_test
+  phase: phase05
+  dataset: isic2019
+  split: internal_test
+  seed: 42
+  protocol_status: locked_before_internal_test
+  rerun_permitted: false
+
+data:
+  split_manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
+  verify_image_paths: true
+
+stage_1:
+  checkpoint: runs/phase03_full/full__stage01_isic2019_efficientnet_b0_cross_entropy_seed42__20260724T190600Z/best_checkpoint.pt
+  checkpoint_sha256: 95e02c26b1ea4a0dba17016313c81f97c9c2635270a37b4debbee0f84e07ba3b
+  checkpoint_epoch: 5
+  class_to_index:
+    non_malignant: 0
+    malignant: 1
+
+stage_2:
+  checkpoint: runs/phase04_cb_focal_full/full__stage02_isic2019_efficientnet_b0_class_balanced_focal_loss_seed42__20260726T064808Z/best_checkpoint.pt
+  checkpoint_sha256: 10986d41b64a685fcd8fe166623c5b1c7fd2f21bdad7cf4d55dedc3967a397fd
+  checkpoint_epoch: 8
+  class_to_index:
+    melanoma: 0
+    bcc: 1
+    scc: 2
+
+hierarchy:
+  gate_policy: argmax
+  stage_1_malignant_index: 1
+  final_class_to_index:
+    non_malignant: 0
+    melanoma: 1
+    bcc: 2
+    scc: 3
+
+  stage_2_execution_policy: union_of_true_and_predicted_malignant
+
+loader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+
+output:
+  directory: runs/phase05_hierarchical_internal_test/locked_primary_evaluation
+  refuse_existing_directory: true
+
+reporting:
+  save_per_image_predictions: true
+  save_probabilities: true
+  save_confusion_matrices: true
+  save_per_class_metrics: true
+  save_routing_analysis: true
+  save_environment: true
