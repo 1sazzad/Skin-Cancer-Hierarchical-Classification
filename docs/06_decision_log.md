@@ -1293,3 +1293,83 @@ selection.
 Phase 05 is complete. The reportable hierarchical result is frozen. Phase 06
 will train and evaluate a fair direct flat four-class comparator.
 
+---
+
+## D-017 - Define the Phase 06 Fair Flat Four-Class Comparison
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06
+**Owner:** Research lead
+
+### Context
+
+Phase 05 established the locked predicted-gate hierarchical result. A direct
+four-class comparator is required to answer whether task decomposition helps
+under a fair backbone, preprocessing, split, seed, and selection policy.
+
+### Decision
+
+Prepare Experiment A as a clean cross-entropy EfficientNet-B0 classifier with
+class order `[non_malignant, melanoma, bcc, scc]`. Derive its target from
+`diagnosis_canonical` on rows satisfying the frozen
+`split_included=1 and include_stage_1=1` policy:
+
+- `melanocytic_nevus`, `benign_keratosis_like_lesion`, `dermatofibroma`, and
+  `vascular_lesion` -> `non_malignant`
+- `melanoma` -> `melanoma`
+- `basal_cell_carcinoma` -> `bcc`
+- `squamous_cell_carcinoma` -> `scc`
+
+Use validation macro-F1 for checkpoint selection. Keep the internal test locked
+until the selected Experiment A checkpoint and evaluation protocol are frozen,
+then evaluate it once. The primary comparison is Experiment A versus the Phase
+05 predicted-gate hierarchy; the oracle gate is diagnostic only.
+
+An imbalance-aware Experiment B is allowed only after clean-CE validation
+analysis and may not use internal-test evidence.
+
+### Rationale
+
+Reusing the locked Stage 1 cohort excludes the same 867 actinic-keratosis rows
+that are outside the project hierarchy and preserves the exact 24,460-row
+comparison population. Reusing the existing trainer avoids implementation
+differences unrelated to the research question.
+
+### Supporting Evidence
+
+- Label audit: `reports/phase06/flat_four_class_label_audit.json`
+- Protocol: `reports/phase06/fair_flat_four_class_protocol.md`
+- Mapped rows: `24,460`
+- Train / validation / internal-test rows: `17,124 / 3,668 / 3,668`
+- Split-group and exact-hash cross-split overlap: `0 / 0`
+
+### Risks and Trade-offs
+
+- SCC is rare, but Experiment A must remain clean CE for the first comparison.
+- The result will represent one seed and one internal dataset.
+- Internal-test access before freeze would invalidate the protocol.
+- Latency and throughput are hardware-specific and must be measured on T4.
+
+### Impacted Files or Components
+
+- Phase 06 task adapter, audit, config, tests, protocol, and VM commands
+- Experiment registry planned entry
+- Existing Stage 1 and Stage 2 behavior remains unchanged
+
+### Impact on Existing Experiments
+
+None. Phase 03 through Phase 05 checkpoints, metrics, reports, and artifacts
+remain locked and unchanged. Phase 05 references do not influence Phase 06
+training or checkpoint selection.
+
+### Review Trigger
+
+Review after clean-CE validation results exist, before proposing Experiment B,
+and again before authorizing the one-time internal-test evaluation.
+
+### Final Outcome
+
+The fair-comparison protocol and Experiment A preparation are accepted. No
+Phase 06 model result exists yet.
+
