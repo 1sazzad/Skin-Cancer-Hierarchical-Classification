@@ -1,9 +1,10 @@
-"""Configuration-driven clean baseline training for Phase 03."""
+"""Configuration-driven baseline and controlled imbalance-aware training."""
 
 from __future__ import annotations
 
 import csv
 import json
+import math
 import platform
 import time
 from copy import deepcopy
@@ -22,6 +23,7 @@ from src.data.dataloaders import DataLoaderConfig, build_stage_dataloaders
 from src.evaluation.classification_metrics import compute_classification_metrics
 from src.models.efficientnet_baseline import build_efficientnet_b0
 from src.training.engine import EpochResult, run_classification_epoch
+from src.training.losses import ClassBalancedFocalLoss
 from src.utils.reproducibility import seed_everything
 
 
@@ -38,7 +40,7 @@ class TrainingOutcome:
 
 
 def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
-    """Load and validate one runnable clean-baseline experiment configuration."""
+    """Load and validate one runnable controlled experiment configuration."""
 
     path = Path(config_path).expanduser().resolve()
     if not path.is_file():
@@ -65,37 +67,182 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
     training = _mapping(loaded, "training")
 
     if experiment.get("status") != "ready_for_training":
-        raise ValueError("Runnable Phase 03 configs must use status='ready_for_training'.")
+        raise ValueError(
+            "Runnable experiment configs must use status='ready_for_training'."
+        )
     if not bool(training.get("full_training_allowed")):
         raise ValueError("full_training_allowed must be true for a runnable config.")
-    if data.get("task") not in {"stage_1", "stage_2"}:
+
+    task = data.get("task")
+    if task not in {"stage_1", "stage_2"}:
         raise ValueError("data.task must be stage_1 or stage_2.")
+
     if model.get("architecture") != "efficientnet_b0":
-        raise ValueError("The clean Phase 03 runner currently supports efficientnet_b0 only.")
+        raise ValueError("The controlled runner currently supports efficientnet_b0 only.")
     if model.get("pretrained_weights") != "imagenet":
-        raise ValueError("The clean baseline must use declared ImageNet pretrained weights.")
-    if training.get("loss") != "cross_entropy":
-        raise ValueError("The clean baseline must use ordinary cross_entropy.")
-    if bool(training.get("weighted_sampler")):
-        raise ValueError("weighted_sampler must remain false for the clean baseline.")
-    if training.get("class_weights") is not None:
-        raise ValueError("class_weights must remain null for the clean baseline.")
-    if bool(training.get("focal_loss")):
-        raise ValueError("focal_loss must remain false for the clean baseline.")
-    if training.get("selection_metric") != "macro_f1":
-        raise ValueError("Checkpoint selection must use validation macro_f1.")
+        raise ValueError("Experiments must use declared ImageNet pretrained weights.")
 
     class_to_index = data.get("class_to_index")
     if not isinstance(class_to_index, dict) or len(class_to_index) < 2:
         raise ValueError("data.class_to_index must map at least two classes.")
+
     indices = sorted(int(value) for value in class_to_index.values())
     if indices != list(range(len(indices))):
         raise ValueError("class indices must be contiguous and start at zero.")
-    if int(model.get("number_of_classes", -1)) != len(class_to_index):
+
+    number_of_classes = int(model.get("number_of_classes", -1))
+    if number_of_classes != len(class_to_index):
         raise ValueError("model.number_of_classes does not match class_to_index.")
+
+    loss_name = training.get("loss")
+    supported_losses = {
+        "cross_entropy",
+        "weighted_cross_entropy",
+        "class_balanced_focal_loss",
+    }
+    if loss_name not in supported_losses:
+        raise ValueError(
+            "training.loss must be cross_entropy, weighted_cross_entropy, "
+            "or class_balanced_focal_loss."
+        )
+
+    if bool(training.get("weighted_sampler")):
+        raise ValueError(
+            "weighted_sampler must remain false for these controlled variants."
+        )
+    if training.get("selection_metric") != "macro_f1":
+        raise ValueError("Checkpoint selection must use validation macro_f1.")
+
+    class_weights = training.get("class_weights")
+    focal_enabled = bool(training.get("focal_loss"))
+
+    def validate_class_weight_mapping() -> dict[str, Any]:
+        if not isinstance(class_weights, dict):
+            raise ValueError(
+                "class_weights must be a class-name-to-weight mapping."
+            )
+
+        expected_classes = set(class_to_index)
+        provided_classes = set(class_weights)
+
+        if provided_classes != expected_classes:
+            missing_classes = sorted(expected_classes - provided_classes)
+            unexpected_classes = sorted(provided_classes - expected_classes)
+            raise ValueError(
+                "class_weights keys must exactly match data.class_to_index; "
+                f"missing={missing_classes}, unexpected={unexpected_classes}."
+            )
+
+        for class_name, raw_weight in class_weights.items():
+            weight = float(raw_weight)
+            if not math.isfinite(weight) or weight <= 0.0:
+                raise ValueError(
+                    f"class weight for {class_name!r} must be finite and positive."
+                )
+
+        return class_weights
+
+    if loss_name == "cross_entropy":
+        if class_weights is not None:
+            raise ValueError(
+                "class_weights must remain null for ordinary cross_entropy."
+            )
+        if focal_enabled:
+            raise ValueError(
+                "focal_loss must remain false for ordinary cross_entropy."
+            )
+
+    elif loss_name == "weighted_cross_entropy":
+        if task != "stage_2":
+            raise ValueError(
+                "weighted_cross_entropy is currently restricted to Stage 2."
+            )
+        validate_class_weight_mapping()
+        if focal_enabled:
+            raise ValueError(
+                "focal_loss must remain false for weighted_cross_entropy."
+            )
+
+    elif loss_name == "class_balanced_focal_loss":
+        if task != "stage_2":
+            raise ValueError(
+                "class_balanced_focal_loss is currently restricted to Stage 2."
+            )
+
+        validated_weights = validate_class_weight_mapping()
+
+        if not focal_enabled:
+            raise ValueError(
+                "focal_loss must be true for class_balanced_focal_loss."
+            )
+
+        gamma = float(training.get("focal_gamma", -1.0))
+        if not math.isfinite(gamma) or gamma < 0.0:
+            raise ValueError(
+                "focal_gamma must be finite and non-negative."
+            )
+
+        source = _mapping(training, "class_weight_source")
+        if source.get("partition") != "train":
+            raise ValueError(
+                "class-balanced weights must use the training partition only."
+            )
+        if source.get("method") != "effective_number":
+            raise ValueError(
+                "class_weight_source.method must be effective_number."
+            )
+        if source.get("normalization") != "sum_to_number_of_classes":
+            raise ValueError(
+                "class-balanced weights must use sum_to_number_of_classes."
+            )
+
+        beta = float(source.get("beta", -1.0))
+        if not math.isfinite(beta) or not 0.0 < beta < 1.0:
+            raise ValueError("class-balance beta must be between zero and one.")
+
+        class_counts = source.get("class_counts")
+        if not isinstance(class_counts, dict):
+            raise ValueError(
+                "class_weight_source.class_counts must be a mapping."
+            )
+        if set(class_counts) != set(class_to_index):
+            raise ValueError(
+                "class count keys must exactly match data.class_to_index."
+            )
+
+        raw_weights: dict[str, float] = {}
+        for class_name, raw_count in class_counts.items():
+            count = int(raw_count)
+            if count <= 0:
+                raise ValueError("All training class counts must be positive.")
+            raw_weights[class_name] = (
+                (1.0 - beta) / (1.0 - beta ** count)
+            )
+
+        normalizer = (
+            len(raw_weights) / sum(raw_weights.values())
+        )
+        calculated_weights = {
+            class_name: raw_weight * normalizer
+            for class_name, raw_weight in raw_weights.items()
+        }
+
+        for class_name, calculated_weight in calculated_weights.items():
+            configured_weight = float(validated_weights[class_name])
+            if not math.isclose(
+                configured_weight,
+                calculated_weight,
+                rel_tol=1e-12,
+                abs_tol=1e-12,
+            ):
+                raise ValueError(
+                    "Configured class-balanced weight does not match "
+                    f"the effective-number formula for {class_name!r}."
+                )
 
     epochs = int(training.get("epochs", 0))
     patience = int(training.get("early_stopping_patience", 0))
+
     if epochs <= 0:
         raise ValueError("training.epochs must be positive.")
     if patience <= 0:
@@ -122,6 +269,44 @@ def _ordered_class_names(config: Mapping[str, Any]) -> list[str]:
             key=lambda item: int(item[1]),
         )
     ]
+
+
+def _build_criterion(
+    config: Mapping[str, Any],
+    device: torch.device | str,
+) -> nn.Module:
+    """Build the declared controlled classification loss."""
+
+    training = _mapping(config, "training")
+    loss_name = str(training["loss"])
+    resolved_device = torch.device(device)
+
+    if loss_name == "cross_entropy":
+        return nn.CrossEntropyLoss()
+
+    if loss_name in {
+        "weighted_cross_entropy",
+        "class_balanced_focal_loss",
+    }:
+        class_weights = training["class_weights"]
+        assert isinstance(class_weights, dict)
+
+        ordered_class_names = _ordered_class_names(config)
+        weight_tensor = torch.tensor(
+            [float(class_weights[name]) for name in ordered_class_names],
+            dtype=torch.float32,
+            device=resolved_device,
+        )
+
+        if loss_name == "weighted_cross_entropy":
+            return nn.CrossEntropyLoss(weight=weight_tensor)
+
+        return ClassBalancedFocalLoss(
+            weight_tensor,
+            gamma=float(training["focal_gamma"]),
+        )
+
+    raise ValueError(f"Unsupported loss configuration: {loss_name!r}.")
 
 
 def _build_optimizer(model: nn.Module, config: Mapping[str, Any]) -> Optimizer:
@@ -345,7 +530,7 @@ def run_baseline_experiment(
         pretrained="imagenet",
         dropout_probability=float(model_config.get("dropout_probability", 0.2)),
     ).to(resolved_device)
-    criterion = nn.CrossEntropyLoss()
+    criterion = _build_criterion(config, resolved_device)
     optimizer = _build_optimizer(model, config)
     scheduler = _build_scheduler(optimizer, config)
     amp_enabled = bool(training.get("amp", True))

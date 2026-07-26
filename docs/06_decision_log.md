@@ -1,4 +1,4 @@
-﻿# Research Decision Log
+# Research Decision Log
 
 ## Purpose
 
@@ -1111,3 +1111,74 @@ constraints prevent practical training.
 ### Final Outcome
 
 EfficientNet-B0 is prepared as the initial standard baseline.
+
+---
+
+## D-015 - Select Class-Balanced Focal Loss as the Frozen Stage 2 Model
+
+**Date:** 2026-07-26  
+**Status:** Accepted  
+**Phase:** Phase 04  
+**Owner:** Research lead
+
+### Context
+
+The clean Stage 2 baseline showed weak SCC performance. Weighted
+cross-entropy produced only marginal validation improvement. A
+class-balanced focal-loss variant was therefore evaluated using the same
+frozen split, architecture, preprocessing, optimizer, scheduler, and seed.
+
+### Decision
+
+Select EfficientNet-B0 with class-balanced focal loss as the frozen Stage 2
+model.
+
+- Effective-number beta: `0.9999`
+- Focal gamma: `2.0`
+- Seed: `42`
+- Frozen checkpoint epoch: `8`
+
+### Rationale
+
+The selected variant achieved the highest validation macro-F1, balanced
+accuracy, SCC recall, and SCC F1. The decision was made before evaluating
+the checkpoint on the internal-test partition.
+
+### Supporting Evidence
+
+- Validation macro-F1: `0.776307`
+- Validation balanced accuracy: `0.776287`
+- Validation SCC recall: `0.617021`
+- Validation SCC F1: `0.604167`
+- Internal-test macro-F1: `0.724875`
+- Internal-test balanced accuracy: `0.722716`
+- Internal-test SCC recall: `0.457447`
+- Internal-test SCC F1: `0.459893`
+- Checkpoint SHA-256:
+  `10986d41b64a685fcd8fe166623c5b1c7fd2f21bdad7cf4d55dedc3967a397fd`
+
+### Risks and Trade-offs
+
+- Overall accuracy was not the highest validation result.
+- SCC precision decreased relative to the clean internal-test baseline.
+- The validation SCC improvement did not fully generalize.
+- Current evidence represents one random seed.
+
+### Impact on Existing Experiments
+
+The clean CE and weighted CE experiments remain valid controlled
+comparators. Weighted CE was not internally tested because it was not
+selected using validation evidence.
+
+### Review Trigger
+
+The frozen checkpoint must remain unchanged for primary hierarchical and
+external evaluations. Any modified model must be recorded as a separate
+experiment.
+
+### Final Outcome
+
+The epoch-8 class-balanced focal-loss checkpoint is frozen as the selected
+Stage 2 model. Its one-time internal-test result is locked, and Phase 04 is
+complete.
+
