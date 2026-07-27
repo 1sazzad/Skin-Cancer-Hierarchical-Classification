@@ -1,0 +1,16 @@
+{
+  "flat": {
+    "backup_archive": "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz",
+    "backup_archive_sha256": "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91",
+    "canonical_path": "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv",
+    "embedded_manifest_entry_count": 12,
+    "sha256": "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d"
+  },
+  "hierarchical": {
+    "canonical_path": "runs/phase05_hierarchical_internal_test/locked_primary_evaluation/per_image_hierarchical_predictions.csv",
+    "manifest_entry_count": 18,
+    "manifest_path": "runs/phase05_hierarchical_internal_test/locked_primary_evaluation_artifact_sha256.txt",
+    "manifest_sha256": "52add576b38b3bc64e4d16116c73e78be4130cfc26ad5114c4c29e6c76c93f50",
+    "sha256": "391557deb9a1aeb9b9f97edc9d3d38759e597d56b54bfdbab9ea7482451a221a"
+  }
+}

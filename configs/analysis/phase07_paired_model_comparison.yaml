@@ -1,0 +1,26 @@
+phase: "07"
+gate: "prediction_pairing_audit"
+expected_sample_count: 3668
+class_order: [non_malignant, melanoma, bcc, scc]
+
+hierarchical:
+  predictions_path: runs/phase05_hierarchical_internal_test/locked_primary_evaluation/per_image_hierarchical_predictions.csv
+  sha256_manifest: runs/phase05_hierarchical_internal_test/locked_primary_evaluation_artifact_sha256.txt
+  identifier_column: image_id
+  target_label_column: final_target_label
+  target_index_column: final_target_index
+  predicted_label_column: predicted_gate_predicted_label
+  predicted_index_column: predicted_gate_predicted_index
+
+flat:
+  canonical_predictions_path: runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv
+  backup_archive: runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz
+  backup_archive_sha256: b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91
+  artifact_manifest_member: runs/phase06c/selected_flat_internal_test/control/artifact_sha256_manifest.txt
+  identifier_column: image_id
+  target_label_column: target_label
+  target_index_column: target_index
+  predicted_label_column: predicted_label
+  predicted_index_column: predicted_index
+
+output_directory: reports/phase07/generated
