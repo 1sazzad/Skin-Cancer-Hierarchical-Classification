@@ -15,7 +15,8 @@ access.
 - Allowed candidate count: `1`
 - Manifest split value: `test` (the evaluator exposes this as loader key
   `internal_test`)
-- Initial state: `internal_test_accessed=false`
+- Prepared state: `internal_test_accessed=false`
+- Final state: `internal_test_accessed=true`, `protocol_status=consumed_locked`
 
 The selected checkpoint is frozen before internal-test access. There is no
 validation re-selection, hyperparameter tuning, threshold tuning after test
@@ -29,10 +30,11 @@ preserved. Once valid metrics exist, this protocol is consumed and the result
 is locked. Model execution is forbidden locally and must occur on the Azure
 Tesla T4 VM.
 
-## Exact Azure Tesla T4 commands — do not run during preparation
+## Historical Azure Tesla T4 command — consumed; do not rerun
 
-The executable section intentionally contains only the selected clean-CE
-checkpoint. Run it later on the VM.
+The executable section contains only the selected clean-CE checkpoint. It
+was executed exactly once on the Azure Tesla T4 VM and must not be executed
+again.
 
 ```bash
 source "$HOME/venvs/skin-cancer-gpu/bin/activate"
@@ -64,12 +66,11 @@ date -u +%Y-%m-%dT%H:%M:%SZ > "$CONTROL/evaluation_started_at_utc.txt"
 tmux new-session -d -s phase06c_selected_flat_test "cd '$REPO' && source \"\$HOME/venvs/skin-cancer-gpu/bin/activate\" && set -o pipefail; PYTHONUNBUFFERED=1 python -u scripts/evaluate_isic2019_internal_test.py --checkpoint '$CHECKPOINT' --project-root '$REPO' --output-directory '$OUTPUT' --device cuda 2>&1 | tee '$CONTROL/evaluation.log'; code=\${PIPESTATUS[0]}; printf '%s\n' \"\$code\" > '$CONTROL/final_status.txt'; exit \"\$code\""
 ```
 
-`internal_test_accessed=false` remains true until the final `tmux new-session`
-command actually starts evaluation. Do not alter evaluator batch size,
-workers, transform, seed, threshold, or checkpoint; the evaluator resolves
-these settings from the selected run.
+The final `tmux new-session` command started the only authorized internal-test
+evaluation. Valid metrics were produced with exit status `0`; therefore the
+one-time protocol is consumed. Do not alter or rerun the evaluator.
 
-Monitor and validate completion:
+Historical completion-validation commands:
 
 ```bash
 cd "$REPO"
@@ -110,6 +111,40 @@ Get-Content -LiteralPath "runs\backups\phase06c\$Archive.sha256"
 ```
 
 The computed local SHA-256 must exactly match the transferred hash record.
+
+
+## Executed outcome — consumed and locked
+
+The one authorized evaluation completed successfully on the Azure Tesla T4.
+
+- Evaluation commit: `550e7cdb1144f059c940d4240fe4579e0280a803`
+- Started at: `2026-07-27T15:22:59Z`
+- Completed at: `2026-07-27T15:34:03Z`
+- Final status: `0`
+- Checkpoint epoch: `2`
+- Internal-test samples: `3668`
+- Accuracy: `0.7420937841`
+- Balanced accuracy: `0.6503125394`
+- Macro-F1: `0.6192224685`
+- Weighted F1: `0.7525567214`
+- Mean loss: `0.6232672186`
+- Metrics: `runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_metrics.json`
+- Predictions: `runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv`
+- Local verified archive: `runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz`
+- Archive SHA-256:
+  `b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91`
+- Embedded artifact manifest entries: `12`
+
+The locked Phase 05 predicted-gate hierarchical macro-F1 was
+`0.6053674006`. The selected flat model is higher by
+`0.0138550680` on this single locked internal split. This is a
+descriptive comparison only; it does not establish statistical significance,
+clinical superiority, fairness, or external generalisation.
+
+The protocol state is now `consumed_locked`,
+`internal_test_accessed=true`, and
+`valid_internal_test_run_completed=true`. No technical retry or performance
+rerun is permitted because valid metrics already exist.
 
 ## Claims boundary
 

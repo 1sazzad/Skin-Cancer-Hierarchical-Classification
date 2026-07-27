@@ -1522,3 +1522,92 @@ The selected checkpoint is frozen before internal-test access. The Phase 06C
 one-time internal-test evaluation is prepared but not executed; the internal
 test remained untouched.
 
+---
+
+## D-020 - Consume and Lock the Phase 06C Flat Internal-Test Protocol
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06C
+**Owner:** Research lead
+
+### Context
+
+Phase 06A clean cross-entropy was frozen through validation-only selection over
+the rejected Phase 06B focal candidate. Phase 06C authorized exactly one
+internal-test evaluation using only that selected checkpoint.
+
+### Decision
+
+Accept the completed Phase 06C evaluation as the sole reportable flat-model
+internal-test result. Mark the protocol `consumed_locked`,
+`internal_test_accessed=true`, and
+`valid_internal_test_run_completed=true`.
+
+No additional run, candidate switch, focal-checkpoint evaluation, threshold
+change, post-test tuning, or performance retry is permitted.
+
+### Supporting Evidence
+
+- Evaluation commit: `550e7cdb1144f059c940d4240fe4579e0280a803`
+- Selected checkpoint SHA-256:
+  `f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7`
+- Final status: `0`
+- Internal-test samples: `3668`
+- Accuracy: `0.7420937841`
+- Balanced accuracy: `0.6503125394`
+- Macro-F1: `0.6192224685`
+- Weighted F1: `0.7525567214`
+- Mean loss: `0.6232672186`
+- Verified local archive:
+  `runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz`
+- Archive SHA-256:
+  `b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91`
+- Embedded artifact hashes verified: `12` entries
+
+### Interpretation
+
+The locked Phase 05 predicted-gate hierarchical macro-F1 was
+`0.6053674006`. The selected flat model was higher by
+`0.0138550680` on the same locked internal comparison
+population.
+
+This is a descriptive single-seed internal-dataset result. It does not establish
+statistical significance, clinical superiority, fairness, external
+generalisation, or state-of-the-art performance.
+
+### Risks and Trade-offs
+
+- SCC F1 remains low at `0.3571428571`.
+- Performance represents one seed and one internal dataset.
+- The internal test can no longer be used for model-development decisions.
+- External evaluation remains necessary before any generalisation claim.
+
+### Impacted Files or Components
+
+- `configs/evaluation/phase06c_selected_flat_internal_test.yaml`
+- `reports/phase06/phase06c_selected_flat_internal_test_protocol.md`
+- `reports/phase06/phase06c_selected_flat_internal_test_result.md`
+- `experiments/experiment_registry.csv`
+- `tests/test_phase06c_selected_flat_internal_test_protocol.py`
+- verified local Phase 06C archive
+
+### Impact on Existing Experiments
+
+Phase 05, Phase 06A, and Phase 06B artifacts remain unchanged. Phase 06A is the
+only flat checkpoint that accessed the internal test. Phase 06B remains rejected
+and prohibited from internal-test evaluation.
+
+### Review Trigger
+
+The result must not be replaced through another internal-test run. Future
+review may use external-dataset evidence or a separately predeclared study, but
+not the consumed ISIC 2019 internal test for further selection.
+
+### Final Outcome
+
+Phase 06C is complete. The selected flat internal-test result and its verified
+local archive are locked. The fair locked comparison records flat macro-F1
+`0.6192224685` versus hierarchical macro-F1
+`0.6053674006`.
+
