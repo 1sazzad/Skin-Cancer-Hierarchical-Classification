@@ -1,0 +1,246 @@
+{
+  "analysis_executed": false,
+  "bootstrap": {
+    "authorized_model_metrics": [
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "per_class_f1"
+    ],
+    "authorized_paired_differences": [
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "per_class_f1"
+    ],
+    "confidence_level": 0.95,
+    "enabled_for_gate02": false,
+    "fixed_labels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "interval_method": "percentile",
+    "lower_quantile": 0.025,
+    "method": "paired_stratified_with_replacement",
+    "non_finite_policy": "fail_closed",
+    "pairing_unit": "image_id",
+    "preserve_support": true,
+    "rationale": "conditions_on_observed_support_and_prevents_rare_scc_omission",
+    "replicate_count": 10000,
+    "seed": 42,
+    "silently_drop_replicates": false,
+    "strata": "ground_truth_class",
+    "upper_quantile": 0.975,
+    "zero_division": 0
+  },
+  "claims": {
+    "permitted": [
+      "observed_flat_macro_f1_higher",
+      "paired_interval_excluded_or_included_zero",
+      "exact_mcnemar_detected_or_did_not_detect_paired_correctness_difference",
+      "scc_uncertain_support_94",
+      "one_locked_isic2019_internal_test_split"
+    ],
+    "prohibited": [
+      "clinically_superior",
+      "clinically_validated",
+      "generalizes_to_all_populations",
+      "statistically_equivalent_without_equivalence_test",
+      "non_inferior_without_margin_and_design",
+      "robust_across_datasets",
+      "improves_diagnosis",
+      "reduces_mortality",
+      "ready_for_clinical_deployment",
+      "unsupported_causal_or_clinical_claim"
+    ]
+  },
+  "classes": {
+    "indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "labels": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "support": {
+      "bcc": 498,
+      "melanoma": 678,
+      "non_malignant": 2398,
+      "scc": 94
+    }
+  },
+  "descriptive_analyses": {
+    "confirmatory_status": "descriptive_not_independently_powered",
+    "prediction_agreement": [
+      "both_correct",
+      "both_wrong",
+      "correct_only_flat",
+      "correct_only_hierarchy",
+      "exact_prediction_agreement",
+      "prediction_disagreement",
+      "ground_truth_stratified_correctness",
+      "model_confusion_pairs",
+      "flat_to_hierarchical_transition_table",
+      "error_transitions_by_ground_truth"
+    ],
+    "scc": [
+      "true_scc_predictions_by_system",
+      "recall",
+      "f1",
+      "confused_as_non_malignant",
+      "confused_as_melanoma",
+      "confused_as_bcc",
+      "rescued_only_by_flat",
+      "rescued_only_by_hierarchy"
+    ]
+  },
+  "effect_measures": {
+    "discordant_odds_ratio": "flat_only_correct_over_hierarchy_only_correct",
+    "haldane_anscombe": "sensitivity_only",
+    "net_advantage_denominator": 3668,
+    "odds_ratio_is_not_risk_ratio": true,
+    "primary": "absolute_macro_f1_difference",
+    "secondary": [
+      "absolute_accuracy_difference",
+      "absolute_balanced_accuracy_difference",
+      "absolute_per_class_f1_differences",
+      "net_paired_correctness_advantage"
+    ],
+    "zero_cell_policy": "raw_zero_or_infinity"
+  },
+  "future_execution_fail_closed": [
+    "locked_prediction_hash_changed",
+    "paired_manifest_hash_changed",
+    "sample_count_not_3668",
+    "missing_or_duplicate_image_id",
+    "identifier_sets_differ",
+    "ground_truth_differs",
+    "unsupported_label",
+    "class_support_changed",
+    "non_finite_metric",
+    "bootstrap_replicate_skipped",
+    "seed_or_replicate_count_changed",
+    "locked_artifact_write_attempt",
+    "checkpoint_load_or_inference_attempt"
+  ],
+  "gate": "phase07_gate02",
+  "input": {
+    "grouping_policy": "do_not_infer_lesion_patient_or_duplicate_groups",
+    "identifier": "image_id",
+    "locked_prediction_sha256": {
+      "flat": "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d",
+      "hierarchical": "391557deb9a1aeb9b9f97edc9d3d38759e597d56b54bfdbab9ea7482451a221a"
+    },
+    "paired_manifest_path": "reports/phase07/generated/paired_prediction_manifest.csv",
+    "paired_manifest_sha256": "d53e8581a95661de0446961b81458bc17295efe9c6a513c0225e442a281bf941",
+    "sample_count": 3668,
+    "unit": "paired_internal_test_image"
+  },
+  "mcnemar": {
+    "alpha": 0.05,
+    "alternative": "two_sided",
+    "continuity_corrected_sensitivity_requires_authorization": true,
+    "discordant_pairs_only": true,
+    "enabled_for_gate02": false,
+    "method": "exact_binomial",
+    "null_hypothesis": "discordant_directions_equally_likely",
+    "primary_asymptotic_result_allowed": false,
+    "table": [
+      "both_correct",
+      "flat_correct_hierarchy_wrong",
+      "flat_wrong_hierarchy_correct",
+      "both_wrong"
+    ]
+  },
+  "multiplicity": {
+    "classwise_p_value_adjustment_if_added": "holm_bonferroni",
+    "independent_unadjusted_class_significance_claims": false,
+    "per_class_f1_status": "exploratory_secondary",
+    "raw_per_class_intervals": "descriptive_only",
+    "scc_uncertainty_required": true,
+    "secondary_model_level": [
+      "accuracy_difference",
+      "balanced_accuracy_difference",
+      "mcnemar_exact"
+    ]
+  },
+  "original_sample_point_estimates": {
+    "model_metrics": [
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "weighted_f1"
+    ],
+    "paired_differences": [
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "per_class_f1"
+    ],
+    "per_class_metrics": [
+      "precision",
+      "recall",
+      "f1"
+    ],
+    "source": "complete_original_paired_sample"
+  },
+  "primary": {
+    "direction": "flat_minus_hierarchical",
+    "estimand": "macro_f1_difference",
+    "family_size": 1,
+    "multiplicity_correction": "none"
+  },
+  "primary_interval_interpretation": {
+    "excludes_zero": "statistically_distinguishable_under_prespecified_paired_bootstrap",
+    "includes_zero": "did_not_establish_statistically_distinguishable_difference",
+    "prohibited_terms": [
+      "equivalent",
+      "non_inferior",
+      "clinically_superior",
+      "clinically_significant"
+    ]
+  },
+  "reproducibility": {
+    "deterministic_payload_timestamps_separate": true,
+    "record": [
+      "python_version",
+      "dependency_versions_numpy_pandas_scipy_sklearn",
+      "input_paths_and_sha256",
+      "paired_manifest_sha256",
+      "seed",
+      "replicate_count",
+      "confidence_level",
+      "interval_method",
+      "class_order_and_mapping",
+      "zero_division_policy",
+      "statistical_test_implementation",
+      "exact_command",
+      "git_commit",
+      "execution_timestamps",
+      "machine_readable_results",
+      "human_readable_report"
+    ]
+  },
+  "routing_decomposition": {
+    "allowed_categories": [
+      "true_malignant_routed_non_malignant",
+      "true_non_malignant_routed_stage2",
+      "correct_malignant_route_wrong_subtype",
+      "correct_route_correct_subtype",
+      "structural_stage2_missing_not_invoked"
+    ],
+    "allowed_only_if_stored_fields_and_semantics_proven": true,
+    "checkpoint_reconstruction": false,
+    "fill_conditional_missing_values": false,
+    "infer_missing_states": false,
+    "unsupported_decomposition_policy": "skip_and_document"
+  },
+  "status": "frozen_before_analysis"
+}
