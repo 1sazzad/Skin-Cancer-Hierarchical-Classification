@@ -74,8 +74,10 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         raise ValueError("full_training_allowed must be true for a runnable config.")
 
     task = data.get("task")
-    if task not in {"stage_1", "stage_2"}:
-        raise ValueError("data.task must be stage_1 or stage_2.")
+    if task not in {"stage_1", "stage_2", "flat_four_class"}:
+        raise ValueError(
+            "data.task must be stage_1, stage_2, or flat_four_class."
+        )
 
     if model.get("architecture") != "efficientnet_b0":
         raise ValueError("The controlled runner currently supports efficientnet_b0 only.")
@@ -93,6 +95,27 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
     number_of_classes = int(model.get("number_of_classes", -1))
     if number_of_classes != len(class_to_index):
         raise ValueError("model.number_of_classes does not match class_to_index.")
+
+    if task == "flat_four_class":
+        expected_mapping = {
+            "non_malignant": 0,
+            "melanoma": 1,
+            "bcc": 2,
+            "scc": 3,
+        }
+        if class_to_index != expected_mapping:
+            raise ValueError(
+                "flat_four_class requires exact class order "
+                "[non_malignant, melanoma, bcc, scc]."
+            )
+        if data.get("label_source") != "diagnosis_canonical":
+            raise ValueError(
+                "flat_four_class requires data.label_source='diagnosis_canonical'."
+            )
+        if data.get("label_mapping_strategy") != "phase06_flat_four_class_v1":
+            raise ValueError(
+                "flat_four_class requires the phase06_flat_four_class_v1 mapping."
+            )
 
     loss_name = training.get("loss")
     supported_losses = {
@@ -164,9 +187,10 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             )
 
     elif loss_name == "class_balanced_focal_loss":
-        if task != "stage_2":
+        if task not in {"stage_2", "flat_four_class"}:
             raise ValueError(
-                "class_balanced_focal_loss is currently restricted to Stage 2."
+                "class_balanced_focal_loss is restricted to Stage 2 and the "
+                "flat four-class task."
             )
 
         validated_weights = validate_class_weight_mapping()
@@ -210,22 +234,11 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
                 "class count keys must exactly match data.class_to_index."
             )
 
-        raw_weights: dict[str, float] = {}
-        for class_name, raw_count in class_counts.items():
-            count = int(raw_count)
-            if count <= 0:
-                raise ValueError("All training class counts must be positive.")
-            raw_weights[class_name] = (
-                (1.0 - beta) / (1.0 - beta ** count)
-            )
-
-        normalizer = (
-            len(raw_weights) / sum(raw_weights.values())
+        calculated_weights = compute_effective_number_class_weights(
+            class_counts,
+            list(class_to_index),
+            beta=beta,
         )
-        calculated_weights = {
-            class_name: raw_weight * normalizer
-            for class_name, raw_weight in raw_weights.items()
-        }
 
         for class_name, calculated_weight in calculated_weights.items():
             configured_weight = float(validated_weights[class_name])
@@ -249,6 +262,38 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         raise ValueError("training.early_stopping_patience must be positive.")
 
     return deepcopy(loaded)
+
+
+def compute_effective_number_class_weights(
+    class_counts: Mapping[str, Any],
+    class_order: list[str],
+    *,
+    beta: float,
+) -> dict[str, float]:
+    """Compute the repository-standard sum-to-class-count effective weights."""
+
+    if len(class_counts) != len(class_order) or set(class_counts) != set(class_order):
+        raise ValueError(
+            "class count keys and class order must contain the same classes."
+        )
+    resolved_beta = float(beta)
+    if not math.isfinite(resolved_beta) or not 0.0 < resolved_beta < 1.0:
+        raise ValueError("class-balance beta must be between zero and one.")
+
+    raw_weights: dict[str, float] = {}
+    for class_name in class_order:
+        count = int(class_counts[class_name])
+        if count <= 0:
+            raise ValueError("All training class counts must be positive.")
+        raw_weights[class_name] = (
+            (1.0 - resolved_beta) / (1.0 - resolved_beta ** count)
+        )
+
+    normalizer = len(raw_weights) / sum(raw_weights.values())
+    return {
+        class_name: raw_weights[class_name] * normalizer
+        for class_name in class_order
+    }
 
 
 def _mapping(config: Mapping[str, Any], key: str) -> dict[str, Any]:
@@ -663,6 +708,15 @@ def run_baseline_experiment(
     summary = {
         "run_name": experiment["run_name"],
         "task": data["task"],
+        "class_names": class_names,
+        "class_to_index": deepcopy(data["class_to_index"]),
+        "label_source": data.get("label_source"),
+        "label_mapping_strategy": data.get("label_mapping_strategy"),
+        "selection_metric": training["selection_metric"],
+        "loss": training["loss"],
+        "class_weights": deepcopy(training.get("class_weights")),
+        "class_weight_source": deepcopy(training.get("class_weight_source")),
+        "focal_gamma": training.get("focal_gamma"),
         "sanity_run": sanity_run,
         "reportable_as_full_result": not sanity_run,
         "best_epoch": best_epoch,

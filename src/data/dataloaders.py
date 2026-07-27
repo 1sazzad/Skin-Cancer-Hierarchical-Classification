@@ -10,7 +10,7 @@ import torch
 from PIL import Image
 from torch.utils.data import DataLoader
 
-from src.data.isic2019_dataset import ISIC2019HierarchicalDataset, StageName
+from src.data.isic2019_dataset import ISIC2019HierarchicalDataset, TaskName
 from src.data.transforms import build_eval_transform, build_train_transform
 from src.utils.reproducibility import make_generator, seed_worker
 
@@ -64,7 +64,7 @@ def _make_loader(
 def build_stage_dataloaders(
     manifest_path: str | Path,
     project_root: str | Path,
-    stage: StageName,
+    stage: TaskName,
     *,
     config: DataLoaderConfig | None = None,
     train_transform: Callable[[Image.Image], torch.Tensor] | None = None,

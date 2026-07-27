@@ -12,7 +12,8 @@ import torch
 from PIL import Image, UnidentifiedImageError
 from torch.utils.data import Dataset
 
-StageName = Literal["stage_1", "stage_2"]
+TaskName = Literal["stage_1", "stage_2", "flat_four_class"]
+StageName = TaskName
 SplitName = Literal["train", "validation", "internal_test", "test"]
 
 STAGE_1_CLASS_TO_INDEX: Mapping[str, int] = MappingProxyType(
@@ -21,10 +22,29 @@ STAGE_1_CLASS_TO_INDEX: Mapping[str, int] = MappingProxyType(
 STAGE_2_CLASS_TO_INDEX: Mapping[str, int] = MappingProxyType(
     {"melanoma": 0, "bcc": 1, "scc": 2}
 )
+FLAT_FOUR_CLASS_TO_INDEX: Mapping[str, int] = MappingProxyType(
+    {"non_malignant": 0, "melanoma": 1, "bcc": 2, "scc": 3}
+)
+FLAT_DIAGNOSIS_TO_CLASS: Mapping[str, str] = MappingProxyType(
+    {
+        "melanocytic_nevus": "non_malignant",
+        "benign_keratosis_like_lesion": "non_malignant",
+        "dermatofibroma": "non_malignant",
+        "vascular_lesion": "non_malignant",
+        "melanoma": "melanoma",
+        "basal_cell_carcinoma": "bcc",
+        "squamous_cell_carcinoma": "scc",
+    }
+)
 
-_STAGE_POLICIES: dict[str, tuple[str, str, Mapping[str, int]]] = {
+_TASK_POLICIES: dict[str, tuple[str, str, Mapping[str, int]]] = {
     "stage_1": ("include_stage_1", "stage_1_label", STAGE_1_CLASS_TO_INDEX),
     "stage_2": ("include_stage_2", "stage_2_label", STAGE_2_CLASS_TO_INDEX),
+    "flat_four_class": (
+        "include_stage_1",
+        "diagnosis_canonical",
+        FLAT_FOUR_CLASS_TO_INDEX,
+    ),
 }
 _SPLIT_ALIASES: dict[str, tuple[str, ...]] = {
     "train": ("train",),
@@ -37,6 +57,7 @@ _REQUIRED_COLUMNS = {
     "dataset",
     "image_id",
     "image_path",
+    "diagnosis_canonical",
     "split",
     "split_included",
     "split_group_id",
@@ -46,6 +67,23 @@ _REQUIRED_COLUMNS = {
     "stage_2_label",
     "file_sha256",
 }
+
+
+def map_flat_diagnosis(diagnosis: object) -> str:
+    """Map one canonical ISIC diagnosis to the locked Phase 06 class."""
+
+    if diagnosis is None or pd.isna(diagnosis):
+        raise ValueError("Missing diagnosis_canonical value for flat_four_class.")
+    canonical = str(diagnosis).strip()
+    if not canonical:
+        raise ValueError("Missing diagnosis_canonical value for flat_four_class.")
+    try:
+        return FLAT_DIAGNOSIS_TO_CLASS[canonical]
+    except KeyError as exc:
+        raise ValueError(
+            f"Unknown diagnosis_canonical {canonical!r} for flat_four_class; "
+            f"expected one of {list(FLAT_DIAGNOSIS_TO_CLASS)}."
+        ) from exc
 
 
 class ISIC2019HierarchicalDataset(Dataset[dict[str, Any]]):
@@ -80,9 +118,10 @@ class ISIC2019HierarchicalDataset(Dataset[dict[str, Any]]):
         # frozen manifest stores the partition as "test".
         if requested_split == "test":
             self.split = "internal_test"
-        if self.stage not in _STAGE_POLICIES:
+        if self.stage not in _TASK_POLICIES:
             raise ValueError(
-                f"Unsupported stage {self.stage!r}; expected stage_1 or stage_2."
+                f"Unsupported task {self.stage!r}; expected one of "
+                f"{list(_TASK_POLICIES)}."
             )
         if not self.manifest_path.is_file():
             raise FileNotFoundError(f"Split manifest not found: {self.manifest_path}")
@@ -95,7 +134,7 @@ class ISIC2019HierarchicalDataset(Dataset[dict[str, Any]]):
         self._validate_manifest_columns(frame)
         self._validate_dataset_identity(frame)
 
-        include_column, label_column, class_to_index = _STAGE_POLICIES[self.stage]
+        include_column, label_column, class_to_index = _TASK_POLICIES[self.stage]
         selected = frame.loc[
             (frame["split_included"] == "1")
             & (frame["split"].isin(self._manifest_split_values))
@@ -114,7 +153,12 @@ class ISIC2019HierarchicalDataset(Dataset[dict[str, Any]]):
             )
             raise ValueError(f"Duplicate image_id values in selected rows: {duplicate_ids[:5]}")
 
-        labels = selected[label_column].str.strip()
+        source_labels = selected[label_column].str.strip()
+        labels = (
+            source_labels.map(map_flat_diagnosis)
+            if self.stage == "flat_four_class"
+            else source_labels
+        )
         blank_count = int((labels == "").sum())
         if blank_count:
             raise ValueError(

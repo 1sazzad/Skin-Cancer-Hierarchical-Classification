@@ -1293,3 +1293,321 @@ selection.
 Phase 05 is complete. The reportable hierarchical result is frozen. Phase 06
 will train and evaluate a fair direct flat four-class comparator.
 
+---
+
+## D-017 - Define the Phase 06 Fair Flat Four-Class Comparison
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06
+**Owner:** Research lead
+
+### Context
+
+Phase 05 established the locked predicted-gate hierarchical result. A direct
+four-class comparator is required to answer whether task decomposition helps
+under a fair backbone, preprocessing, split, seed, and selection policy.
+
+### Decision
+
+Prepare Experiment A as a clean cross-entropy EfficientNet-B0 classifier with
+class order `[non_malignant, melanoma, bcc, scc]`. Derive its target from
+`diagnosis_canonical` on rows satisfying the frozen
+`split_included=1 and include_stage_1=1` policy:
+
+- `melanocytic_nevus`, `benign_keratosis_like_lesion`, `dermatofibroma`, and
+  `vascular_lesion` -> `non_malignant`
+- `melanoma` -> `melanoma`
+- `basal_cell_carcinoma` -> `bcc`
+- `squamous_cell_carcinoma` -> `scc`
+
+Use validation macro-F1 for checkpoint selection. Keep the internal test locked
+until the selected Experiment A checkpoint and evaluation protocol are frozen,
+then evaluate it once. The primary comparison is Experiment A versus the Phase
+05 predicted-gate hierarchy; the oracle gate is diagnostic only.
+
+An imbalance-aware Experiment B is allowed only after clean-CE validation
+analysis and may not use internal-test evidence.
+
+### Rationale
+
+Reusing the locked Stage 1 cohort excludes the same 867 actinic-keratosis rows
+that are outside the project hierarchy and preserves the exact 24,460-row
+comparison population. Reusing the existing trainer avoids implementation
+differences unrelated to the research question.
+
+### Supporting Evidence
+
+- Label audit: `reports/phase06/flat_four_class_label_audit.json`
+- Protocol: `reports/phase06/fair_flat_four_class_protocol.md`
+- Mapped rows: `24,460`
+- Train / validation / internal-test rows: `17,124 / 3,668 / 3,668`
+- Split-group and exact-hash cross-split overlap: `0 / 0`
+
+### Risks and Trade-offs
+
+- SCC is rare, but Experiment A must remain clean CE for the first comparison.
+- The result will represent one seed and one internal dataset.
+- Internal-test access before freeze would invalidate the protocol.
+- Latency and throughput are hardware-specific and must be measured on T4.
+
+### Impacted Files or Components
+
+- Phase 06 task adapter, audit, config, tests, protocol, and VM commands
+- Experiment registry planned entry
+- Existing Stage 1 and Stage 2 behavior remains unchanged
+
+### Impact on Existing Experiments
+
+None. Phase 03 through Phase 05 checkpoints, metrics, reports, and artifacts
+remain locked and unchanged. Phase 05 references do not influence Phase 06
+training or checkpoint selection.
+
+### Review Trigger
+
+Review after clean-CE validation results exist, before proposing Experiment B,
+and again before authorizing the one-time internal-test evaluation.
+
+### Final Outcome
+
+The fair-comparison protocol and Experiment A preparation are accepted. No
+Phase 06 model result exists yet.
+
+---
+
+## D-018 - Prepare One Phase 06B Class-Balanced Focal Candidate
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06B
+**Owner:** Research lead
+
+### Context
+
+Phase 06A supplies the completed clean-CE flat baseline. One imbalance-aware
+flat candidate is needed without changing any non-loss experimental setting.
+
+### Decision
+
+Evaluate EfficientNet-B0 with the repository's established class-balanced
+focal loss, effective-number beta `0.9999`, and focal gamma `2.0`. Derive
+counts only from the locked Phase 06 seed-42 training split in exact order
+`[non_malignant, melanoma, bcc, scc]`: `[11193, 3164, 2327, 440]`. Compute and
+persist the weights with the established implementation; do not invent manual
+weights.
+
+Keep every non-loss setting equivalent to Phase 06A. Select using validation
+macro-F1 only, then validation balanced accuracy as tie-breaker. If both are
+exactly tied, retain clean CE. SCC precision, recall, and F1 are secondary
+interpretation metrics and do not override this rule.
+
+### Rationale
+
+This is a predeclared loss-only comparison that tests imbalance handling while
+preserving the fairness controls of Phase 06A.
+
+### Risks and Trade-offs
+
+- Phase 06B has not yet been trained or evaluated.
+- Results will represent one seed and one internal dataset.
+- The internal test must remain hidden until a validation winner is frozen.
+- No Phase 06B model construction, training, inference, or evaluation is
+  permitted locally.
+
+### Impacted Files or Components
+
+- Phase 06B experiment config, focal config validation, local-safe tests
+- Phase 06 documentation, VM commands, and experiment registry
+
+### Impact on Existing Experiments
+
+Phase 03, Phase 04, Phase 05, and Phase 06A behavior and artifacts remain
+unchanged. The Phase 04 three-class focal numerical policy is reused.
+
+### Review Trigger
+
+Review after Azure T4 full tests and successful Phase 06B training, before any
+internal-test access.
+
+### Final Outcome
+
+Phase 06B is accepted as a planned candidate. It is not experimentally
+complete, and the internal test remains untouched.
+
+---
+
+## D-019 - Freeze the Validation-Selected Phase 06 Flat Model
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06B / Phase 06C
+**Owner:** Research lead
+
+### Context
+
+Phase 06A clean cross-entropy and Phase 06B class-balanced focal loss completed
+the predeclared validation-only model selection. The internal test remained
+untouched.
+
+### Options Considered
+
+1. Phase 06A clean cross-entropy
+2. Phase 06B class-balanced focal loss
+
+### Decision
+
+Freeze Phase 06A clean CE as the validation-selected flat model. Its only
+eligible Phase 06C checkpoint is
+`runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt`,
+SHA-256
+`f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7`.
+
+Validation macro-F1 is primary, validation balanced accuracy is the
+tie-breaker, and the simpler clean CE is preferred on an exact tie. Phase 06B
+is rejected under that policy. Its checkpoint is
+`runs/phase06b/full/full__phase06b_flat_four_class_isic2019_efficientnet_b0_class_balanced_focal_loss_seed42__20260727T120615Z/best_checkpoint.pt`,
+SHA-256
+`07586d515cd9378e05831ca542f391e32b3b7a6c669c7dd83ce1df219b2af015`.
+
+Exactly one future flat-model internal-test evaluation is allowed, using only
+the selected checkpoint. No comparison of flat candidates on the internal
+test, post-test tuning, or candidate switching is permitted.
+
+### Rationale
+
+Clean CE achieved validation macro-F1 `0.6535716654`, above focal loss at
+`0.6490067298`. Balanced accuracy was nearly identical, but no tie-break was
+needed. Focal loss improved SCC F1 from `0.3870967742` to `0.4302325581`, an
+absolute secondary SCC F1 improvement of `0.0431357839`, but it did not win the
+predeclared primary metric. The internal test cannot become another selection
+stage.
+
+### Supporting Evidence
+
+- `reports/phase06/phase06b_class_balanced_focal_amendment.md`
+- `configs/evaluation/phase06c_selected_flat_internal_test.yaml`
+- Verified Phase 06A and Phase 06B validation artifacts and checkpoint hashes
+
+### Risks and Trade-offs
+
+- The decision prioritizes aggregate macro-F1 over the focal candidate's SCC
+  improvement.
+- The result represents one seed and one internal dataset.
+- A valid internal-test run consumes the one-time protocol.
+
+### Impacted Files or Components
+
+- Phase 06 reports and experiment registry
+- Phase 06C protocol and safe enforcement tests
+
+### Impact on Existing Experiments
+
+Earlier locked experiments are unchanged. Phase 06A becomes the sole Phase 06C
+candidate; Phase 06B remains a documented, reproducible rejected candidate.
+
+### Additional Time or Compute
+
+One later Azure Tesla T4 internal-test evaluation is authorized. None was run
+for this decision.
+
+### Review Trigger
+
+No performance-based review is allowed after internal-test access. A technical
+retry is allowed only if the preceding attempt failed before producing valid
+metrics and its failure reason is documented.
+
+### Final Outcome
+
+The selected checkpoint is frozen before internal-test access. The Phase 06C
+one-time internal-test evaluation is prepared but not executed; the internal
+test remained untouched.
+
+---
+
+## D-020 - Consume and Lock the Phase 06C Flat Internal-Test Protocol
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06C
+**Owner:** Research lead
+
+### Context
+
+Phase 06A clean cross-entropy was frozen through validation-only selection over
+the rejected Phase 06B focal candidate. Phase 06C authorized exactly one
+internal-test evaluation using only that selected checkpoint.
+
+### Decision
+
+Accept the completed Phase 06C evaluation as the sole reportable flat-model
+internal-test result. Mark the protocol `consumed_locked`,
+`internal_test_accessed=true`, and
+`valid_internal_test_run_completed=true`.
+
+No additional run, candidate switch, focal-checkpoint evaluation, threshold
+change, post-test tuning, or performance retry is permitted.
+
+### Supporting Evidence
+
+- Evaluation commit: `550e7cdb1144f059c940d4240fe4579e0280a803`
+- Selected checkpoint SHA-256:
+  `f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7`
+- Final status: `0`
+- Internal-test samples: `3668`
+- Accuracy: `0.7420937841`
+- Balanced accuracy: `0.6503125394`
+- Macro-F1: `0.6192224685`
+- Weighted F1: `0.7525567214`
+- Mean loss: `0.6232672186`
+- Verified local archive:
+  `runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz`
+- Archive SHA-256:
+  `b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91`
+- Embedded artifact hashes verified: `12` entries
+
+### Interpretation
+
+The locked Phase 05 predicted-gate hierarchical macro-F1 was
+`0.6053674006`. The selected flat model was higher by
+`0.0138550680` on the same locked internal comparison
+population.
+
+This is a descriptive single-seed internal-dataset result. It does not establish
+statistical significance, clinical superiority, fairness, external
+generalisation, or state-of-the-art performance.
+
+### Risks and Trade-offs
+
+- SCC F1 remains low at `0.3571428571`.
+- Performance represents one seed and one internal dataset.
+- The internal test can no longer be used for model-development decisions.
+- External evaluation remains necessary before any generalisation claim.
+
+### Impacted Files or Components
+
+- `configs/evaluation/phase06c_selected_flat_internal_test.yaml`
+- `reports/phase06/phase06c_selected_flat_internal_test_protocol.md`
+- `reports/phase06/phase06c_selected_flat_internal_test_result.md`
+- `experiments/experiment_registry.csv`
+- `tests/test_phase06c_selected_flat_internal_test_protocol.py`
+- verified local Phase 06C archive
+
+### Impact on Existing Experiments
+
+Phase 05, Phase 06A, and Phase 06B artifacts remain unchanged. Phase 06A is the
+only flat checkpoint that accessed the internal test. Phase 06B remains rejected
+and prohibited from internal-test evaluation.
+
+### Review Trigger
+
+The result must not be replaced through another internal-test run. Future
+review may use external-dataset evidence or a separately predeclared study, but
+not the consumed ISIC 2019 internal test for further selection.
+
+### Final Outcome
+
+Phase 06C is complete. The selected flat internal-test result and its verified
+local archive are locked. The fair locked comparison records flat macro-F1
+`0.6192224685` versus hierarchical macro-F1
+`0.6053674006`.
+

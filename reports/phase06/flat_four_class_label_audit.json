@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "task": "flat_four_class",
+  "manifest": "F:\\Research\\Final Year\\Skin-Cancer-Hierarchical-Classification\\data\\manifests\\isic2019_train_val_test_split_seed42.csv",
+  "manifest_row_count": 25331,
+  "mapped_row_count": 24460,
+  "reconciled": true,
+  "class_order": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "class_to_index": {
+    "non_malignant": 0,
+    "melanoma": 1,
+    "bcc": 2,
+    "scc": 3
+  },
+  "diagnosis_to_class": {
+    "melanocytic_nevus": "non_malignant",
+    "benign_keratosis_like_lesion": "non_malignant",
+    "dermatofibroma": "non_malignant",
+    "vascular_lesion": "non_malignant",
+    "melanoma": "melanoma",
+    "basal_cell_carcinoma": "bcc",
+    "squamous_cell_carcinoma": "scc"
+  },
+  "selection_policy": "split_included=1 and include_stage_1=1",
+  "counts": {
+    "full_dataset": {
+      "total": 24460,
+      "classes": {
+        "non_malignant": {
+          "count": 15989,
+          "percentage": 65.36794766966476
+        },
+        "melanoma": {
+          "count": 4520,
+          "percentage": 18.47914963205233
+        },
+        "bcc": {
+          "count": 3323,
+          "percentage": 13.585445625511039
+        },
+        "scc": {
+          "count": 628,
+          "percentage": 2.5674570727718726
+        }
+      }
+    },
+    "train": {
+      "total": 17124,
+      "classes": {
+        "non_malignant": {
+          "count": 11193,
+          "percentage": 65.36440084092501
+        },
+        "melanoma": {
+          "count": 3164,
+          "percentage": 18.47699135715954
+        },
+        "bcc": {
+          "count": 2327,
+          "percentage": 13.589114692828778
+        },
+        "scc": {
+          "count": 440,
+          "percentage": 2.569493109086662
+        }
+      }
+    },
+    "validation": {
+      "total": 3668,
+      "classes": {
+        "non_malignant": {
+          "count": 2398,
+          "percentage": 65.3762268266085
+        },
+        "melanoma": {
+          "count": 678,
+          "percentage": 18.484187568157033
+        },
+        "bcc": {
+          "count": 498,
+          "percentage": 13.576881134133043
+        },
+        "scc": {
+          "count": 94,
+          "percentage": 2.5627044711014175
+        }
+      }
+    },
+    "test": {
+      "total": 3668,
+      "classes": {
+        "non_malignant": {
+          "count": 2398,
+          "percentage": 65.3762268266085
+        },
+        "melanoma": {
+          "count": 678,
+          "percentage": 18.484187568157033
+        },
+        "bcc": {
+          "count": 498,
+          "percentage": 13.576881134133043
+        },
+        "scc": {
+          "count": 94,
+          "percentage": 2.5627044711014175
+        }
+      }
+    }
+  },
+  "excluded_rows": 871,
+  "exclusions": [
+    {
+      "diagnosis_canonical": "melanocytic_nevus",
+      "count": 2,
+      "reason": "frozen_split_exclusion"
+    },
+    {
+      "diagnosis_canonical": "melanoma",
+      "count": 2,
+      "reason": "frozen_split_exclusion"
+    },
+    {
+      "diagnosis_canonical": "actinic_keratosis",
+      "count": 867,
+      "reason": "outside_locked_stage_1_task_scope"
+    }
+  ],
+  "leakage": {
+    "split_group_id_cross_split_count": 0,
+    "file_sha256_cross_split_count": 0,
+    "passed": true
+  }
+}

@@ -1,0 +1,68 @@
+phase: "06C"
+protocol_status: "consumed_locked"
+evaluation_scope: "selected_flat_model_internal_test_once"
+selection_basis: "validation_only"
+selection_metric: "validation_macro_f1"
+tie_breaker: "validation_balanced_accuracy"
+exact_tie_policy: "prefer_clean_cross_entropy"
+seed: 42
+
+selected_model:
+  phase: "06A"
+  model: "efficientnet_b0"
+  loss: "cross_entropy"
+  checkpoint_path: "runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt"
+  checkpoint_sha256: "f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7"
+
+rejected_candidates:
+  - phase: "06B"
+    loss: "class_balanced_focal_loss"
+    checkpoint_path: "runs/phase06b/full/full__phase06b_flat_four_class_isic2019_efficientnet_b0_class_balanced_focal_loss_seed42__20260727T120615Z/best_checkpoint.pt"
+    checkpoint_sha256: "07586d515cd9378e05831ca542f391e32b3b7a6c669c7dd83ce1df219b2af015"
+    candidate_status: "rejected_by_validation_selection"
+    internal_test_allowed: false
+
+allowed_checkpoint_count: 1
+allowed_candidate_count: 1
+manifest_path: "data/manifests/isic2019_train_val_test_split_seed42.csv"
+internal_test_split: "test"
+evaluator_loader_key: "internal_test"
+internal_test_accessed: true
+valid_internal_test_run_completed: true
+post_test_tuning_allowed: false
+candidate_switching_allowed: false
+threshold_tuning_allowed: false
+local_model_execution_allowed: false
+required_execution_environment: "azure_tesla_t4"
+technical_retry_policy: "only_after_failure_before_valid_metrics_and_with_documented_reason"
+consume_protocol_after_valid_metrics: true
+output_directory: "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation"
+evaluation_attempt_count: 1
+valid_internal_test_run_count: 1
+evaluation_git_commit: "550e7cdb1144f059c940d4240fe4579e0280a803"
+evaluation_started_at_utc: "2026-07-27T15:22:59Z"
+evaluation_completed_at_utc: "2026-07-27T15:34:03Z"
+protocol_consumed: true
+rerun_allowed: false
+local_backup_verified: true
+
+locked_result:
+  checkpoint_epoch: 2
+  sample_count: 3668
+  accuracy: 0.7420937840785169
+  balanced_accuracy: 0.6503125394090663
+  macro_f1: 0.6192224685168973
+  weighted_f1: 0.7525567213826209
+  mean_loss: 0.6232672185518230
+  elapsed_seconds: 30.6784900749998997
+  samples_per_second: 119.5625987795623928
+  metrics_path: "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_metrics.json"
+  predictions_path: "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv"
+  evaluation_summary_path: "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/evaluation_summary.json"
+  confusion_matrix_path: "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/confusion_matrix.csv"
+  per_class_metrics_path: "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/per_class_metrics.csv"
+  local_backup_archive: "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz"
+  local_backup_archive_sha256: "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91"
+  artifact_manifest_entry_count: 12
+  hierarchical_locked_macro_f1: 0.6053674005561019
+  flat_minus_hierarchy_macro_f1: 0.0138550679607954

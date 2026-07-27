@@ -116,3 +116,6 @@ reports/tables/generated/
 
 # Local experiment outputs
 /runs/
+
+# Local and VM runtime logs/status artifacts
+/logs/
