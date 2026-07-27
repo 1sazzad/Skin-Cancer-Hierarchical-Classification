@@ -109,8 +109,7 @@ was `0`, and `internal_test_accessed=false`.
 ## Lock and limitations
 
 Selection used validation results only. The internal test remained untouched,
-and no internal-test metric was used for model selection. Only the selected
-Phase 06A clean-CE checkpoint is eligible for the Phase 06C one-time
+and no internal-test metric was used for model selection. Only the selected Phase 06A clean-CE checkpoint is eligible for the Phase 06C one-time
 internal-test evaluation; the Phase 06B candidate is prohibited.
 
 This single-seed internal-dataset validation comparison does not establish
