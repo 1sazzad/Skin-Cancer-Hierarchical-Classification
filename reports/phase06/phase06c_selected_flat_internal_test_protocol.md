@@ -36,7 +36,7 @@ checkpoint. Run it later on the VM.
 
 ```bash
 source "$HOME/venvs/skin-cancer-gpu/bin/activate"
-export REPO="$HOME/Skin-Cancer-Hierarchical-Classification"
+export REPO="$HOME/projects/Skin-Cancer-Hierarchical-Classification"
 export BRANCH="phase06c-selected-flat-internal-test"
 export CHECKPOINT="runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt"
 export EXPECTED_SHA256="f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7"
