@@ -1373,3 +1373,64 @@ and again before authorizing the one-time internal-test evaluation.
 The fair-comparison protocol and Experiment A preparation are accepted. No
 Phase 06 model result exists yet.
 
+---
+
+## D-018 - Prepare One Phase 06B Class-Balanced Focal Candidate
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06B
+**Owner:** Research lead
+
+### Context
+
+Phase 06A supplies the completed clean-CE flat baseline. One imbalance-aware
+flat candidate is needed without changing any non-loss experimental setting.
+
+### Decision
+
+Evaluate EfficientNet-B0 with the repository's established class-balanced
+focal loss, effective-number beta `0.9999`, and focal gamma `2.0`. Derive
+counts only from the locked Phase 06 seed-42 training split in exact order
+`[non_malignant, melanoma, bcc, scc]`: `[11193, 3164, 2327, 440]`. Compute and
+persist the weights with the established implementation; do not invent manual
+weights.
+
+Keep every non-loss setting equivalent to Phase 06A. Select using validation
+macro-F1 only, then validation balanced accuracy as tie-breaker. If both are
+exactly tied, retain clean CE. SCC precision, recall, and F1 are secondary
+interpretation metrics and do not override this rule.
+
+### Rationale
+
+This is a predeclared loss-only comparison that tests imbalance handling while
+preserving the fairness controls of Phase 06A.
+
+### Risks and Trade-offs
+
+- Phase 06B has not yet been trained or evaluated.
+- Results will represent one seed and one internal dataset.
+- The internal test must remain hidden until a validation winner is frozen.
+- No Phase 06B model construction, training, inference, or evaluation is
+  permitted locally.
+
+### Impacted Files or Components
+
+- Phase 06B experiment config, focal config validation, local-safe tests
+- Phase 06 documentation, VM commands, and experiment registry
+
+### Impact on Existing Experiments
+
+Phase 03, Phase 04, Phase 05, and Phase 06A behavior and artifacts remain
+unchanged. The Phase 04 three-class focal numerical policy is reused.
+
+### Review Trigger
+
+Review after Azure T4 full tests and successful Phase 06B training, before any
+internal-test access.
+
+### Final Outcome
+
+Phase 06B is accepted as a planned candidate. It is not experimentally
+complete, and the internal test remains untouched.
+
