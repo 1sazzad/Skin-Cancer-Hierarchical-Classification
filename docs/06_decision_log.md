@@ -1434,3 +1434,91 @@ internal-test access.
 Phase 06B is accepted as a planned candidate. It is not experimentally
 complete, and the internal test remains untouched.
 
+---
+
+## D-019 - Freeze the Validation-Selected Phase 06 Flat Model
+
+**Date:** 2026-07-27
+**Status:** Accepted
+**Phase:** Phase 06B / Phase 06C
+**Owner:** Research lead
+
+### Context
+
+Phase 06A clean cross-entropy and Phase 06B class-balanced focal loss completed
+the predeclared validation-only model selection. The internal test remained
+untouched.
+
+### Options Considered
+
+1. Phase 06A clean cross-entropy
+2. Phase 06B class-balanced focal loss
+
+### Decision
+
+Freeze Phase 06A clean CE as the validation-selected flat model. Its only
+eligible Phase 06C checkpoint is
+`runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt`,
+SHA-256
+`f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7`.
+
+Validation macro-F1 is primary, validation balanced accuracy is the
+tie-breaker, and the simpler clean CE is preferred on an exact tie. Phase 06B
+is rejected under that policy. Its checkpoint is
+`runs/phase06b/full/full__phase06b_flat_four_class_isic2019_efficientnet_b0_class_balanced_focal_loss_seed42__20260727T120615Z/best_checkpoint.pt`,
+SHA-256
+`07586d515cd9378e05831ca542f391e32b3b7a6c669c7dd83ce1df219b2af015`.
+
+Exactly one future flat-model internal-test evaluation is allowed, using only
+the selected checkpoint. No comparison of flat candidates on the internal
+test, post-test tuning, or candidate switching is permitted.
+
+### Rationale
+
+Clean CE achieved validation macro-F1 `0.6535716654`, above focal loss at
+`0.6490067298`. Balanced accuracy was nearly identical, but no tie-break was
+needed. Focal loss improved SCC F1 from `0.3870967742` to `0.4302325581`, an
+absolute secondary SCC F1 improvement of `0.0431357839`, but it did not win the
+predeclared primary metric. The internal test cannot become another selection
+stage.
+
+### Supporting Evidence
+
+- `reports/phase06/phase06b_class_balanced_focal_amendment.md`
+- `configs/evaluation/phase06c_selected_flat_internal_test.yaml`
+- Verified Phase 06A and Phase 06B validation artifacts and checkpoint hashes
+
+### Risks and Trade-offs
+
+- The decision prioritizes aggregate macro-F1 over the focal candidate's SCC
+  improvement.
+- The result represents one seed and one internal dataset.
+- A valid internal-test run consumes the one-time protocol.
+
+### Impacted Files or Components
+
+- Phase 06 reports and experiment registry
+- Phase 06C protocol and safe enforcement tests
+
+### Impact on Existing Experiments
+
+Earlier locked experiments are unchanged. Phase 06A becomes the sole Phase 06C
+candidate; Phase 06B remains a documented, reproducible rejected candidate.
+
+### Additional Time or Compute
+
+One later Azure Tesla T4 internal-test evaluation is authorized. None was run
+for this decision.
+
+### Review Trigger
+
+No performance-based review is allowed after internal-test access. A technical
+retry is allowed only if the preceding attempt failed before producing valid
+metrics and its failure reason is documented.
+
+### Final Outcome
+
+The selected checkpoint is frozen before internal-test access. The Phase 06C
+one-time internal-test evaluation is prepared but not executed; the internal
+test remained untouched.
+
