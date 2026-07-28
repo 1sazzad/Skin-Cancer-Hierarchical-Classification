@@ -149,12 +149,12 @@ def architecture_figure(output: Path) -> None:
     _box(ax, (2.35, 4.4), 1.7, 0.8, "Stage 1\nEfficientNet-B0", "#d9e6f2")
     _box(ax, (4.75, 4.4), 1.5, 0.8, "Binary decision", "#f2f2f2")
     _box(ax, (7.15, 4.95), 1.7, 0.75, "non-malignant\nprediction", "#e8e8e8")
-    _box(ax, (7.15, 3.25), 1.7, 0.8, "Stage 2\nEfficientNet-B0", "#d9e6f2")
-    _box(ax, (9.4, 3.25), 1.45, 0.8, "melanoma / BCC /\nSCC prediction", "#e8e8e8")
+    _box(ax, (6.8, 3.25), 1.7, 0.8, "Stage 2\nEfficientNet-B0", "#d9e6f2")
+    _box(ax, (9.15, 3.25), 1.75, 0.8, "melanoma / BCC /\nSCC prediction", "#e8e8e8")
     ax.text(3.2, 5.34, "runs for every image", ha="center", fontsize=7)
-    ax.text(8.0, 4.28, "conditional", ha="center", fontsize=7, style="italic")
-    ax.text(6.7, 5.48, "non-malignant", fontsize=7, ha="center")
-    ax.text(6.62, 3.58, "malignant", fontsize=7, ha="center")
+    ax.text(7.65, 4.34, "conditional", ha="center", fontsize=7, style="italic")
+    ax.text(6.58, 5.58, "non-malignant", fontsize=7, ha="center")
+    ax.text(6.25, 3.38, "malignant", fontsize=7, ha="center")
     ax.text(4.25, 2.08, "Flat comparison system", ha="center", weight="bold")
     _box(ax, (2.35, 0.7), 2.2, 0.8, "Four-class\nEfficientNet-B0", "#eadfca")
     _box(ax, (5.55, 0.7), 2.7, 0.8, "non-malignant / melanoma /\nBCC / SCC prediction", "#e8e8e8")
@@ -163,8 +163,8 @@ def architecture_figure(output: Path) -> None:
         ((1.85, 3.05), (2.35, 4.8)),
         ((4.05, 4.8), (4.75, 4.8)),
         ((6.25, 4.98), (7.15, 5.32)),
-        ((6.25, 4.58), (7.15, 3.65)),
-        ((8.85, 3.65), (9.4, 3.65)),
+        ((6.25, 4.58), (6.8, 3.65)),
+        ((8.5, 3.65), (9.15, 3.65)),
         ((1.85, 2.75), (2.35, 1.1)),
         ((4.55, 1.1), (5.55, 1.1)),
     ]
