@@ -141,32 +141,32 @@ def _box(ax: plt.Axes, xy: tuple[float, float], width: float, height: float, tex
 
 def architecture_figure(output: Path) -> None:
     fig, ax = plt.subplots(figsize=FIGURE_SPECS["figure01_architecture"])
-    ax.set_xlim(0, 10)
+    ax.set_xlim(0, 11)
     ax.set_ylim(0, 6)
     ax.axis("off")
-    _box(ax, (0.2, 2.45), 1.35, 0.75, "Input dermoscopic\nimage", "#f2f2f2")
-    ax.text(3.8, 5.6, "Conditional hierarchical system", ha="center", weight="bold")
-    _box(ax, (2.1, 4.35), 1.55, 0.75, "Stage 1\nEfficientNet-B0", "#d9e6f2")
-    _box(ax, (4.2, 4.35), 1.35, 0.75, "Binary decision", "#f2f2f2")
-    _box(ax, (6.15, 4.85), 1.55, 0.7, "non-malignant\nprediction", "#e8e8e8")
-    _box(ax, (6.15, 3.5), 1.55, 0.75, "Stage 2\nEfficientNet-B0", "#d9e6f2")
-    _box(ax, (8.2, 3.5), 1.55, 0.75, "melanoma / BCC /\nSCC prediction", "#e8e8e8")
-    ax.text(2.87, 5.22, "runs for every image", ha="center", fontsize=7)
-    ax.text(6.92, 4.34, "conditional", ha="center", fontsize=7, style="italic")
-    ax.text(5.72, 5.32, "non-malignant", fontsize=7, ha="center")
-    ax.text(5.72, 4.03, "malignant", fontsize=7, ha="center")
-    ax.text(3.8, 2.0, "Flat comparison system", ha="center", weight="bold")
-    _box(ax, (2.1, 0.75), 2.05, 0.75, "Four-class\nEfficientNet-B0", "#eadfca")
-    _box(ax, (5.0, 0.75), 2.45, 0.75, "non-malignant / melanoma /\nBCC / SCC prediction", "#e8e8e8")
-    ax.text(3.12, 0.55, "one direct decision path", ha="center", fontsize=7)
+    _box(ax, (0.1, 2.5), 1.75, 0.8, "Input dermoscopic\nimage", "#f2f2f2")
+    ax.text(4.25, 5.72, "Conditional hierarchical system", ha="center", weight="bold")
+    _box(ax, (2.35, 4.4), 1.7, 0.8, "Stage 1\nEfficientNet-B0", "#d9e6f2")
+    _box(ax, (4.75, 4.4), 1.5, 0.8, "Binary decision", "#f2f2f2")
+    _box(ax, (7.15, 4.95), 1.7, 0.75, "non-malignant\nprediction", "#e8e8e8")
+    _box(ax, (7.15, 3.25), 1.7, 0.8, "Stage 2\nEfficientNet-B0", "#d9e6f2")
+    _box(ax, (9.4, 3.25), 1.45, 0.8, "melanoma / BCC /\nSCC prediction", "#e8e8e8")
+    ax.text(3.2, 5.34, "runs for every image", ha="center", fontsize=7)
+    ax.text(8.0, 4.28, "conditional", ha="center", fontsize=7, style="italic")
+    ax.text(6.7, 5.48, "non-malignant", fontsize=7, ha="center")
+    ax.text(6.62, 3.58, "malignant", fontsize=7, ha="center")
+    ax.text(4.25, 2.08, "Flat comparison system", ha="center", weight="bold")
+    _box(ax, (2.35, 0.7), 2.2, 0.8, "Four-class\nEfficientNet-B0", "#eadfca")
+    _box(ax, (5.55, 0.7), 2.7, 0.8, "non-malignant / melanoma /\nBCC / SCC prediction", "#e8e8e8")
+    ax.text(3.45, 0.46, "one direct decision path", ha="center", fontsize=7)
     arrows = [
-        ((1.55, 2.95), (2.1, 4.72)),
-        ((3.65, 4.72), (4.2, 4.72)),
-        ((5.55, 4.85), (6.15, 5.2)),
-        ((5.55, 4.55), (6.15, 3.88)),
-        ((7.7, 3.88), (8.2, 3.88)),
-        ((1.55, 2.65), (2.1, 1.12)),
-        ((4.15, 1.12), (5.0, 1.12)),
+        ((1.85, 3.05), (2.35, 4.8)),
+        ((4.05, 4.8), (4.75, 4.8)),
+        ((6.25, 4.98), (7.15, 5.32)),
+        ((6.25, 4.58), (7.15, 3.65)),
+        ((8.85, 3.65), (9.4, 3.65)),
+        ((1.85, 2.75), (2.35, 1.1)),
+        ((4.55, 1.1), (5.55, 1.1)),
     ]
     for start, end in arrows:
         ax.add_patch(FancyArrowPatch(start, end, arrowstyle="-|>", mutation_scale=10, color="#202020", linewidth=1))

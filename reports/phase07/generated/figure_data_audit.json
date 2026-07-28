@@ -139,7 +139,7 @@
       ],
       "format": "pdf",
       "png_dpi": null,
-      "sha256": "2de502f4c50fb9a03525c358e75c059da8e055320cd3cd72a051521c16435767"
+      "sha256": "916dd8eb88c4d421e2b94c4fd17d7b6537b7e82d93ea8c280e99d5b88883dcb8"
     },
     "reports/phase07/figures/figure01_architecture.png": {
       "figure_inches": [
@@ -148,7 +148,7 @@
       ],
       "format": "png",
       "png_dpi": 600,
-      "sha256": "4618fd3c0582c20e8fedcc6632fa5aea833c2a444605ce3f3cfcb37b140e6d5b"
+      "sha256": "c8ba3ec09add5b98a2bdeefb8a6c6d845509b59c47d2dd9f76eb3b8a2612006b"
     },
     "reports/phase07/figures/figure01_architecture.svg": {
       "figure_inches": [
@@ -157,7 +157,7 @@
       ],
       "format": "svg",
       "png_dpi": null,
-      "sha256": "3f69236a917591d7d730155d38dd61c3c6f1e5a9a57fc758dd394abc811af4f4"
+      "sha256": "c7408ba3973b4d61bfefc5d8709cac657f123172069cbbf5b2f54dcb4661bd66"
     },
     "reports/phase07/figures/figure02_confusion_matrix_comparison.pdf": {
       "figure_inches": [
