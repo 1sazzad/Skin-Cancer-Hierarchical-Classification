@@ -1,0 +1,5 @@
+true_label,predicted_non_malignant,predicted_melanoma,predicted_bcc,predicted_scc
+non_malignant,1869,385,101,43
+melanoma,177,463,18,20
+bcc,66,60,349,23
+scc,12,15,33,34

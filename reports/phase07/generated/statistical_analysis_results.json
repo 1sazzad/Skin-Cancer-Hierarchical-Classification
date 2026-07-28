@@ -1,0 +1,71 @@
+{
+  "mcnemar": {
+    "both_correct": 2368,
+    "both_wrong": 599,
+    "discordant_pairs": 701,
+    "exact_two_sided_p_value": 0.8207415882691484,
+    "flat_correct_hierarchy_wrong": 354,
+    "flat_wrong_hierarchy_correct": 347,
+    "net_paired_correctness_advantage": 0.0019083969465648854,
+    "paired_accuracy_difference": 0.0019083969465648854,
+    "raw_discordant_pair_odds_ratio": {
+      "numeric_value": 1.0201729106628241,
+      "status": "finite"
+    }
+  },
+  "multiplicity": "One primary estimand; model-level secondary; per-class exploratory descriptive only.",
+  "point_estimates": {
+    "difference_accuracy": 0.001908396946564861,
+    "difference_balanced_accuracy": 0.01911361552126789,
+    "difference_f1_bcc": -0.010203123477459775,
+    "difference_f1_melanoma": 0.03103307898276164,
+    "difference_f1_non_malignant": -0.004795531459183322,
+    "difference_f1_scc": 0.03938584779706278,
+    "difference_macro_f1": 0.013855067960795386,
+    "flat_accuracy": 0.7420937840785169,
+    "flat_balanced_accuracy": 0.6503125394090663,
+    "flat_f1_bcc": 0.6884955752212389,
+    "flat_f1_melanoma": 0.6094215861657722,
+    "flat_f1_non_malignant": 0.8218298555377207,
+    "flat_f1_scc": 0.35714285714285715,
+    "flat_macro_f1": 0.6192224685168973,
+    "hierarchical_accuracy": 0.740185387131952,
+    "hierarchical_balanced_accuracy": 0.6311989238877984,
+    "hierarchical_f1_bcc": 0.6986986986986987,
+    "hierarchical_f1_melanoma": 0.5783885071830106,
+    "hierarchical_f1_non_malignant": 0.826625386996904,
+    "hierarchical_f1_scc": 0.3177570093457944,
+    "hierarchical_macro_f1": 0.6053674005561019
+  },
+  "primary": {
+    "estimand": "flat_minus_hierarchical_macro_f1",
+    "includes_zero": true,
+    "lower": -0.014254648833517809,
+    "point_estimate": 0.013855067960795386,
+    "upper": 0.041963376013179184
+  },
+  "provenance": {
+    "archive_path": "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz",
+    "archive_sha256": "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91",
+    "environment": {
+      "numpy": "2.4.6",
+      "pandas": "3.0.5",
+      "python": "3.11.9",
+      "scikit_learn": "1.9.0",
+      "scipy": "1.17.1"
+    },
+    "hierarchical_path": "runs/phase05_hierarchical_internal_test/locked_primary_evaluation/per_image_hierarchical_predictions.csv",
+    "hierarchical_sha256": "391557deb9a1aeb9b9f97edc9d3d38759e597d56b54bfdbab9ea7482451a221a",
+    "implementation_commit": "8100745a8ae74bd57c09e958fda2b8714e244442",
+    "member_path": "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv",
+    "member_sha256": "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d",
+    "paired_manifest_path": "reports/phase07/generated/paired_prediction_manifest.csv",
+    "paired_manifest_sha256": "d53e8581a95661de0446961b81458bc17295efe9c6a513c0225e442a281bf941",
+    "protocol_path": "reports/phase07/generated/statistical_protocol_lock.json",
+    "protocol_sha256": "efaace517733ae7c91d2284bb4a7ca55fa7f8052790f75ebb146256ba7d8a73f",
+    "quantile_method": "linear",
+    "replicate_count": 10000,
+    "seed": 42
+  },
+  "scc_support_limitation": "Uncertainty is high because SCC support is only 94."
+}

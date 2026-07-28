@@ -1,0 +1,7 @@
+category,count,percent_of_all_samples
+true_malignant_routed_non_malignant,255,6.9520174482006549
+true_non_malignant_routed_stage2,529,14.422028353326063
+correct_malignant_route_wrong_subtype,169,4.6074154852780813
+correct_route_correct_subtype,846,23.06434023991276
+structural_stage2_missing_not_invoked,1869,50.954198473282439
+anomalous_stage2_missing,0,0

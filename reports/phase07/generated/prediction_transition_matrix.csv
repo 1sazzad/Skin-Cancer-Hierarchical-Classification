@@ -1,0 +1,5 @@
+flat_prediction,hierarchical_non_malignant,hierarchical_melanoma,hierarchical_bcc,hierarchical_scc
+non_malignant,1719,187,38,19
+melanoma,265,681,25,28
+bcc,133,41,422,36
+scc,7,14,16,37

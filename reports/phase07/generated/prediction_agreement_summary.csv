@@ -1,0 +1,7 @@
+category,count,percent
+both_correct,2368,64.558342420937848
+both_wrong,599,16.330425299890948
+correct_only_flat,354,9.6510359869138505
+correct_only_hierarchy,347,9.4601962922573613
+exact_prediction_agreement,2859,77.944383860414391
+prediction_disagreement,809,22.055616139585606

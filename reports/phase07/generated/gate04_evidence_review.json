@@ -1,0 +1,40 @@
+{
+  "accuracy_arithmetic": {
+    "difference": 0.0019083969465648854,
+    "flat_correct": 2722,
+    "hierarchical_correct": 2715
+  },
+  "class_order": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "class_support": {
+    "bcc": 498,
+    "melanoma": 678,
+    "non_malignant": 2398,
+    "scc": 94
+  },
+  "independent_mcnemar": {
+    "absolute_difference": 0.0,
+    "b": 354,
+    "c": 347,
+    "committed_p_value": 0.8207415882691484,
+    "n": 701,
+    "recomputed_p_value": 0.8207415882691484,
+    "status": "passed",
+    "tolerance": 1e-12
+  },
+  "primary_ci_includes_zero": true,
+  "routing_audit": {
+    "entire_set_partition": "255 + 169 + 846 + 529 + 1869 = 3668",
+    "malignant_partition": "255 + 169 + 846 = 1270",
+    "non_malignant_partition": "529 + 1869 = 2398",
+    "overlap_note": "The six emitted rows are mutually exclusive, but structural missingness is a data-availability state that coincides with the implicit correct non-malignant routing category; it must not be presented as an error.",
+    "status": "passed_with_denominator_clarification",
+    "structural_missingness_scope": "All Stage-2-not-invoked samples; under the stored union execution policy these are exactly 1,869 true non-malignant correctly not routed cases."
+  },
+  "sample_count": 3668,
+  "status": "passed"
+}

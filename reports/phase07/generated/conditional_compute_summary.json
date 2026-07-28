@@ -1,0 +1,15 @@
+{
+  "average_conditionally_active_parameter_pass_count": 5977528.86832061,
+  "average_forward_passes_per_input": 1.4904580152671756,
+  "combined_hierarchical_checkpoint_bytes": 97234738,
+  "combined_hierarchical_checkpoint_mib": 92.73027229309082,
+  "flat_forward_passes_per_input": 1.0,
+  "hierarchical_installed_parameter_count": 8021501,
+  "maximum_forward_passes": 2,
+  "minimum_forward_passes": 1,
+  "sample_count": 3668,
+  "stage2_bypass_rate": 0.5095419847328244,
+  "stage2_invocation_rate": 0.4904580152671756,
+  "stage2_invoked_count": 1799,
+  "stage2_not_invoked_count": 1869
+}

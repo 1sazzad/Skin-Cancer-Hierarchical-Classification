@@ -1,0 +1,230 @@
+phase: "07"
+gate: "prediction_pairing_audit"
+expected_sample_count: 3668
+class_order: [non_malignant, melanoma, bcc, scc]
+
+hierarchical:
+  predictions_path: runs/phase05_hierarchical_internal_test/locked_primary_evaluation/per_image_hierarchical_predictions.csv
+  sha256_manifest: runs/phase05_hierarchical_internal_test/locked_primary_evaluation_artifact_sha256.txt
+  identifier_column: image_id
+  target_label_column: final_target_label
+  target_index_column: final_target_index
+  predicted_label_column: predicted_gate_predicted_label
+  predicted_index_column: predicted_gate_predicted_index
+
+flat:
+  canonical_predictions_path: runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv
+  backup_archive: runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz
+  backup_archive_sha256: b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91
+  artifact_manifest_member: runs/phase06c/selected_flat_internal_test/control/artifact_sha256_manifest.txt
+  identifier_column: image_id
+  target_label_column: target_label
+  target_index_column: target_index
+  predicted_label_column: predicted_label
+  predicted_index_column: predicted_index
+
+output_directory: reports/phase07/generated
+
+statistical_protocol:
+  status: frozen_before_analysis
+  gate: phase07_gate02
+  analysis_executed: false
+  input:
+    paired_manifest_path: reports/phase07/generated/paired_prediction_manifest.csv
+    paired_manifest_sha256: d53e8581a95661de0446961b81458bc17295efe9c6a513c0225e442a281bf941
+    sample_count: 3668
+    identifier: image_id
+    unit: paired_internal_test_image
+    grouping_policy: do_not_infer_lesion_patient_or_duplicate_groups
+    locked_prediction_sha256:
+      hierarchical: 391557deb9a1aeb9b9f97edc9d3d38759e597d56b54bfdbab9ea7482451a221a
+      flat: 08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d
+    flat_archive_member_source:
+      archive_path: runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz
+      archive_sha256: b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91
+      member_path: runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv
+      member_sha256: 08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d
+      access_mode: verify_archive_then_read_unique_regular_member_or_temporary_extract_outside_locked_directories
+      reject_absolute_traversal_links_and_duplicates: true
+      temporary_extraction_cleanup_required: true
+      restore_to_locked_directory: false
+  classes:
+    labels: [non_malignant, melanoma, bcc, scc]
+    indices: [0, 1, 2, 3]
+    support:
+      non_malignant: 2398
+      melanoma: 678
+      bcc: 498
+      scc: 94
+  primary:
+    estimand: macro_f1_difference
+    direction: flat_minus_hierarchical
+    family_size: 1
+    multiplicity_correction: none
+  original_sample_point_estimates:
+    source: complete_original_paired_sample
+    model_metrics: [accuracy, balanced_accuracy, macro_f1, weighted_f1]
+    per_class_metrics: [precision, recall, f1]
+    paired_differences:
+      - accuracy
+      - balanced_accuracy
+      - macro_f1
+      - per_class_f1
+  bootstrap:
+    enabled_for_gate02: false
+    method: paired_stratified_with_replacement
+    pairing_unit: image_id
+    strata: ground_truth_class
+    preserve_support: true
+    replicate_count: 10000
+    seed: 42
+    confidence_level: 0.95
+    interval_method: percentile
+    lower_quantile: 0.025
+    upper_quantile: 0.975
+    quantile_method: linear
+    quantile_implementation: numpy_quantile_method_linear
+    quantile_formula: h_equals_n_minus_1_times_q_linear_interpolation
+    dtype: float64
+    pre_quantile_rounding: prohibited
+    replicate_weighting: equal
+    deprecated_interpolation_fallback: prohibited
+    zero_inclusion_bounds: unrounded_machine_readable
+    machine_readable_float_policy: json_finite_round_trip_and_csv_dot17g
+    fixed_labels: [0, 1, 2, 3]
+    zero_division: 0
+    silently_drop_replicates: false
+    non_finite_policy: fail_closed
+    rationale: conditions_on_observed_support_and_prevents_rare_scc_omission
+    authorized_model_metrics:
+      - accuracy
+      - balanced_accuracy
+      - macro_f1
+      - per_class_f1
+    authorized_paired_differences:
+      - accuracy
+      - balanced_accuracy
+      - macro_f1
+      - per_class_f1
+  primary_interval_interpretation:
+    excludes_zero: statistically_distinguishable_under_prespecified_paired_bootstrap
+    includes_zero: did_not_establish_statistically_distinguishable_difference
+    prohibited_terms: [equivalent, non_inferior, clinically_superior, clinically_significant]
+  mcnemar:
+    enabled_for_gate02: false
+    table:
+      - both_correct
+      - flat_correct_hierarchy_wrong
+      - flat_wrong_hierarchy_correct
+      - both_wrong
+    method: exact_binomial
+    alternative: two_sided
+    discordant_pairs_only: true
+    null_hypothesis: discordant_directions_equally_likely
+    alpha: 0.05
+    primary_asymptotic_result_allowed: false
+    continuity_corrected_sensitivity_requires_authorization: true
+  effect_measures:
+    primary: absolute_macro_f1_difference
+    secondary:
+      - absolute_accuracy_difference
+      - absolute_balanced_accuracy_difference
+      - absolute_per_class_f1_differences
+      - net_paired_correctness_advantage
+    net_advantage_denominator: 3668
+    discordant_odds_ratio: flat_only_correct_over_hierarchy_only_correct
+    zero_cell_policy: raw_zero_or_infinity
+    haldane_anscombe: sensitivity_only
+    odds_ratio_is_not_risk_ratio: true
+  multiplicity:
+    secondary_model_level: [accuracy_difference, balanced_accuracy_difference, mcnemar_exact]
+    per_class_f1_status: exploratory_secondary
+    raw_per_class_intervals: descriptive_only
+    independent_unadjusted_class_significance_claims: false
+    classwise_p_value_adjustment_if_added: holm_bonferroni
+    scc_uncertainty_required: true
+  descriptive_analyses:
+    prediction_agreement:
+      - both_correct
+      - both_wrong
+      - correct_only_flat
+      - correct_only_hierarchy
+      - exact_prediction_agreement
+      - prediction_disagreement
+      - ground_truth_stratified_correctness
+      - model_confusion_pairs
+      - flat_to_hierarchical_transition_table
+      - error_transitions_by_ground_truth
+    scc:
+      - true_scc_predictions_by_system
+      - recall
+      - f1
+      - confused_as_non_malignant
+      - confused_as_melanoma
+      - confused_as_bcc
+      - rescued_only_by_flat
+      - rescued_only_by_hierarchy
+    confirmatory_status: descriptive_not_independently_powered
+  routing_decomposition:
+    allowed_only_if_stored_fields_and_semantics_proven: true
+    allowed_categories:
+      - true_malignant_routed_non_malignant
+      - true_non_malignant_routed_stage2
+      - correct_malignant_route_wrong_subtype
+      - correct_route_correct_subtype
+      - structural_stage2_missing_not_invoked
+    infer_missing_states: false
+    checkpoint_reconstruction: false
+    fill_conditional_missing_values: false
+    unsupported_decomposition_policy: skip_and_document
+  claims:
+    permitted:
+      - observed_flat_macro_f1_higher
+      - paired_interval_excluded_or_included_zero
+      - exact_mcnemar_detected_or_did_not_detect_paired_correctness_difference
+      - scc_uncertain_support_94
+      - one_locked_isic2019_internal_test_split
+    prohibited:
+      - clinically_superior
+      - clinically_validated
+      - generalizes_to_all_populations
+      - statistically_equivalent_without_equivalence_test
+      - non_inferior_without_margin_and_design
+      - robust_across_datasets
+      - improves_diagnosis
+      - reduces_mortality
+      - ready_for_clinical_deployment
+      - unsupported_causal_or_clinical_claim
+  reproducibility:
+    record:
+      - python_version
+      - dependency_versions_numpy_pandas_scipy_sklearn
+      - input_paths_and_sha256
+      - paired_manifest_sha256
+      - seed
+      - replicate_count
+      - confidence_level
+      - interval_method
+      - class_order_and_mapping
+      - zero_division_policy
+      - statistical_test_implementation
+      - exact_command
+      - git_commit
+      - execution_timestamps
+      - machine_readable_results
+      - human_readable_report
+    deterministic_payload_timestamps_separate: true
+  future_execution_fail_closed:
+    - locked_prediction_hash_changed
+    - paired_manifest_hash_changed
+    - sample_count_not_3668
+    - missing_or_duplicate_image_id
+    - identifier_sets_differ
+    - ground_truth_differs
+    - unsupported_label
+    - class_support_changed
+    - non_finite_metric
+    - bootstrap_replicate_skipped
+    - seed_or_replicate_count_changed
+    - locked_artifact_write_attempt
+    - checkpoint_load_or_inference_attempt

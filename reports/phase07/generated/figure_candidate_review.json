@@ -1,0 +1,52 @@
+[
+  {
+    "candidate": "conditional hierarchical architecture diagram",
+    "evidence_source": "documented Stage 1/Stage 2 routing policy",
+    "misleading_risk": "low if conditional path is explicit",
+    "recommendation": "required",
+    "research_value": "high",
+    "space_cost": "moderate",
+    "table_duplication": "low",
+    "two_column_readability": "high with simplified labels"
+  },
+  {
+    "candidate": "normalized confusion-matrix comparison",
+    "evidence_source": "Gate 3 fixed confusion matrices",
+    "misleading_risk": "low with identical scales",
+    "recommendation": "required",
+    "research_value": "high",
+    "space_cost": "moderate",
+    "table_duplication": "moderate",
+    "two_column_readability": "high as paired panels"
+  },
+  {
+    "candidate": "per-class F1 with 95% intervals",
+    "evidence_source": "Gate 3 exploratory intervals",
+    "misleading_risk": "medium unless exploratory status and SCC support are visible",
+    "recommendation": "required",
+    "research_value": "high",
+    "space_cost": "moderate",
+    "table_duplication": "moderate",
+    "two_column_readability": "high"
+  },
+  {
+    "candidate": "paired disagreement visualization",
+    "evidence_source": "Gate 3 paired categories",
+    "misleading_risk": "low",
+    "recommendation": "optional",
+    "research_value": "moderate",
+    "space_cost": "low",
+    "table_duplication": "high",
+    "two_column_readability": "high"
+  },
+  {
+    "candidate": "routing decomposition flow",
+    "evidence_source": "Gate 4 routing dictionary",
+    "misleading_risk": "medium because structural missingness is not an error",
+    "recommendation": "omit",
+    "research_value": "moderate",
+    "space_cost": "high",
+    "table_duplication": "high",
+    "two_column_readability": "medium"
+  }
+]

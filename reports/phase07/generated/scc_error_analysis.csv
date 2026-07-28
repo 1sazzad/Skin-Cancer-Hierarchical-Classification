@@ -1,0 +1,4 @@
+model,support,true_positives,precision,recall,f1,predicted_non_malignant,predicted_melanoma,predicted_bcc,predicted_scc,correct_only_flat,correct_only_hierarchy,both_wrong,both_correct,prediction_agreement,prediction_disagreement
+flat,94,30,0.40540540540540543,0.31914893617021278,0.35714285714285715,9,12,43,30,,,,,,
+hierarchical,94,34,0.28333333333333333,0.36170212765957449,0.31775700934579437,12,15,33,34,,,,,,
+paired_categories,94,,,,,,,,,12,16,48,18,48,46

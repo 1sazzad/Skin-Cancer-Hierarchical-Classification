@@ -1,0 +1,297 @@
+{
+  "architecture": {
+    "flat_direct_path": true,
+    "nodes": [
+      "input",
+      "stage1",
+      "binary decision",
+      "non-malignant output",
+      "stage2",
+      "malignant subtype output",
+      "flat four-class model",
+      "flat four-class output"
+    ],
+    "stage1_runs_for_every_image": true,
+    "stage2_is_conditional": true
+  },
+  "class_order": [
+    "non-malignant",
+    "melanoma",
+    "BCC",
+    "SCC"
+  ],
+  "confusion": {
+    "flat_normalized": [
+      [
+        0.7472894078398665,
+        0.1701417848206839,
+        0.07089241034195162,
+        0.011676396997497914
+      ],
+      [
+        0.19911504424778761,
+        0.7536873156342183,
+        0.04424778761061947,
+        0.0029498525073746312
+      ],
+      [
+        0.05421686746987952,
+        0.13654618473895583,
+        0.7811244979919679,
+        0.028112449799196786
+      ],
+      [
+        0.09574468085106383,
+        0.1276595744680851,
+        0.4574468085106383,
+        0.3191489361702128
+      ]
+    ],
+    "flat_raw": [
+      [
+        1792,
+        408,
+        170,
+        28
+      ],
+      [
+        135,
+        511,
+        30,
+        2
+      ],
+      [
+        27,
+        68,
+        389,
+        14
+      ],
+      [
+        9,
+        12,
+        43,
+        30
+      ]
+    ],
+    "hierarchical_normalized": [
+      [
+        0.7793994995829858,
+        0.16055045871559634,
+        0.042118432026688905,
+        0.01793160967472894
+      ],
+      [
+        0.2610619469026549,
+        0.6828908554572272,
+        0.02654867256637168,
+        0.029498525073746312
+      ],
+      [
+        0.13253012048192772,
+        0.12048192771084337,
+        0.7008032128514057,
+        0.04618473895582329
+      ],
+      [
+        0.1276595744680851,
+        0.1595744680851064,
+        0.35106382978723405,
+        0.3617021276595745
+      ]
+    ],
+    "hierarchical_raw": [
+      [
+        1869,
+        385,
+        101,
+        43
+      ],
+      [
+        177,
+        463,
+        18,
+        20
+      ],
+      [
+        66,
+        60,
+        349,
+        23
+      ],
+      [
+        12,
+        15,
+        33,
+        34
+      ]
+    ],
+    "normalization": "row normalized",
+    "row_sum_check": true,
+    "row_sums_equal_one_tolerance": 1e-12
+  },
+  "generation_command": ".\\.venv\\Scripts\\python.exe scripts/generate_phase07_paper_figures.py --source reports/phase07/generated --figure-output reports/phase07/figures --audit-output reports/phase07/generated",
+  "optional_figure04": "omitted: duplicates the main paired-comparison evidence and is not essential within six pages",
+  "outputs": {
+    "reports/phase07/figures/figure01_architecture.pdf": {
+      "figure_inches": [
+        7.16,
+        3.6
+      ],
+      "format": "pdf",
+      "png_dpi": null,
+      "sha256": "2de502f4c50fb9a03525c358e75c059da8e055320cd3cd72a051521c16435767"
+    },
+    "reports/phase07/figures/figure01_architecture.png": {
+      "figure_inches": [
+        7.16,
+        3.6
+      ],
+      "format": "png",
+      "png_dpi": 600,
+      "sha256": "4618fd3c0582c20e8fedcc6632fa5aea833c2a444605ce3f3cfcb37b140e6d5b"
+    },
+    "reports/phase07/figures/figure01_architecture.svg": {
+      "figure_inches": [
+        7.16,
+        3.6
+      ],
+      "format": "svg",
+      "png_dpi": null,
+      "sha256": "3f69236a917591d7d730155d38dd61c3c6f1e5a9a57fc758dd394abc811af4f4"
+    },
+    "reports/phase07/figures/figure02_confusion_matrix_comparison.pdf": {
+      "figure_inches": [
+        7.16,
+        3.55
+      ],
+      "format": "pdf",
+      "png_dpi": null,
+      "sha256": "d23425e4d81410464f10192e6fd5451eacdbaedec561c8408bc5ccbd2e38b850"
+    },
+    "reports/phase07/figures/figure02_confusion_matrix_comparison.png": {
+      "figure_inches": [
+        7.16,
+        3.55
+      ],
+      "format": "png",
+      "png_dpi": 600,
+      "sha256": "92906475bf3fc0a3bc5c093406d33dfe191fe47d1cb1f1425d5ddbdd8f7179f8"
+    },
+    "reports/phase07/figures/figure02_confusion_matrix_comparison.svg": {
+      "figure_inches": [
+        7.16,
+        3.55
+      ],
+      "format": "svg",
+      "png_dpi": null,
+      "sha256": "e6be8b70ac8aeffb8fe9aa742f44ca6ae4cf651181dabdb9e23acfddef648389"
+    },
+    "reports/phase07/figures/figure03_per_class_f1.pdf": {
+      "figure_inches": [
+        7.16,
+        3.75
+      ],
+      "format": "pdf",
+      "png_dpi": null,
+      "sha256": "aa564bfaa304bfad6128befd22b99a0ddec640e8314f423d56ddd9a053167d8e"
+    },
+    "reports/phase07/figures/figure03_per_class_f1.png": {
+      "figure_inches": [
+        7.16,
+        3.75
+      ],
+      "format": "png",
+      "png_dpi": 600,
+      "sha256": "4b467b9ed2c356cd5a582f581349636242f9fb6a84230fe0cc3e1210180dea03"
+    },
+    "reports/phase07/figures/figure03_per_class_f1.svg": {
+      "figure_inches": [
+        7.16,
+        3.75
+      ],
+      "format": "svg",
+      "png_dpi": null,
+      "sha256": "538dac21906f4c5055660c23f08dba6c2a4da8190fc47ab1423565c3508a0656"
+    }
+  },
+  "per_class_f1": {
+    "exploratory": true,
+    "interval_type": "model-specific 95% paired-class-stratified bootstrap intervals",
+    "paired_difference_intervals_used": false,
+    "scc_support": 94,
+    "values": [
+      {
+        "class": "non_malignant",
+        "difference_ci_lower": -0.0166249343778553,
+        "difference_ci_upper": 0.0069724991290407,
+        "flat_ci_lower": 0.8098754037840331,
+        "flat_ci_upper": 0.833673724163621,
+        "flat_f1": 0.8218298555377207,
+        "flat_minus_hierarchical": -0.0047955314591833,
+        "hierarchical_ci_lower": 0.8153092274621709,
+        "hierarchical_ci_upper": 0.837951673686544,
+        "hierarchical_f1": 0.826625386996904,
+        "support": 2398
+      },
+      {
+        "class": "melanoma",
+        "difference_ci_lower": 0.0070322602542232,
+        "difference_ci_upper": 0.0554422100739961,
+        "flat_ci_lower": 0.5861456483126108,
+        "flat_ci_upper": 0.6322115384615384,
+        "flat_f1": 0.6094215861657722,
+        "flat_minus_hierarchical": 0.0310330789827616,
+        "hierarchical_ci_lower": 0.553537308514262,
+        "hierarchical_ci_upper": 0.6038454746504941,
+        "hierarchical_f1": 0.5783885071830106,
+        "support": 678
+      },
+      {
+        "class": "bcc",
+        "difference_ci_lower": -0.0387542786958874,
+        "difference_ci_upper": 0.0187573095267262,
+        "flat_ci_lower": 0.6608222861707403,
+        "flat_ci_upper": 0.7162878364447091,
+        "flat_f1": 0.6884955752212389,
+        "flat_minus_hierarchical": -0.0102031234774597,
+        "hierarchical_ci_lower": 0.6680497925311204,
+        "hierarchical_ci_upper": 0.7285432666453167,
+        "hierarchical_f1": 0.6986986986986987,
+        "support": 498
+      },
+      {
+        "class": "scc",
+        "difference_ci_lower": -0.0563790271475271,
+        "difference_ci_upper": 0.1343341002251614,
+        "flat_ci_lower": 0.2650602409638553,
+        "flat_ci_upper": 0.4484848484848484,
+        "flat_f1": 0.3571428571428571,
+        "flat_minus_hierarchical": 0.0393858477970627,
+        "hierarchical_ci_lower": 0.2407407407407407,
+        "hierarchical_ci_upper": 0.393016832754824,
+        "hierarchical_f1": 0.3177570093457943,
+        "support": 94
+      }
+    ]
+  },
+  "source_class_order": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "source_hashes": {
+    "reports/phase07/generated/bootstrap_confidence_intervals.csv": "07b7f1b058601396b09f3ccd2a61f914bb1fb5ce03723beeb0571a4674312e4b",
+    "reports/phase07/generated/claims_lock.json": "2e5ed06b151ec75b6a1caf84c5d2e14d1815c62d20435563e27ec412827d4f71",
+    "reports/phase07/generated/confusion_matrix_flat.csv": "2915097f9988637fbf4b89ab3274f447d3c8423a593cded8f55ee30edd73cd03",
+    "reports/phase07/generated/confusion_matrix_hierarchical.csv": "d2e8a6435178d4c12524558bf92d00c206e7d23b8febc70fe2d058e4f8a62bf4",
+    "reports/phase07/generated/efficiency_claims_lock.json": "7a5cdcdc957654da8bddf91d5c0e9752fd8031c1875038930e431617552adbd6",
+    "reports/phase07/generated/paper_table_per_class_f1.csv": "80037d253a916d0ef3777a3e519c69be12038b88cc3edfffa1cdd06a356b1c30"
+  },
+  "support": [
+    2398,
+    678,
+    498,
+    94
+  ]
+}
