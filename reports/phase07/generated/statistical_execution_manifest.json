@@ -1,0 +1,23 @@
+{
+  "archive_path": "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz",
+  "archive_sha256": "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91",
+  "environment": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "python": "3.11.9",
+    "scikit_learn": "1.9.0",
+    "scipy": "1.17.1"
+  },
+  "hierarchical_path": "runs/phase05_hierarchical_internal_test/locked_primary_evaluation/per_image_hierarchical_predictions.csv",
+  "hierarchical_sha256": "391557deb9a1aeb9b9f97edc9d3d38759e597d56b54bfdbab9ea7482451a221a",
+  "implementation_commit": "8100745a8ae74bd57c09e958fda2b8714e244442",
+  "member_path": "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv",
+  "member_sha256": "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d",
+  "paired_manifest_path": "reports/phase07/generated/paired_prediction_manifest.csv",
+  "paired_manifest_sha256": "d53e8581a95661de0446961b81458bc17295efe9c6a513c0225e442a281bf941",
+  "protocol_path": "reports/phase07/generated/statistical_protocol_lock.json",
+  "protocol_sha256": "efaace517733ae7c91d2284bb4a7ca55fa7f8052790f75ebb146256ba7d8a73f",
+  "quantile_method": "linear",
+  "replicate_count": 10000,
+  "seed": 42
+}
