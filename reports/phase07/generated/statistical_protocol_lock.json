@@ -14,6 +14,8 @@
       "per_class_f1"
     ],
     "confidence_level": 0.95,
+    "deprecated_interpolation_fallback": "prohibited",
+    "dtype": "float64",
     "enabled_for_gate02": false,
     "fixed_labels": [
       0,
@@ -23,17 +25,24 @@
     ],
     "interval_method": "percentile",
     "lower_quantile": 0.025,
+    "machine_readable_float_policy": "json_finite_round_trip_and_csv_dot17g",
     "method": "paired_stratified_with_replacement",
     "non_finite_policy": "fail_closed",
     "pairing_unit": "image_id",
+    "pre_quantile_rounding": "prohibited",
     "preserve_support": true,
+    "quantile_formula": "h_equals_n_minus_1_times_q_linear_interpolation",
+    "quantile_implementation": "numpy_quantile_method_linear",
+    "quantile_method": "linear",
     "rationale": "conditions_on_observed_support_and_prevents_rare_scc_omission",
     "replicate_count": 10000,
+    "replicate_weighting": "equal",
     "seed": 42,
     "silently_drop_replicates": false,
     "strata": "ground_truth_class",
     "upper_quantile": 0.975,
-    "zero_division": 0
+    "zero_division": 0,
+    "zero_inclusion_bounds": "unrounded_machine_readable"
   },
   "claims": {
     "permitted": [
@@ -132,6 +141,16 @@
   ],
   "gate": "phase07_gate02",
   "input": {
+    "flat_archive_member_source": {
+      "access_mode": "verify_archive_then_read_unique_regular_member_or_temporary_extract_outside_locked_directories",
+      "archive_path": "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz",
+      "archive_sha256": "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91",
+      "member_path": "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv",
+      "member_sha256": "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d",
+      "reject_absolute_traversal_links_and_duplicates": true,
+      "restore_to_locked_directory": false,
+      "temporary_extraction_cleanup_required": true
+    },
     "grouping_policy": "do_not_infer_lesion_patient_or_duplicate_groups",
     "identifier": "image_id",
     "locked_prediction_sha256": {

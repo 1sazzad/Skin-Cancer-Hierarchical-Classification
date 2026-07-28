@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 import yaml
 
@@ -21,6 +22,15 @@ _EXPECTED_SUPPORT = {
     "bcc": 498,
     "scc": 94,
 }
+_FLAT_ARCHIVE_PATH = (
+    "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz"
+)
+_FLAT_ARCHIVE_SHA256 = "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91"
+_FLAT_MEMBER_PATH = (
+    "runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/"
+    "internal_test_predictions.csv"
+)
+_FLAT_MEMBER_SHA256 = "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d"
 _TOP_LEVEL_KEYS = {
     "status",
     "gate",
@@ -114,6 +124,23 @@ def _require(condition: bool, message: str) -> None:
         raise StatisticalProtocolError(message)
 
 
+def frozen_linear_quantile(values: Sequence[float], probability: float) -> float:
+    """Apply the independently frozen NumPy ``method='linear'`` semantics."""
+    _require(len(values) > 0, "Quantile input cannot be empty.")
+    _require(0.0 <= probability <= 1.0, "Quantile probability must be in [0, 1].")
+    ordered = sorted(float(value) for value in values)
+    _require(
+        all(math.isfinite(value) for value in ordered),
+        "Quantile values must be finite.",
+    )
+    h = (len(ordered) - 1) * probability
+    j = math.floor(h)
+    gamma = h - j
+    if j == len(ordered) - 1:
+        return ordered[j]
+    return (1.0 - gamma) * ordered[j] + gamma * ordered[j + 1]
+
+
 def validate_protocol(protocol: Mapping[str, Any]) -> dict[str, Any]:
     """Validate and return the frozen protocol as a plain dictionary."""
     _require_exact_keys(protocol, _TOP_LEVEL_KEYS, "statistical_protocol")
@@ -138,6 +165,7 @@ def validate_protocol(protocol: Mapping[str, Any]) -> dict[str, Any]:
             "unit",
             "grouping_policy",
             "locked_prediction_sha256",
+            "flat_archive_member_source",
         },
         "input",
     )
@@ -163,6 +191,51 @@ def validate_protocol(protocol: Mapping[str, Any]) -> dict[str, Any]:
         hashes["flat"]
         == "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d",
         "Flat prediction hash differs from Gate 1.",
+    )
+    archive = input_spec["flat_archive_member_source"]
+    _require_exact_keys(
+        archive,
+        {
+            "archive_path",
+            "archive_sha256",
+            "member_path",
+            "member_sha256",
+            "access_mode",
+            "reject_absolute_traversal_links_and_duplicates",
+            "temporary_extraction_cleanup_required",
+            "restore_to_locked_directory",
+        },
+        "flat_archive_member_source",
+    )
+    _require(archive["archive_path"] == _FLAT_ARCHIVE_PATH, "Flat archive path changed.")
+    _require(
+        archive["archive_sha256"] == _FLAT_ARCHIVE_SHA256,
+        "Flat archive hash changed.",
+    )
+    _require(
+        archive["member_path"] == _FLAT_MEMBER_PATH,
+        "Flat archive member path changed.",
+    )
+    _require(
+        archive["member_sha256"] == _FLAT_MEMBER_SHA256,
+        "Flat archive member hash changed.",
+    )
+    _require(
+        archive["access_mode"]
+        == "verify_archive_then_read_unique_regular_member_or_temporary_extract_outside_locked_directories",
+        "Flat archive access mode is not sufficiently restricted.",
+    )
+    _require(
+        archive["reject_absolute_traversal_links_and_duplicates"] is True,
+        "Unsafe or ambiguous archive members must be rejected.",
+    )
+    _require(
+        archive["temporary_extraction_cleanup_required"] is True,
+        "Temporary archive extraction must be removed.",
+    )
+    _require(
+        archive["restore_to_locked_directory"] is False,
+        "Archive member must not be restored to a locked directory.",
     )
 
     classes = protocol["classes"]
@@ -198,6 +271,15 @@ def validate_protocol(protocol: Mapping[str, Any]) -> dict[str, Any]:
             "interval_method",
             "lower_quantile",
             "upper_quantile",
+            "quantile_method",
+            "quantile_implementation",
+            "quantile_formula",
+            "dtype",
+            "pre_quantile_rounding",
+            "replicate_weighting",
+            "deprecated_interpolation_fallback",
+            "zero_inclusion_bounds",
+            "machine_readable_float_policy",
             "fixed_labels",
             "zero_division",
             "silently_drop_replicates",
@@ -221,6 +303,34 @@ def validate_protocol(protocol: Mapping[str, Any]) -> dict[str, Any]:
         bootstrap["lower_quantile"] == 0.025
         and bootstrap["upper_quantile"] == 0.975,
         "Percentile bounds must be 0.025 and 0.975.",
+    )
+    _require(bootstrap["quantile_method"] == "linear", "Quantile method must be linear.")
+    _require(
+        bootstrap["quantile_implementation"] == "numpy_quantile_method_linear",
+        "Quantile implementation identifier must require NumPy method='linear'.",
+    )
+    _require(
+        bootstrap["quantile_formula"] == "h_equals_n_minus_1_times_q_linear_interpolation",
+        "Frozen linear quantile formula changed.",
+    )
+    _require(bootstrap["dtype"] == "float64", "Quantile dtype must be float64.")
+    _require(
+        bootstrap["pre_quantile_rounding"] == "prohibited",
+        "Pre-quantile rounding must be prohibited.",
+    )
+    _require(bootstrap["replicate_weighting"] == "equal", "Replicate weights must be equal.")
+    _require(
+        bootstrap["deprecated_interpolation_fallback"] == "prohibited",
+        "Deprecated interpolation fallback must be prohibited.",
+    )
+    _require(
+        bootstrap["zero_inclusion_bounds"] == "unrounded_machine_readable",
+        "Zero inclusion must use unrounded machine-readable bounds.",
+    )
+    _require(
+        bootstrap["machine_readable_float_policy"]
+        == "json_finite_round_trip_and_csv_dot17g",
+        "Machine-readable float serialization policy changed.",
     )
     _require(bootstrap["fixed_labels"] == [0, 1, 2, 3], "Bootstrap labels changed.")
     _require(bootstrap["zero_division"] == 0, "zero_division must be 0.")

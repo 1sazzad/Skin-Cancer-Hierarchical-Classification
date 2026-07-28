@@ -45,3 +45,7 @@ produce a p-value.
 
 The paired manifest and all locked artifacts remain unchanged. Gate 3 may
 begin only after this protocol freeze is reviewed and committed.
+
+This Gate 2 record is historical. Gate 2A subsequently clarifies the exact
+percentile quantile algorithm and Phase 06C archive-member provenance without
+changing any estimand or statistical design; Gate 3 must use the amended lock.

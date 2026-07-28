@@ -4,10 +4,12 @@ import copy
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from src.analysis.statistical_protocol import (
     StatisticalProtocolError,
+    frozen_linear_quantile,
     load_and_validate_protocol,
     validate_protocol,
 )
@@ -39,6 +41,11 @@ def test_bootstrap_design_is_frozen_but_not_executed() -> None:
     assert bootstrap["interval_method"] == "percentile"
     assert bootstrap["lower_quantile"] == 0.025
     assert bootstrap["upper_quantile"] == 0.975
+    assert bootstrap["quantile_method"] == "linear"
+    assert bootstrap["dtype"] == "float64"
+    assert bootstrap["pre_quantile_rounding"] == "prohibited"
+    assert bootstrap["deprecated_interpolation_fallback"] == "prohibited"
+    assert bootstrap["zero_inclusion_bounds"] == "unrounded_machine_readable"
 
 
 def test_classes_support_and_metric_policy_are_frozen() -> None:
@@ -86,12 +93,51 @@ def test_locked_hashes_match_gate01() -> None:
     assert hashes["flat"] == "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d"
 
 
+def test_flat_archive_member_provenance_is_frozen() -> None:
+    source = _protocol()["input"]["flat_archive_member_source"]
+    assert source["archive_sha256"] == "b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91"
+    assert source["member_sha256"] == "08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d"
+    assert source["reject_absolute_traversal_links_and_duplicates"] is True
+    assert source["restore_to_locked_directory"] is False
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        [-2.0, 0.0, 7.0],
+        [-5.0, -1.0, 2.0, 9.0],
+        [1.0, 1.0, 1.0, 4.0, 4.0],
+        np.linspace(-3.0, 8.0, 10000, dtype=np.float64).tolist(),
+    ],
+)
+@pytest.mark.parametrize("probability", [0.0, 0.025, 0.5, 0.975, 1.0])
+def test_manual_linear_quantile_matches_numpy(
+    values: list[float], probability: float
+) -> None:
+    expected = np.quantile(
+        np.asarray(values, dtype=np.float64), probability, method="linear"
+    )
+    assert frozen_linear_quantile(values, probability) == pytest.approx(
+        float(expected), rel=0.0, abs=4e-15
+    )
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), float("-inf")])
+def test_manual_quantile_rejects_non_finite_values(value: float) -> None:
+    with pytest.raises(StatisticalProtocolError, match="finite"):
+        frozen_linear_quantile([0.0, value], 0.5)
+
+
 @pytest.mark.parametrize(
     ("section", "field", "value", "message"),
     [
         ("bootstrap", "seed", 7, "seed must be 42"),
         ("bootstrap", "replicate_count", 9999, "must be 10000"),
         ("bootstrap", "method", "ordinary", "method changed"),
+        ("bootstrap", "quantile_method", "nearest", "must be linear"),
+        ("bootstrap", "dtype", "float32", "must be float64"),
+        ("bootstrap", "pre_quantile_rounding", "allowed", "must be prohibited"),
+        ("bootstrap", "deprecated_interpolation_fallback", "allowed", "must be prohibited"),
         ("mcnemar", "method", "chi_square", "exact binomial"),
         ("primary", "direction", "hierarchical_minus_flat", "Primary estimand"),
     ],
@@ -115,6 +161,27 @@ def test_unknown_protocol_field_fails() -> None:
 def test_unknown_nested_protocol_field_fails() -> None:
     protocol = copy.deepcopy(_protocol())
     protocol["mcnemar"]["outcome_dependent_choice"] = True
+    with pytest.raises(StatisticalProtocolError, match="unknown"):
+        validate_protocol(protocol)
+
+
+def test_missing_quantile_method_fails() -> None:
+    protocol = copy.deepcopy(_protocol())
+    del protocol["bootstrap"]["quantile_method"]
+    with pytest.raises(StatisticalProtocolError, match="missing"):
+        validate_protocol(protocol)
+
+
+def test_incorrect_archive_member_configuration_fails() -> None:
+    protocol = copy.deepcopy(_protocol())
+    protocol["input"]["flat_archive_member_source"]["member_path"] = "other.csv"
+    with pytest.raises(StatisticalProtocolError, match="member path"):
+        validate_protocol(protocol)
+
+
+def test_unknown_archive_nested_field_fails() -> None:
+    protocol = copy.deepcopy(_protocol())
+    protocol["input"]["flat_archive_member_source"]["unsafe_default"] = True
     with pytest.raises(StatisticalProtocolError, match="unknown"):
         validate_protocol(protocol)
 

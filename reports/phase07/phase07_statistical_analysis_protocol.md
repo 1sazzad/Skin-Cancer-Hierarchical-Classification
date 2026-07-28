@@ -15,6 +15,18 @@ and
 `08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d`.
 Internal-test inference cannot be rerun and checkpoints cannot be loaded.
 
+When the direct Phase 06C CSV is absent, its authoritative source is the
+archive `runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz`
+(SHA-256 `b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91`).
+The sole permitted member is
+`runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv`,
+whose uncompressed bytes must hash to
+`08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d`.
+Execution must first verify the archive, then reject absolute, traversal,
+linked, or duplicate members. It may read the unique regular member directly
+or temporarily extract it outside locked directories and remove it afterward;
+it must never restore the file into the locked Phase 06C run directory.
+
 The independent unit is one paired internal-test image identified by
 `image_id`. No lesion, patient, or duplicate-group structure may be inferred.
 All comparisons remain paired at image level. The fixed class mapping is
@@ -41,7 +53,21 @@ class, preserving supports 2,398, 678, 498, and 94. The same sampled
 `image_id` indices are applied to both models.
 
 Intervals are two-sided 95% percentile intervals using quantiles 0.025 and
-0.975. Metrics must use explicit labels `[0, 1, 2, 3]` and `zero_division=0`.
+0.975. Quantiles use IEEE-754 `float64` values and the explicit call
+`numpy.quantile(values, [0.025, 0.975], method="linear")`. For sorted values
+`x[0]` through `x[n-1]`, set `h=(n-1)q`, `j=floor(h)`, and
+`gamma=h-j`; the quantile is `(1-gamma)x[j] + gamma*x[j+1]`, or `x[n-1]`
+when `j=n-1`. All 10,000 finite, equally weighted values are used without
+rounding. NaN and infinity fail closed.
+
+The runtime NumPy must support the `method` argument and pass an independent
+mathematical conformance test. The deprecated `interpolation` argument and an
+unspecified default are prohibited; the exact NumPy version is recorded.
+Machine-readable JSON uses finite round-trip-safe numbers and CSV uses the
+fixed `.17g` float format. Human-readable rounding is presentation-only, and
+zero inclusion is decided from unrounded machine-readable bounds.
+
+Metrics must use explicit labels `[0, 1, 2, 3]` and `zero_division=0`.
 No replicate may be dropped. A non-finite replicate metric is a fail-closed
 error. Stratification conditions uncertainty estimation on observed class
 support and prevents replicates from omitting the rare SCC class.

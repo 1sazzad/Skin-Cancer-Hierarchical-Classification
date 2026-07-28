@@ -39,6 +39,15 @@ statistical_protocol:
     locked_prediction_sha256:
       hierarchical: 391557deb9a1aeb9b9f97edc9d3d38759e597d56b54bfdbab9ea7482451a221a
       flat: 08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d
+    flat_archive_member_source:
+      archive_path: runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz
+      archive_sha256: b76762b53a35a8d9b0aa96621d78ea0e4421aa6e8052d068ffc10648a4e63e91
+      member_path: runs/phase06c/selected_flat_internal_test/locked_primary_evaluation/internal_test_predictions.csv
+      member_sha256: 08b3462549210ed7f2330a687c37a6de4e013e00185fadc3167aa980995e497d
+      access_mode: verify_archive_then_read_unique_regular_member_or_temporary_extract_outside_locked_directories
+      reject_absolute_traversal_links_and_duplicates: true
+      temporary_extraction_cleanup_required: true
+      restore_to_locked_directory: false
   classes:
     labels: [non_malignant, melanoma, bcc, scc]
     indices: [0, 1, 2, 3]
@@ -73,6 +82,15 @@ statistical_protocol:
     interval_method: percentile
     lower_quantile: 0.025
     upper_quantile: 0.975
+    quantile_method: linear
+    quantile_implementation: numpy_quantile_method_linear
+    quantile_formula: h_equals_n_minus_1_times_q_linear_interpolation
+    dtype: float64
+    pre_quantile_rounding: prohibited
+    replicate_weighting: equal
+    deprecated_interpolation_fallback: prohibited
+    zero_inclusion_bounds: unrounded_machine_readable
+    machine_readable_float_policy: json_finite_round_trip_and_csv_dot17g
     fixed_labels: [0, 1, 2, 3]
     zero_division: 0
     silently_drop_replicates: false
