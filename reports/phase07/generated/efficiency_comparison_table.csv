@@ -1,0 +1,11 @@
+measure,flat_system,hierarchical_system,unit,evidence_grade,comparability,source_or_note
+component models,1,2,models,B,direct architecture accounting,selected flat checkpoint versus Stage 1 + Stage 2
+installed parameter count,4012672,8021501,parameter elements,C,static state-dictionary audit,excludes standard BatchNorm buffers
+average conditionally active parameter-pass count,4012672,5977528.86832061,parameter-passes/input,B/C,workload proxy only,"not FLOPs, latency or memory"
+stored checkpoint size,48640921,97234738,bytes,C,system storage comparison,checkpoints contain training state
+forward passes per image,1,1 to 2; mean 1.4904580152671756,model passes/input,B,architecture accounting,does not establish latency
+Stage 2 invocation rate,not applicable,0.4904580152671756,fraction,B,hierarchical only,1799 / 3668
+stored measured throughput,119.56259877956239,92.0512050383382,samples/second,A,comparable with limitations; no ratio,"Tesla T4, batch 64, AMP; no explicit warm-up/synchronization"
+stored mean evaluator-loop time,8.363819540621565,10.863518838058798,ms/sample,B,comparable with limitations; no ratio,derived from exact elapsed time
+peak memory,unavailable,unavailable,unavailable,U,evidence unavailable,not estimated from checkpoint size
+FLOPs/MACs,unavailable,unavailable,unavailable,U,evidence unavailable,no profiling or proven static calculation
