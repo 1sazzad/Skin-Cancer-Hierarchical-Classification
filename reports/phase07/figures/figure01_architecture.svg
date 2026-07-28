@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="510.4287pt" height="256.32pt" viewBox="0 0 510.4287 256.32" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Phase 07 deterministic figure generator</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 256.32
+L 510.4287 256.32
+L 510.4287 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 17.120574 151.1424
+L 84.084448 151.1424
+Q 85.076506 151.1424 85.076506 150.336
+L 85.076506 120.096
+Q 85.076506 119.2896 84.084448 119.2896
+L 17.120574 119.2896
+Q 16.128517 119.2896 16.128517 120.096
+L 16.128517 150.336
+Q 16.128517 151.1424 17.120574 151.1424
+z
+" clip-path="url(#pfae73b1757)" style="fill: #f2f2f2; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 111.366027 74.5344
+L 188.250475 74.5344
+Q 189.242533 74.5344 189.242533 73.728
+L 189.242533 43.488
+Q 189.242533 42.6816 188.250475 42.6816
+L 111.366027 42.6816
+Q 110.37397 42.6816 110.37397 43.488
+L 110.37397 73.728
+Q 110.37397 74.5344 111.366027 74.5344
+z
+" clip-path="url(#pfae73b1757)" style="fill: #d9e6f2; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 215.532054 74.5344
+L 282.495928 74.5344
+Q 283.487986 74.5344 283.487986 73.728
+L 283.487986 43.488
+Q 283.487986 42.6816 282.495928 42.6816
+L 215.532054 42.6816
+Q 214.539997 42.6816 214.539997 43.488
+L 214.539997 73.728
+Q 214.539997 74.5344 215.532054 74.5344
+z
+" clip-path="url(#pfae73b1757)" style="fill: #f2f2f2; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 312.25765 54.3744
+L 389.142099 54.3744
+Q 390.134156 54.3744 390.134156 53.568
+L 390.134156 25.344
+Q 390.134156 24.5376 389.142099 24.5376
+L 312.25765 24.5376
+Q 311.265593 24.5376 311.265593 25.344
+L 311.265593 53.568
+Q 311.265593 54.3744 312.25765 54.3744
+z
+" clip-path="url(#pfae73b1757)" style="fill: #e8e8e8; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 312.25765 108.8064
+L 389.142099 108.8064
+Q 390.134156 108.8064 390.134156 108
+L 390.134156 77.76
+Q 390.134156 76.9536 389.142099 76.9536
+L 312.25765 76.9536
+Q 311.265593 76.9536 311.265593 77.76
+L 311.265593 108
+Q 311.265593 108.8064 312.25765 108.8064
+z
+" clip-path="url(#pfae73b1757)" style="fill: #d9e6f2; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 413.943534 108.8064
+L 490.827982 108.8064
+Q 491.82004 108.8064 491.82004 108
+L 491.82004 77.76
+Q 491.82004 76.9536 490.827982 76.9536
+L 413.943534 76.9536
+Q 412.951477 76.9536 412.951477 77.76
+L 412.951477 108
+Q 412.951477 108.8064 413.943534 108.8064
+z
+" clip-path="url(#pfae73b1757)" style="fill: #e8e8e8; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 111.366027 219.6864
+L 213.05191 219.6864
+Q 214.043968 219.6864 214.043968 218.88
+L 214.043968 188.64
+Q 214.043968 187.8336 213.05191 187.8336
+L 111.366027 187.8336
+Q 110.37397 187.8336 110.37397 188.64
+L 110.37397 218.88
+Q 110.37397 219.6864 111.366027 219.6864
+z
+" clip-path="url(#pfae73b1757)" style="fill: #eadfca; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 255.21435 219.6864
+L 376.741381 219.6864
+Q 377.733439 219.6864 377.733439 218.88
+L 377.733439 188.64
+Q 377.733439 187.8336 376.741381 187.8336
+L 255.21435 187.8336
+Q 254.222293 187.8336 254.222293 188.64
+L 254.222293 218.88
+Q 254.222293 219.6864 255.21435 219.6864
+z
+" clip-path="url(#pfae73b1757)" style="fill: #e8e8e8; stroke: #202020; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 84.798792 128.307336
+Q 97.724861 94.493786 110.251709 61.724565
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 106.955262 64.746722
+L 110.251709 61.724565
+L 110.691566 66.175017
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 190.251968 58.8096
+Q 201.890621 58.8096 212.41124 58.8096
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 208.41124 56.8096
+L 212.41124 58.8096
+L 208.41124 60.8096
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 284.301541 52.71184
+Q 297.37696 46.511919 309.442158 40.791011
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 304.970997 40.69764
+L 309.442158 40.791011
+L 306.684765 44.311918
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 283.974569 67.006146
+Q 297.375543 79.170069 309.948662 90.582556
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 308.331045 86.413225
+L 309.948662 90.582556
+L 305.642628 89.375051
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 391.143289 92.6784
+Q 401.542839 92.6784 410.824355 92.6784
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 406.824355 90.6784
+L 410.824355 92.6784
+L 406.824355 94.6784
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 84.892039 144.098139
+Q 97.724264 173.114599 110.104296 201.108551
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 110.315597 196.64141
+L 110.104296 201.108551
+L 106.657364 198.259225
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 215.051435 203.9616
+Q 234.135193 203.9616 252.100917 203.9616
+" clip-path="url(#pfae73b1757)" style="fill: none; stroke: #202020; stroke-linecap: round"/>
+    <path d="M 248.100917 201.9616
+L 252.100917 203.9616
+L 248.100917 205.9616
+z
+" clip-path="url(#pfae73b1757)" style="fill: #202020; stroke: #202020; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(13.474386 132.944375)">Input dermoscopic</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(38.143136 141.902625)">image</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle" x="195.690906" y="23.328" transform="rotate(-0 195.690906 23.328)">Conditional hierarchical system</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(134.432626 56.336375)">Stage 1</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(119.868876 65.294625)">EfficientNet-B0</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle" x="249.013991" y="60.8155" transform="rotate(-0 249.013991 60.8155)">Binary decision</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(321.5405 37.184375)">non-malignant</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(330.633 46.142625)">prediction</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(335.32425 90.608375)">Stage 2</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(320.7605 99.566625)">EfficientNet-B0</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(416.366383 90.608375)">melanoma / BCC /</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(422.922008 99.566625)">SCC prediction</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle" x="149.560237" y="38.6496" transform="rotate(-0 149.560237 38.6496)">runs for every image</text>
+   </g>
+   <g id="text_9">
+    <text style="font-style: italic; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle" x="350.45186" y="74.1312" transform="rotate(-0 350.45186 74.1312)">conditional</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle" x="290.928416" y="34.6176" transform="rotate(-0 290.928416 34.6176)">non-malignant</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle" x="290.928416" y="86.6304" transform="rotate(-0 290.928416 86.6304)">malignant</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: middle" x="195.690906" y="168.48" transform="rotate(-0 195.690906 168.48)">Flat comparison system</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(142.308969 201.488375)">Four-class</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(132.269594 210.446625)">EfficientNet-B0</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(259.059741 201.488375)">non-malignant / melanoma /</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'" transform="translate(274.363491 210.446625)">BCC / SCC prediction</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle" x="161.960954" y="226.944" transform="rotate(-0 161.960954 226.944)">one direct decision path</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pfae73b1757">
+   <rect x="7.2" y="7.2" width="496.0287" height="241.92"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1611,3 +1611,46 @@ local archive are locked. The fair locked comparison records flat macro-F1
 `0.6192224685` versus hierarchical macro-F1
 `0.6053674006`.
 
+---
+
+## D-021 - Close Phase 07 ICCIT Evidence Package
+
+**Date:** 2026-07-28
+**Status:** Accepted as local closure candidate
+**Phase:** Phase 07
+**Owner:** Research lead
+
+### Decision
+
+Accept the paired stored-prediction analysis, independent evidence review,
+claims lock, efficiency audit, paper tables, and three required figures as the
+Phase 07 ICCIT closure candidate. The flat-minus-hierarchical macro-F1
+difference was `0.0138550680` with paired 95% CI
+`[-0.0142546488, 0.0419633760]`; the interval included zero. Exact McNemar
+testing did not detect a paired-correctness difference (`p=0.8207415883`).
+
+The permitted conclusion is that the analysis did not establish a
+statistically distinguishable macro-F1 difference on the locked split.
+Equivalence, non-inferiority, clinical superiority, deployment, causal, and
+external-generalization claims remain prohibited.
+
+### Evidence and controls
+
+- Paired samples: `3668`; SCC support: `94`.
+- Bootstrap: paired, class-stratified, `10000` replicates, seed `42`.
+- Quantile: explicit NumPy `method="linear"`, frozen before execution.
+- Claims and routing denominators independently reviewed.
+- Efficiency timing classified comparable with limitations; no speed ratio.
+- Required figures: architecture, normalized confusion matrices, exploratory
+  per-class F1 intervals.
+- Gate 3, Gate 4, Gate 5A, locked predictions, and bootstrap replicates
+  unchanged.
+- Phase 05 and Phase 06C internal-test protocols remain consumed; no rerun,
+  candidate switching, threshold tuning, or post-test model development is
+  permitted.
+
+### Final outcome
+
+Phase 07 is complete as a local closure candidate. Push and merge require
+explicit independent human review and approval.
+
