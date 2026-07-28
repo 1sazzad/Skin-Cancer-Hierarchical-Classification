@@ -1,0 +1,4 @@
+metric,flat_minus_hierarchical,ci_lower,ci_upper,interval_includes_zero,analysis_status
+Accuracy,0.0019083969465648,-0.0119956379498363,0.015812431842966199,True,secondary
+Balanced accuracy,0.0191136155212678,-0.010863551762141,0.049639489722146303,True,secondary
+Macro-F1,0.0138550679607953,-0.0142546488335178,0.0419633760131791,True,primary

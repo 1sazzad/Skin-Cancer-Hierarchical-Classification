@@ -1,0 +1,6 @@
+metric_name,value,denominator,percentage,definition
+true_malignant_routed_non_malignant,255,1270,20.078740157480315,True malignant with Stage 1 predicted non-malignant
+correct_malignant_route_wrong_subtype,169,1015,16.650246305418719,"True malignant, Stage 1 malignant, final subtype incorrect"
+correct_route_correct_subtype,846,1015,83.349753694581281,"True malignant, Stage 1 malignant, final subtype correct"
+true_non_malignant_routed_stage2,529,2398,22.060050041701416,True non-malignant with Stage 1 predicted malignant
+structural_stage2_missing_not_invoked,1869,3668,50.954198473282439,"Stage 2 not invoked among all 3,668 samples; under union execution policy exactly 1,869 of 2,398 true non-malignant cases correctly not routed"

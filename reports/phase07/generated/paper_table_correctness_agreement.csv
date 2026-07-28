@@ -1,0 +1,9 @@
+measure,value,denominator
+both_correct,2368,3668
+flat_only_correct,354,3668
+hierarchy_only_correct,347,3668
+both_wrong,599,3668
+exact_prediction_agreement,2859,3668
+prediction_disagreement,809,3668
+exact_mcnemar_p_value,0.82074158826914845,701
+raw_discordant_odds_ratio,1.0201729106628241,701
