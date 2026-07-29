@@ -1654,3 +1654,89 @@ external-generalization claims remain prohibited.
 Phase 07 is complete as a local closure candidate. Push and merge require
 explicit independent human review and approval.
 
+---
+
+## D-022 - Continue Under the Full Original Three-Stage Scope
+
+**Date:** 2026-07-29
+**Status:** Accepted
+**Phase:** Phase 08
+**Owner:** Research lead
+
+### Context
+
+The original charter and scope lock specify three stages, partially labelled
+multi-dataset learning, a lightweight shared or parameter-efficient framework,
+separate-model and flat comparisons, external evaluation, XAI, and complete
+efficiency analysis. Phases 05–07 provide locked evidence for a two-stage
+conditional comparator and its flat comparison, but do not complete those
+remaining objectives.
+
+### Options Considered
+
+1. Option A — continue toward the full original three-stage scope.
+2. Reduce the research claim to the completed two-stage internal study.
+
+### Decision
+
+Select Option A. The study will continue toward a three-stage system:
+malignancy screening, malignant-subtype classification, and a scientifically
+defensible melanoma T-category or Breslow-thickness-group task.
+
+The current Phase 05–07 two-stage system remains a locked comparator. Stage 3,
+an approved external evaluation, preregistered XAI, and comparison against
+separate task-specific models remain required. No new experiment may start
+before its applicable protocol is frozen. Stage 3 shared-model training may
+not begin until the EMB audit and standalone feasibility gate pass.
+
+Stage 3 semantics remain unresolved pending authoritative EMB documentation
+and metadata audit. T-category and Breslow-thickness groups are not
+automatically interchangeable; no class boundary is invented here. The final
+target may be categorical, ordinal, or another justified formulation. A fully
+shared encoder is not guaranteed before feasibility evidence. HIBA is only a
+candidate external dataset until compatibility, licence, modality, labels,
+identifiers, and support are audited. XAI cannot prove clinical correctness,
+and its examples require predefined selection rules. External evaluation
+cannot prove universal clinical generalisation. Negative, null, and
+non-significant results must be reported.
+
+### Supporting Evidence
+
+- `docs/00_project_charter.md`
+- `docs/01_scope_lock.md`
+- `reports/phase08/phase08_scope_deviation_and_evidence_audit.md`
+- `reports/phase08/phase08_remaining_experiment_plan.md`
+- `reports/phase08/phase08_protocol_freeze.md`
+- `reports/phase08/generated/phase08_objective_evidence_matrix.csv`
+
+### Risks and Trade-offs
+
+- Additional local governance work and later Azure Tesla T4 computation are
+  required.
+- EMB may fail its licensing, label-semantics, support, or leakage-control gate.
+- A shared model may underperform separate models; no superiority is assumed.
+- External performance or XAI may be unfavourable and must still be reported.
+
+### Impact on Existing Experiments
+
+Phase 05 hierarchical inference, Phase 06C flat inference, the rejected Phase
+06B focal candidate, and all Phase 07 analysis remain locked and unchanged.
+They must not be rerun or repurposed for model selection.
+
+### Additional Time or Compute
+
+Phase 08 requires no GPU. Later accepted protocols will require Azure Tesla T4
+training, frozen inference, XAI generation, and matched efficiency profiling.
+No Azure execution is authorized by this decision alone.
+
+### Review Trigger
+
+Review at the Phase 09 Stage 3 feasibility gate and before every later first
+training or inference access.
+
+### Final Outcome
+
+Full original scope is retained. Completed and future evidence will remain
+explicitly separated, and manuscript claims will follow the evidence rather
+than the proposal wording.
+
