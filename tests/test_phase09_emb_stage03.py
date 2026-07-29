@@ -1,16 +1,22 @@
 from __future__ import annotations
 
+import argparse
+import hashlib
+import io
 from pathlib import Path
 
 import pandas as pd
 import pytest
 import torch
+from PIL import Image
 
 from scripts.build_emb_stage03_split import build_split
 from scripts.acquire_isic_stage03_vm import (
+    download_one,
     fetch_json,
     inventory_row,
     load_jsonl,
+    run_download,
 )
 from src.data.emb_stage03 import (
     EMBStage03Dataset,
@@ -181,6 +187,132 @@ def test_api_fetch_uses_mocked_response_only() -> None:
     assert calls == [
         "https://api.isic-archive.com/api/v2/images/ISIC_0000001/:5.0"
     ]
+
+
+def jpeg_bytes() -> bytes:
+    buffer = io.BytesIO()
+    Image.new("RGB", (8, 8), color=(20, 40, 60)).save(buffer, format="JPEG")
+    return buffer.getvalue()
+
+
+class DownloadResponse(io.BytesIO):
+    def __enter__(self) -> "DownloadResponse":
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        self.close()
+
+
+@pytest.mark.parametrize("size_delta", [0, 7])
+def test_download_one_accepts_verified_image_size_change(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, size_delta: int
+) -> None:
+    content = jpeg_bytes()
+    row = {
+        "image_id": "ISIC_TEST",
+        "full_image_url": "https://example.invalid/image.jpg",
+        "expected_file_size": str(len(content) + size_delta),
+    }
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen",
+        lambda request, timeout: DownloadResponse(content),
+    )
+
+    path, digest, status = download_one(row, tmp_path, timeout=1.0, retries=0)
+
+    assert Path(path).read_bytes() == content
+    assert digest == hashlib.sha256(content).hexdigest()
+    assert status == ("downloaded" if size_delta == 0 else "downloaded_size_mismatch")
+    assert not (tmp_path / "ISIC_TEST.jpg.part").exists()
+
+
+def test_download_one_rejects_corrupt_image(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    content = b"not an image"
+    row = {
+        "image_id": "ISIC_CORRUPT",
+        "full_image_url": "https://example.invalid/image.jpg",
+        "expected_file_size": str(len(content) + 1),
+    }
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen",
+        lambda request, timeout: DownloadResponse(content),
+    )
+
+    with pytest.raises(OSError):
+        download_one(row, tmp_path, timeout=1.0, retries=0)
+
+    assert not (tmp_path / "ISIC_CORRUPT.jpg").exists()
+    assert not (tmp_path / "ISIC_CORRUPT.jpg.part").exists()
+
+
+def test_download_one_reports_existing_valid_size_change(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    content = jpeg_bytes()
+    final = tmp_path / "ISIC_EXISTING.jpg"
+    final.write_bytes(content)
+    row = {
+        "image_id": "ISIC_EXISTING",
+        "full_image_url": "https://example.invalid/image.jpg",
+        "expected_file_size": str(len(content) - 1),
+    }
+
+    def fail_network(*args: object, **kwargs: object) -> None:
+        raise AssertionError("valid existing image attempted a network call")
+
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen", fail_network
+    )
+
+    path, digest, status = download_one(row, tmp_path, timeout=1.0, retries=0)
+
+    assert Path(path) == final
+    assert digest == hashlib.sha256(content).hexdigest()
+    assert status == "existing_valid_size_mismatch"
+
+
+@pytest.mark.parametrize(
+    "status", ["downloaded_size_mismatch", "existing_valid_size_mismatch"]
+)
+def test_download_resume_accepts_size_mismatch_status_without_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    status: str,
+) -> None:
+    image_dir = tmp_path / "data/raw/emb/images/isic"
+    image_dir.mkdir(parents=True)
+    image_path = image_dir / "ISIC_RESUME.jpg"
+    image_path.write_bytes(jpeg_bytes())
+    inventory = tmp_path / "data/raw/emb/isic_stage03_official_inventory.csv"
+    pd.DataFrame(
+        [
+            {
+                "image_id": "ISIC_RESUME",
+                "full_image_url": "https://example.invalid/image.jpg",
+                "expected_file_size": "1",
+                "eligible": "true",
+                "image_path": image_path.relative_to(tmp_path).as_posix(),
+                "file_sha256": "existing",
+                "download_status": status,
+            }
+        ]
+    ).to_csv(inventory, index=False)
+
+    def fail_network(*args: object, **kwargs: object) -> None:
+        raise AssertionError("resume attempted a network call")
+
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen", fail_network
+    )
+    args = argparse.Namespace(
+        project_root=tmp_path, resume=True, workers=1, timeout=1.0, retries=0
+    )
+
+    assert run_download(args) == 0
+    result = pd.read_csv(inventory, dtype=str, keep_default_na=False).iloc[0]
+    assert result["download_status"] == status
 
 
 def test_split_is_deterministic_stratified_dermoscopic_and_disjoint() -> None:

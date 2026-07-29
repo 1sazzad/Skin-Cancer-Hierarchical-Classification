@@ -348,6 +348,22 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def verify_image(path: Path) -> None:
+    with Image.open(path) as image:
+        image.verify()
+
+
+def sanitized_exception_message(exc: Exception, limit: int = 200) -> str:
+    message = " ".join(str(exc).split())
+    message = re.sub(r"(https?://[^\s?]+)\?[^\s]+", r"\1?[redacted]", message)
+    message = re.sub(
+        r"(?i)\b(token|api[_-]?key|authorization|password|secret)=([^&\s]+)",
+        r"\1=[redacted]",
+        message,
+    )
+    return (message or "no details")[:limit]
+
+
 def download_one(row: dict[str, Any], destination: Path, timeout: float, retries: int) -> tuple[str, str, str]:
     image_id = str(row["image_id"])
     suffix = Path(urlparse(str(row["full_image_url"])).path).suffix.lower()
@@ -355,25 +371,35 @@ def download_one(row: dict[str, Any], destination: Path, timeout: float, retries
         suffix = ".jpg"
     final = destination / f"{image_id}{suffix}"
     expected = int(float(row["expected_file_size"])) if str(row["expected_file_size"]).strip() else None
-    if final.is_file() and (expected is None or final.stat().st_size == expected):
+    if final.is_file():
         try:
-            with Image.open(final) as image:
-                image.verify()
-            return str(final), file_sha256(final), "existing_valid"
+            verify_image(final)
+            actual = final.stat().st_size
+            status = (
+                "existing_valid_size_mismatch"
+                if expected is not None and actual != expected
+                else "existing_valid"
+            )
+            return str(final), file_sha256(final), status
         except (UnidentifiedImageError, OSError):
             pass
     part = final.with_suffix(final.suffix + ".part")
+    if part.exists():
+        part.unlink()
     request = urllib.request.Request(str(row["full_image_url"]), headers={"User-Agent": USER_AGENT})
     for attempt in range(retries + 1):
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response, part.open("wb") as handle:
                 shutil.copyfileobj(response, handle)
-            if expected is not None and part.stat().st_size != expected:
-                raise OSError("downloaded byte size mismatch")
-            with Image.open(part) as image:
-                image.verify()
+            actual = part.stat().st_size
+            verify_image(part)
             os.replace(part, final)
-            return str(final), file_sha256(final), "downloaded"
+            status = (
+                "downloaded_size_mismatch"
+                if expected is not None and actual != expected
+                else "downloaded"
+            )
+            return str(final), file_sha256(final), status
         except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError):
             if part.exists():
                 part.unlink()
@@ -394,10 +420,16 @@ def run_download(args: argparse.Namespace) -> int:
     destination.mkdir(parents=True, exist_ok=True)
     pending: list[dict[str, Any]] = []
     for row in eligible:
-        if args.resume and row["download_status"] in {"downloaded", "existing_valid"}:
+        if args.resume and str(row["download_status"]).startswith(
+            ("downloaded", "existing_valid")
+        ):
             path = root / row["image_path"] if row["image_path"] else Path()
             if path.is_file():
-                continue
+                try:
+                    verify_image(path)
+                    continue
+                except (UnidentifiedImageError, OSError):
+                    pass
         pending.append(row)
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
@@ -418,10 +450,20 @@ def run_download(args: argparse.Namespace) -> int:
                 row["file_sha256"] = digest
                 row["download_status"] = status
             except Exception as exc:
-                row["download_status"] = f"failed:{type(exc).__name__}"
+                row["download_status"] = (
+                    f"failed:{type(exc).__name__}: {sanitized_exception_message(exc)}"
+                )
             atomic_write_inventory(inventory, rows)
     failures = [row["image_id"] for row in eligible if str(row["download_status"]).startswith("failed")]
-    print(f"Eligible downloads: {len(eligible)}; failures: {len(failures)}")
+    mismatches = [
+        row["image_id"]
+        for row in eligible
+        if str(row["download_status"]).endswith("size_mismatch")
+    ]
+    print(
+        f"Eligible downloads: {len(eligible)}; failures: {len(failures)}; "
+        f"size mismatches: {len(mismatches)}"
+    )
     return 1 if failures else 0
 
 
