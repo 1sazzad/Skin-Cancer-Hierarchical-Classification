@@ -192,7 +192,7 @@ def evaluate_frozen_internal_test(
     model_config = _mapping(config, "model")
 
     task = str(data.get("task"))
-    if task not in {"stage_1", "stage_2", "flat_four_class"}:
+    if task not in {"stage_1", "stage_2", "flat_four_class", "emb_stage03"}:
         raise ValueError(
             "Checkpoint task must be stage_1, stage_2, or flat_four_class."
         )

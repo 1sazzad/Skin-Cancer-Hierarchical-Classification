@@ -11,6 +11,7 @@ from PIL import Image
 from torch.utils.data import DataLoader
 
 from src.data.isic2019_dataset import ISIC2019HierarchicalDataset, TaskName
+from src.data.emb_stage03 import EMBStage03Dataset
 from src.data.transforms import build_eval_transform, build_train_transform
 from src.utils.reproducibility import make_generator, seed_worker
 
@@ -39,7 +40,7 @@ class DataLoaderConfig:
 
 
 def _make_loader(
-    dataset: ISIC2019HierarchicalDataset,
+    dataset: ISIC2019HierarchicalDataset | EMBStage03Dataset,
     *,
     split: str,
     config: DataLoaderConfig,
@@ -77,32 +78,45 @@ def build_stage_dataloaders(
     train_transform = train_transform or build_train_transform()
     eval_transform = eval_transform or build_eval_transform()
 
-    datasets = {
-        "train": ISIC2019HierarchicalDataset(
-            manifest_path,
-            project_root,
-            "train",
-            stage,
-            train_transform,
-            verify_image_paths=verify_image_paths,
-        ),
-        "validation": ISIC2019HierarchicalDataset(
-            manifest_path,
-            project_root,
-            "validation",
-            stage,
-            eval_transform,
-            verify_image_paths=verify_image_paths,
-        ),
-        "internal_test": ISIC2019HierarchicalDataset(
-            manifest_path,
-            project_root,
-            "internal_test",
-            stage,
-            eval_transform,
-            verify_image_paths=verify_image_paths,
-        ),
-    }
+    if stage == "emb_stage03":
+        datasets = {
+            split: EMBStage03Dataset(
+                manifest_path,
+                project_root,
+                split,
+                train_transform if split == "train" else eval_transform,
+                verify_image_paths=verify_image_paths,
+            )
+            for split in ("train", "validation", "test")
+        }
+        datasets["internal_test"] = datasets.pop("test")
+    else:
+        datasets = {
+            "train": ISIC2019HierarchicalDataset(
+                manifest_path,
+                project_root,
+                "train",
+                stage,
+                train_transform,
+                verify_image_paths=verify_image_paths,
+            ),
+            "validation": ISIC2019HierarchicalDataset(
+                manifest_path,
+                project_root,
+                "validation",
+                stage,
+                eval_transform,
+                verify_image_paths=verify_image_paths,
+            ),
+            "internal_test": ISIC2019HierarchicalDataset(
+                manifest_path,
+                project_root,
+                "internal_test",
+                stage,
+                eval_transform,
+                verify_image_paths=verify_image_paths,
+            ),
+        }
 
     return {
         split: _make_loader(dataset, split=split, config=loader_config)

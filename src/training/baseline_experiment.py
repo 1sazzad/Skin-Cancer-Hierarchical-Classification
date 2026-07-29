@@ -74,9 +74,9 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         raise ValueError("full_training_allowed must be true for a runnable config.")
 
     task = data.get("task")
-    if task not in {"stage_1", "stage_2", "flat_four_class"}:
+    if task not in {"stage_1", "stage_2", "flat_four_class", "emb_stage03"}:
         raise ValueError(
-            "data.task must be stage_1, stage_2, or flat_four_class."
+            "data.task must be stage_1, stage_2, flat_four_class, or emb_stage03."
         )
 
     if model.get("architecture") != "efficientnet_b0":
@@ -108,6 +108,14 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
                 "flat_four_class requires exact class order "
                 "[non_malignant, melanoma, bcc, scc]."
             )
+    if task == "emb_stage03":
+        expected_mapping = {"Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4}
+        if class_to_index != expected_mapping:
+            raise ValueError("emb_stage03 requires exact class order [Tis, T1, T2, T3, T4].")
+        if data.get("label_source") != "stage_ajcc":
+            raise ValueError("emb_stage03 requires data.label_source='stage_ajcc'.")
+        if data.get("modality") != "dermoscopic":
+            raise ValueError("emb_stage03 primary training must be dermoscopic only.")
         if data.get("label_source") != "diagnosis_canonical":
             raise ValueError(
                 "flat_four_class requires data.label_source='diagnosis_canonical'."
@@ -258,6 +266,10 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
 
     if epochs <= 0:
         raise ValueError("training.epochs must be positive.")
+    if task == "emb_stage03" and epochs > 30:
+        raise ValueError("emb_stage03 is capped at 30 epochs.")
+    if task == "emb_stage03" and int(experiment.get("seed", -1)) != 42:
+        raise ValueError("emb_stage03 requires seed 42.")
     if patience <= 0:
         raise ValueError("training.early_stopping_patience must be positive.")
 
