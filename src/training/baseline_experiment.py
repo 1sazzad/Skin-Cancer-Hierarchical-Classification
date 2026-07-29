@@ -108,14 +108,6 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
                 "flat_four_class requires exact class order "
                 "[non_malignant, melanoma, bcc, scc]."
             )
-    if task == "emb_stage03":
-        expected_mapping = {"Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4}
-        if class_to_index != expected_mapping:
-            raise ValueError("emb_stage03 requires exact class order [Tis, T1, T2, T3, T4].")
-        if data.get("label_source") != "stage_ajcc":
-            raise ValueError("emb_stage03 requires data.label_source='stage_ajcc'.")
-        if data.get("modality") != "dermoscopic":
-            raise ValueError("emb_stage03 primary training must be dermoscopic only.")
         if data.get("label_source") != "diagnosis_canonical":
             raise ValueError(
                 "flat_four_class requires data.label_source='diagnosis_canonical'."
@@ -123,6 +115,19 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         if data.get("label_mapping_strategy") != "phase06_flat_four_class_v1":
             raise ValueError(
                 "flat_four_class requires the phase06_flat_four_class_v1 mapping."
+            )
+
+    if task == "emb_stage03":
+        expected_mapping = {"Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4}
+        if class_to_index != expected_mapping:
+            raise ValueError(
+                "emb_stage03 requires exact class order [Tis, T1, T2, T3, T4]."
+            )
+        if data.get("label_source") != "stage_ajcc":
+            raise ValueError("emb_stage03 requires data.label_source='stage_ajcc'.")
+        if data.get("modality") != "dermoscopic":
+            raise ValueError(
+                "emb_stage03 primary training must be dermoscopic only."
             )
 
     loss_name = training.get("loss")
