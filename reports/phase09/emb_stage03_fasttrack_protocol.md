@@ -1,60 +1,69 @@
-# EMB Stage-3 Fast-Track Protocol
+# ISIC-Derived Melanoma T-Category Fast-Track Protocol
 
-## Scope and dataset identity
+## Emergency ICCIT scope
 
-This emergency ICCIT experiment is a standalone five-class melanoma severity
-classifier, not the future shared three-task model. The dataset is the Early
-Stage Melanoma benchmark (EMB), acquired only from the official
-`https://github.com/Oichii/EMB.git` repository and the image sources named by
-its README. The exact source commit is recorded at acquisition.
+This is a standalone five-class melanoma severity experiment, not the future
+shared three-task model. The paper-facing dataset name is **ISIC-derived
+melanoma T-category subset**.
 
-## Labels and modality
+## Source and licensing decision
 
-The official `stage_ajcc` field is authoritative: `0 -> Tis`, `1 -> T1`,
-`2 -> T2`, `3 -> T3`, and `4 -> T4`. Thickness is never used to manufacture a
-label; it is only checked for reporting consistency. Primary training includes
-dermoscopic images only. Clinical photographs are excluded to align with the
-existing dermoscopic project models.
+The EMB repository at commit `3ec674f43e73cb08682b99b7fb996aca5f8040d8`
+exposed no identifiable licence. Full EMB/Atlas acquisition was therefore
+rejected and Dermoscopy Atlas is excluded. The EMB CSV is used only as an index
+of candidate public ISIC identifiers. Its `stage_ajcc` value is retained solely
+for agreement auditing and is never an authoritative training label.
 
-## VM-only acquisition and audit gate
+Every candidate identifier is independently revalidated through the official
+ISIC Archive API. Official API responses supply public status, full image URL,
+per-image licence, attribution, modality, diagnosis, diagnosis-confirmation
+method, Breslow thickness, ulceration, patient ID, and lesion ID. Unknown,
+missing, or unsupported licences are excluded. Accepted licences are CC-0,
+CC0, CC-BY, and CC-BY-NC; the exact per-image value and attribution are
+retained.
 
-EMB repository/data acquisition, metadata and image audit, duplicate/overlap
-audit, real split generation, sanity training, full training, inference, and
-evaluation occur only on the Azure Tesla T4 VM. Raw files live under
-`data/raw/emb/`, the source clone under ignored `data/external/`, and neither
-images nor archives are committed. Absence of identifiable usage/licence terms
-is an immediate NO-GO until written authorization is recorded.
+## Candidate and eligibility gates
 
-The audit records row and identifier counts, stage/modality/source counts,
-missing and corrupt images, SHA-256 duplicate groups and label conflicts, ISIC
-2019 identifier/hash overlap, thickness consistency, grouping fields, and a
-GO/NO-GO verdict. Any missing/unreadable image or conflicting duplicate label
-blocks splitting.
+Only EMB-index rows with `source=ISIC`, `type=dermoscopic`, and a syntactically
+valid ISIC identifier become candidates. Eligibility requires a successful
+matching API response, public visibility, official dermoscopic modality,
+histopathology confirmation, supported licence, recorded attribution, a full
+image URL, and an independently derivable T-category.
 
-## Split protocol
+Metadata access, downloads, audit, split generation, training, inference, and
+evaluation are Azure GPU VM-only. Raw API responses, inventories, and images
+remain ignored under `data/raw/emb/`.
 
-The seed-42 primary split is dermoscopic-only, 70% train, 15% validation, and
-15% untouched test, stratified by T-category. A valid complete patient
-identifier is preferred, then a valid complete lesion identifier. Identifiers
-are never invented. If neither exists, the limitation is recorded and exact
-hash groups remain together. Image IDs, groups, and hashes may not cross
-splits. All five classes must remain in train and, where mathematically
-possible, validation/test. Optional inverse-frequency weights are computed
-from the training partition only.
+## Official labels
 
-## Model and selection
+The authoritative fields are `derived_stage_ajcc` and `t_category`. Official
+`diagnosis_3` containing “melanoma in situ” maps to `0/Tis`. Official invasive
+melanoma requires positive numeric `mel_thick_mm`: `(0,1] -> 1/T1`,
+`(1,2] -> 2/T2`, `(2,4] -> 3/T3`, and `>4 -> 4/T4`. Melanoma NOS,
+non-melanoma, missing/invalid thickness, and contradictory metadata are
+rejected. Ulceration is retained for reporting but does not alter these broad
+categories. T3 and especially T4 support is expected to be small.
 
-EfficientNet-B0 uses ImageNet initialization, five logits in fixed
-`[Tis, T1, T2, T3, T4]` order, cross entropy, AdamW, seed 42, CUDA mixed
-precision, at most 30 epochs, and early stopping. The best checkpoint is chosen
-only by validation macro-F1. The existing runner writes resolved configuration,
-environment, history, checkpoints, and validation metrics. The frozen test
-split is accessed once, only after model selection, by the existing evaluator,
-which writes predictions and metrics.
+## Audit and overlap policy
 
-## Limitations
+The metadata audit records operational results, exclusions, licences,
+attributions, official modality/diagnosis/T-category distributions, grouping
+coverage, and original-versus-official disagreement. It reports ISIC 2019 ID
+overlap overall and by official T-category. No overlap is removed yet; the
+overlap policy remains pending review of the VM metadata audit. Image audit
+later adds readability, SHA-256 duplicates/conflicts, and ISIC 2019 hash
+overlap.
 
-EMB licensing/usage permission must be established before image acquisition.
-Grouping independence depends on identifiers actually supplied by official
-metadata. Source/modality column naming is validated during the VM audit.
-Thickness consistency checks cannot replace the official stage field.
+## Split and model protocol
+
+After the overlap decision, the seed-42 dermoscopic split is 70% train, 15%
+validation, and 15% untouched test, stratified by official T-category. Complete
+patient IDs are preferred, otherwise complete lesion IDs, otherwise exact
+hash/image groups with a recorded limitation. Patient, lesion, and identical
+hash components cannot cross partitions. Optional class weights derive from
+training only.
+
+EfficientNet-B0 uses ImageNet initialization, five logits ordered
+`[Tis, T1, T2, T3, T4]`, cross entropy, AdamW, CUDA mixed precision, at most
+30 epochs, early stopping, and seed 42. Validation macro-F1 alone selects the
+checkpoint. The frozen test split is used only after selection.

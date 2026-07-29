@@ -1,4 +1,4 @@
-"""EMB melanoma T-category labels, manifests, and dataset support."""
+"""ISIC-derived melanoma T-category labels, manifests, and dataset support."""
 
 from __future__ import annotations
 
@@ -18,18 +18,72 @@ EMB_STAGE03_CLASS_TO_INDEX: Mapping[str, int] = MappingProxyType(
 
 
 def map_stage_ajcc(value: object) -> str:
-    """Map the official EMB numeric stage field without thickness inference."""
+    """Map a derived broad numeric T-category to its label."""
 
     if value is None or pd.isna(value) or str(value).strip() == "":
-        raise ValueError("Missing official stage_ajcc value.")
+        raise ValueError("Missing derived_stage_ajcc value.")
     raw = str(value).strip()
     try:
         numeric = float(raw)
     except ValueError as exc:
-        raise ValueError(f"Invalid stage_ajcc value: {value!r}.") from exc
+        raise ValueError(f"Invalid derived_stage_ajcc value: {value!r}.") from exc
     if not numeric.is_integer() or int(numeric) not in range(5):
-        raise ValueError(f"Invalid stage_ajcc value: {value!r}; expected 0-4.")
+        raise ValueError(
+            f"Invalid derived_stage_ajcc value: {value!r}; expected 0-4."
+        )
     return ("Tis", "T1", "T2", "T3", "T4")[int(numeric)]
+
+
+def derive_t_category_from_isic_metadata(
+    diagnosis_3: object,
+    mel_thick_mm: object,
+) -> tuple[int, str]:
+    """Derive broad AJCC8 T-category from official ISIC diagnosis/thickness."""
+
+    if diagnosis_3 is None or pd.isna(diagnosis_3):
+        raise ValueError("Missing official ISIC diagnosis_3.")
+    diagnosis = " ".join(str(diagnosis_3).strip().lower().replace("_", " ").split())
+    if not diagnosis:
+        raise ValueError("Missing official ISIC diagnosis_3.")
+    contains_in_situ = "melanoma in situ" in diagnosis
+    contains_invasive = (
+        "melanoma invasive" in diagnosis or "invasive melanoma" in diagnosis
+    )
+    if contains_in_situ and contains_invasive:
+        raise ValueError("Contradictory melanoma in-situ and invasive metadata.")
+    if contains_in_situ:
+        if mel_thick_mm is not None and not pd.isna(mel_thick_mm):
+            raw = str(mel_thick_mm).strip()
+            if raw:
+                try:
+                    if float(raw) > 0:
+                        raise ValueError(
+                            "Contradictory in-situ melanoma with positive thickness."
+                        )
+                except ValueError as exc:
+                    if "Contradictory" in str(exc):
+                        raise
+                    raise ValueError("Invalid in-situ melanoma thickness.") from exc
+        return 0, "Tis"
+    if not contains_invasive:
+        if "melanoma" in diagnosis:
+            raise ValueError("Melanoma NOS cannot produce an official T-category.")
+        raise ValueError("Official diagnosis is not invasive or in-situ melanoma.")
+    if mel_thick_mm is None or pd.isna(mel_thick_mm) or str(mel_thick_mm).strip() == "":
+        raise ValueError("Invasive melanoma requires Breslow thickness.")
+    try:
+        thickness = float(str(mel_thick_mm).strip())
+    except ValueError as exc:
+        raise ValueError("Invasive melanoma thickness must be numeric.") from exc
+    if not 0 < thickness < float("inf"):
+        raise ValueError("Invasive melanoma thickness must be finite and positive.")
+    if thickness <= 1.0:
+        return 1, "T1"
+    if thickness <= 2.0:
+        return 2, "T2"
+    if thickness <= 4.0:
+        return 3, "T3"
+    return 4, "T4"
 
 
 def inverse_frequency_class_weights(
@@ -46,7 +100,7 @@ def inverse_frequency_class_weights(
 
 
 class EMBStage03Dataset(Dataset[dict[str, Any]]):
-    """Load one split from the VM-generated EMB dermoscopic manifest."""
+    """Load one split from the VM-generated ISIC Stage-3 manifest."""
 
     def __init__(
         self,
@@ -66,23 +120,25 @@ class EMBStage03Dataset(Dataset[dict[str, Any]]):
             raise ValueError("EMB split must be train, validation, or test.")
         frame = pd.read_csv(self.manifest_path, dtype=str, keep_default_na=False)
         required = {
-            "dataset", "image_id", "image_path", "stage_ajcc", "t_category",
+            "dataset", "image_id", "image_path", "derived_stage_ajcc", "t_category",
             "modality", "split", "split_group_id", "file_sha256",
         }
         missing = sorted(required - set(frame))
         if missing:
-            raise ValueError(f"EMB split manifest is missing columns: {missing}")
-        if set(frame["dataset"].str.strip()) != {"emb"}:
-            raise ValueError("EMB manifest must contain only dataset='emb'.")
+            raise ValueError(f"ISIC Stage-3 manifest is missing columns: {missing}")
+        if set(frame["dataset"].str.strip()) != {"isic_stage03"}:
+            raise ValueError(
+                "Stage-3 manifest must contain only dataset='isic_stage03'."
+            )
         selected = frame.loc[
             (frame["split"] == self.split)
             & (frame["modality"].str.strip().str.lower() == "dermoscopic")
         ].copy()
         if selected.empty:
-            raise ValueError(f"No dermoscopic EMB rows for split={self.split!r}.")
-        mapped = selected["stage_ajcc"].map(map_stage_ajcc)
+            raise ValueError(f"No dermoscopic ISIC Stage-3 rows for split={self.split!r}.")
+        mapped = selected["derived_stage_ajcc"].map(map_stage_ajcc)
         if not mapped.equals(selected["t_category"].str.strip()):
-            raise ValueError("t_category disagrees with official stage_ajcc.")
+            raise ValueError("t_category disagrees with derived_stage_ajcc.")
         if selected["image_id"].duplicated().any():
             raise ValueError("Duplicate image_id in selected EMB split.")
         selected["_target"] = mapped.map(EMB_STAGE03_CLASS_TO_INDEX).astype("int64")

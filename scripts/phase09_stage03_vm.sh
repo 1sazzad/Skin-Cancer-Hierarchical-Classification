@@ -18,12 +18,20 @@ case "${1:-help}" in
   acquire)
     PROJECT_ROOT="$ROOT" bash scripts/acquire_emb_vm.sh
     ;;
+  isic-metadata)
+    python scripts/acquire_isic_stage03_vm.py --project-root "$ROOT" \
+      --metadata-only --workers 4 --resume
+    ;;
+  isic-download)
+    python scripts/acquire_isic_stage03_vm.py --project-root "$ROOT" \
+      --download-images --workers 4 --resume
+    ;;
   audit)
     python scripts/audit_emb_stage03.py --project-root "$ROOT"
     ;;
   split)
     python scripts/build_emb_stage03_split.py --project-root "$ROOT" \
-      --input reports/dataset_audits/emb_stage03_available_images.csv
+      --input data/raw/emb/isic_stage03_official_inventory.csv
     ;;
   sanity)
     python scripts/train_isic2019_baseline.py --config "$CONFIG" \
@@ -47,5 +55,5 @@ case "${1:-help}" in
       "$RUN_DIR/history.csv" "$RUN_DIR/history.json" "$RUN_DIR/run_summary.json" \
       "$RUN_DIR/best_validation_metrics.json" "$RUN_DIR/best_checkpoint.pt"
     ;;
-  *) echo "usage: $0 {update|verify|acquire|audit|split|sanity|train|evaluate|backup}";;
+  *) echo "usage: $0 {update|verify|acquire|isic-metadata|isic-download|audit|split|sanity|train|evaluate|backup}";;
 esac

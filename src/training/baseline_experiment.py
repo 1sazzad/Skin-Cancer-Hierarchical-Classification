@@ -123,8 +123,16 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             raise ValueError(
                 "emb_stage03 requires exact class order [Tis, T1, T2, T3, T4]."
             )
-        if data.get("label_source") != "stage_ajcc":
-            raise ValueError("emb_stage03 requires data.label_source='stage_ajcc'.")
+        if data.get("dataset") != "isic_stage03":
+            raise ValueError("emb_stage03 requires data.dataset='isic_stage03'.")
+        if data.get("label_source") != "official_isic_metadata":
+            raise ValueError(
+                "emb_stage03 requires data.label_source='official_isic_metadata'."
+            )
+        if data.get("label_mapping_strategy") != (
+            "official_isic_diagnosis_and_breslow_ajcc8_broad_t_category"
+        ):
+            raise ValueError("emb_stage03 requires official ISIC label derivation.")
         if data.get("modality") != "dermoscopic":
             raise ValueError(
                 "emb_stage03 primary training must be dermoscopic only."

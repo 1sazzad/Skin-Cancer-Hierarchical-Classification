@@ -1,18 +1,18 @@
 experiment:
   status: ready_for_training
   research_stage: stage03
-  run_name: stage03_emb_dermoscopic_efficientnet_b0_cross_entropy_seed42
-  dataset: emb
+  run_name: stage03_isic_derived_dermoscopic_efficientnet_b0_cross_entropy_seed42
+  dataset: isic_stage03
   model: efficientnet_b0
   variant: cross_entropy
   seed: 42
 
 data:
-  dataset: emb
+  dataset: isic_stage03
   split_manifest: data/manifests/emb_stage03_dermoscopic_split_seed42.csv
   task: emb_stage03
-  label_source: stage_ajcc
-  label_mapping_strategy: official_emb_stage_ajcc_v1
+  label_source: official_isic_metadata
+  label_mapping_strategy: official_isic_diagnosis_and_breslow_ajcc8_broad_t_category
   modality: dermoscopic
   class_to_index:
     Tis: 0

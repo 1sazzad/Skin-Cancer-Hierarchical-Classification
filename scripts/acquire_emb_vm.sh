@@ -6,7 +6,6 @@ PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 SOURCE_DIR="$PROJECT_ROOT/data/external/emb_official"
 RAW_DIR="$PROJECT_ROOT/data/raw/emb"
 EVIDENCE_DIR="$RAW_DIR/source_evidence"
-APPROVAL_FILE="$RAW_DIR/USAGE_TERMS_APPROVED.txt"
 REPO_URL="https://github.com/Oichii/EMB.git"
 
 if [[ "$(uname -s)" != "Linux" ]] || ! command -v nvidia-smi >/dev/null 2>&1; then
@@ -26,25 +25,17 @@ find "$SOURCE_DIR" -maxdepth 2 -type f \
   \( -iname 'LICENSE*' -o -iname 'LICENCE*' -o -iname 'COPYING*' \) \
   -print | tee "$EVIDENCE_DIR/licence_files.txt"
 
-if [[ ! -s "$EVIDENCE_DIR/licence_files.txt" && ! -s "$APPROVAL_FILE" ]]; then
+if [[ ! -s "$EVIDENCE_DIR/licence_files.txt" ]]; then
   cat >&2 <<EOF
-NO-GO: the official EMB repository does not provide an identifiable licence.
-Establish dataset/image usage permission with the owners and underlying ISIC/Atlas
-sources. Record the approval, scope, date, and approver in:
-  $APPROVAL_FILE
-Then rerun this script. Do not download images until this gate is satisfied.
+PROVENANCE FINDING: the official EMB repository does not provide an identifiable
+licence. This command records source evidence only. It does not authorize or
+download EMB or Dermoscopy Atlas images. Use the independent official ISIC API
+workflow for per-image metadata, licence validation, and downloads.
 EOF
-  exit 21
+  exit 0
 fi
 
 cat <<EOF
-GO FOR VM-ONLY ACQUISITION.
-Follow the official README exactly:
-  1. Export ISIC images from https://gallery.isic-archive.com/ with every
-     Melanoma Thickness (mm) option and Melanoma Class='in situ'.
-  2. Place exported images under: $RAW_DIR/images/isic/
-  3. Review the official Atlas scraper in $SOURCE_DIR/wed_scraping.py, confirm
-     dermoscopyatlas.com permission/terms, then place its images under:
-     $RAW_DIR/images/atlas/
-Never commit raw images or archives. Re-run the Stage-3 audit after acquisition.
+PROVENANCE FINDING: licence files were recorded for manual review.
+This command does not download images. Dermoscopy Atlas remains excluded.
 EOF
