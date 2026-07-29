@@ -1,8 +1,9 @@
 {
-  "audit_version": 1,
+  "audit_version": 2,
   "execution_mode": "repository_metadata_only_no_model_or_dataset_access",
   "inventory_count": 190,
-  "large_binary_policy": "paths and existence only; no checkpoint content or hash inspection",
+  "large_binary_policy": "paths and declared evidence roles only; local ignored-artifact presence and checkpoint contents are excluded from committed deterministic output",
+  "local_artifact_presence_policy": "not_audited_in_committed_inventory",
   "locked_required_count": 10,
   "locked_required_validated": [
     "reports/phase05/conditional_hierarchical_internal_evaluation.md",

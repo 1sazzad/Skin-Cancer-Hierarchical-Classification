@@ -51,6 +51,16 @@ No audited objective is obsolete. Stage 3 is **blocked**, rather than merely
 missing, because its scientific target cannot be chosen until the dataset and
 labels pass the feasibility gate.
 
+## Deterministic committed inventory policy
+
+The committed artifact inventory is deterministic from repository-controlled
+state. Ignored local checkpoints, predictions, and archives remain referenced
+by path and declared evidence role, but their physical presence is
+intentionally not encoded in committed generated files. Local availability and
+hash verification belong in separate local artifact manifests and archive
+audits. This policy prevents output differences between a fresh clone and an
+artifact-rich research workstation.
+
 ## Locked statistical conclusion
 
 The locked Phase 07 result must be preserved exactly:

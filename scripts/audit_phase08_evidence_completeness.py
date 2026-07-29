@@ -58,6 +58,13 @@ LOCALLY_REFERENCED = (
     ),
 )
 
+TRACKED_INVENTORY_EXCLUSIONS = frozenset(
+    {
+        "scripts/audit_phase08_evidence_completeness.py",
+        "tests/test_phase08_evidence_completeness.py",
+    }
+)
+
 INVENTORY_PREFIXES = (
     "configs/",
     "data/manifests/",
@@ -176,7 +183,12 @@ def validate_locked_evidence(repository: Path) -> list[str]:
 def build_inventory(repository: Path, tracked_paths: Iterable[str]) -> list[dict[str, str]]:
     tracked = {path.replace("\\", "/") for path in tracked_paths}
     rows: list[dict[str, str]] = []
-    selected = sorted(path for path in tracked if path.startswith(INVENTORY_PREFIXES))
+    selected = sorted(
+        path
+        for path in tracked
+        if path.startswith(INVENTORY_PREFIXES)
+        and path not in TRACKED_INVENTORY_EXCLUSIONS
+    )
     for path in selected:
         phase = _phase(path)
         locked = phase in {"phase05", "phase06c", "phase07"}
@@ -196,20 +208,23 @@ def build_inventory(repository: Path, tracked_paths: Iterable[str]) -> list[dict
             }
         )
     for path, phase, artifact_type, locked, note in LOCALLY_REFERENCED:
-        exists = (repository / path).is_file()
         rows.append(
             {
                 "artifact_path": path,
                 "phase": phase,
                 "artifact_type": artifact_type,
                 "tracked": "yes" if path in tracked else "no",
-                "exists_locally": "yes" if exists else "no",
+                "exists_locally": "not_audited",
                 "locally_referenced": "yes",
                 "locked": "yes" if locked else "no",
-                "reusable": "yes" if exists else "archive_or_restore_required",
-                "missing": "no" if exists else "not_extracted_or_missing",
+                "reusable": "external_artifact_reference",
+                "missing": "not_audited",
                 "evidence_role": "registry or report reference",
-                "notes": note,
+                "notes": (
+                    f"{note} Local presence is intentionally excluded from the "
+                    "committed deterministic audit; verify through the separate "
+                    "local artifact manifest or archive evidence."
+                ),
             }
         )
     return sorted(rows, key=lambda row: row["artifact_path"])
@@ -235,7 +250,7 @@ def generate_audit(repository: Path, output: Path, tracked_paths: Iterable[str] 
     write_csv(matrix_path, OBJECTIVE_COLUMNS, objective_rows)
     write_csv(inventory_path, INVENTORY_COLUMNS, inventory)
     payload = {
-        "audit_version": 1,
+        "audit_version": 2,
         "execution_mode": "repository_metadata_only_no_model_or_dataset_access",
         "locked_required_count": len(LOCKED_REQUIRED),
         "locked_required_validated": validated,
@@ -245,10 +260,16 @@ def generate_audit(repository: Path, output: Path, tracked_paths: Iterable[str] 
             status: sum(row["current_status"] == status for row in objective_rows)
             for status in ("complete", "partial", "missing", "blocked", "obsolete")
         },
-        "large_binary_policy": "paths and existence only; no checkpoint content or hash inspection",
+        "large_binary_policy": (
+            "paths and declared evidence roles only; local ignored-artifact "
+            "presence and checkpoint contents are excluded from committed "
+            "deterministic output"
+        ),
+        "local_artifact_presence_policy": "not_audited_in_committed_inventory",
     }
     json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with json_path.open("w", encoding="utf-8", newline="") as handle:
+        handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     return [matrix_path, inventory_path, json_path]
 
 
