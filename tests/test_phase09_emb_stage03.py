@@ -8,7 +8,9 @@ from pathlib import Path
 import pandas as pd
 import pytest
 import torch
+import yaml
 from PIL import Image
+from torch import nn
 
 from scripts.build_emb_stage03_split import (
     GROUPING_STRATEGY,
@@ -31,7 +33,22 @@ from src.data.emb_stage03 import (
     map_stage_ajcc,
 )
 from src.models.efficientnet_baseline import build_efficientnet_b0
-from src.training.baseline_experiment import load_experiment_config
+from src.training.baseline_experiment import (
+    _build_criterion,
+    compute_inverse_frequency_class_weights,
+    load_experiment_config,
+)
+
+STAGE03_WCE_CONFIG = Path(
+    "configs/experiments/"
+    "phase09_stage03_isic_derived_efficientnet_b0_weighted_cross_entropy.yaml"
+)
+
+
+def write_experiment_config(tmp_path: Path, payload: dict[str, object]) -> Path:
+    path = tmp_path / "experiment.yaml"
+    path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+    return path
 
 
 def fixture_frame() -> pd.DataFrame:
@@ -548,6 +565,153 @@ def test_phase09_config_resolves() -> None:
     assert config["data"]["dataset"] == "isic_stage03"
     assert config["data"]["label_source"] == "official_isic_metadata"
     assert config["training"]["epochs"] == 30
+
+
+def weighted_config_payload() -> dict[str, object]:
+    return yaml.safe_load(STAGE03_WCE_CONFIG.read_text(encoding="utf-8"))
+
+
+def test_phase09_weighted_config_is_valid_and_traceable() -> None:
+    config = load_experiment_config(STAGE03_WCE_CONFIG)
+    assert config["experiment"]["run_name"] == (
+        "stage03_isic_derived_dermoscopic_efficientnet_b0_"
+        "weighted_cross_entropy_seed42"
+    )
+    assert config["experiment"]["variant"] == "weighted_cross_entropy"
+    assert config["data"]["class_to_index"] == {
+        "Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4
+    }
+    assert config["training"]["loss"] == "weighted_cross_entropy"
+    assert config["training"]["weighted_sampler"] is False
+    assert config["training"]["focal_loss"] is False
+    assert config["training"]["class_weight_source"]["class_counts"] == {
+        "Tis": 355, "T1": 184, "T2": 33, "T3": 10, "T4": 12
+    }
+
+
+def test_phase09_inverse_frequency_weight_formula_and_criterion_order() -> None:
+    counts = {"Tis": 355, "T1": 184, "T2": 33, "T3": 10, "T4": 12}
+    expected = {
+        "Tis": 0.063475735584673,
+        "T1": 0.12246677245955931,
+        "T2": 0.682845034319967,
+        "T3": 2.253388613255891,
+        "T4": 1.8778238443799093,
+    }
+    assert compute_inverse_frequency_class_weights(
+        counts, ["Tis", "T1", "T2", "T3", "T4"]
+    ) == pytest.approx(expected, rel=1e-12, abs=1e-12)
+    criterion = _build_criterion(load_experiment_config(STAGE03_WCE_CONFIG), "cpu")
+    assert isinstance(criterion, nn.CrossEntropyLoss)
+    assert criterion.weight is not None
+    assert criterion.weight.tolist() == pytest.approx(
+        [expected[name] for name in ("Tis", "T1", "T2", "T3", "T4")]
+    )
+
+
+def test_phase09_weighted_config_requires_exact_class_order(tmp_path: Path) -> None:
+    payload = weighted_config_payload()
+    payload["data"]["class_to_index"] = {
+        "T1": 0, "Tis": 1, "T2": 2, "T3": 3, "T4": 4
+    }
+    with pytest.raises(ValueError, match="exact class order"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize("extra", [False, True])
+def test_phase09_weighted_config_requires_exact_weight_keys(
+    tmp_path: Path, extra: bool
+) -> None:
+    payload = weighted_config_payload()
+    weights = payload["training"]["class_weights"]
+    if extra:
+        weights["unexpected"] = 1.0
+    else:
+        del weights["T4"]
+    with pytest.raises(ValueError, match="exactly match"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize("invalid_weight", [0.0, -1.0, float("nan"), float("inf")])
+def test_phase09_weighted_config_rejects_invalid_weights(
+    tmp_path: Path, invalid_weight: float
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weights"]["T4"] = invalid_weight
+    with pytest.raises(ValueError, match="finite and positive"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("partition", "validation", "training partition"),
+        ("method", "effective_number", "inverse_frequency"),
+        ("normalization", "none", "sum_to_number_of_classes"),
+    ],
+)
+def test_phase09_weighted_config_rejects_invalid_weight_source(
+    tmp_path: Path, field: str, value: str, message: str
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weight_source"][field] = value
+    with pytest.raises(ValueError, match=message):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+def test_phase09_weighted_configured_weight_must_match_formula(
+    tmp_path: Path,
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weights"]["T4"] = 1.0
+    with pytest.raises(ValueError, match="does not match"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("weighted_sampler", True, "weighted_sampler"),
+        ("focal_loss", True, "focal_loss"),
+    ],
+)
+def test_phase09_weighted_config_rejects_other_imbalance_methods(
+    tmp_path: Path, field: str, value: bool, message: str
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"][field] = value
+    with pytest.raises(ValueError, match=message):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize("invalid_count", [0, -1, 1.5])
+def test_phase09_weighted_class_counts_are_positive_integers(
+    tmp_path: Path, invalid_count: object
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weight_source"]["class_counts"]["T4"] = invalid_count
+    with pytest.raises(ValueError, match="positive integers"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+def test_existing_stage2_weighted_cross_entropy_remains_valid() -> None:
+    config = load_experiment_config(
+        "configs/experiments/"
+        "phase04_stage02_isic2019_efficientnet_b0_weighted_cross_entropy.yaml"
+    )
+    assert config["data"]["task"] == "stage_2"
+    assert config["training"]["loss"] == "weighted_cross_entropy"
+
+
+def test_phase09_vm_script_exposes_weighted_modes_without_evaluation() -> None:
+    script = Path("scripts/phase09_stage03_vm.sh").read_text(encoding="utf-8")
+    assert "sanity-wce)" in script
+    assert "train-wce)" in script
+    assert "--max-train-batches 2 --max-validation-batches 2 --epoch-limit 1" in script
+    train_wce_block = script.split("train-wce)", 1)[1].split(";;", 1)[0]
+    assert 'WCE_CONFIG="configs/experiments/phase09_stage03_isic_derived_' in script
+    assert '--config "$WCE_CONFIG"' in train_wce_block
+    assert "evaluate" not in train_wce_block
 
 
 def test_loader_accepts_isic_stage03_manifest(tmp_path: Path) -> None:

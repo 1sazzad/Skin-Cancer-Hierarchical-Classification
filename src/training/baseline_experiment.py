@@ -197,15 +197,52 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             )
 
     elif loss_name == "weighted_cross_entropy":
-        if task != "stage_2":
+        if task not in {"stage_2", "emb_stage03"}:
             raise ValueError(
-                "weighted_cross_entropy is currently restricted to Stage 2."
+                "weighted_cross_entropy is restricted to Stage 2 and emb_stage03."
             )
-        validate_class_weight_mapping()
+        validated_weights = validate_class_weight_mapping()
         if focal_enabled:
             raise ValueError(
                 "focal_loss must remain false for weighted_cross_entropy."
             )
+        if task == "emb_stage03":
+            source = _mapping(training, "class_weight_source")
+            if source.get("partition") != "train":
+                raise ValueError(
+                    "emb_stage03 inverse-frequency weights must use the "
+                    "training partition only."
+                )
+            if source.get("method") != "inverse_frequency":
+                raise ValueError(
+                    "emb_stage03 class_weight_source.method must be "
+                    "inverse_frequency."
+                )
+            if source.get("normalization") != "sum_to_number_of_classes":
+                raise ValueError(
+                    "emb_stage03 inverse-frequency weights must use "
+                    "sum_to_number_of_classes normalization."
+                )
+            class_counts = source.get("class_counts")
+            if not isinstance(class_counts, dict):
+                raise ValueError(
+                    "class_weight_source.class_counts must be a mapping."
+                )
+            calculated_weights = compute_inverse_frequency_class_weights(
+                class_counts,
+                list(class_to_index),
+            )
+            for class_name, calculated_weight in calculated_weights.items():
+                if not math.isclose(
+                    float(validated_weights[class_name]),
+                    calculated_weight,
+                    rel_tol=1e-12,
+                    abs_tol=1e-12,
+                ):
+                    raise ValueError(
+                        "Configured inverse-frequency weight does not match "
+                        f"the train-count formula for {class_name!r}."
+                    )
 
     elif loss_name == "class_balanced_focal_loss":
         if task not in {"stage_2", "flat_four_class"}:
@@ -315,6 +352,31 @@ def compute_effective_number_class_weights(
         )
 
     normalizer = len(raw_weights) / sum(raw_weights.values())
+    return {
+        class_name: raw_weights[class_name] * normalizer
+        for class_name in class_order
+    }
+
+
+def compute_inverse_frequency_class_weights(
+    class_counts: Mapping[str, Any],
+    class_order: list[str],
+) -> dict[str, float]:
+    """Calculate inverse-frequency weights normalized to the class count."""
+
+    if len(class_counts) != len(class_order) or set(class_counts) != set(class_order):
+        raise ValueError(
+            "class count keys must exactly match data.class_to_index."
+        )
+    raw_weights: dict[str, float] = {}
+    for class_name in class_order:
+        count = class_counts[class_name]
+        if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+            raise ValueError(
+                "All training class counts must be positive integers."
+            )
+        raw_weights[class_name] = 1.0 / count
+    normalizer = len(class_order) / sum(raw_weights.values())
     return {
         class_name: raw_weights[class_name] * normalizer
         for class_name in class_order

@@ -76,3 +76,25 @@ EfficientNet-B0 uses ImageNet initialization, five logits ordered
 `[Tis, T1, T2, T3, T4]`, cross entropy, AdamW, CUDA mixed precision, at most
 30 epochs, early stopping, and seed 42. Validation macro-F1 alone selects the
 checkpoint. The frozen test split is used only after selection.
+
+## Locked baseline and single imbalance-aware candidate
+
+The frozen cross-entropy baseline selected epoch 2 with validation macro-F1
+`0.365615`. On its one locked internal-test evaluation (127 images), accuracy
+was `0.6062992125984252`, balanced accuracy `0.20240259740259742`, macro-F1
+`0.16283767911674887`, and weighted-F1 `0.48009115139677305`. Test F1 was
+`0.7676767676767676` for Tis, `0.046511627906976744` for T1, and zero for T2,
+T3, and T4. Predictions were Tis 121, T1 3, T3 3, T2 0, and T4 0, indicating
+strong majority-class collapse rather than adequate five-class discrimination.
+
+Exactly one imbalance-aware candidate is permitted: train-only
+inverse-frequency weighted cross-entropy, with fixed train counts Tis 355, T1
+184, T2 33, T3 10, and T4 12. The corresponding weights, normalized to sum to
+five, are Tis `0.063475735584673`, T1 `0.12246677245955931`, T2
+`0.682845034319967`, T3 `2.253388613255891`, and T4
+`1.8778238443799093`. T3 and T4 support remains especially limited.
+
+The candidate may be selected only if its best validation macro-F1 is strictly
+greater than `0.365615`. The internal test remains untouched until that
+validation-only decision; test artifacts cannot guide tuning, candidate
+changes, or checkpoint selection.

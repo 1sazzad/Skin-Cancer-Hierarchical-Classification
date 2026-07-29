@@ -2,6 +2,7 @@
 set -euo pipefail
 ROOT="${ROOT:-$PWD}"
 CONFIG="configs/experiments/phase09_stage03_emb_efficientnet_b0_cross_entropy.yaml"
+WCE_CONFIG="configs/experiments/phase09_stage03_isic_derived_efficientnet_b0_weighted_cross_entropy.yaml"
 
 case "${1:-help}" in
   update)
@@ -42,6 +43,15 @@ case "${1:-help}" in
     python scripts/train_isic2019_baseline.py --config "$CONFIG" \
       --project-root "$ROOT" --output-root experiments/runs --device cuda
     ;;
+  sanity-wce)
+    python scripts/train_isic2019_baseline.py --config "$WCE_CONFIG" \
+      --project-root "$ROOT" --output-root experiments/runs --device cuda \
+      --max-train-batches 2 --max-validation-batches 2 --epoch-limit 1
+    ;;
+  train-wce)
+    python scripts/train_isic2019_baseline.py --config "$WCE_CONFIG" \
+      --project-root "$ROOT" --output-root experiments/runs --device cuda
+    ;;
   evaluate)
     : "${CHECKPOINT:?Set CHECKPOINT to the full run best_checkpoint.pt}"
     : "${EVAL_OUTPUT:?Set EVAL_OUTPUT to a new evaluation directory}"
@@ -55,5 +65,5 @@ case "${1:-help}" in
       "$RUN_DIR/history.csv" "$RUN_DIR/history.json" "$RUN_DIR/run_summary.json" \
       "$RUN_DIR/best_validation_metrics.json" "$RUN_DIR/best_checkpoint.pt"
     ;;
-  *) echo "usage: $0 {update|verify|acquire|isic-metadata|isic-download|audit|split|sanity|train|evaluate|backup}";;
+  *) echo "usage: $0 {update|verify|acquire|isic-metadata|isic-download|audit|split|sanity|train|sanity-wce|train-wce|evaluate|backup}";;
 esac
