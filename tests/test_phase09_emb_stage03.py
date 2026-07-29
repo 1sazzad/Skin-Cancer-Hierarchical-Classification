@@ -10,7 +10,12 @@ import pytest
 import torch
 from PIL import Image
 
-from scripts.build_emb_stage03_split import build_split
+from scripts.build_emb_stage03_split import (
+    GROUPING_STRATEGY,
+    add_transitive_group_ids,
+    build_split,
+    split_audit,
+)
 from scripts.acquire_isic_stage03_vm import (
     download_one,
     fetch_json,
@@ -335,6 +340,106 @@ def test_duplicate_hash_stays_in_one_split() -> None:
     frame = pd.concat([frame, duplicate], ignore_index=True)
     manifest, _, _ = build_split(frame)
     assert manifest.loc[manifest["file_sha256"] == frame.iloc[0]["file_sha256"], "split"].nunique() == 1
+
+
+def test_connected_group_relations_and_transitive_closure() -> None:
+    frame = fixture_frame().iloc[:6].copy().reset_index(drop=True)
+    frame.loc[:, ["patient_id", "lesion_id"]] = ""
+    frame.loc[0:1, "patient_id"] = "patient-shared"
+    frame.loc[1:2, "lesion_id"] = "lesion-shared"
+    frame.loc[3, "file_sha256"] = frame.loc[2, "file_sha256"]
+    frame.loc[4:5, "patient_id"] = "   "
+    frame.loc[4:5, "lesion_id"] = ""
+
+    grouped = add_transitive_group_ids(frame)
+
+    assert grouped.loc[:3, "split_group_id"].nunique() == 1
+    assert grouped.loc[4:5, "split_group_id"].nunique() == 2
+
+
+def test_patient_lesion_and_hash_relations_never_cross_splits() -> None:
+    frame = fixture_frame()
+    for stage in range(5):
+        indices = frame.index[frame["derived_stage_ajcc"].eq(stage)].tolist()
+        frame.loc[indices[0:2], "patient_id"] = f"patient-{stage}"
+        frame.loc[indices[2:4], "lesion_id"] = f"lesion-{stage}"
+        frame.loc[indices[5], "file_sha256"] = frame.loc[indices[4], "file_sha256"]
+
+    manifest, _, _ = build_split(frame)
+
+    for field in ("patient_id", "lesion_id", "file_sha256", "split_group_id"):
+        nonblank = manifest[field].astype(str).str.strip().ne("")
+        assert manifest.loc[nonblank].groupby(field)["split"].nunique().max() == 1
+    assert set(manifest.groupby("split")["t_category"].nunique()) == {5}
+
+
+def test_conflicting_connected_component_labels_raise_clear_error() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "patient_id"] = (
+        "conflicting-patient"
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"Conflicting T-categories.*image_ids=.*stage0_0.*stage1_0.*T1.*Tis",
+    ):
+        build_split(frame)
+
+
+def test_split_requires_three_components_per_class() -> None:
+    frame = fixture_frame()
+    stage_four = frame["derived_stage_ajcc"].eq(4)
+    frame.loc[stage_four, "patient_id"] = "one-stage-four-component"
+
+    with pytest.raises(ValueError, match="at least three connected components"):
+        build_split(frame)
+
+
+def test_split_assignment_is_byte_identical_and_audit_is_complete() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage0_1"]), "patient_id"] = "p0"
+    frame.loc[frame["image_id"].isin(["stage1_0", "stage1_1"]), "lesion_id"] = "l1"
+    first, weights, limitations = build_split(frame, seed=42)
+    second, _, _ = build_split(frame, seed=42)
+
+    assert first.to_csv(index=False).encode() == second.to_csv(index=False).encode()
+    audit = split_audit(first, weights, limitations, "synthetic-sha256", seed=42)
+    expected_fields = {
+        "grouping_strategy",
+        "eligible_image_count",
+        "patient_id_available_count",
+        "lesion_id_available_count",
+        "connected_component_count",
+        "multi_image_component_count",
+        "maximum_component_size",
+        "component_counts_by_class",
+        "image_counts_by_split_and_class",
+        "component_counts_by_split_and_class",
+        "requested_ratios",
+        "actual_image_ratios",
+        "patient_id_overlap_count",
+        "lesion_id_overlap_count",
+        "sha256_overlap_count",
+        "split_group_overlap_count",
+        "train_only_class_weights",
+        "manifest_sha256",
+        "limitations",
+    }
+    assert expected_fields <= audit.keys()
+    assert audit["grouping_strategy"] == GROUPING_STRATEGY
+    assert audit["eligible_image_count"] == len(first)
+    assert audit["patient_id_available_count"] == 2
+    assert audit["lesion_id_available_count"] == 2
+    assert audit["multi_image_component_count"] == 2
+    assert audit["maximum_component_size"] == 2
+    assert audit["component_counts_by_class"]["Tis"] == 19
+    assert audit["manifest_sha256"] == "synthetic-sha256"
+    assert sum(audit["actual_image_ratios"].values()) == pytest.approx(1.0)
+    assert audit["patient_id_overlap_count"] == 0
+    assert audit["lesion_id_overlap_count"] == 0
+    assert audit["sha256_overlap_count"] == 0
+    assert audit["split_group_overlap_count"] == 0
+    assert "incomplete" in audit["limitations"][0]
 
 
 def test_train_only_class_weights() -> None:

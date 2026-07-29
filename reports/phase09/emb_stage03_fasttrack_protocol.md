@@ -58,10 +58,15 @@ overlap.
 
 After the overlap decision, the seed-42 dermoscopic split is 70% train, 15%
 validation, and 15% untouched test, stratified by official T-category. Complete
-patient IDs are preferred, otherwise complete lesion IDs, otherwise exact
-hash/image groups with a recorded limitation. Patient, lesion, and identical
-hash components cannot cross partitions. Optional class weights derive from
-training only.
+connected components are built from every available non-empty patient ID,
+non-empty lesion ID, and exact SHA-256 relation, including their transitive
+closure. Components receive deterministic identifiers and are assigned intact
+while targeting the requested per-class and overall ratios. Actual image ratios
+are reported because unequal component sizes can prevent exact 70/15/15
+allocation. Patient/lesion metadata is incomplete, but every known relation is
+preserved; blank identifiers never connect images. Patient, lesion, identical
+hash, and connected-component groups cannot cross partitions. Optional class
+weights derive from training only.
 
 EfficientNet-B0 uses ImageNet initialization, five logits ordered
 `[Tis, T1, T2, T3, T4]`, cross entropy, AdamW, CUDA mixed precision, at most
