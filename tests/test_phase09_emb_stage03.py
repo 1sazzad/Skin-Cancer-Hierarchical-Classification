@@ -367,23 +367,75 @@ def test_patient_lesion_and_hash_relations_never_cross_splits() -> None:
 
     manifest, _, _ = build_split(frame)
 
-    for field in ("patient_id", "lesion_id", "file_sha256", "split_group_id"):
+    for field in ("image_id", "patient_id", "lesion_id", "file_sha256", "split_group_id"):
         nonblank = manifest[field].astype(str).str.strip().ne("")
         assert manifest.loc[nonblank].groupby(field)["split"].nunique().max() == 1
     assert set(manifest.groupby("split")["t_category"].nunique()) == {5}
+    for split in ("validation", "test"):
+        assert {"T2", "T3", "T4"} <= set(
+            manifest.loc[manifest["split"].eq(split), "t_category"]
+        )
 
 
-def test_conflicting_connected_component_labels_raise_clear_error() -> None:
+def test_multi_label_patient_component_is_allowed_and_kept_together() -> None:
     frame = fixture_frame()
-    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "patient_id"] = (
-        "conflicting-patient"
+    linked = frame["image_id"].isin(["stage0_0", "stage1_0"])
+    frame.loc[linked, "patient_id"] = "multi-label-patient"
+    frame.loc[frame["image_id"].eq("stage0_0"), "lesion_id"] = "lesion-tis"
+    frame.loc[frame["image_id"].eq("stage1_0"), "lesion_id"] = "lesion-t1"
+
+    manifest, _, _ = build_split(frame)
+
+    component = manifest.loc[
+        manifest["image_id"].isin(["stage0_0", "stage1_0"])
+    ]
+    assert set(component["t_category"]) == {"Tis", "T1"}
+    assert component["split_group_id"].nunique() == 1
+    assert component["split"].nunique() == 1
+
+
+def test_conflicting_lesion_labels_raise_clear_error() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "lesion_id"] = (
+        "conflicting-lesion"
     )
 
     with pytest.raises(
         ValueError,
-        match=r"Conflicting T-categories.*image_ids=.*stage0_0.*stage1_0.*T1.*Tis",
+        match=r"lesion_id conflicting-lesion.*stage0_0.*stage1_0.*T1.*Tis",
     ):
         build_split(frame)
+
+
+def test_conflicting_hash_labels_raise_clear_error() -> None:
+    frame = fixture_frame()
+    tis_hash = frame.loc[frame["image_id"].eq("stage0_0"), "file_sha256"].iloc[0]
+    frame.loc[frame["image_id"].eq("stage1_0"), "file_sha256"] = tis_hash
+
+    with pytest.raises(
+        ValueError,
+        match=r"SHA-256 .*stage0_0.*stage1_0.*T1.*Tis",
+    ):
+        build_split(frame)
+
+
+def test_transitive_multi_label_component_stays_in_one_split() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "patient_id"] = "p"
+    frame.loc[frame["image_id"].isin(["stage1_0", "stage1_1"]), "lesion_id"] = "l"
+    stage_one_hash = frame.loc[
+        frame["image_id"].eq("stage1_1"), "file_sha256"
+    ].iloc[0]
+    frame.loc[frame["image_id"].eq("stage1_2"), "file_sha256"] = stage_one_hash
+
+    manifest, _, _ = build_split(frame)
+    component = manifest.loc[
+        manifest["image_id"].isin(["stage0_0", "stage1_0", "stage1_1", "stage1_2"])
+    ]
+
+    assert set(component["t_category"]) == {"Tis", "T1"}
+    assert component["split_group_id"].nunique() == 1
+    assert component["split"].nunique() == 1
 
 
 def test_split_requires_three_components_per_class() -> None:
@@ -391,13 +443,15 @@ def test_split_requires_three_components_per_class() -> None:
     stage_four = frame["derived_stage_ajcc"].eq(4)
     frame.loc[stage_four, "patient_id"] = "one-stage-four-component"
 
-    with pytest.raises(ValueError, match="at least three connected components"):
+    with pytest.raises(ValueError, match="at least three distinct connected components"):
         build_split(frame)
 
 
 def test_split_assignment_is_byte_identical_and_audit_is_complete() -> None:
     frame = fixture_frame()
-    frame.loc[frame["image_id"].isin(["stage0_0", "stage0_1"]), "patient_id"] = "p0"
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "patient_id"] = "p0"
+    frame.loc[frame["image_id"].eq("stage0_0"), "lesion_id"] = "l-tis"
+    frame.loc[frame["image_id"].eq("stage1_0"), "lesion_id"] = "l-t1"
     frame.loc[frame["image_id"].isin(["stage1_0", "stage1_1"]), "lesion_id"] = "l1"
     first, weights, limitations = build_split(frame, seed=42)
     second, _, _ = build_split(frame, seed=42)
@@ -410,13 +464,24 @@ def test_split_assignment_is_byte_identical_and_audit_is_complete() -> None:
         "patient_id_available_count",
         "lesion_id_available_count",
         "connected_component_count",
+        "single_label_component_count",
+        "multi_label_component_count",
+        "maximum_labels_in_component",
         "multi_image_component_count",
         "maximum_component_size",
+        "class_component_counts",
+        "component_label_set_counts",
+        "components",
         "component_counts_by_class",
         "image_counts_by_split_and_class",
+        "component_counts_by_split",
+        "components_containing_each_class_by_split",
         "component_counts_by_split_and_class",
         "requested_ratios",
+        "requested_image_ratios",
         "actual_image_ratios",
+        "actual_overall_image_ratios",
+        "actual_per_class_image_ratios",
         "patient_id_overlap_count",
         "lesion_id_overlap_count",
         "sha256_overlap_count",
@@ -429,10 +494,25 @@ def test_split_assignment_is_byte_identical_and_audit_is_complete() -> None:
     assert audit["grouping_strategy"] == GROUPING_STRATEGY
     assert audit["eligible_image_count"] == len(first)
     assert audit["patient_id_available_count"] == 2
-    assert audit["lesion_id_available_count"] == 2
-    assert audit["multi_image_component_count"] == 2
-    assert audit["maximum_component_size"] == 2
-    assert audit["component_counts_by_class"]["Tis"] == 19
+    assert audit["lesion_id_available_count"] == 3
+    assert audit["multi_image_component_count"] == 1
+    assert audit["maximum_component_size"] == 3
+    assert audit["single_label_component_count"] == 97
+    assert audit["multi_label_component_count"] == 1
+    assert audit["maximum_labels_in_component"] == 2
+    assert audit["class_component_counts"]["Tis"] == 20
+    assert audit["class_component_counts"]["T1"] == 19
+    assert audit["component_label_set_counts"]["Tis|T1"] == 1
+    multi_label = [
+        component for component in audit["components"]
+        if component["is_multi_label"]
+    ]
+    assert len(multi_label) == 1
+    assert multi_label[0]["class_count_vector"] == [1, 2, 0, 0, 0]
+    assert multi_label[0]["labels_present"] == ["Tis", "T1"]
+    assert multi_label[0]["image_ids"] == ["stage0_0", "stage1_0", "stage1_1"]
+    assert multi_label[0]["patient_ids"] == ["p0"]
+    assert multi_label[0]["lesion_ids"] == ["l-tis", "l1"]
     assert audit["manifest_sha256"] == "synthetic-sha256"
     assert sum(audit["actual_image_ratios"].values()) == pytest.approx(1.0)
     assert audit["patient_id_overlap_count"] == 0

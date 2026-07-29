@@ -61,12 +61,16 @@ validation, and 15% untouched test, stratified by official T-category. Complete
 connected components are built from every available non-empty patient ID,
 non-empty lesion ID, and exact SHA-256 relation, including their transitive
 closure. Components receive deterministic identifiers and are assigned intact
-while targeting the requested per-class and overall ratios. Actual image ratios
-are reported because unequal component sizes can prevent exact 70/15/15
-allocation. Patient/lesion metadata is incomplete, but every known relation is
-preserved; blank identifiers never connect images. Patient, lesion, identical
-hash, and connected-component groups cannot cross partitions. Optional class
-weights derive from training only.
+using five-class image-count vectors while targeting the requested per-class
+and overall ratios. A patient may have several distinct melanoma lesions with
+different T-categories; this makes a patient-safe component multi-label, not
+invalid, and patient grouping is retained to prevent leakage. Conflicting
+T-categories within one lesion ID or one exact image hash remain fatal. Actual
+image ratios are reported because unequal component sizes can prevent exact
+70/15/15 allocation. Patient/lesion metadata is incomplete, but every known
+relation is preserved; blank identifiers never connect images. Patient,
+lesion, identical hash, and connected-component groups cannot cross
+partitions. Optional class weights derive from training only.
 
 EfficientNet-B0 uses ImageNet initialization, five logits ordered
 `[Tis, T1, T2, T3, T4]`, cross entropy, AdamW, CUDA mixed precision, at most
