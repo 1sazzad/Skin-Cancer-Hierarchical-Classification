@@ -1,0 +1,62 @@
+schema_version: 1
+dataset: hiba
+status: candidate_pending_official_acquisition_audit
+matching_policy:
+  method: exact_after_unicode_casefold_and_whitespace_normalization
+  substring_matching_allowed: false
+  unknown_value_policy: exclude_and_block_approval
+  preserve_original_diagnosis: true
+
+licence_policy:
+  status: prospective_fail_closed
+  preserve_original_value: true
+  matching_method: exact_after_unicode_casefold_and_whitespace_normalization
+  accepted_values:
+    - CC-BY
+  unknown_unsupported_conflicting_or_missing_policy: exclude_and_block_approval
+
+final_classes:
+  - non_malignant
+  - melanoma
+  - bcc
+  - scc
+
+mappings:
+  melanoma:
+    canonical_diagnosis: melanoma
+    mapped_final_label: melanoma
+    mapped_stage_1_label: malignant
+    mapped_stage_2_label: melanoma
+    include_primary_evaluation: true
+    exclusion_reason: ""
+  basal cell carcinoma:
+    canonical_diagnosis: basal_cell_carcinoma
+    mapped_final_label: bcc
+    mapped_stage_1_label: malignant
+    mapped_stage_2_label: bcc
+    include_primary_evaluation: true
+    exclusion_reason: ""
+  squamous cell carcinoma:
+    canonical_diagnosis: squamous_cell_carcinoma
+    mapped_final_label: scc
+    mapped_stage_1_label: malignant
+    mapped_stage_2_label: scc
+    include_primary_evaluation: true
+    exclusion_reason: ""
+  actinic keratosis:
+    canonical_diagnosis: actinic_keratosis
+    mapped_final_label: ""
+    mapped_stage_1_label: ""
+    mapped_stage_2_label: ""
+    include_primary_evaluation: false
+    exclusion_reason: excluded_actinic_keratosis_primary_mapping
+
+unresolved_entries:
+  - category: benign_diagnosis_vocabulary
+    status: unresolved_pending_official_metadata_inventory_and_human_review
+    policy: exclude_and_block_approval_until_explicit_mapping_is_frozen
+excluded_categories:
+  ambiguous: excluded_ambiguous_diagnosis
+  unsupported: excluded_unsupported_diagnosis
+  unknown: excluded_unknown_diagnosis
+  non_diagnostic: excluded_non_diagnostic_label

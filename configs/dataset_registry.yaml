@@ -71,11 +71,25 @@ datasets:
       - no_clinical_deployment_claim
 
   hiba:
-    full_name: "Hospital Italiano de Buenos Aires Skin Lesion Dataset"
+    full_name: "Hospital Italiano de Buenos Aires - Skin Lesions Images (2019-2022)"
     role: "mandatory_external_evaluation"
-    status: "not_acquired"
+    status: "candidate_pending_official_acquisition_audit"
     enabled: false
+    official_release:
+      collection: "ISIC collection 251"
+      doi: "10.34970/587329"
+      source_url: "https://api.isic-archive.com/collections/251/"
+    expected_raw_root: "data/external/hiba"
+    manifest: "data/manifests/hiba_dataset_manifest.csv"
+    manifest_audit: "data/manifests/hiba_dataset_manifest.audit.json"
+    checksum_manifest: "data/checksums/hiba_sha256.txt"
+    primary_modality: "dermoscopic"
     evaluation_mode: "frozen_zero_shot"
+    restrictions:
+      - no_inference_before_official_metadata_licence_modality_label_integrity_and_overlap_approval
+      - no_train_validation_test_split
+      - clinical_and_non_dermoscopic_images_excluded
+      - preserve_official_attribution_and_licence
     forbidden_uses:
       - training
       - fine_tuning

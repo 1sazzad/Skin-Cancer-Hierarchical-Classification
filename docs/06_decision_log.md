@@ -1844,3 +1844,62 @@ is `completed_locked_baseline`. Both internal-test evaluations are consumed,
 all evidence hashes are locked, and no further Stage-3 tuning or test rerun is
 allowed.
 
+---
+
+## D-024 - Register HIBA as a Pending Frozen External-Evaluation Candidate
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 10A
+**Owner:** Research lead
+
+### Context
+
+HIBA is mandatory for the planned external evaluation, but its local official
+metadata and files have not yet passed licence, modality, label, identifier,
+support, integrity, and ISIC-overlap review. Its official release identity is
+ISIC collection 251, DOI `10.34970/587329`.
+
+### Decision
+
+Register HIBA with status
+`candidate_pending_official_acquisition_audit`. Only dermoscopic rows may enter
+the eventual primary four-class cohort. Original diagnoses are preserved and
+only explicit exact mappings are allowed. Actinic keratosis, clinical images,
+unknown or ambiguous diagnoses, and unsupported labels are excluded.
+
+The audit protocol creates one manifest without train/validation/test splits,
+streams file SHA-256 values, rejects duplicate image IDs, identifies duplicate
+content and label conflicts, and compares image IDs and hashes with the locked
+ISIC 2019 manifest. Any overlap or unresolved mapping blocks approval.
+
+### Rationale
+
+This separates dataset registration and compatibility auditing from inference
+and prevents HIBA from influencing model development. Automated passage is
+necessary but does not replace human verification of official release
+metadata, licence, attribution, and overlap disposition.
+
+### Supporting Evidence
+
+- `reports/phase10/hiba_external_dataset_audit_protocol.md`
+- `configs/datasets/hiba_external_label_mapping.yaml`
+- `configs/evaluation/phase10_hiba_frozen_zero_shot.yaml`
+- `scripts/audit_hiba_external_dataset.py`
+
+### Impact on Existing Experiments
+
+None. Phase 05, Phase 06C, Phase 07, and Phase 09 evidence remains untouched.
+No HIBA data was downloaded, no checkpoint was loaded, and no inference or
+performance inspection was authorized.
+
+### Review Trigger
+
+After official HIBA metadata and files are acquired and the complete audit is
+reviewed, but before any one-time external inference.
+
+### Final Outcome
+
+HIBA remains disabled and unapproved for evaluation. The audit framework is
+registered; inference remains prohibited.
+

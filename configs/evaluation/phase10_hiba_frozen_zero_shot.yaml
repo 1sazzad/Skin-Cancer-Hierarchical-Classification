@@ -1,0 +1,72 @@
+phase: "10A"
+protocol_status: protocol_pending_dataset_audit
+dataset: hiba
+release_id: "ISIC collection 251; DOI 10.34970/587329"
+evaluation_mode: frozen_zero_shot
+cohort_policy: one_external_evaluation_cohort_no_split
+seed: 42
+
+data:
+  manifest: data/manifests/hiba_dataset_manifest.csv
+  manifest_audit: data/manifests/hiba_dataset_manifest.audit.json
+  checksum_manifest: data/checksums/hiba_sha256.txt
+  label_mapping: configs/datasets/hiba_external_label_mapping.yaml
+  require_audit_approval: true
+  identical_manifest_for_flat_and_hierarchy: true
+  permitted_modality: dermoscopic
+  approved_final_labels: [non_malignant, melanoma, bcc, scc]
+  support_gate:
+    zero_approved_rows_blocks_approval: true
+    all_four_classes_reported: true
+    absent_class_requires_human_feasibility_review: true
+    numeric_minimum_support_threshold: null
+
+preprocessing:
+  policy: locked_isic_evaluation_transform
+  image_size: 224
+  resize_shorter_side: 256
+  center_crop: 224
+  normalization: imagenet
+  deterministic: true
+  hiba_driven_changes_allowed: false
+
+checkpoints:
+  phase05_stage_1:
+    sha256: 95e02c26b1ea4a0dba17016313c81f97c9c2635270a37b4debbee0f84e07ba3b
+  phase05_stage_2:
+    sha256: 10986d41b64a685fcd8fe166623c5b1c7fd2f21bdad7cf4d55dedc3967a397fd
+  phase06c_flat:
+    sha256: f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7
+
+decision_policy:
+  flat: argmax
+  hierarchy_stage_1: argmax
+  hierarchy_stage_2: argmax
+  external_calibration_fitting_allowed: false
+  external_threshold_fitting_allowed: false
+  checkpoint_selection_allowed: false
+
+metrics:
+  primary: [macro_f1, balanced_accuracy]
+  secondary:
+    - accuracy
+    - weighted_f1
+    - per_class_precision
+    - per_class_recall
+    - per_class_f1
+
+paired_bootstrap:
+  status: plan_must_be_finalized_before_inference
+  paired_on: image_id
+  deterministic: true
+  seed: 42
+  replicate_count: null
+  confidence_interval_method: null
+
+execution:
+  dataset_audit_only_authorized_now: true
+  inference_authorized: false
+  one_time_primary_evaluation: true
+  refuse_existing_output: true
+  flat_output: runs/phase10_hiba_frozen_zero_shot/flat
+  hierarchy_output: runs/phase10_hiba_frozen_zero_shot/hierarchy
