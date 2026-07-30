@@ -21,7 +21,10 @@ from torch.optim.lr_scheduler import CosineAnnealingLR, LRScheduler
 
 from src.data.dataloaders import DataLoaderConfig, build_stage_dataloaders
 from src.evaluation.classification_metrics import compute_classification_metrics
-from src.models.efficientnet_baseline import build_efficientnet_b0
+from src.models.classification_backbone import (
+    SUPPORTED_CLASSIFICATION_ARCHITECTURES,
+    build_classification_model,
+)
 from src.training.engine import EpochResult, run_classification_epoch
 from src.training.losses import ClassBalancedFocalLoss
 from src.utils.reproducibility import seed_everything
@@ -79,8 +82,17 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             "data.task must be stage_1, stage_2, flat_four_class, or emb_stage03."
         )
 
-    if model.get("architecture") != "efficientnet_b0":
-        raise ValueError("The controlled runner currently supports efficientnet_b0 only.")
+    architecture = str(model.get("architecture", ""))
+    if architecture not in SUPPORTED_CLASSIFICATION_ARCHITECTURES:
+        supported = ", ".join(SUPPORTED_CLASSIFICATION_ARCHITECTURES)
+        raise ValueError(
+            f"Unsupported model architecture {architecture!r}. "
+            f"Supported architectures: {supported}."
+        )
+    if architecture == "densenet121" and task != "flat_four_class":
+        raise ValueError(
+            "densenet121 is approved only for the final flat_four_class baseline."
+        )
     if model.get("pretrained_weights") != "imagenet":
         raise ValueError("Experiments must use declared ImageNet pretrained weights.")
 
@@ -657,7 +669,8 @@ def run_baseline_experiment(
     )
 
     class_names = _ordered_class_names(config)
-    model = build_efficientnet_b0(
+    model = build_classification_model(
+        str(model_config["architecture"]),
         int(model_config["number_of_classes"]),
         pretrained="imagenet",
         dropout_probability=float(model_config.get("dropout_probability", 0.2)),

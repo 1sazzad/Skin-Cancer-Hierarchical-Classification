@@ -15,7 +15,10 @@ from torch import nn
 
 from src.data.dataloaders import DataLoaderConfig, build_stage_dataloaders
 from src.evaluation.classification_metrics import compute_classification_metrics
-from src.models.efficientnet_baseline import build_efficientnet_b0
+from src.models.classification_backbone import (
+    SUPPORTED_CLASSIFICATION_ARCHITECTURES,
+    build_classification_model,
+)
 from src.utils.reproducibility import seed_everything
 
 
@@ -196,8 +199,17 @@ def evaluate_frozen_internal_test(
         raise ValueError(
             "Checkpoint task must be stage_1, stage_2, or flat_four_class."
         )
-    if model_config.get("architecture") != "efficientnet_b0":
-        raise ValueError("Internal evaluator currently supports efficientnet_b0 only.")
+    architecture = str(model_config.get("architecture", ""))
+    if architecture not in SUPPORTED_CLASSIFICATION_ARCHITECTURES:
+        supported = ", ".join(SUPPORTED_CLASSIFICATION_ARCHITECTURES)
+        raise ValueError(
+            f"Unsupported checkpoint architecture {architecture!r}. "
+            f"Supported architectures: {supported}."
+        )
+    if architecture == "densenet121" and task != "flat_four_class":
+        raise ValueError(
+            "DenseNet-121 internal-test evaluation is approved only for flat_four_class."
+        )
 
     class_names = [str(name) for name in payload["class_names"]]
     seed = int(experiment["seed"])
@@ -229,7 +241,8 @@ def evaluate_frozen_internal_test(
     )
     test_loader = dataloaders["internal_test"]
 
-    model = build_efficientnet_b0(
+    model = build_classification_model(
+        architecture,
         int(model_config["number_of_classes"]),
         pretrained="none",
         dropout_probability=float(model_config.get("dropout_probability", 0.2)),

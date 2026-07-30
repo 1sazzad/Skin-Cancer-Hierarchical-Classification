@@ -168,7 +168,7 @@ def test_sanity_run_writes_non_reportable_artifacts(
     )
     monkeypatch.setattr(
         baseline_experiment,
-        "build_efficientnet_b0",
+        "build_classification_model",
         lambda *args, **kwargs: nn.Sequential(nn.Flatten(), nn.Linear(4, 2)),
     )
 
