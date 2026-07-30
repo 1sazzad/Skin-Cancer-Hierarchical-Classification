@@ -1,0 +1,34 @@
+\begin{abstract}
+Conditional hierarchical classifiers can reflect broad-to-specific diagnostic
+organisation, but an incorrect early decision may prevent the appropriate
+downstream classifier from receiving an image. This work evaluates that
+routing dependency using a two-stage EfficientNet-B0 hierarchy and two flat
+comparators on the same leakage-aware, locked 3,668-image internal-test cohort
+derived from ISIC 2019. The endpoint classes are non-malignant, melanoma,
+basal cell carcinoma, and squamous cell carcinoma.
+
+Flat DenseNet-121 produced the highest descriptive point estimates for
+accuracy (0.7914), macro-F1 (0.6351), and weighted-F1 (0.7862), whereas flat
+EfficientNet-B0 achieved the highest balanced accuracy (0.6503). The
+predicted-gate hierarchy obtained 0.7402 accuracy and 0.6054 macro-F1. Paired
+analyses supported DenseNet-121's accuracy and weighted-F1 gains
+over both EfficientNet-B0 systems, while its macro-F1 advantage was
+supported only against the hierarchy. Its balanced accuracy was lower than
+flat EfficientNet-B0, while the difference from the hierarchy was
+inconclusive. In the backbone-matched
+EfficientNet-B0 comparison, the flat-minus-hierarchy macro-F1 difference was
+0.0139 with a paired-bootstrap 95\% confidence interval of
+$[-0.0143,\,0.0420]$. Exact McNemar testing yielded $p=0.8207$, detecting no
+statistically significant difference.
+
+Replacing the learned route with the ground-truth route increased hierarchical
+macro-F1 to 0.7937, corresponding to a routing-associated loss of 0.1883.
+Stage~1 blocked 20.079\% of malignant images before subtype classification.
+DenseNet-121 nevertheless achieved only 0.2979 SCC recall. Similar aggregate
+results can therefore conceal substantial routing and minority-class failure.
+\end{abstract}
+
+\begin{IEEEkeywords}
+dermoscopy, skin lesion classification, hierarchical classification,
+conditional inference, routing errors, EfficientNet, DenseNet, class imbalance
+\end{IEEEkeywords}

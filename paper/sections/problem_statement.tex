@@ -1,0 +1,102 @@
+\section{Problem Formulation}
+\label{sec:problem_statement}
+
+Let
+\begin{equation}
+\mathcal{D}=\{(x_i,y_i)\}_{i=1}^{N},
+\qquad
+y_i\in
+\mathcal{Y}
+=
+\{
+\mathrm{NM},
+\mathrm{MEL},
+\mathrm{BCC},
+\mathrm{SCC}
+\},
+\end{equation}
+where $\mathrm{NM}$ denotes the consolidated non-malignant class.
+
+\subsection{Flat and Hierarchical Predictions}
+
+A flat classifier maps every image directly to one endpoint class:
+\begin{equation}
+\hat{y}^{\,\mathrm{flat}}_i
+=
+\arg\max_{c\in\mathcal{Y}}
+p(c\mid x_i).
+\end{equation}
+
+Two flat implementations are evaluated:
+$f_{\mathrm{flat,E}}$ using EfficientNet-B0 and
+$f_{\mathrm{flat,D}}$ using DenseNet-121.
+
+The hierarchy contains a routing classifier
+\begin{equation}
+f_1:\mathcal{X}\rightarrow\{\mathrm{NM},\mathrm{M}\},
+\end{equation}
+and a malignant-subtype classifier
+\begin{equation}
+f_2:\mathcal{X}\rightarrow
+\{\mathrm{MEL},\mathrm{BCC},\mathrm{SCC}\}.
+\end{equation}
+
+Its endpoint prediction is
+\begin{equation}
+\hat{y}^{\,\mathrm{hier}}_i =
+\begin{cases}
+\mathrm{NM}, & f_1(x_i)=\mathrm{NM},\\
+f_2(x_i),    & f_1(x_i)=\mathrm{M}.
+\end{cases}
+\label{eq:hierarchical_prediction}
+\end{equation}
+
+The three systems are evaluated on the same locked test cohort.
+Formal paired analyses are conducted for all pairwise model comparisons.
+
+\subsection{Oracle Routing}
+
+Oracle routing preserves the trained Stage~2 model but uses the ground-truth
+broad category:
+\begin{equation}
+\hat{y}^{\,\mathrm{oracle}}_i =
+\begin{cases}
+\mathrm{NM}, & y_i=\mathrm{NM},\\
+f_2(x_i), &
+y_i\in\{\mathrm{MEL},\mathrm{BCC},\mathrm{SCC}\}.
+\end{cases}
+\end{equation}
+
+For metric $M$, routing-associated loss is
+\begin{equation}
+L_{\mathrm{route}}^{(M)}
+=
+M(\hat{y}^{\,\mathrm{oracle}})
+-
+M(\hat{y}^{\,\mathrm{hier}}).
+\end{equation}
+
+The primary decomposition uses macro-F1. Additional rates measure:
+(i) malignant images predicted as non-malignant at Stage~1;
+(ii) non-malignant images forwarded to Stage~2; and
+(iii) incorrect subtypes among correctly routed malignant images.
+Oracle routing is a diagnostic upper bound and does not represent an
+implementable inference policy.
+
+\subsection{Standalone T-Category Task}
+
+The secondary task uses melanoma images with labels
+\begin{equation}
+t_j\in
+\{
+\mathrm{Tis},
+\mathrm{T1},
+\mathrm{T2},
+\mathrm{T3},
+\mathrm{T4}
+\}.
+\end{equation}
+
+A separate classifier $f_T$ predicts these labels. It is evaluated
+independently and is not defined as an integrated third stage of the primary
+hierarchy.

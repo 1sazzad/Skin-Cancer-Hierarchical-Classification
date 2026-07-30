@@ -1,0 +1,81 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Skin-lesion classes can exhibit overlapping visual characteristics in
+dermoscopic images, making automated multiclass classification difficult.
+Deep convolutional neural networks have demonstrated strong representation
+learning for skin-lesion analysis \cite{esteva2017dermatologist}, while
+International Skin Imaging Collaboration (ISIC) challenges have supported
+standardised development and evaluation on public dermoscopic collections
+\cite{codella2019isic2018}.
+
+Class imbalance remains a central problem. A classifier may achieve high
+overall accuracy by recognising the majority class while performing poorly on
+clinically important but under-represented categories. Evaluation should
+therefore include balanced accuracy, macro-F1, and class-specific recall rather
+than relying on accuracy alone.
+
+Most multiclass systems make a single flat decision over the complete label
+set. A conditional hierarchy instead divides the problem into broad and
+fine-grained decisions. In the present setting, Stage~1 distinguishes
+non-malignant from malignant lesions, and Stage~2 classifies predicted
+malignant lesions as melanoma, basal cell carcinoma (BCC), or squamous cell
+carcinoma (SCC).
+
+This organisation introduces a routing dependency. A malignant lesion
+incorrectly predicted as non-malignant is blocked before subtype
+classification, while a non-malignant lesion incorrectly forwarded to
+Stage~2 must receive a malignant label. Consequently, an apparently small
+difference between flat and hierarchical endpoint scores may conceal a
+substantial loss caused by the gate.
+
+This paper studies that failure mode on a locked internal-test cohort derived
+from ISIC 2019. The backbone-matched task-decomposition comparison uses
+EfficientNet-B0 \cite{tan2019efficientnet}
+for both a direct four-class model and a two-stage hierarchy.
+The comparison does not isolate task decomposition alone, because the selected
+Stage 2 classifier used class-balanced focal loss, whereas the flat
+EfficientNet-B0 model used ordinary cross-entropy. A protocol-matched flat DenseNet-121
+\cite{huang2017} is additionally evaluated on the same split and test cohort.
+Only the convolutional backbone changes in this comparator; preprocessing,
+cross-entropy training protocol, optimiser, scheduler, validation-based
+checkpoint selection, and locked-test policy are preserved.
+
+All three systems were evaluated on the same locked test cohort. Paired
+bootstrap confidence intervals were used to quantify uncertainty in metric
+differences for each pairwise comparison, while exact McNemar tests assessed
+differences in paired correctness. The results are interpreted separately
+for each metric rather than as evidence of uniform model superiority.
+
+To examine the internal hierarchical failure mechanism, an oracle-routing
+analysis retains the trained Stage~2 classifier but replaces the predicted
+Stage~1 route with the ground-truth broad category. The resulting difference
+estimates routing-associated loss while holding the downstream classifier
+fixed. Route-specific rates further quantify malignant images blocked at
+Stage~1, non-malignant images forwarded to Stage~2, and subtype errors among
+correctly routed malignant images. Oracle routing is diagnostic only and is
+not a deployable strategy.
+
+A separate experiment evaluates Tis, T1, T2, T3, and T4 prediction on an
+ISIC-derived melanoma T-category subset. It was not integrated into the
+primary hierarchy and is reported only as standalone feasibility evidence
+under severe label scarcity.
+
+The contributions are:
+
+\begin{enumerate}
+    \item a same-cohort comparison of flat EfficientNet-B0, flat
+    DenseNet-121, and a conditional EfficientNet-B0 hierarchy;
+
+    \item paired statistical comparisons among the three systems using
+    ground-truth-class-stratified bootstrap confidence intervals and exact
+    McNemar tests; and
+
+    \item an oracle-routing and route-specific decomposition that quantifies
+    the contribution of Stage~1 gating errors to hierarchical endpoint
+    performance.
+\end{enumerate}
+
+The remainder of this paper reviews related work, formalises the prediction
+tasks, describes the experimental protocol, reports the results and
+limitations, and concludes with priorities for future validation.
