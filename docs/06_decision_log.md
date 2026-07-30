@@ -1952,3 +1952,81 @@ Human protocol review before the explicit metadata acquisition command, then
 human review of the completed exact-vocabulary inventory before any mapping
 amendment or image acquisition decision.
 
+---
+
+## D-026 - Lock the Final DenseNet-121 Flat Comparator
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 11
+**Owner:** Research lead
+
+### Context
+
+The ICCIT scientific audit authorized one final architecture comparator to
+test whether the observed flat-model performance depended narrowly on
+EfficientNet-B0.
+
+DenseNet-121 was selected in advance as the only permitted additional
+backbone. The Phase 06 clean cross-entropy protocol remained unchanged.
+
+### Decision
+
+Accept and lock the completed DenseNet-121 flat four-class result.
+
+The epoch-4 checkpoint was selected only through validation macro-F1 and was
+evaluated once on the unchanged 3,668-image internal-test cohort.
+
+No additional backbone, retraining, hyperparameter search, threshold tuning,
+test-time augmentation, ensemble, or internal-test rerun is authorized.
+
+### Result
+
+DenseNet-121 achieved:
+
+- accuracy `0.7914394766`;
+- balanced accuracy `0.6168282266`;
+- macro-F1 `0.6351074532`;
+- weighted-F1 `0.7861623640`.
+
+It achieved the highest accuracy, macro-F1, and weighted-F1 point estimates
+among the three locked systems. EfficientNet-B0 retained the highest balanced
+accuracy.
+
+### Claim Boundary
+
+The existing paired bootstrap and exact McNemar analysis applies only to the
+EfficientNet-B0 flat-versus-hierarchy comparison.
+
+No new paired confidence interval or hypothesis test was performed for
+DenseNet-121. Its ranking is descriptive and cannot support a claim of
+statistically significant superiority.
+
+SCC recall remained `0.2978723404`, so the rare-class sensitivity limitation
+was not resolved.
+
+### Supporting Evidence
+
+- `configs/experiments/phase11_flat_four_class_isic2019_densenet121_cross_entropy.yaml`
+- `experiments/evaluations/phase11_densenet121_internal_test_seed42__best_epoch04/`
+- `reports/phase11/phase11_final_densenet_baseline_result.md`
+- `reports/phase11/generated/final_model_comparison.csv`
+
+### Impact on Existing Experiments
+
+Phase 05, Phase 06C, Phase 07, and Phase 09 evidence remains unchanged and
+locked.
+
+DenseNet-121 becomes an additional flat comparator. It does not replace or
+alter the preregistered EfficientNet-B0-versus-hierarchy statistical analysis.
+
+The blocked shared-model and integrated three-stage experiments remain
+unexecuted.
+
+### Final Outcome
+
+Phase 11 is complete and locked.
+
+DenseNet-121 is the strongest aggregate point-estimate flat comparator, while
+EfficientNet-B0 remains strongest on balanced accuracy. No further model
+training or locked internal-test access is permitted.
