@@ -1,0 +1,4 @@
+system,accuracy,balanced_accuracy,macro_f1,weighted_f1,inferential_scope
+Flat DenseNet-121,0.7914394766,0.6168282266,0.6351074532,0.7861623640,Descriptive locked point estimate; no new paired hypothesis test.
+Flat EfficientNet-B0,0.7420937841,0.6503125394,0.6192224685,0.7525567214,Included in the frozen paired flat-versus-hierarchy analysis.
+Predicted-gate hierarchy,0.7401853871,0.6311987371,0.6053674006,0.7503315602,Included in the frozen paired flat-versus-hierarchy analysis.

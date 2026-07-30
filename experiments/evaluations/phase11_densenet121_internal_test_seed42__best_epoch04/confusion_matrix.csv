@@ -1,0 +1,5 @@
+actual\predicted,non_malignant,melanoma,bcc,scc
+non_malignant,2137,173,70,18
+melanoma,262,382,31,3
+bcc,97,25,356,20
+scc,31,10,25,28

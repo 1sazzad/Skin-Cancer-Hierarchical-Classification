@@ -21,7 +21,10 @@ from torch.optim.lr_scheduler import CosineAnnealingLR, LRScheduler
 
 from src.data.dataloaders import DataLoaderConfig, build_stage_dataloaders
 from src.evaluation.classification_metrics import compute_classification_metrics
-from src.models.efficientnet_baseline import build_efficientnet_b0
+from src.models.classification_backbone import (
+    SUPPORTED_CLASSIFICATION_ARCHITECTURES,
+    build_classification_model,
+)
 from src.training.engine import EpochResult, run_classification_epoch
 from src.training.losses import ClassBalancedFocalLoss
 from src.utils.reproducibility import seed_everything
@@ -74,13 +77,22 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         raise ValueError("full_training_allowed must be true for a runnable config.")
 
     task = data.get("task")
-    if task not in {"stage_1", "stage_2", "flat_four_class"}:
+    if task not in {"stage_1", "stage_2", "flat_four_class", "emb_stage03"}:
         raise ValueError(
-            "data.task must be stage_1, stage_2, or flat_four_class."
+            "data.task must be stage_1, stage_2, flat_four_class, or emb_stage03."
         )
 
-    if model.get("architecture") != "efficientnet_b0":
-        raise ValueError("The controlled runner currently supports efficientnet_b0 only.")
+    architecture = str(model.get("architecture", ""))
+    if architecture not in SUPPORTED_CLASSIFICATION_ARCHITECTURES:
+        supported = ", ".join(SUPPORTED_CLASSIFICATION_ARCHITECTURES)
+        raise ValueError(
+            f"Unsupported model architecture {architecture!r}. "
+            f"Supported architectures: {supported}."
+        )
+    if architecture == "densenet121" and task != "flat_four_class":
+        raise ValueError(
+            "densenet121 is approved only for the final flat_four_class baseline."
+        )
     if model.get("pretrained_weights") != "imagenet":
         raise ValueError("Experiments must use declared ImageNet pretrained weights.")
 
@@ -115,6 +127,27 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         if data.get("label_mapping_strategy") != "phase06_flat_four_class_v1":
             raise ValueError(
                 "flat_four_class requires the phase06_flat_four_class_v1 mapping."
+            )
+
+    if task == "emb_stage03":
+        expected_mapping = {"Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4}
+        if class_to_index != expected_mapping:
+            raise ValueError(
+                "emb_stage03 requires exact class order [Tis, T1, T2, T3, T4]."
+            )
+        if data.get("dataset") != "isic_stage03":
+            raise ValueError("emb_stage03 requires data.dataset='isic_stage03'.")
+        if data.get("label_source") != "official_isic_metadata":
+            raise ValueError(
+                "emb_stage03 requires data.label_source='official_isic_metadata'."
+            )
+        if data.get("label_mapping_strategy") != (
+            "official_isic_diagnosis_and_breslow_ajcc8_broad_t_category"
+        ):
+            raise ValueError("emb_stage03 requires official ISIC label derivation.")
+        if data.get("modality") != "dermoscopic":
+            raise ValueError(
+                "emb_stage03 primary training must be dermoscopic only."
             )
 
     loss_name = training.get("loss")
@@ -176,15 +209,52 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             )
 
     elif loss_name == "weighted_cross_entropy":
-        if task != "stage_2":
+        if task not in {"stage_2", "emb_stage03"}:
             raise ValueError(
-                "weighted_cross_entropy is currently restricted to Stage 2."
+                "weighted_cross_entropy is restricted to Stage 2 and emb_stage03."
             )
-        validate_class_weight_mapping()
+        validated_weights = validate_class_weight_mapping()
         if focal_enabled:
             raise ValueError(
                 "focal_loss must remain false for weighted_cross_entropy."
             )
+        if task == "emb_stage03":
+            source = _mapping(training, "class_weight_source")
+            if source.get("partition") != "train":
+                raise ValueError(
+                    "emb_stage03 inverse-frequency weights must use the "
+                    "training partition only."
+                )
+            if source.get("method") != "inverse_frequency":
+                raise ValueError(
+                    "emb_stage03 class_weight_source.method must be "
+                    "inverse_frequency."
+                )
+            if source.get("normalization") != "sum_to_number_of_classes":
+                raise ValueError(
+                    "emb_stage03 inverse-frequency weights must use "
+                    "sum_to_number_of_classes normalization."
+                )
+            class_counts = source.get("class_counts")
+            if not isinstance(class_counts, dict):
+                raise ValueError(
+                    "class_weight_source.class_counts must be a mapping."
+                )
+            calculated_weights = compute_inverse_frequency_class_weights(
+                class_counts,
+                list(class_to_index),
+            )
+            for class_name, calculated_weight in calculated_weights.items():
+                if not math.isclose(
+                    float(validated_weights[class_name]),
+                    calculated_weight,
+                    rel_tol=1e-12,
+                    abs_tol=1e-12,
+                ):
+                    raise ValueError(
+                        "Configured inverse-frequency weight does not match "
+                        f"the train-count formula for {class_name!r}."
+                    )
 
     elif loss_name == "class_balanced_focal_loss":
         if task not in {"stage_2", "flat_four_class"}:
@@ -258,6 +328,10 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
 
     if epochs <= 0:
         raise ValueError("training.epochs must be positive.")
+    if task == "emb_stage03" and epochs > 30:
+        raise ValueError("emb_stage03 is capped at 30 epochs.")
+    if task == "emb_stage03" and int(experiment.get("seed", -1)) != 42:
+        raise ValueError("emb_stage03 requires seed 42.")
     if patience <= 0:
         raise ValueError("training.early_stopping_patience must be positive.")
 
@@ -290,6 +364,31 @@ def compute_effective_number_class_weights(
         )
 
     normalizer = len(raw_weights) / sum(raw_weights.values())
+    return {
+        class_name: raw_weights[class_name] * normalizer
+        for class_name in class_order
+    }
+
+
+def compute_inverse_frequency_class_weights(
+    class_counts: Mapping[str, Any],
+    class_order: list[str],
+) -> dict[str, float]:
+    """Calculate inverse-frequency weights normalized to the class count."""
+
+    if len(class_counts) != len(class_order) or set(class_counts) != set(class_order):
+        raise ValueError(
+            "class count keys must exactly match data.class_to_index."
+        )
+    raw_weights: dict[str, float] = {}
+    for class_name in class_order:
+        count = class_counts[class_name]
+        if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+            raise ValueError(
+                "All training class counts must be positive integers."
+            )
+        raw_weights[class_name] = 1.0 / count
+    normalizer = len(class_order) / sum(raw_weights.values())
     return {
         class_name: raw_weights[class_name] * normalizer
         for class_name in class_order
@@ -570,7 +669,8 @@ def run_baseline_experiment(
     )
 
     class_names = _ordered_class_names(config)
-    model = build_efficientnet_b0(
+    model = build_classification_model(
+        str(model_config["architecture"]),
         int(model_config["number_of_classes"]),
         pretrained="imagenet",
         dropout_probability=float(model_config.get("dropout_probability", 0.2)),

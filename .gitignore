@@ -106,6 +106,8 @@ desktop.ini
 # =========================================================
 reports/figures/generated/
 reports/tables/generated/
+reports/dataset_audits/isic_stage03_metadata_audit.json
+reports/dataset_audits/isic_stage03_image_audit.json
 # Track lightweight reproducibility checksum records
 !data/checksums/
 !data/checksums/**/
@@ -119,3 +121,16 @@ reports/tables/generated/
 
 # Local and VM runtime logs/status artifacts
 /logs/
+
+# LaTeX temporary build artifacts
+/paper/**/*.aux
+/paper/**/*.synctex.gz
+/paper/**/*.out
+/paper/**/*.toc
+/paper/**/*.fls
+/paper/**/*.fdb_latexmk
+/paper/**/*.bbl
+/paper/**/*.blg
+# ICCIT manuscript source is maintained in Overleaf
+/paper/iccit2026/main.tex
+/paper/iccit2026/references.bib

@@ -1,0 +1,161 @@
+{
+  "batch_size": 64,
+  "checkpoint_epoch": 4,
+  "checkpoint_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/runs/phase11/full__phase11_flat_four_class_isic2019_densenet121_cross_entropy_seed42__20260730T155147Z/best_checkpoint.pt",
+  "checkpoint_validation_metrics": {
+    "accuracy": 0.79907306434024,
+    "balanced_accuracy": 0.635220327433875,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        2107,
+        194,
+        77,
+        20
+      ],
+      [
+        213,
+        439,
+        25,
+        1
+      ],
+      [
+        93,
+        22,
+        357,
+        26
+      ],
+      [
+        29,
+        4,
+        33,
+        28
+      ]
+    ],
+    "macro_f1": 0.6449820790578854,
+    "per_class": {
+      "bcc": {
+        "f1": 0.7212121212121212,
+        "precision": 0.725609756097561,
+        "recall": 0.7168674698795181,
+        "support": 498
+      },
+      "melanoma": {
+        "f1": 0.6566940912490651,
+        "precision": 0.6661608497723824,
+        "recall": 0.6474926253687315,
+        "support": 678
+      },
+      "non_malignant": {
+        "f1": 0.8706611570247934,
+        "precision": 0.8628173628173628,
+        "recall": 0.8786488740617181,
+        "support": 2398
+      },
+      "scc": {
+        "f1": 0.33136094674556216,
+        "precision": 0.37333333333333335,
+        "recall": 0.2978723404255319,
+        "support": 94
+      }
+    },
+    "sample_count": 3668,
+    "weighted_f1": 0.7969998947028463
+  },
+  "class_names": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "elapsed_seconds": 26.016854306999903,
+  "environment": {
+    "cuda_available": true,
+    "cuda_build": "13.0",
+    "device": "cuda",
+    "gpu_memory_bytes": 16713646080,
+    "gpu_name": "Tesla T4",
+    "platform": "Linux-6.17.0-1021-azure-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.13.0+cu130"
+  },
+  "evaluation_scope": "isic2019_internal_test",
+  "num_workers": 4,
+  "reportable_internal_test_result": true,
+  "run_name": "phase11_flat_four_class_isic2019_densenet121_cross_entropy_seed42",
+  "sample_count": 3668,
+  "samples_per_second": 140.9855302534832,
+  "seed": 42,
+  "task": "flat_four_class",
+  "test_metrics": {
+    "accuracy": 0.7914394765539804,
+    "balanced_accuracy": 0.6168282266253176,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        2137,
+        173,
+        70,
+        18
+      ],
+      [
+        262,
+        382,
+        31,
+        3
+      ],
+      [
+        97,
+        25,
+        356,
+        20
+      ],
+      [
+        31,
+        10,
+        25,
+        28
+      ]
+    ],
+    "macro_f1": 0.6351074531606824,
+    "mean_loss": 0.5646466126943752,
+    "per_class": {
+      "bcc": {
+        "f1": 0.726530612244898,
+        "precision": 0.7385892116182573,
+        "recall": 0.714859437751004,
+        "support": 498
+      },
+      "melanoma": {
+        "f1": 0.6025236593059937,
+        "precision": 0.6474576271186441,
+        "recall": 0.5634218289085545,
+        "support": 678
+      },
+      "non_malignant": {
+        "f1": 0.8678172588832487,
+        "precision": 0.8456667985753858,
+        "recall": 0.8911592994161801,
+        "support": 2398
+      },
+      "scc": {
+        "f1": 0.34355828220858897,
+        "precision": 0.4057971014492754,
+        "recall": 0.2978723404255319,
+        "support": 94
+      }
+    },
+    "sample_count": 3668,
+    "weighted_f1": 0.7861623640231898
+  }
+}

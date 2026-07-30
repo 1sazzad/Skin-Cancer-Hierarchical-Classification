@@ -1,0 +1,738 @@
+from __future__ import annotations
+
+import argparse
+import hashlib
+import io
+from pathlib import Path
+
+import pandas as pd
+import pytest
+import torch
+import yaml
+from PIL import Image
+from torch import nn
+
+from scripts.build_emb_stage03_split import (
+    GROUPING_STRATEGY,
+    add_transitive_group_ids,
+    build_split,
+    split_audit,
+)
+from scripts.acquire_isic_stage03_vm import (
+    download_one,
+    fetch_json,
+    inventory_row,
+    load_jsonl,
+    run_download,
+)
+from src.data.emb_stage03 import (
+    EMBStage03Dataset,
+    EMB_STAGE03_CLASS_TO_INDEX,
+    derive_t_category_from_isic_metadata,
+    inverse_frequency_class_weights,
+    map_stage_ajcc,
+)
+from src.models.efficientnet_baseline import build_efficientnet_b0
+from src.training.baseline_experiment import (
+    _build_criterion,
+    compute_inverse_frequency_class_weights,
+    load_experiment_config,
+)
+
+STAGE03_WCE_CONFIG = Path(
+    "configs/experiments/"
+    "phase09_stage03_isic_derived_efficientnet_b0_weighted_cross_entropy.yaml"
+)
+
+
+def write_experiment_config(tmp_path: Path, payload: dict[str, object]) -> Path:
+    path = tmp_path / "experiment.yaml"
+    path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+    return path
+
+
+def fixture_frame() -> pd.DataFrame:
+    rows: list[dict[str, object]] = []
+    for stage in range(5):
+        for index in range(20):
+            rows.append(
+                {
+                    "image_id": f"stage{stage}_{index}",
+                    "image_path": f"data/raw/emb/images/stage{stage}_{index}.jpg",
+                    "derived_stage_ajcc": stage,
+                    "t_category": map_stage_ajcc(stage),
+                    "modality": "dermoscopic",
+                    "file_sha256": f"{stage:02x}{index:062x}",
+                    "eligible": "true",
+                    "patient_id": "",
+                    "lesion_id": "",
+                }
+            )
+        rows.append(
+            {
+                "image_id": f"clinical_{stage}",
+                "image_path": f"data/raw/emb/images/clinical_{stage}.jpg",
+                "derived_stage_ajcc": stage,
+                "t_category": map_stage_ajcc(stage),
+                "modality": "clinical",
+                "file_sha256": f"ff{stage:062x}",
+                "eligible": "true",
+                "patient_id": "",
+                "lesion_id": "",
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def test_official_stage_mapping_and_rejection() -> None:
+    assert [map_stage_ajcc(value) for value in range(5)] == ["Tis", "T1", "T2", "T3", "T4"]
+    for invalid in (None, "", -1, 5, 1.5, "unknown"):
+        with pytest.raises(ValueError):
+            map_stage_ajcc(invalid)
+
+
+@pytest.mark.parametrize(
+    ("diagnosis", "thickness", "expected"),
+    [
+        ("Melanoma in situ", "", (0, "Tis")),
+        ("Melanoma invasive", 1.0, (1, "T1")),
+        ("Melanoma invasive", 1.0001, (2, "T2")),
+        ("Melanoma invasive", 2.0, (2, "T2")),
+        ("Melanoma invasive", 2.0001, (3, "T3")),
+        ("Melanoma invasive", 4.0, (3, "T3")),
+        ("Melanoma invasive", 4.0001, (4, "T4")),
+    ],
+)
+def test_official_isic_t_category_boundaries(
+    diagnosis: str, thickness: object, expected: tuple[int, str]
+) -> None:
+    assert derive_t_category_from_isic_metadata(diagnosis, thickness) == expected
+
+
+@pytest.mark.parametrize(
+    ("diagnosis", "thickness"),
+    [
+        ("Melanoma invasive", ""),
+        ("Melanoma invasive", 0),
+        ("Melanoma invasive", "unknown"),
+        ("Melanoma NOS", 1.0),
+        ("Nevus", 1.0),
+    ],
+)
+def test_official_isic_invalid_label_metadata_rejected(
+    diagnosis: str, thickness: object
+) -> None:
+    with pytest.raises(ValueError):
+        derive_t_category_from_isic_metadata(diagnosis, thickness)
+
+
+def api_payload(**overrides: object) -> dict[str, object]:
+    payload: dict[str, object] = {
+        "isic_id": "ISIC_0000001",
+        "public": True,
+        "copyright_license": "CC-BY",
+        "attribution": "Anonymous",
+        "files": {"full": {"url": "https://example.invalid/image.jpg", "size": 123}},
+        "metadata": {
+            "acquisition": {"image_type": "dermoscopic"},
+            "clinical": {
+                "diagnosis_2": "Malignant",
+                "diagnosis_3": "Melanoma invasive",
+                "diagnosis_confirm_type": "histopathology",
+                "mel_thick_mm": 1.2,
+                "mel_ulcer": False,
+                "patient_id": "patient-1",
+                "lesion_id": "lesion-1",
+            },
+        },
+    }
+    payload.update(overrides)
+    return payload
+
+
+def test_inventory_eligibility_and_audit_only_disagreement() -> None:
+    candidate = {"image": "ISIC_0000001", "stage_ajcc": "1"}
+    row = inventory_row(candidate, api_payload())
+    assert row["eligible"] == "true"
+    assert row["attribution"] == "Anonymous"
+    assert row["patient_id"] == "patient-1"
+    assert row["lesion_id"] == "lesion-1"
+    assert row["derived_stage_ajcc"] == 2
+    assert row["t_category"] == "T2"
+    assert row["original_emb_t_category"] == "T1"
+    assert row["original_vs_official_agreement"] == "false"
+
+
+def test_inventory_excludes_non_public_modality_and_licence() -> None:
+    candidate = {"image": "ISIC_0000001", "stage_ajcc": "2"}
+    non_public = api_payload(public=False)
+    row = inventory_row(candidate, non_public)
+    assert row["eligible"] == "false"
+    assert "not_public" in row["exclusion_reason"]
+
+    clinical = api_payload()
+    clinical["metadata"]["acquisition"]["image_type"] = "clinical"  # type: ignore[index]
+    row = inventory_row(candidate, clinical)
+    assert "not_dermoscopic" in row["exclusion_reason"]
+
+    unsupported = api_payload(copyright_license="All rights reserved")
+    row = inventory_row(candidate, unsupported)
+    assert "unsupported_or_missing_licence" in row["exclusion_reason"]
+
+
+def test_metadata_resume_loads_existing_jsonl_without_network(tmp_path: Path) -> None:
+    path = tmp_path / "resume.jsonl"
+    record = {"requested_isic_id": "ISIC_0000001", "payload": api_payload()}
+    path.write_text(__import__("json").dumps(record) + "\n", encoding="utf-8")
+    assert load_jsonl(path) == {"ISIC_0000001": record}
+
+
+def test_api_fetch_uses_mocked_response_only() -> None:
+    class MockResponse:
+        def __enter__(self) -> "MockResponse":
+            return self
+
+        def __exit__(self, *args: object) -> None:
+            return None
+
+        def read(self) -> bytes:
+            return __import__("json").dumps(api_payload()).encode()
+
+    calls: list[str] = []
+
+    def opener(request: object, timeout: float) -> MockResponse:
+        calls.append(f"{getattr(request, 'full_url')}:{timeout}")
+        return MockResponse()
+
+    payload = fetch_json("ISIC_0000001", 5.0, 0, opener=opener)
+    assert payload["isic_id"] == "ISIC_0000001"
+    assert calls == [
+        "https://api.isic-archive.com/api/v2/images/ISIC_0000001/:5.0"
+    ]
+
+
+def jpeg_bytes() -> bytes:
+    buffer = io.BytesIO()
+    Image.new("RGB", (8, 8), color=(20, 40, 60)).save(buffer, format="JPEG")
+    return buffer.getvalue()
+
+
+class DownloadResponse(io.BytesIO):
+    def __enter__(self) -> "DownloadResponse":
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        self.close()
+
+
+@pytest.mark.parametrize("size_delta", [0, 7])
+def test_download_one_accepts_verified_image_size_change(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, size_delta: int
+) -> None:
+    content = jpeg_bytes()
+    row = {
+        "image_id": "ISIC_TEST",
+        "full_image_url": "https://example.invalid/image.jpg",
+        "expected_file_size": str(len(content) + size_delta),
+    }
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen",
+        lambda request, timeout: DownloadResponse(content),
+    )
+
+    path, digest, status = download_one(row, tmp_path, timeout=1.0, retries=0)
+
+    assert Path(path).read_bytes() == content
+    assert digest == hashlib.sha256(content).hexdigest()
+    assert status == ("downloaded" if size_delta == 0 else "downloaded_size_mismatch")
+    assert not (tmp_path / "ISIC_TEST.jpg.part").exists()
+
+
+def test_download_one_rejects_corrupt_image(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    content = b"not an image"
+    row = {
+        "image_id": "ISIC_CORRUPT",
+        "full_image_url": "https://example.invalid/image.jpg",
+        "expected_file_size": str(len(content) + 1),
+    }
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen",
+        lambda request, timeout: DownloadResponse(content),
+    )
+
+    with pytest.raises(OSError):
+        download_one(row, tmp_path, timeout=1.0, retries=0)
+
+    assert not (tmp_path / "ISIC_CORRUPT.jpg").exists()
+    assert not (tmp_path / "ISIC_CORRUPT.jpg.part").exists()
+
+
+def test_download_one_reports_existing_valid_size_change(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    content = jpeg_bytes()
+    final = tmp_path / "ISIC_EXISTING.jpg"
+    final.write_bytes(content)
+    row = {
+        "image_id": "ISIC_EXISTING",
+        "full_image_url": "https://example.invalid/image.jpg",
+        "expected_file_size": str(len(content) - 1),
+    }
+
+    def fail_network(*args: object, **kwargs: object) -> None:
+        raise AssertionError("valid existing image attempted a network call")
+
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen", fail_network
+    )
+
+    path, digest, status = download_one(row, tmp_path, timeout=1.0, retries=0)
+
+    assert Path(path) == final
+    assert digest == hashlib.sha256(content).hexdigest()
+    assert status == "existing_valid_size_mismatch"
+
+
+@pytest.mark.parametrize(
+    "status", ["downloaded_size_mismatch", "existing_valid_size_mismatch"]
+)
+def test_download_resume_accepts_size_mismatch_status_without_network(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    status: str,
+) -> None:
+    image_dir = tmp_path / "data/raw/emb/images/isic"
+    image_dir.mkdir(parents=True)
+    image_path = image_dir / "ISIC_RESUME.jpg"
+    image_path.write_bytes(jpeg_bytes())
+    inventory = tmp_path / "data/raw/emb/isic_stage03_official_inventory.csv"
+    pd.DataFrame(
+        [
+            {
+                "image_id": "ISIC_RESUME",
+                "full_image_url": "https://example.invalid/image.jpg",
+                "expected_file_size": "1",
+                "eligible": "true",
+                "image_path": image_path.relative_to(tmp_path).as_posix(),
+                "file_sha256": "existing",
+                "download_status": status,
+            }
+        ]
+    ).to_csv(inventory, index=False)
+
+    def fail_network(*args: object, **kwargs: object) -> None:
+        raise AssertionError("resume attempted a network call")
+
+    monkeypatch.setattr(
+        "scripts.acquire_isic_stage03_vm.urllib.request.urlopen", fail_network
+    )
+    args = argparse.Namespace(
+        project_root=tmp_path, resume=True, workers=1, timeout=1.0, retries=0
+    )
+
+    assert run_download(args) == 0
+    result = pd.read_csv(inventory, dtype=str, keep_default_na=False).iloc[0]
+    assert result["download_status"] == status
+
+
+def test_split_is_deterministic_stratified_dermoscopic_and_disjoint() -> None:
+    first, weights, limitations = build_split(fixture_frame(), seed=42)
+    second, second_weights, _ = build_split(fixture_frame(), seed=42)
+    pd.testing.assert_frame_equal(first, second)
+    assert weights == second_weights
+    assert set(first["modality"]) == {"dermoscopic"}
+    assert set(first["split"]) == {"train", "validation", "test"}
+    assert first.groupby("split")["image_id"].nunique().sum() == first["image_id"].nunique()
+    assert first.groupby("file_sha256")["split"].nunique().max() == 1
+    assert set(first.groupby("split")["t_category"].nunique()) == {5}
+    assert limitations
+
+
+def test_duplicate_hash_stays_in_one_split() -> None:
+    frame = fixture_frame()
+    duplicate = frame.iloc[[0]].copy()
+    duplicate["image_id"] = "duplicate_copy"
+    frame = pd.concat([frame, duplicate], ignore_index=True)
+    manifest, _, _ = build_split(frame)
+    assert manifest.loc[manifest["file_sha256"] == frame.iloc[0]["file_sha256"], "split"].nunique() == 1
+
+
+def test_connected_group_relations_and_transitive_closure() -> None:
+    frame = fixture_frame().iloc[:6].copy().reset_index(drop=True)
+    frame.loc[:, ["patient_id", "lesion_id"]] = ""
+    frame.loc[0:1, "patient_id"] = "patient-shared"
+    frame.loc[1:2, "lesion_id"] = "lesion-shared"
+    frame.loc[3, "file_sha256"] = frame.loc[2, "file_sha256"]
+    frame.loc[4:5, "patient_id"] = "   "
+    frame.loc[4:5, "lesion_id"] = ""
+
+    grouped = add_transitive_group_ids(frame)
+
+    assert grouped.loc[:3, "split_group_id"].nunique() == 1
+    assert grouped.loc[4:5, "split_group_id"].nunique() == 2
+
+
+def test_patient_lesion_and_hash_relations_never_cross_splits() -> None:
+    frame = fixture_frame()
+    for stage in range(5):
+        indices = frame.index[frame["derived_stage_ajcc"].eq(stage)].tolist()
+        frame.loc[indices[0:2], "patient_id"] = f"patient-{stage}"
+        frame.loc[indices[2:4], "lesion_id"] = f"lesion-{stage}"
+        frame.loc[indices[5], "file_sha256"] = frame.loc[indices[4], "file_sha256"]
+
+    manifest, _, _ = build_split(frame)
+
+    for field in ("image_id", "patient_id", "lesion_id", "file_sha256", "split_group_id"):
+        nonblank = manifest[field].astype(str).str.strip().ne("")
+        assert manifest.loc[nonblank].groupby(field)["split"].nunique().max() == 1
+    assert set(manifest.groupby("split")["t_category"].nunique()) == {5}
+    for split in ("validation", "test"):
+        assert {"T2", "T3", "T4"} <= set(
+            manifest.loc[manifest["split"].eq(split), "t_category"]
+        )
+
+
+def test_multi_label_patient_component_is_allowed_and_kept_together() -> None:
+    frame = fixture_frame()
+    linked = frame["image_id"].isin(["stage0_0", "stage1_0"])
+    frame.loc[linked, "patient_id"] = "multi-label-patient"
+    frame.loc[frame["image_id"].eq("stage0_0"), "lesion_id"] = "lesion-tis"
+    frame.loc[frame["image_id"].eq("stage1_0"), "lesion_id"] = "lesion-t1"
+
+    manifest, _, _ = build_split(frame)
+
+    component = manifest.loc[
+        manifest["image_id"].isin(["stage0_0", "stage1_0"])
+    ]
+    assert set(component["t_category"]) == {"Tis", "T1"}
+    assert component["split_group_id"].nunique() == 1
+    assert component["split"].nunique() == 1
+
+
+def test_conflicting_lesion_labels_raise_clear_error() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "lesion_id"] = (
+        "conflicting-lesion"
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"lesion_id conflicting-lesion.*stage0_0.*stage1_0.*T1.*Tis",
+    ):
+        build_split(frame)
+
+
+def test_conflicting_hash_labels_raise_clear_error() -> None:
+    frame = fixture_frame()
+    tis_hash = frame.loc[frame["image_id"].eq("stage0_0"), "file_sha256"].iloc[0]
+    frame.loc[frame["image_id"].eq("stage1_0"), "file_sha256"] = tis_hash
+
+    with pytest.raises(
+        ValueError,
+        match=r"SHA-256 .*stage0_0.*stage1_0.*T1.*Tis",
+    ):
+        build_split(frame)
+
+
+def test_transitive_multi_label_component_stays_in_one_split() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "patient_id"] = "p"
+    frame.loc[frame["image_id"].isin(["stage1_0", "stage1_1"]), "lesion_id"] = "l"
+    stage_one_hash = frame.loc[
+        frame["image_id"].eq("stage1_1"), "file_sha256"
+    ].iloc[0]
+    frame.loc[frame["image_id"].eq("stage1_2"), "file_sha256"] = stage_one_hash
+
+    manifest, _, _ = build_split(frame)
+    component = manifest.loc[
+        manifest["image_id"].isin(["stage0_0", "stage1_0", "stage1_1", "stage1_2"])
+    ]
+
+    assert set(component["t_category"]) == {"Tis", "T1"}
+    assert component["split_group_id"].nunique() == 1
+    assert component["split"].nunique() == 1
+
+
+def test_split_requires_three_components_per_class() -> None:
+    frame = fixture_frame()
+    stage_four = frame["derived_stage_ajcc"].eq(4)
+    frame.loc[stage_four, "patient_id"] = "one-stage-four-component"
+
+    with pytest.raises(ValueError, match="at least three distinct connected components"):
+        build_split(frame)
+
+
+def test_split_assignment_is_byte_identical_and_audit_is_complete() -> None:
+    frame = fixture_frame()
+    frame.loc[frame["image_id"].isin(["stage0_0", "stage1_0"]), "patient_id"] = "p0"
+    frame.loc[frame["image_id"].eq("stage0_0"), "lesion_id"] = "l-tis"
+    frame.loc[frame["image_id"].eq("stage1_0"), "lesion_id"] = "l-t1"
+    frame.loc[frame["image_id"].isin(["stage1_0", "stage1_1"]), "lesion_id"] = "l1"
+    first, weights, limitations = build_split(frame, seed=42)
+    second, _, _ = build_split(frame, seed=42)
+
+    assert first.to_csv(index=False).encode() == second.to_csv(index=False).encode()
+    audit = split_audit(first, weights, limitations, "synthetic-sha256", seed=42)
+    expected_fields = {
+        "grouping_strategy",
+        "eligible_image_count",
+        "patient_id_available_count",
+        "lesion_id_available_count",
+        "connected_component_count",
+        "single_label_component_count",
+        "multi_label_component_count",
+        "maximum_labels_in_component",
+        "multi_image_component_count",
+        "maximum_component_size",
+        "class_component_counts",
+        "component_label_set_counts",
+        "components",
+        "component_counts_by_class",
+        "image_counts_by_split_and_class",
+        "component_counts_by_split",
+        "components_containing_each_class_by_split",
+        "component_counts_by_split_and_class",
+        "requested_ratios",
+        "requested_image_ratios",
+        "actual_image_ratios",
+        "actual_overall_image_ratios",
+        "actual_per_class_image_ratios",
+        "patient_id_overlap_count",
+        "lesion_id_overlap_count",
+        "sha256_overlap_count",
+        "split_group_overlap_count",
+        "train_only_class_weights",
+        "manifest_sha256",
+        "limitations",
+    }
+    assert expected_fields <= audit.keys()
+    assert audit["grouping_strategy"] == GROUPING_STRATEGY
+    assert audit["eligible_image_count"] == len(first)
+    assert audit["patient_id_available_count"] == 2
+    assert audit["lesion_id_available_count"] == 3
+    assert audit["multi_image_component_count"] == 1
+    assert audit["maximum_component_size"] == 3
+    assert audit["single_label_component_count"] == 97
+    assert audit["multi_label_component_count"] == 1
+    assert audit["maximum_labels_in_component"] == 2
+    assert audit["class_component_counts"]["Tis"] == 20
+    assert audit["class_component_counts"]["T1"] == 19
+    assert audit["component_label_set_counts"]["Tis|T1"] == 1
+    multi_label = [
+        component for component in audit["components"]
+        if component["is_multi_label"]
+    ]
+    assert len(multi_label) == 1
+    assert multi_label[0]["class_count_vector"] == [1, 2, 0, 0, 0]
+    assert multi_label[0]["labels_present"] == ["Tis", "T1"]
+    assert multi_label[0]["image_ids"] == ["stage0_0", "stage1_0", "stage1_1"]
+    assert multi_label[0]["patient_ids"] == ["p0"]
+    assert multi_label[0]["lesion_ids"] == ["l-tis", "l1"]
+    assert audit["manifest_sha256"] == "synthetic-sha256"
+    assert sum(audit["actual_image_ratios"].values()) == pytest.approx(1.0)
+    assert audit["patient_id_overlap_count"] == 0
+    assert audit["lesion_id_overlap_count"] == 0
+    assert audit["sha256_overlap_count"] == 0
+    assert audit["split_group_overlap_count"] == 0
+    assert "incomplete" in audit["limitations"][0]
+
+
+def test_train_only_class_weights() -> None:
+    labels = ["Tis"] * 10 + ["T1"] * 5 + ["T2"] * 4 + ["T3"] * 2 + ["T4"]
+    weights = inverse_frequency_class_weights(labels)
+    assert list(weights) == list(EMB_STAGE03_CLASS_TO_INDEX)
+    assert weights["T4"] > weights["Tis"]
+    with pytest.raises(ValueError):
+        inverse_frequency_class_weights(["Tis", "T1", "T2", "T3"])
+
+
+def test_five_class_output_shape() -> None:
+    model = build_efficientnet_b0(5, pretrained="none")
+    model.eval()
+    with torch.inference_mode():
+        logits = model(torch.zeros(2, 3, 224, 224))
+    assert logits.shape == (2, 5)
+
+
+def test_phase09_config_resolves() -> None:
+    config = load_experiment_config(
+        Path("configs/experiments/phase09_stage03_emb_efficientnet_b0_cross_entropy.yaml")
+    )
+    assert config["data"]["class_to_index"] == {"Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4}
+    assert config["data"]["modality"] == "dermoscopic"
+    assert config["data"]["dataset"] == "isic_stage03"
+    assert config["data"]["label_source"] == "official_isic_metadata"
+    assert config["training"]["epochs"] == 30
+
+
+def weighted_config_payload() -> dict[str, object]:
+    return yaml.safe_load(STAGE03_WCE_CONFIG.read_text(encoding="utf-8"))
+
+
+def test_phase09_weighted_config_is_valid_and_traceable() -> None:
+    config = load_experiment_config(STAGE03_WCE_CONFIG)
+    assert config["experiment"]["run_name"] == (
+        "stage03_isic_derived_dermoscopic_efficientnet_b0_"
+        "weighted_cross_entropy_seed42"
+    )
+    assert config["experiment"]["variant"] == "weighted_cross_entropy"
+    assert config["data"]["class_to_index"] == {
+        "Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4
+    }
+    assert config["training"]["loss"] == "weighted_cross_entropy"
+    assert config["training"]["weighted_sampler"] is False
+    assert config["training"]["focal_loss"] is False
+    assert config["training"]["class_weight_source"]["class_counts"] == {
+        "Tis": 355, "T1": 184, "T2": 33, "T3": 10, "T4": 12
+    }
+
+
+def test_phase09_inverse_frequency_weight_formula_and_criterion_order() -> None:
+    counts = {"Tis": 355, "T1": 184, "T2": 33, "T3": 10, "T4": 12}
+    expected = {
+        "Tis": 0.063475735584673,
+        "T1": 0.12246677245955931,
+        "T2": 0.682845034319967,
+        "T3": 2.253388613255891,
+        "T4": 1.8778238443799093,
+    }
+    assert compute_inverse_frequency_class_weights(
+        counts, ["Tis", "T1", "T2", "T3", "T4"]
+    ) == pytest.approx(expected, rel=1e-12, abs=1e-12)
+    criterion = _build_criterion(load_experiment_config(STAGE03_WCE_CONFIG), "cpu")
+    assert isinstance(criterion, nn.CrossEntropyLoss)
+    assert criterion.weight is not None
+    assert criterion.weight.tolist() == pytest.approx(
+        [expected[name] for name in ("Tis", "T1", "T2", "T3", "T4")]
+    )
+
+
+def test_phase09_weighted_config_requires_exact_class_order(tmp_path: Path) -> None:
+    payload = weighted_config_payload()
+    payload["data"]["class_to_index"] = {
+        "T1": 0, "Tis": 1, "T2": 2, "T3": 3, "T4": 4
+    }
+    with pytest.raises(ValueError, match="exact class order"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize("extra", [False, True])
+def test_phase09_weighted_config_requires_exact_weight_keys(
+    tmp_path: Path, extra: bool
+) -> None:
+    payload = weighted_config_payload()
+    weights = payload["training"]["class_weights"]
+    if extra:
+        weights["unexpected"] = 1.0
+    else:
+        del weights["T4"]
+    with pytest.raises(ValueError, match="exactly match"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize("invalid_weight", [0.0, -1.0, float("nan"), float("inf")])
+def test_phase09_weighted_config_rejects_invalid_weights(
+    tmp_path: Path, invalid_weight: float
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weights"]["T4"] = invalid_weight
+    with pytest.raises(ValueError, match="finite and positive"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("partition", "validation", "training partition"),
+        ("method", "effective_number", "inverse_frequency"),
+        ("normalization", "none", "sum_to_number_of_classes"),
+    ],
+)
+def test_phase09_weighted_config_rejects_invalid_weight_source(
+    tmp_path: Path, field: str, value: str, message: str
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weight_source"][field] = value
+    with pytest.raises(ValueError, match=message):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+def test_phase09_weighted_configured_weight_must_match_formula(
+    tmp_path: Path,
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weights"]["T4"] = 1.0
+    with pytest.raises(ValueError, match="does not match"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("weighted_sampler", True, "weighted_sampler"),
+        ("focal_loss", True, "focal_loss"),
+    ],
+)
+def test_phase09_weighted_config_rejects_other_imbalance_methods(
+    tmp_path: Path, field: str, value: bool, message: str
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"][field] = value
+    with pytest.raises(ValueError, match=message):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+@pytest.mark.parametrize("invalid_count", [0, -1, 1.5])
+def test_phase09_weighted_class_counts_are_positive_integers(
+    tmp_path: Path, invalid_count: object
+) -> None:
+    payload = weighted_config_payload()
+    payload["training"]["class_weight_source"]["class_counts"]["T4"] = invalid_count
+    with pytest.raises(ValueError, match="positive integers"):
+        load_experiment_config(write_experiment_config(tmp_path, payload))
+
+
+def test_existing_stage2_weighted_cross_entropy_remains_valid() -> None:
+    config = load_experiment_config(
+        "configs/experiments/"
+        "phase04_stage02_isic2019_efficientnet_b0_weighted_cross_entropy.yaml"
+    )
+    assert config["data"]["task"] == "stage_2"
+    assert config["training"]["loss"] == "weighted_cross_entropy"
+
+
+def test_phase09_vm_script_exposes_weighted_modes_without_evaluation() -> None:
+    script = Path("scripts/phase09_stage03_vm.sh").read_text(encoding="utf-8")
+    assert "sanity-wce)" in script
+    assert "train-wce)" in script
+    assert "--max-train-batches 2 --max-validation-batches 2 --epoch-limit 1" in script
+    train_wce_block = script.split("train-wce)", 1)[1].split(";;", 1)[0]
+    assert 'WCE_CONFIG="configs/experiments/phase09_stage03_isic_derived_' in script
+    assert '--config "$WCE_CONFIG"' in train_wce_block
+    assert "evaluate" not in train_wce_block
+
+
+def test_loader_accepts_isic_stage03_manifest(tmp_path: Path) -> None:
+    rows = []
+    for split in ("train", "validation", "test"):
+        for stage in range(5):
+            rows.append(
+                {
+                    "dataset": "isic_stage03",
+                    "image_id": f"{split}_{stage}",
+                    "image_path": f"unused/{split}_{stage}.jpg",
+                    "derived_stage_ajcc": stage,
+                    "t_category": map_stage_ajcc(stage),
+                    "modality": "dermoscopic",
+                    "split": split,
+                    "split_group_id": f"group_{split}_{stage}",
+                    "file_sha256": f"{stage}{split}",
+                }
+            )
+    manifest = tmp_path / "manifest.csv"
+    pd.DataFrame(rows).to_csv(manifest, index=False)
+    dataset = EMBStage03Dataset(manifest, tmp_path, "train")
+    assert len(dataset) == 5
+    assert dataset.class_counts() == {"Tis": 1, "T1": 1, "T2": 1, "T3": 1, "T4": 1}

@@ -12,7 +12,7 @@ import torch
 from PIL import Image, UnidentifiedImageError
 from torch.utils.data import Dataset
 
-TaskName = Literal["stage_1", "stage_2", "flat_four_class"]
+TaskName = Literal["stage_1", "stage_2", "flat_four_class", "emb_stage03"]
 StageName = TaskName
 SplitName = Literal["train", "validation", "internal_test", "test"]
 

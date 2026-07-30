@@ -1654,3 +1654,379 @@ external-generalization claims remain prohibited.
 Phase 07 is complete as a local closure candidate. Push and merge require
 explicit independent human review and approval.
 
+---
+
+## D-022 - Continue Under the Full Original Three-Stage Scope
+
+**Date:** 2026-07-29
+**Status:** Accepted
+**Phase:** Phase 08
+**Owner:** Research lead
+
+### Context
+
+The original charter and scope lock specify three stages, partially labelled
+multi-dataset learning, a lightweight shared or parameter-efficient framework,
+separate-model and flat comparisons, external evaluation, XAI, and complete
+efficiency analysis. Phases 05–07 provide locked evidence for a two-stage
+conditional comparator and its flat comparison, but do not complete those
+remaining objectives.
+
+### Options Considered
+
+1. Option A — continue toward the full original three-stage scope.
+2. Reduce the research claim to the completed two-stage internal study.
+
+### Decision
+
+Select Option A. The study will continue toward a three-stage system:
+malignancy screening, malignant-subtype classification, and a scientifically
+defensible melanoma T-category or Breslow-thickness-group task.
+
+The current Phase 05–07 two-stage system remains a locked comparator. Stage 3,
+an approved external evaluation, preregistered XAI, and comparison against
+separate task-specific models remain required. No new experiment may start
+before its applicable protocol is frozen. Stage 3 shared-model training may
+not begin until the EMB audit and standalone feasibility gate pass.
+
+Stage 3 semantics remain unresolved pending authoritative EMB documentation
+and metadata audit. T-category and Breslow-thickness groups are not
+automatically interchangeable; no class boundary is invented here. The final
+target may be categorical, ordinal, or another justified formulation. A fully
+shared encoder is not guaranteed before feasibility evidence. HIBA is only a
+candidate external dataset until compatibility, licence, modality, labels,
+identifiers, and support are audited. XAI cannot prove clinical correctness,
+and its examples require predefined selection rules. External evaluation
+cannot prove universal clinical generalisation. Negative, null, and
+non-significant results must be reported.
+
+### Supporting Evidence
+
+- `docs/00_project_charter.md`
+- `docs/01_scope_lock.md`
+- `reports/phase08/phase08_scope_deviation_and_evidence_audit.md`
+- `reports/phase08/phase08_remaining_experiment_plan.md`
+- `reports/phase08/phase08_protocol_freeze.md`
+- `reports/phase08/generated/phase08_objective_evidence_matrix.csv`
+
+### Risks and Trade-offs
+
+- Additional local governance work and later Azure Tesla T4 computation are
+  required.
+- EMB may fail its licensing, label-semantics, support, or leakage-control gate.
+- A shared model may underperform separate models; no superiority is assumed.
+- External performance or XAI may be unfavourable and must still be reported.
+
+### Impact on Existing Experiments
+
+Phase 05 hierarchical inference, Phase 06C flat inference, the rejected Phase
+06B focal candidate, and all Phase 07 analysis remain locked and unchanged.
+They must not be rerun or repurposed for model selection.
+
+### Additional Time or Compute
+
+Phase 08 requires no GPU. Later accepted protocols will require Azure Tesla T4
+training, frozen inference, XAI generation, and matched efficiency profiling.
+No Azure execution is authorized by this decision alone.
+
+### Review Trigger
+
+Review at the Phase 09 Stage 3 feasibility gate and before every later first
+training or inference access.
+
+### Final Outcome
+
+Full original scope is retained. Completed and future evidence will remain
+explicitly separated, and manuscript claims will follow the evidence rather
+than the proposal wording.
+
+---
+
+## D-023 - Accept the ISIC-Derived Stage-3 Feasibility Result and Select Weighted Cross-Entropy
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 09
+**Owner:** Research lead
+
+### Context
+
+The EMB repository at commit
+`3ec674f43e73cb08682b99b7fb996aca5f8040d8` had no identifiable licence, so
+no EMB or Atlas images could be used. Phase 09 instead used the EMB CSV only as
+an index of candidate public ISIC identifiers and independently established
+the licensed, attributed **ISIC-derived melanoma T-category subset** from
+official ISIC Archive API v2 metadata.
+
+The leakage-safe seed-42 split contained 848 images. The ordinary
+cross-entropy baseline selected epoch 2 with validation macro-F1
+`0.36561465460163317` and showed strong Tis majority collapse on its locked
+test. One predeclared train-only inverse-frequency weighted-cross-entropy
+candidate selected epoch 12 with validation macro-F1 `0.43657311157311157`.
+
+### Options Considered
+
+1. Retain ordinary cross-entropy as the standalone Stage-3 result.
+2. Select the single weighted-cross-entropy candidate because it exceeded the
+   predeclared validation threshold.
+3. Continue tuning Stage 3 after viewing internal-test results.
+4. Abandon the audited standalone feasibility result.
+
+### Decision
+
+Accept the ISIC-derived standalone Stage-3 feasibility result and select the
+inverse-frequency weighted-cross-entropy candidate. Selection was made from
+validation macro-F1 before weighted-candidate test access because
+`0.43657311157311157` was strictly greater than `0.365615`.
+
+Both baseline and weighted internal-test evaluations are now consumed and
+locked. `rerun_allowed=false`; no further Stage-3 tuning or internal-test rerun
+is permitted.
+
+### Rationale
+
+The weighted candidate improved locked-test macro-F1 from
+`0.16283767911674887` to `0.2756106656721984` and balanced accuracy from
+`0.20240259740259742` to `0.38603896103896107`. Accuracy decreased from
+`0.6062992125984252` to `0.5433070866141733`. T2 and T4 recall remained zero,
+and the apparently perfect T3 recall was based on only two images. The result
+therefore supports feasibility and a descriptive model choice, not statistical
+superiority or clinical adequacy.
+
+### Supporting Evidence
+
+- `data/manifests/emb_stage03_dermoscopic_split_seed42.csv`
+- `data/manifests/emb_stage03_dermoscopic_split_seed42.audit.json`
+- `experiments/evaluations/stage03_isic_derived_internal_test_seed42__best_epoch02/`
+- `experiments/evaluations/stage03_isic_derived_wce_internal_test_seed42__best_epoch12/`
+- `reports/phase09/isic_stage03_fasttrack_result.md`
+- `reports/phase09/emb_stage03_fasttrack_protocol.md`
+
+### Risks and Trade-offs
+
+- T3 and T4 support is extremely small.
+- T2 and T4 had zero recall under the selected model.
+- Patient and lesion metadata is incomplete, although all known relations are
+  preserved without cross-split leakage.
+- This is a single-seed internal result and cannot establish statistical
+  superiority or external generalisation.
+- Lower weighted-model accuracy reflects the trade-off made for less collapsed
+  classwise performance.
+
+### Impacted Files or Components
+
+- Phase 09 report and protocol
+- Dataset roles and registry
+- Experiment registry
+- Locked Stage-3 manifest, audit, predictions, and metric artifacts
+
+### Impact on Existing Experiments
+
+Earlier Phase 05-08 evidence remains unchanged and locked. The generic blocked
+Stage-3 row is superseded. This result is not an integrated three-stage system
+and does not authorize later shared-model, external-evaluation, or clinical
+claims.
+
+### Additional Time or Compute
+
+None. Phase 09 is closed without further training, evaluation, or inference.
+
+### Review Trigger
+
+Review only for evidence-integrity correction or a separately preregistered
+future study with genuinely independent data. The locked internal test cannot
+be reopened for tuning.
+
+### Final Outcome
+
+The weighted candidate is `completed_locked_selected`; the clean CE baseline
+is `completed_locked_baseline`. Both internal-test evaluations are consumed,
+all evidence hashes are locked, and no further Stage-3 tuning or test rerun is
+allowed.
+
+---
+
+## D-024 - Register HIBA as a Pending Frozen External-Evaluation Candidate
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 10A
+**Owner:** Research lead
+
+### Context
+
+HIBA is mandatory for the planned external evaluation, but its local official
+metadata and files have not yet passed licence, modality, label, identifier,
+support, integrity, and ISIC-overlap review. Its official release identity is
+ISIC collection 251, DOI `10.34970/587329`.
+
+### Decision
+
+Register HIBA with status
+`candidate_pending_official_acquisition_audit`. Only dermoscopic rows may enter
+the eventual primary four-class cohort. Original diagnoses are preserved and
+only explicit exact mappings are allowed. Actinic keratosis, clinical images,
+unknown or ambiguous diagnoses, and unsupported labels are excluded.
+
+The audit protocol creates one manifest without train/validation/test splits,
+streams file SHA-256 values, rejects duplicate image IDs, identifies duplicate
+content and label conflicts, and compares image IDs and hashes with the locked
+ISIC 2019 manifest. Any overlap or unresolved mapping blocks approval.
+
+### Rationale
+
+This separates dataset registration and compatibility auditing from inference
+and prevents HIBA from influencing model development. Automated passage is
+necessary but does not replace human verification of official release
+metadata, licence, attribution, and overlap disposition.
+
+### Supporting Evidence
+
+- `reports/phase10/hiba_external_dataset_audit_protocol.md`
+- `configs/datasets/hiba_external_label_mapping.yaml`
+- `configs/evaluation/phase10_hiba_frozen_zero_shot.yaml`
+- `scripts/audit_hiba_external_dataset.py`
+
+### Impact on Existing Experiments
+
+None. Phase 05, Phase 06C, Phase 07, and Phase 09 evidence remains untouched.
+No HIBA data was downloaded, no checkpoint was loaded, and no inference or
+performance inspection was authorized.
+
+### Review Trigger
+
+After official HIBA metadata and files are acquired and the complete audit is
+reviewed, but before any one-time external inference.
+
+### Final Outcome
+
+HIBA remains disabled and unapproved for evaluation. The audit framework is
+registered; inference remains prohibited.
+
+---
+
+## D-025 - Prepare Official HIBA Metadata-First Acquisition
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 10B
+**Owner:** Research lead
+
+### Decision
+
+Prepare offline-testable tooling to acquire metadata only from ISIC Archive API
+v2 collection 251, DOI `10.34970/587329`, titled `Hospital Italiano de Buenos
+Aires - Skin Lesions Images (2019-2022)`. The collection identity and declared
+1616-image count must pass before final metadata is written. Collection 175 /
+DOI `10.34970/559884` is not an acceptable substitute.
+
+Live acquisition requires an explicit command-line authorization after human
+review. Image download remains separately gated. The raw API image objects are
+preserved in JSONL and then inventoried offline without label mapping, modality
+selection, diagnosis inference, evaluation approval, or splitting.
+
+### Rationale
+
+Metadata-first acquisition allows licence, attribution, modality, diagnosis,
+identifier, support, and overlap feasibility to be reviewed before images or
+models are accessed. Transactional publication and refusal to overwrite protect
+the provenance evidence.
+
+### Supporting Evidence
+
+- `reports/phase10/hiba_official_acquisition_protocol.md`
+- `scripts/acquire_hiba_official_metadata.py`
+- `scripts/inventory_hiba_official_metadata.py`
+- `tests/test_hiba_official_metadata_acquisition.py`
+
+### Impact and boundary
+
+No experiment is executed. HIBA remains frozen external evaluation only, the
+Phase 10A label mapping remains unchanged, and no HIBA-derived development
+decision is permitted. No network acquisition or image download is authorized
+by this decision alone.
+
+### Review Trigger
+
+Human protocol review before the explicit metadata acquisition command, then
+human review of the completed exact-vocabulary inventory before any mapping
+amendment or image acquisition decision.
+
+---
+
+## D-026 - Lock the Final DenseNet-121 Flat Comparator
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 11
+**Owner:** Research lead
+
+### Context
+
+The ICCIT scientific audit authorized one final architecture comparator to
+test whether the observed flat-model performance depended narrowly on
+EfficientNet-B0.
+
+DenseNet-121 was selected in advance as the only permitted additional
+backbone. The Phase 06 clean cross-entropy protocol remained unchanged.
+
+### Decision
+
+Accept and lock the completed DenseNet-121 flat four-class result.
+
+The epoch-4 checkpoint was selected only through validation macro-F1 and was
+evaluated once on the unchanged 3,668-image internal-test cohort.
+
+No additional backbone, retraining, hyperparameter search, threshold tuning,
+test-time augmentation, ensemble, or internal-test rerun is authorized.
+
+### Result
+
+DenseNet-121 achieved:
+
+- accuracy `0.7914394766`;
+- balanced accuracy `0.6168282266`;
+- macro-F1 `0.6351074532`;
+- weighted-F1 `0.7861623640`.
+
+It achieved the highest accuracy, macro-F1, and weighted-F1 point estimates
+among the three locked systems. EfficientNet-B0 retained the highest balanced
+accuracy.
+
+### Claim Boundary
+
+The existing paired bootstrap and exact McNemar analysis applies only to the
+EfficientNet-B0 flat-versus-hierarchy comparison.
+
+No new paired confidence interval or hypothesis test was performed for
+DenseNet-121. Its ranking is descriptive and cannot support a claim of
+statistically significant superiority.
+
+SCC recall remained `0.2978723404`, so the rare-class sensitivity limitation
+was not resolved.
+
+### Supporting Evidence
+
+- `configs/experiments/phase11_flat_four_class_isic2019_densenet121_cross_entropy.yaml`
+- `experiments/evaluations/phase11_densenet121_internal_test_seed42__best_epoch04/`
+- `reports/phase11/phase11_final_densenet_baseline_result.md`
+- `reports/phase11/generated/final_model_comparison.csv`
+
+### Impact on Existing Experiments
+
+Phase 05, Phase 06C, Phase 07, and Phase 09 evidence remains unchanged and
+locked.
+
+DenseNet-121 becomes an additional flat comparator. It does not replace or
+alter the preregistered EfficientNet-B0-versus-hierarchy statistical analysis.
+
+The blocked shared-model and integrated three-stage experiments remain
+unexecuted.
+
+### Final Outcome
+
+Phase 11 is complete and locked.
+
+DenseNet-121 is the strongest aggregate point-estimate flat comparator, while
+EfficientNet-B0 remains strongest on balanced accuracy. No further model
+training or locked internal-test access is permitted.
