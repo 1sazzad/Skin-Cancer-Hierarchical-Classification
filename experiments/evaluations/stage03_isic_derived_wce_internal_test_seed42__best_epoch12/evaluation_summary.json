@@ -1,0 +1,198 @@
+{
+  "batch_size": 64,
+  "checkpoint_epoch": 12,
+  "checkpoint_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/experiments/runs/full__stage03_isic_derived_dermoscopic_efficientnet_b0_weighted_cross_entropy_seed42__20260729T204920Z/best_checkpoint.pt",
+  "checkpoint_validation_metrics": {
+    "accuracy": 0.5511811023622047,
+    "balanced_accuracy": 0.5362337662337662,
+    "class_names": [
+      "Tis",
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "confusion_matrix": [
+      [
+        53,
+        14,
+        8,
+        0,
+        2
+      ],
+      [
+        26,
+        14,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5,
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "macro_f1": 0.43657311157311157,
+    "per_class": {
+      "T1": {
+        "f1": 0.3783783783783784,
+        "precision": 0.4117647058823529,
+        "recall": 0.35,
+        "support": 40
+      },
+      "T2": {
+        "f1": 0.125,
+        "precision": 0.1111111111111111,
+        "recall": 0.14285714285714285,
+        "support": 7
+      },
+      "T3": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "support": 2
+      },
+      "T4": {
+        "f1": 0.5,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "support": 1
+      },
+      "Tis": {
+        "f1": 0.6794871794871795,
+        "precision": 0.6708860759493671,
+        "recall": 0.6883116883116883,
+        "support": 77
+      }
+    },
+    "sample_count": 127,
+    "weighted_f1": 0.5498476216980155
+  },
+  "class_names": [
+    "Tis",
+    "T1",
+    "T2",
+    "T3",
+    "T4"
+  ],
+  "elapsed_seconds": 5.84022219200051,
+  "environment": {
+    "cuda_available": true,
+    "cuda_build": "13.0",
+    "device": "cuda",
+    "gpu_memory_bytes": 16713646080,
+    "gpu_name": "Tesla T4",
+    "platform": "Linux-6.17.0-1021-azure-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.13.0+cu130"
+  },
+  "evaluation_scope": "isic2019_internal_test",
+  "num_workers": 4,
+  "reportable_internal_test_result": true,
+  "run_name": "stage03_isic_derived_dermoscopic_efficientnet_b0_weighted_cross_entropy_seed42",
+  "sample_count": 127,
+  "samples_per_second": 21.745747991224526,
+  "seed": 42,
+  "task": "emb_stage03",
+  "test_metrics": {
+    "accuracy": 0.5433070866141733,
+    "balanced_accuracy": 0.38603896103896107,
+    "class_names": [
+      "Tis",
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "confusion_matrix": [
+      [
+        62,
+        14,
+        1,
+        0,
+        0
+      ],
+      [
+        31,
+        5,
+        2,
+        2,
+        0
+      ],
+      [
+        3,
+        3,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    ],
+    "macro_f1": 0.2756106656721984,
+    "mean_loss": 1.1099267015306968,
+    "per_class": {
+      "T1": {
+        "f1": 0.16129032258064516,
+        "precision": 0.22727272727272727,
+        "recall": 0.125,
+        "support": 40
+      },
+      "T2": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 7
+      },
+      "T3": {
+        "f1": 0.5,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "support": 2
+      },
+      "T4": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 1
+      },
+      "Tis": {
+        "f1": 0.7167630057803468,
+        "precision": 0.6458333333333334,
+        "recall": 0.8051948051948052,
+        "support": 77
+      }
+    },
+    "sample_count": 127,
+    "weighted_f1": 0.4932469633725395
+  }
+}

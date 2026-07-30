@@ -1740,3 +1740,107 @@ Full original scope is retained. Completed and future evidence will remain
 explicitly separated, and manuscript claims will follow the evidence rather
 than the proposal wording.
 
+---
+
+## D-023 - Accept the ISIC-Derived Stage-3 Feasibility Result and Select Weighted Cross-Entropy
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 09
+**Owner:** Research lead
+
+### Context
+
+The EMB repository at commit
+`3ec674f43e73cb08682b99b7fb996aca5f8040d8` had no identifiable licence, so
+no EMB or Atlas images could be used. Phase 09 instead used the EMB CSV only as
+an index of candidate public ISIC identifiers and independently established
+the licensed, attributed **ISIC-derived melanoma T-category subset** from
+official ISIC Archive API v2 metadata.
+
+The leakage-safe seed-42 split contained 848 images. The ordinary
+cross-entropy baseline selected epoch 2 with validation macro-F1
+`0.36561465460163317` and showed strong Tis majority collapse on its locked
+test. One predeclared train-only inverse-frequency weighted-cross-entropy
+candidate selected epoch 12 with validation macro-F1 `0.43657311157311157`.
+
+### Options Considered
+
+1. Retain ordinary cross-entropy as the standalone Stage-3 result.
+2. Select the single weighted-cross-entropy candidate because it exceeded the
+   predeclared validation threshold.
+3. Continue tuning Stage 3 after viewing internal-test results.
+4. Abandon the audited standalone feasibility result.
+
+### Decision
+
+Accept the ISIC-derived standalone Stage-3 feasibility result and select the
+inverse-frequency weighted-cross-entropy candidate. Selection was made from
+validation macro-F1 before weighted-candidate test access because
+`0.43657311157311157` was strictly greater than `0.365615`.
+
+Both baseline and weighted internal-test evaluations are now consumed and
+locked. `rerun_allowed=false`; no further Stage-3 tuning or internal-test rerun
+is permitted.
+
+### Rationale
+
+The weighted candidate improved locked-test macro-F1 from
+`0.16283767911674887` to `0.2756106656721984` and balanced accuracy from
+`0.20240259740259742` to `0.38603896103896107`. Accuracy decreased from
+`0.6062992125984252` to `0.5433070866141733`. T2 and T4 recall remained zero,
+and the apparently perfect T3 recall was based on only two images. The result
+therefore supports feasibility and a descriptive model choice, not statistical
+superiority or clinical adequacy.
+
+### Supporting Evidence
+
+- `data/manifests/emb_stage03_dermoscopic_split_seed42.csv`
+- `data/manifests/emb_stage03_dermoscopic_split_seed42.audit.json`
+- `experiments/evaluations/stage03_isic_derived_internal_test_seed42__best_epoch02/`
+- `experiments/evaluations/stage03_isic_derived_wce_internal_test_seed42__best_epoch12/`
+- `reports/phase09/isic_stage03_fasttrack_result.md`
+- `reports/phase09/emb_stage03_fasttrack_protocol.md`
+
+### Risks and Trade-offs
+
+- T3 and T4 support is extremely small.
+- T2 and T4 had zero recall under the selected model.
+- Patient and lesion metadata is incomplete, although all known relations are
+  preserved without cross-split leakage.
+- This is a single-seed internal result and cannot establish statistical
+  superiority or external generalisation.
+- Lower weighted-model accuracy reflects the trade-off made for less collapsed
+  classwise performance.
+
+### Impacted Files or Components
+
+- Phase 09 report and protocol
+- Dataset roles and registry
+- Experiment registry
+- Locked Stage-3 manifest, audit, predictions, and metric artifacts
+
+### Impact on Existing Experiments
+
+Earlier Phase 05-08 evidence remains unchanged and locked. The generic blocked
+Stage-3 row is superseded. This result is not an integrated three-stage system
+and does not authorize later shared-model, external-evaluation, or clinical
+claims.
+
+### Additional Time or Compute
+
+None. Phase 09 is closed without further training, evaluation, or inference.
+
+### Review Trigger
+
+Review only for evidence-integrity correction or a separately preregistered
+future study with genuinely independent data. The locked internal test cannot
+be reopened for tuning.
+
+### Final Outcome
+
+The weighted candidate is `completed_locked_selected`; the clean CE baseline
+is `completed_locked_baseline`. Both internal-test evaluations are consumed,
+all evidence hashes are locked, and no further Stage-3 tuning or test rerun is
+allowed.
+

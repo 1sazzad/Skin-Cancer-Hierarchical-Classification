@@ -98,3 +98,18 @@ The candidate may be selected only if its best validation macro-F1 is strictly
 greater than `0.365615`. The internal test remains untouched until that
 validation-only decision; test artifacts cannot guide tuning, candidate
 changes, or checkpoint selection.
+
+## Phase 09 closure
+
+The weighted candidate selected epoch 12 with validation macro-F1
+`0.43657311157311157`, strictly exceeding the predeclared baseline threshold.
+It was therefore selected before test access. Its one locked internal-test
+evaluation produced macro-F1 `0.2756106656721984`, balanced accuracy
+`0.38603896103896107`, accuracy `0.5433070866141733`, and weighted-F1
+`0.4932469633725395`. This is standalone feasibility evidence, not an
+integrated three-stage or clinical-deployment result.
+
+Phase 09 is closed. The baseline and weighted internal-test protocols are both
+consumed, `rerun_allowed=false`, and no further Stage-3 tuning or test rerun is
+permitted. The complete locked interpretation and evidence hashes are recorded
+in `reports/phase09/isic_stage03_fasttrack_result.md`.

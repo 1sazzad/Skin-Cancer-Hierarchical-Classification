@@ -32,13 +32,43 @@ datasets:
 
   emb:
     full_name: "Erasmus MC Melanoma Dataset"
-    role: "stage_3_feasibility_and_modelling"
-    status: "not_acquired"
+    role: "unlicensed_identifier_index_provenance_only"
+    status: "images_not_acquired_unlicensed_repository"
     enabled: false
-    activation_condition: "severity_labels_complete_valid_and_leakage_safe"
+    repository_commit: "3ec674f43e73cb08682b99b7fb996aca5f8040d8"
+    license: "no_identifiable_license"
+    restrictions:
+      - no_emb_image_acquisition
+      - no_atlas_image_use
+      - no_training_or_evaluation_as_emb
     permitted_uses:
-      - stage_3_label_audit
-      - conditional_stage_3_development
+      - candidate_public_isic_identifier_index
+
+  isic_stage03:
+    full_name: "ISIC-derived melanoma T-category subset"
+    role: "audited_standalone_stage_3_feasibility"
+    status: "phase09_completed_locked"
+    enabled: true
+    source_metadata: "official_isic_archive_api_v2"
+    source_identifier_provenance: "emb_csv_candidate_isic_ids_only"
+    image_count: 848
+    split_manifest: "data/manifests/emb_stage03_dermoscopic_split_seed42.csv"
+    split_audit: "data/manifests/emb_stage03_dermoscopic_split_seed42.audit.json"
+    label_order:
+      - Tis
+      - T1
+      - T2
+      - T3
+      - T4
+    licensing: "official_per_image_license_and_attribution_retained"
+    permitted_uses:
+      - locked_standalone_stage_3_feasibility_reporting
+    restrictions:
+      - internal_test_consumed
+      - rerun_allowed_false
+      - no_further_stage_3_tuning
+      - not_integrated_three_stage_evidence
+      - no_clinical_deployment_claim
 
   hiba:
     full_name: "Hospital Italiano de Buenos Aires Skin Lesion Dataset"

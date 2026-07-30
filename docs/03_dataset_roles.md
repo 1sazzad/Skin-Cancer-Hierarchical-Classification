@@ -15,7 +15,8 @@ Dataset access, preprocessing, label mapping, exclusions, splitting, and integri
 | Dataset   | Project role                               |       Development use | Final evaluation use |
 | --------- | ------------------------------------------ | --------------------: | -------------------: |
 | ISIC 2019 | Primary development dataset                |                   Yes |        Internal test |
-| EMB       | Stage 3 feasibility and severity modelling | Yes, for Stage 3 only |         Stage 3 test |
+| EMB identifier index | Unlicensed candidate-ID provenance only | No | No |
+| ISIC-derived melanoma T-category subset | Audited standalone Stage-3 feasibility | Yes, Stage 3 only | Locked Stage-3 test |
 | HIBA      | Mandatory independent external evaluation  |                    No |                  Yes |
 | MRA-MIDAS | Optional second external evaluation        |                    No |             Optional |
 
@@ -128,63 +129,47 @@ The internal test split must not be used for these purposes.
 
 ---
 
-# 3. EMB Dataset
+# 3. EMB Identifier Index and ISIC-Derived Stage-3 Subset
 
 ## Fixed Role
 
-EMB is reserved for Stage 3.
+The EMB repository at commit
+`3ec674f43e73cb08682b99b7fb996aca5f8040d8` had no identifiable licence.
+No EMB images were acquired, no Atlas images were used, and EMB is not the
+Stage-3 dataset. Its CSV was used only as an identifier index for candidate
+public ISIC images.
 
-Its first purpose is not model training. Its first purpose is to determine whether melanoma severity classification is scientifically feasible.
+The actual audited standalone Stage-3 dataset is the **ISIC-derived melanoma
+T-category subset**. Official ISIC Archive API v2 metadata supplies
+authoritative labels, public status, modality, patient and lesion identifiers,
+per-image licence, and attribution.
 
-## Required Feasibility Audit
+## Completed Feasibility Audit
 
-The EMB audit must determine:
+Phase 09 independently validated candidate identifiers and produced 848
+eligible, licensed, attributed, readable dermoscopic images. It found no exact
+duplicate hash group, conflicting duplicate label, or ISIC 2019 ID/SHA-256
+overlap.
 
-* the exact meaning of every severity-related field;
-* whether T-category labels are directly available;
-* whether Breslow thickness is directly available;
-* the measurement units;
-* missing-value frequency;
-* duplicate records;
-* image-label consistency;
-* patient identifiers;
-* lesion identifiers;
-* multiple images per lesion;
-* number of samples per candidate severity group;
-* class imbalance;
-* whether a patient-level split is feasible;
-* whether target groups can be defined without unsupported assumptions.
+The seed-42 split preserves transitive non-empty patient, lesion, and SHA-256
+relations. Patient-safe components may contain distinct lesions with different
+T-categories. Same-lesion and same-hash label conflicts are fatal. Patient,
+lesion, SHA-256, and component cross-split overlaps are zero.
 
-## Preferred Target
+## Stage-3 Target
 
-The preferred Stage 3 target is a clinically defensible T-category grouping.
+The five broad official-metadata-derived labels are Tis, T1, T2, T3, and T4.
+Melanoma in situ maps to Tis. Positive invasive thickness maps as `(0,1]` to
+T1, `(1,2]` to T2, `(2,4]` to T3, and greater than 4 mm to T4. Ulceration does
+not change these broad labels.
 
-## Fallback Target
+## Evidence Boundary
 
-When direct T-category modelling is not valid but Breslow thickness is sufficiently available, a documented Breslow-thickness grouping may be used.
-
-The thresholds must be defined in a configuration file rather than hardcoded inside training code.
-
-Recommended future path:
-
-```text
-configs/datasets/emb_stage03_severity_mapping.yaml
-```
-
-## Stage 3 Stop Rule
-
-Stage 3 must not proceed when:
-
-* labels are ambiguous;
-* severity groups require unsupported inference;
-* sample counts are critically insufficient;
-* leakage-free splitting is impossible;
-* missingness makes the target unreliable;
-* labels and images cannot be matched confidently.
-
-In that case, the project will report Stage 3 as a feasibility limitation.
-
-A scientifically valid limitation is preferable to an unreliable experiment.
+The completed result is standalone Stage-3 feasibility evidence, not an
+integrated three-stage system. Both internal-test evaluations are consumed and
+must not be rerun. T3 and T4 support is very small; no statistical-superiority,
+external-generalisation, comprehensive-staging, or clinical-deployment claim
+is permitted.
 
 ---
 
