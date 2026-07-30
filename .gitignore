@@ -131,3 +131,6 @@ reports/dataset_audits/isic_stage03_image_audit.json
 /paper/**/*.fdb_latexmk
 /paper/**/*.bbl
 /paper/**/*.blg
+# ICCIT manuscript source is maintained in Overleaf
+/paper/iccit2026/main.tex
+/paper/iccit2026/references.bib

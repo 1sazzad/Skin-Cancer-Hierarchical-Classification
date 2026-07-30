@@ -1200,3 +1200,121 @@ repository-resident measurements:
 
 They must be reported as unavailable until a frozen analysis or experiment
 produces them.
+---
+
+## Post-Audit Amendment: Final Phase 11 DenseNet-121 Comparator
+
+**Amendment date:** 2026-07-31
+**Locked evidence commit:** `fbd5a37c579a5522878dfe4d97af8efdf5a1f5ee`
+**Experiment status:** Completed and locked
+**Manuscript source:** Overleaf; local LaTeX sources are intentionally excluded
+
+### Scope
+
+The original scientific audit was completed before execution of the final
+protocol-matched DenseNet-121 flat comparator. This amendment supersedes the
+original report only where the architecture inventory and final aggregate
+comparison changed.
+
+No additional dataset, hyperparameter search, multi-seed experiment,
+test-time augmentation, ensemble, threshold tuning, external evaluation, or
+internal-test rerun was performed.
+
+### Final Locked Comparison
+
+All three systems were evaluated on the same locked 3,668-image ISIC 2019
+internal-test cohort.
+
+| System | Accuracy | Balanced accuracy | Macro F1 | Weighted F1 |
+|---|---:|---:|---:|---:|
+| Flat DenseNet-121 | 0.791439 | 0.616828 | 0.635107 | 0.786162 |
+| Flat EfficientNet-B0 | 0.742094 | 0.650313 | 0.619222 | 0.752557 |
+| Predicted-gate hierarchy | 0.740185 | 0.631199 | 0.605367 | 0.750332 |
+
+DenseNet-121 produced the highest accuracy, macro-F1, and weighted-F1 point
+estimates. EfficientNet-B0 retained the highest balanced accuracy.
+
+DenseNet minus EfficientNet-B0:
+
+- accuracy: `+0.049346`;
+- balanced accuracy: `-0.033484`;
+- macro-F1: `+0.015885`;
+- weighted-F1: `+0.033606`.
+
+DenseNet minus predicted-gate hierarchy:
+
+- accuracy: `+0.051254`;
+- balanced accuracy: `-0.014371`;
+- macro-F1: `+0.029740`;
+- weighted-F1: `+0.035831`.
+
+### Class-Level Limitation
+
+DenseNet-121 achieved the following class F1 scores:
+
+- non-malignant: `0.867817`;
+- melanoma: `0.602524`;
+- BCC: `0.726531`;
+- SCC: `0.343558`.
+
+SCC recall remained `0.297872`, with only 28 of 94 SCC images classified
+correctly. The higher aggregate scores therefore did not remove the
+minority-class sensitivity limitation.
+
+### Statistical Claim Boundary
+
+The existing class-stratified bootstrap confidence intervals and exact
+McNemar test apply only to the EfficientNet-B0 flat-versus-hierarchy
+comparison.
+
+No new paired confidence interval, McNemar test, multiplicity-adjusted
+analysis, or multi-seed analysis was performed for DenseNet-121.
+
+The DenseNet-121 ranking is therefore a descriptive point-estimate comparison.
+It must not be presented as statistically significant superiority.
+
+### Hierarchical Interpretation
+
+Oracle routing increased hierarchical macro-F1 from `0.605367` to `0.793656`,
+corresponding to a routing-associated loss of `0.188289`.
+
+Stage 1 blocked 255 of 1,270 malignant images, or `20.079%`. Routing therefore
+remains the largest measured bottleneck in the conditional hierarchy.
+
+The oracle result is diagnostic and does not imply that a deployable gate
+would achieve oracle performance.
+
+### Final Architecture Inventory
+
+The completed repository now contains:
+
+- flat EfficientNet-B0 four-class classification;
+- flat DenseNet-121 four-class classification;
+- EfficientNet-B0 Stage-1 malignancy classification;
+- EfficientNet-B0 Stage-2 malignant-subtype classification;
+- predicted and oracle hierarchical evaluation;
+- standalone melanoma T-category feasibility evaluation.
+
+The repository does not contain a completed shared-encoder multitask system,
+an integrated three-stage pipeline, a completed external-dataset evaluation,
+or a clinically validated deployment.
+
+### Evidence
+
+- `reports/phase11/phase11_final_densenet_baseline_result.md`
+- `reports/phase11/generated/final_model_comparison.csv`
+- `experiments/evaluations/phase11_densenet121_internal_test_seed42__best_epoch04/`
+- `experiments/experiment_registry.csv`
+- `docs/06_decision_log.md`
+- implementation commit `133442a185060d78f23019d6997b12526e6cef3c`
+- evidence commit `fbd5a37c579a5522878dfe4d97af8efdf5a1f5ee`
+
+### Manuscript Workflow
+
+The ICCIT manuscript and bibliography are maintained in Overleaf. Local
+`main.tex`, `references.bib`, and generated LaTeX build artifacts are
+intentionally excluded from this repository.
+
+Repository-resident reports, figures, metrics, predictions, tables, decision
+records, and audit evidence remain the source for validating manuscript
+claims.

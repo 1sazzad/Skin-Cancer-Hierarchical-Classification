@@ -91,3 +91,36 @@ def test_phase11_claim_boundary() -> None:
         in normalized_report
     )
     assert "No additional model training" in normalized_report
+def test_phase11_final_audit_amendment() -> None:
+    audit_path = Path(
+        "reports/complete_scientific_audit_iccit2026.md"
+    )
+
+    audit = audit_path.read_text(encoding="utf-8")
+    normalized_audit = " ".join(audit.split())
+
+    assert (
+        "Post-Audit Amendment: Final Phase 11 DenseNet-121 Comparator"
+        in audit
+    )
+    assert "Flat DenseNet-121 | 0.791439" in audit
+    assert "SCC recall remained `0.297872`" in normalized_audit
+    assert "No new paired confidence interval" in normalized_audit
+    assert (
+        "must not be presented as statistically significant superiority"
+        in normalized_audit
+    )
+    assert (
+        "Oracle routing increased hierarchical macro-F1"
+        in normalized_audit
+    )
+
+
+def test_iccit_manuscript_is_overleaf_owned() -> None:
+    gitignore = Path(".gitignore").read_text(encoding="utf-8")
+
+    assert "/paper/iccit2026/main.tex" in gitignore
+    assert "/paper/iccit2026/references.bib" in gitignore
+
+    assert not Path("paper/iccit2026/main.tex").exists()
+    assert not Path("paper/iccit2026/references.bib").exists()
