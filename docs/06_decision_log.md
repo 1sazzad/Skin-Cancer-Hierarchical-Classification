@@ -1903,3 +1903,52 @@ reviewed, but before any one-time external inference.
 HIBA remains disabled and unapproved for evaluation. The audit framework is
 registered; inference remains prohibited.
 
+---
+
+## D-025 - Prepare Official HIBA Metadata-First Acquisition
+
+**Date:** 2026-07-30
+**Status:** Accepted
+**Phase:** Phase 10B
+**Owner:** Research lead
+
+### Decision
+
+Prepare offline-testable tooling to acquire metadata only from ISIC Archive API
+v2 collection 251, DOI `10.34970/587329`, titled `Hospital Italiano de Buenos
+Aires - Skin Lesions Images (2019-2022)`. The collection identity and declared
+1616-image count must pass before final metadata is written. Collection 175 /
+DOI `10.34970/559884` is not an acceptable substitute.
+
+Live acquisition requires an explicit command-line authorization after human
+review. Image download remains separately gated. The raw API image objects are
+preserved in JSONL and then inventoried offline without label mapping, modality
+selection, diagnosis inference, evaluation approval, or splitting.
+
+### Rationale
+
+Metadata-first acquisition allows licence, attribution, modality, diagnosis,
+identifier, support, and overlap feasibility to be reviewed before images or
+models are accessed. Transactional publication and refusal to overwrite protect
+the provenance evidence.
+
+### Supporting Evidence
+
+- `reports/phase10/hiba_official_acquisition_protocol.md`
+- `scripts/acquire_hiba_official_metadata.py`
+- `scripts/inventory_hiba_official_metadata.py`
+- `tests/test_hiba_official_metadata_acquisition.py`
+
+### Impact and boundary
+
+No experiment is executed. HIBA remains frozen external evaluation only, the
+Phase 10A label mapping remains unchanged, and no HIBA-derived development
+decision is permitted. No network acquisition or image download is authorized
+by this decision alone.
+
+### Review Trigger
+
+Human protocol review before the explicit metadata acquisition command, then
+human review of the completed exact-vocabulary inventory before any mapping
+amendment or image acquisition decision.
+

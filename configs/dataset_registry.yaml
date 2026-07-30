@@ -79,7 +79,15 @@ datasets:
       collection: "ISIC collection 251"
       doi: "10.34970/587329"
       source_url: "https://api.isic-archive.com/collections/251/"
+      api_v2_base_url: "https://api.isic-archive.com/api/v2"
+      expected_image_count: 1616
+      expected_specified_lesion_count: 1246
+      expected_specified_patient_count: 623
     expected_raw_root: "data/external/hiba"
+    acquisition_status: "phase10b_metadata_tooling_prepared_network_not_authorized"
+    raw_metadata_jsonl: "data/external/hiba/metadata/collection_251_images.raw.jsonl"
+    metadata_inventory_json: "data/external/hiba/metadata/collection_251_metadata_inventory.json"
+    metadata_inventory_csv: "data/external/hiba/metadata/collection_251_metadata_inventory.csv"
     manifest: "data/manifests/hiba_dataset_manifest.csv"
     manifest_audit: "data/manifests/hiba_dataset_manifest.audit.json"
     checksum_manifest: "data/checksums/hiba_sha256.txt"
@@ -90,6 +98,9 @@ datasets:
       - no_train_validation_test_split
       - clinical_and_non_dermoscopic_images_excluded
       - preserve_official_attribution_and_licence
+      - metadata_before_images
+      - explicit_network_authorization_required
+      - collection_175_and_doi_10_34970_559884_prohibited
     forbidden_uses:
       - training
       - fine_tuning
