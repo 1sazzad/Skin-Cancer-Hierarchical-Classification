@@ -10,7 +10,9 @@ from sklearn.metrics import (
     balanced_accuracy_score,
     confusion_matrix,
     f1_score,
+    precision_score,
     precision_recall_fscore_support,
+    recall_score,
 )
 
 
@@ -56,6 +58,24 @@ def compute_classification_metrics(
         ),
         "macro_f1": float(
             f1_score(true_values, predicted_values, average="macro", zero_division=0)
+        ),
+        "macro_precision": float(
+            precision_score(
+                true_values,
+                predicted_values,
+                labels=labels,
+                average="macro",
+                zero_division=0,
+            )
+        ),
+        "macro_recall": float(
+            recall_score(
+                true_values,
+                predicted_values,
+                labels=labels,
+                average="macro",
+                zero_division=0,
+            )
         ),
         "weighted_f1": float(
             f1_score(
