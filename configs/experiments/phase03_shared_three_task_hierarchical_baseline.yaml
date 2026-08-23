@@ -1,0 +1,157 @@
+experiment:
+  status: implementation_ready_gate03b
+  research_stage: phase03_shared_three_task_hierarchical_baseline
+  run_name: phase03_shared_three_task_hierarchical_baseline_seed42
+  output_root: runs/phase03_shared_three_task/
+  seed: 42
+
+data:
+  isic2019_manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
+  stage3_manifest: data/manifests/emb_stage03_dermoscopic_split_seed42.csv
+  stage3_scientific_name: ISIC-derived melanoma T-category subset
+  training_sources:
+    isic2019_train: 17124
+    isic_stage3_train: 594
+    combined_natural_pool: 17718
+  sampling:
+    policy: natural_concat_shuffle_each_epoch
+    weighted_sampler: false
+    stage3_oversampling: false
+    forced_source_mixing: false
+  internal_test:
+    allowed: false
+    construct_loader: false
+    influence_selection: false
+  class_mappings:
+    task1:
+      non_malignant: 0
+      malignant: 1
+    task2:
+      melanoma: 0
+      bcc: 1
+      scc: 2
+    task3:
+      Tis: 0
+      T1: 1
+      T2: 2
+      T3: 3
+      T4: 4
+  missing_target_sentinel: -100
+  task_mask_policy:
+    isic_non_malignant: [1, 0, 0]
+    isic_melanoma_bcc_scc: [1, 1, 0]
+    isic_derived_stage3: [0, 0, 1]
+
+loader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+  drop_last_train: false
+  train_shuffle: true
+
+model:
+  architecture: efficientnet_b0
+  encoder_sharing: one_shared_encoder_pass
+  pretrained_weights: imagenet
+  historical_checkpoint_initialization: false
+  dropout_probability: 0.2
+  heads:
+    task1: {type: dropout_linear, logits: 2}
+    task2: {type: dropout_linear, logits: 3}
+    task3: {type: dropout_linear, logits: 5}
+
+preprocessing:
+  input_size: [224, 224]
+  normalization: imagenet
+  train_transform: locked_moderate_baseline
+  validation_transform: deterministic_resize_256_center_crop_224
+
+task_losses:
+  lambda_task1: 1.0
+  lambda_task2: 1.0
+  lambda_task3: 1.0
+  active_task_normalization: sum_weighted_active_means_over_active_weight_sum
+  task1:
+    name: cross_entropy
+  task2:
+    name: class_balanced_focal_loss
+    beta: 0.9999
+    gamma: 2.0
+    class_weights:
+      melanoma: 0.3485376280807543
+      bcc: 0.4553489231324597
+      scc: 2.196113448786786
+    class_weight_source:
+      partition: isic2019_train
+      method: effective_number
+      normalization: sum_to_number_of_classes
+      class_counts: {melanoma: 3164, bcc: 2327, scc: 440}
+  task3:
+    name: weighted_cross_entropy
+    class_weights:
+      Tis: 0.063475735584673
+      T1: 0.12246677245955931
+      T2: 0.682845034319967
+      T3: 2.253388613255891
+      T4: 1.8778238443799093
+    class_weight_source:
+      partition: isic_stage3_train
+      method: inverse_frequency
+      normalization: sum_to_number_of_classes
+      class_counts: {Tis: 355, T1: 184, T2: 33, T3: 10, T4: 12}
+  invalid_target_policy: select_active_samples_before_loss
+  zero_active_task_policy: skip_without_denominator_contribution
+
+training:
+  epochs: 30
+  early_stopping_patience: 7
+  amp: true
+  optimizer:
+    name: adamw
+    learning_rate: 0.0003
+    weight_decay: 0.0001
+  scheduler:
+    name: cosine_annealing
+    t_max: 30
+    minimum_learning_rate: 0.000001
+
+validation:
+  task1_cohort: isic2019_validation_all
+  task2_cohort: isic2019_validation_malignant_only
+  task3_cohort: isic_stage3_validation
+  task_metric: macro_f1
+  shared_score: arithmetic_mean_task1_task2_task3_macro_f1
+  checkpoint_selection: highest_shared_validation_score
+  checkpoint_filename: best_checkpoint.pt
+
+logging:
+  history_fields:
+    - train_total_loss
+    - train_task1_loss
+    - train_task2_loss
+    - train_task3_loss
+    - val_task1_macro_f1
+    - val_task2_macro_f1
+    - val_task3_macro_f1
+    - shared_validation_score
+    - learning_rate
+  machine_readable_summary: run_summary.json
+
+efficiency_protocol_later_gate:
+  execute_now: false
+  hardware: Azure Tesla T4
+  measures:
+    - parameter_count
+    - checkpoint_or_model_size
+    - flops_if_reliable
+    - inference_latency
+    - peak_gpu_memory
+  controls:
+    resolution: 224
+    fixed_batch_size: true
+    eval_mode: true
+    no_grad: true
+    warmup_runs: true
+    repeated_timed_runs: true
