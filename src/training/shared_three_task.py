@@ -439,11 +439,15 @@ def write_training_history(
     run_directory: str | Path,
     history: Sequence[Mapping[str, Any]],
     run_summary: Mapping[str, Any],
+    *,
+    csv_filename: str = "history.csv",
 ) -> None:
     """Write the required machine-readable history and run summary."""
 
     directory = Path(run_directory)
     directory.mkdir(parents=True, exist_ok=True)
+    if Path(csv_filename).name != csv_filename or not csv_filename.endswith(".csv"):
+        raise ValueError("csv_filename must be a plain CSV filename.")
     records = [dict(record) for record in history]
     required = {
         "train_total_loss",
@@ -463,7 +467,7 @@ def write_training_history(
         encoding="utf-8",
     )
     if records:
-        with (directory / "history.csv").open(
+        with (directory / csv_filename).open(
             "w", encoding="utf-8", newline=""
         ) as handle:
             writer = csv.DictWriter(handle, fieldnames=list(records[0]))
