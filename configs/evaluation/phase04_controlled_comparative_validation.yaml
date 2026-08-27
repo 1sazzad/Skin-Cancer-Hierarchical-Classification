@@ -10,13 +10,12 @@ preprocessing:
   normalization: imagenet
 
 isic:
-  split_manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
-  task3_manifest: data/manifests/emb_stage03_dermoscopic_split_seed42.csv
   flat_class_names: [non_malignant, melanoma, bcc, scc]
   task1_class_names: [non_malignant, malignant]
   task2_class_names: [melanoma, bcc, scc]
   task3_class_names: [Tis, T1, T2, T3, T4]
   task3_scientific_name: ISIC-derived melanoma T-category subset
+  manifest_paths: gate04d_resolve_from_frozen_phase03_configs
 
 loader:
   batch_size: 64
