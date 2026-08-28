@@ -1,0 +1,44 @@
+{
+  "status": "FROZEN",
+  "purpose": "Lock all model-selection and evaluation decisions before internal-test execution",
+  "primary_metric": "macro_f1",
+  "class_order": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "selected_comparisons": {
+    "flat_four_class": "frozen existing flat checkpoint",
+    "shared_hierarchy": "frozen shared three-task checkpoint with predicted-gate routing",
+    "oracle_gate": "diagnostic_only_not_deployed_result"
+  },
+  "validation_findings": {
+    "flat_macro_f1": 0.6535716653605627,
+    "shared_predicted_gate_macro_f1": 0.5832871340331853,
+    "shared_oracle_gate_macro_f1": 0.775767052418407,
+    "routing_loss_macro_f1": 0.19247991838522172
+  },
+  "paired_statistics": {
+    "macro_f1_delta_hierarchy_minus_flat": -0.07028453132737733,
+    "macro_f1_95ci": [
+      -0.10189398304158802,
+      -0.03864787451662513
+    ],
+    "accuracy_delta_hierarchy_minus_flat": -0.06379498364231195,
+    "accuracy_95ci": [
+      -0.07797164667393675,
+      -0.04961832061068705
+    ],
+    "mcnemar_two_sided_p": 7.723251233116162e-19
+  },
+  "post_freeze_rules": {
+    "no_more_model_selection": true,
+    "no_more_hyperparameter_tuning": true,
+    "no_threshold_tuning": true,
+    "no_checkpoint_reselection": true,
+    "no_preprocessing_changes": true,
+    "internal_test_may_be_executed_once_under_frozen_protocol": true
+  },
+  "internal_test_executed_before_freeze": false
+}

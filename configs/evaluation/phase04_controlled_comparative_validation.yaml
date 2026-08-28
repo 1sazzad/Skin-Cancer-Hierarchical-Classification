@@ -1,0 +1,83 @@
+phase: phase04_controlled_comparative_evaluation
+status: gate04c_implementation
+execution_split: validation
+internal_test_execution_allowed: false
+seed: 42
+
+preprocessing:
+  input_size: [224, 224]
+  transform: deterministic_resize_256_center_crop_224
+  normalization: imagenet
+
+isic:
+  flat_class_names: [non_malignant, melanoma, bcc, scc]
+  task1_class_names: [non_malignant, malignant]
+  task2_class_names: [melanoma, bcc, scc]
+  task3_class_names: [Tis, T1, T2, T3, T4]
+  task3_scientific_name: ISIC-derived melanoma T-category subset
+  manifest_paths:
+    isic2019: data/manifests/isic2019_train_val_test_split_seed42.csv
+    task3: data/manifests/emb_stage03_dermoscopic_split_seed42.csv
+
+loader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+
+checkpoints:
+  shared:
+    path: runs/phase03_shared_three_task/seed_42/best_checkpoint.pt
+    sha256: 2f1c2393c5c9de15dfa4a1a132a31b9a5b8ede07d7ed6e07ab90918fc2aaa9eb
+    expected_epoch: 6
+    model_kind: shared_three_task
+    class_names: [task1, task2, task3]
+  task1:
+    path: runs/phase03_full/full__stage01_isic2019_efficientnet_b0_cross_entropy_seed42__20260724T190600Z/best_checkpoint.pt
+    sha256: 95e02c26b1ea4a0dba17016313c81f97c9c2635270a37b4debbee0f84e07ba3b
+    expected_epoch: 5
+    model_kind: single_task
+    class_names: [non_malignant, malignant]
+  task2:
+    path: runs/phase04_cb_focal_full/full__stage02_isic2019_efficientnet_b0_class_balanced_focal_loss_seed42__20260726T064808Z/best_checkpoint.pt
+    sha256: 10986d41b64a685fcd8fe166623c5b1c7fd2f21bdad7cf4d55dedc3967a397fd
+    expected_epoch: 8
+    model_kind: single_task
+    class_names: [melanoma, bcc, scc]
+  task3:
+    path: experiments/runs/full__stage03_isic_derived_dermoscopic_efficientnet_b0_weighted_cross_entropy_seed42__20260729T204920Z/best_checkpoint.pt
+    sha256: 71bfda5f7a19333947e1c13f4e1c5ed45e9a827c447fc9bcd6fd9ddc999f8692
+    expected_epoch: 12
+    model_kind: single_task
+    class_names: [Tis, T1, T2, T3, T4]
+  flat:
+    path: runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt
+    sha256: f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7
+    expected_epoch: 2
+    model_kind: single_task
+    class_names: [non_malignant, melanoma, bcc, scc]
+
+statistics_export:
+  stable_identifier: image_id
+  paired_columns:
+    - sample_id
+    - true_label
+    - shared_predicted_gate
+    - shared_oracle_gate
+    - flat_prediction
+    - shared_correct
+    - flat_correct
+    - stage1_target
+    - stage1_prediction
+    - stage2_target
+    - stage2_prediction
+  downstream_methods: [paired_bootstrap_95ci, mcnemar]
+
+efficiency:
+  hardware_target: NVIDIA Tesla T4
+  input_shape: [3, 224, 224]
+  batch_size: 1
+  warmup_iterations: 20
+  measured_iterations: 100
+  metrics: [parameters, checkpoint_bytes, flops_if_supported, latency, throughput, peak_cuda_memory]

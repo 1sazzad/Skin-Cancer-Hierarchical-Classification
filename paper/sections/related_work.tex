@@ -1,0 +1,57 @@
+\section{Related Work}
+\label{sec:related_work}
+
+\subsection{Dermoscopic Classification and Backbones}
+
+Public ISIC resources and HAM10000 have supported reproducible research on
+dermoscopic classification
+\cite{codella2019isic2018,tschandl2018ham10000}. EfficientNet jointly scales
+network depth, width, and resolution and provides compact baseline
+architectures \cite{tan2019efficientnet}. DenseNet connects each layer to
+preceding feature maps, encouraging feature reuse and information flow
+\cite{huang2017}. In this work, EfficientNet-B0 provides the backbone-matched
+flat-versus-hierarchy comparison, while DenseNet-121 tests whether the
+metric-specific findings persist under a protocol-matched alternative
+backbone.
+
+\subsection{Class Imbalance}
+
+Focal loss reduces the influence of well-classified examples and emphasises
+difficult observations \cite{lin2017focal}. Class-balanced loss derives
+weights from the effective number of samples and is designed for long-tailed
+data \cite{cui2019classbalanced}. Such methods remain insufficiently
+characterised by accuracy alone; macro-F1, balanced accuracy, confusion
+matrices, and class-specific recall are necessary to expose minority-class
+behaviour.
+
+\subsection{Hierarchical Classification}
+
+Top-down hierarchical classifiers are vulnerable to error propagation because
+an incorrect decision at an upper level constrains all subsequent predictions
+along the selected path \cite{silla2011survey}.
+Hsu and Tseng incorporated diagnostic hierarchy information through
+hierarchy-aware contrastive learning \cite{hsu2022hierarchy}. More recently, Hsu and Tseng proposed LightDPH, a lightweight
+hierarchical contrastive-learning framework that jointly considers broad
+lesion groups and fine-grained classes without relying on a conditional
+inference gate \cite{hsu2024lightdph}. Suleiman
+\emph{et al.} evaluated a two-step hierarchical skin-lesion system combining
+transfer learning and conventional classifiers
+\cite{suleiman2024twostep}. These approaches demonstrate the potential of
+diagnostic structure, but representation-level hierarchy and conditional
+routing are distinct. In a conditional system, an upstream decision determines
+whether a downstream classifier is executed, creating an explicit
+error-propagation path.
+
+The present study therefore evaluates both endpoint performance and the
+routing mechanism. Predicted routing is compared with oracle routing while the
+trained downstream classifier remains fixed, allowing routing-associated loss
+to be separated from subtype errors after correct routing.
+
+\subsection{Paired Statistical Evaluation}
+
+Predictions from models evaluated on the same images are paired. Paired
+bootstrap resampling can estimate uncertainty in metric differences
+\cite{efron1993bootstrap}, while McNemar's test evaluates disagreement in
+paired correctness outcomes \cite{mcnemar1947sampling}. These procedures were applied to all pairwise model comparisons on the
+common locked test cohort, with metric-specific interpretation of the
+resulting confidence intervals and paired correctness tests.

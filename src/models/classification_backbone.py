@@ -8,14 +8,28 @@ from torch import nn
 
 from src.models.densenet_baseline import build_densenet121
 from src.models.efficientnet_baseline import build_efficientnet_b0
+from src.models.phase02_backbones import build_phase02_backbone
 
 
 PretrainedMode = Literal["none", "imagenet"]
-ArchitectureName = Literal["efficientnet_b0", "densenet121"]
+ArchitectureName = Literal[
+    "efficientnet_b0",
+    "densenet121",
+    "densenet169",
+    "resnet50",
+    "mobilenet_v3_large",
+    "efficientnet_b2",
+    "efficientnet_b3",
+]
 
 SUPPORTED_CLASSIFICATION_ARCHITECTURES: tuple[ArchitectureName, ...] = (
     "efficientnet_b0",
     "densenet121",
+    "densenet169",
+    "resnet50",
+    "mobilenet_v3_large",
+    "efficientnet_b2",
+    "efficientnet_b3",
 )
 
 
@@ -37,6 +51,14 @@ def build_classification_model(
 
     if architecture == "densenet121":
         return build_densenet121(
+            number_of_classes,
+            pretrained=pretrained,
+            dropout_probability=dropout_probability,
+        )
+
+    if architecture in SUPPORTED_CLASSIFICATION_ARCHITECTURES[2:]:
+        return build_phase02_backbone(
+            architecture,
             number_of_classes,
             pretrained=pretrained,
             dropout_probability=dropout_probability,

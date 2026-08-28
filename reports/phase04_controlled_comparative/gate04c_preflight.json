@@ -1,0 +1,64 @@
+{
+  "artifacts": {
+    "flat": {
+      "checkpoint_bytes": 48640921,
+      "checkpoint_path": "runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt",
+      "checkpoint_sha256": "f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7",
+      "compute": {"backend": null, "flops": null, "macs": null, "supported": false},
+      "expected_epoch": 2,
+      "total_parameters": 4012672,
+      "trainable_parameters": 4012672
+    },
+    "shared": {
+      "checkpoint_bytes": 48737992,
+      "checkpoint_path": "runs/phase03_shared_three_task/seed_42/best_checkpoint.pt",
+      "checkpoint_sha256": "2f1c2393c5c9de15dfa4a1a132a31b9a5b8ede07d7ed6e07ab90918fc2aaa9eb",
+      "compute": {"backend": null, "flops": null, "macs": null, "supported": false},
+      "expected_epoch": 6,
+      "total_parameters": 4020358,
+      "trainable_parameters": 4020358
+    },
+    "task1": {
+      "checkpoint_bytes": 48609369,
+      "checkpoint_path": "runs/phase03_full/full__stage01_isic2019_efficientnet_b0_cross_entropy_seed42__20260724T190600Z/best_checkpoint.pt",
+      "checkpoint_sha256": "95e02c26b1ea4a0dba17016313c81f97c9c2635270a37b4debbee0f84e07ba3b",
+      "compute": {"backend": null, "flops": null, "macs": null, "supported": false},
+      "expected_epoch": 5,
+      "total_parameters": 4010110,
+      "trainable_parameters": 4010110
+    },
+    "task2": {
+      "checkpoint_bytes": 48625369,
+      "checkpoint_path": "runs/phase04_cb_focal_full/full__stage02_isic2019_efficientnet_b0_class_balanced_focal_loss_seed42__20260726T064808Z/best_checkpoint.pt",
+      "checkpoint_sha256": "10986d41b64a685fcd8fe166623c5b1c7fd2f21bdad7cf4d55dedc3967a397fd",
+      "compute": {"backend": null, "flops": null, "macs": null, "supported": false},
+      "expected_epoch": 8,
+      "total_parameters": 4011391,
+      "trainable_parameters": 4011391
+    },
+    "task3": {
+      "checkpoint_bytes": 48656473,
+      "checkpoint_path": "experiments/runs/full__stage03_isic_derived_dermoscopic_efficientnet_b0_weighted_cross_entropy_seed42__20260729T204920Z/best_checkpoint.pt",
+      "checkpoint_sha256": "71bfda5f7a19333947e1c13f4e1c5ed45e9a827c447fc9bcd6fd9ddc999f8692",
+      "compute": {"backend": null, "flops": null, "macs": null, "supported": false},
+      "expected_epoch": 12,
+      "total_parameters": 4013953,
+      "trainable_parameters": 4013953
+    }
+  },
+  "checkpoint_interface_validation": "PASS",
+  "config_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/configs/evaluation/phase04_controlled_comparative_validation.yaml",
+  "environment": {
+    "cuda_available": true,
+    "cuda_build": "13.0",
+    "device": "cuda",
+    "git_commit": "14851847634d1c7409578cceb46b18b6f348f8d0",
+    "gpu_name": "Tesla T4",
+    "gpu_total_memory_bytes": 16713646080,
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python": "3.11.9",
+    "torch": "2.13.0+cu130"
+  },
+  "gate": "04C",
+  "internal_test_executed": false
+}

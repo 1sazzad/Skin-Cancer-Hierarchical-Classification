@@ -1,0 +1,37 @@
+experiment:
+  status: ready_for_training
+  research_stage: phase02_controlled_backbone_benchmark
+  run_name: phase02_flat_four_class_isic2019_efficientnet_b2_cross_entropy_seed42
+  dataset: isic2019
+  model: efficientnet_b2
+  variant: cross_entropy
+  seed: 42
+data:
+  split_manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
+  task: flat_four_class
+  label_source: diagnosis_canonical
+  label_mapping_strategy: phase06_flat_four_class_v1
+  inclusion_policy: split_included=1 and include_stage_1=1
+  class_to_index: {non_malignant: 0, melanoma: 1, bcc: 2, scc: 3}
+  verify_image_paths: false
+loader: {batch_size: 64, num_workers: 4, pin_memory: true, persistent_workers: true, prefetch_factor: 2, drop_last_train: false}
+model: {architecture: efficientnet_b2, pretrained_weights: imagenet, number_of_classes: 4, dropout_probability: 0.2}
+preprocessing:
+  input_size: [224, 224]
+  normalization: imagenet
+  train_transform: locked_moderate_baseline
+  validation_transform: deterministic_resize_256_center_crop_224
+  internal_test_transform: deterministic_resize_256_center_crop_224
+training:
+  epochs: 30
+  loss: cross_entropy
+  weighted_sampler: false
+  class_weights: null
+  focal_loss: false
+  amp: true
+  optimizer: {name: adamw, learning_rate: 0.0003, weight_decay: 0.0001}
+  scheduler: {name: cosine_annealing, minimum_learning_rate: 0.000001}
+  selection_metric: macro_f1
+  early_stopping_patience: 7
+  full_training_allowed: true
+  evaluate_internal_test_after_training: false

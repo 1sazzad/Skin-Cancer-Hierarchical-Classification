@@ -1,0 +1,26 @@
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+
+This study compared flat EfficientNet-B0, flat DenseNet-121, and a conditional
+EfficientNet-B0 hierarchy on the same locked 3,668-image internal-test cohort.
+DenseNet-121 achieved the highest accuracy, macro-F1, and weighted-F1 point
+estimates, while EfficientNet-B0 retained the highest balanced accuracy.
+Paired analyses supported DenseNet-121's accuracy and weighted-F1 gains
+over both comparators, although its performance advantage was not uniform
+across metrics.
+
+The hierarchy did not improve upon flat EfficientNet-B0 in the reported
+endpoint metrics, and the paired analysis detected no statistically
+significant difference. More importantly, oracle routing increased
+hierarchical macro-F1 from 0.6054 to 0.7937. Stage 1 blocked 20.079\% of malignant images and incorrectly
+forwarded 22.060\% of non-malignant images, indicating that routing
+errors were a substantial source of endpoint performance loss.
+
+Neither the alternative backbone nor the hierarchy resolved rare-class
+sensitivity; DenseNet-121 correctly classified only 28 of 94 SCC images.
+
+Future work should prioritise repeated-seed evaluation, independently
+validated routing improvements, larger minority-class cohorts, and external
+testing on independently collected data. Until then, the systems should be
+interpreted as internally evaluated experimental models rather than clinically
+validated or deployment-ready tools.

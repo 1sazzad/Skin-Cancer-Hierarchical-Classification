@@ -1,0 +1,34 @@
+{
+  "gate": "04E",
+  "status": "PASS",
+  "split": "validation",
+  "sample_count": 3668,
+  "comparison": "shared_predicted_gate_vs_flat_four_class",
+  "macro_f1": {
+    "hierarchy": 0.5832871340331853,
+    "flat": 0.6535716653605627,
+    "delta_hierarchy_minus_flat": -0.07028453132737733,
+    "paired_bootstrap_95ci": [
+      -0.10189398304158802,
+      -0.03864787451662513
+    ],
+    "bootstrap_iterations": 10000,
+    "seed": 42
+  },
+  "accuracy": {
+    "hierarchy": 0.7091057797164667,
+    "flat": 0.7729007633587787,
+    "delta_hierarchy_minus_flat": -0.06379498364231195,
+    "paired_bootstrap_95ci": [
+      -0.07797164667393675,
+      -0.04961832061068705
+    ]
+  },
+  "mcnemar_exact": {
+    "hierarchy_only_correct": 235,
+    "flat_only_correct": 469,
+    "discordant_total": 704,
+    "two_sided_p": 7.723251233116162e-19
+  },
+  "internal_test_executed": false
+}

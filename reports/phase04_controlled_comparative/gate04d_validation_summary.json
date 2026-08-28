@@ -1,0 +1,731 @@
+{
+  "collection_elapsed_seconds": {
+    "flat_four_class": 12.280117360000077,
+    "shared_isic": 26.12492329900033,
+    "shared_task3": 5.039291294000577,
+    "standalone_task1": 12.39403981400028,
+    "standalone_task2": 5.778974703000131,
+    "standalone_task3": 3.289091628999813
+  },
+  "config_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/configs/evaluation/phase04_controlled_comparative_validation.yaml",
+  "efficiency": {
+    "flat": {
+      "benchmark": {
+        "batch_size": 1,
+        "device": "cuda",
+        "latency_ms_per_batch": 6.752826320007443,
+        "latency_ms_per_image": 6.752826320007443,
+        "measured_iterations": 100,
+        "peak_cuda_memory_bytes": 35857408,
+        "throughput_images_per_second": 148.0861423959883,
+        "warmup_iterations": 20
+      },
+      "checkpoint_bytes": 48640921,
+      "compute": {
+        "backend": null,
+        "flops": null,
+        "macs": null,
+        "supported": false
+      },
+      "total_parameters": 4012672,
+      "trainable_parameters": 4012672
+    },
+    "shared": {
+      "benchmark": {
+        "batch_size": 1,
+        "device": "cuda",
+        "latency_ms_per_batch": 6.744150190006621,
+        "latency_ms_per_image": 6.744150190006621,
+        "measured_iterations": 100,
+        "peak_cuda_memory_bytes": 35889152,
+        "throughput_images_per_second": 148.27665040464026,
+        "warmup_iterations": 20
+      },
+      "checkpoint_bytes": 48737992,
+      "compute": {
+        "backend": null,
+        "flops": null,
+        "macs": null,
+        "supported": false
+      },
+      "total_parameters": 4020358,
+      "trainable_parameters": 4020358
+    },
+    "task1": {
+      "benchmark": {
+        "batch_size": 1,
+        "device": "cuda",
+        "latency_ms_per_batch": 6.738223160000416,
+        "latency_ms_per_image": 6.738223160000416,
+        "measured_iterations": 100,
+        "peak_cuda_memory_bytes": 35847168,
+        "throughput_images_per_second": 148.40707650293052,
+        "warmup_iterations": 20
+      },
+      "checkpoint_bytes": 48609369,
+      "compute": {
+        "backend": null,
+        "flops": null,
+        "macs": null,
+        "supported": false
+      },
+      "total_parameters": 4010110,
+      "trainable_parameters": 4010110
+    },
+    "task2": {
+      "benchmark": {
+        "batch_size": 1,
+        "device": "cuda",
+        "latency_ms_per_batch": 6.768798230004904,
+        "latency_ms_per_image": 6.768798230004904,
+        "measured_iterations": 100,
+        "peak_cuda_memory_bytes": 35852288,
+        "throughput_images_per_second": 147.7367127841356,
+        "warmup_iterations": 20
+      },
+      "checkpoint_bytes": 48625369,
+      "compute": {
+        "backend": null,
+        "flops": null,
+        "macs": null,
+        "supported": false
+      },
+      "total_parameters": 4011391,
+      "trainable_parameters": 4011391
+    },
+    "task3": {
+      "benchmark": {
+        "batch_size": 1,
+        "device": "cuda",
+        "latency_ms_per_batch": 6.741532739997638,
+        "latency_ms_per_image": 6.741532739997638,
+        "measured_iterations": 100,
+        "peak_cuda_memory_bytes": 35862528,
+        "throughput_images_per_second": 148.3342199121843,
+        "warmup_iterations": 20
+      },
+      "checkpoint_bytes": 48656473,
+      "compute": {
+        "backend": null,
+        "flops": null,
+        "macs": null,
+        "supported": false
+      },
+      "total_parameters": 4013953,
+      "trainable_parameters": 4013953
+    }
+  },
+  "environment": {
+    "cuda_available": true,
+    "cuda_build": "13.0",
+    "device": "cuda",
+    "git_commit": "179181a5146cd5e69ddda99679456f02ca2d7432",
+    "gpu_name": "Tesla T4",
+    "gpu_total_memory_bytes": 16713646080,
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "python": "3.11.9",
+    "torch": "2.13.0+cu130"
+  },
+  "execution_split": "validation",
+  "gate": "04D",
+  "internal_test_executed": false,
+  "manifests": {
+    "isic2019": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/data/manifests/isic2019_train_val_test_split_seed42.csv",
+    "task3": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/data/manifests/emb_stage03_dermoscopic_split_seed42.csv"
+  },
+  "metrics": {
+    "flat_four_class": {
+      "accuracy": 0.7729007633587787,
+      "balanced_accuracy": 0.6796986150096745,
+      "class_names": [
+        "non_malignant",
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          1847,
+          381,
+          157,
+          13
+        ],
+        [
+          101,
+          552,
+          24,
+          1
+        ],
+        [
+          21,
+          54,
+          406,
+          17
+        ],
+        [
+          22,
+          8,
+          34,
+          30
+        ]
+      ],
+      "macro_f1": 0.6535716653605627,
+      "macro_precision": 0.6570089756115527,
+      "macro_recall": 0.6796986150096745,
+      "per_class": {
+        "bcc": {
+          "f1": 0.7256478999106345,
+          "precision": 0.6537842190016103,
+          "recall": 0.8152610441767069,
+          "support": 498
+        },
+        "melanoma": {
+          "f1": 0.6598924088463838,
+          "precision": 0.5547738693467337,
+          "recall": 0.8141592920353983,
+          "support": 678
+        },
+        "non_malignant": {
+          "f1": 0.8416495784916838,
+          "precision": 0.9276745354093421,
+          "recall": 0.7702251876563804,
+          "support": 2398
+        },
+        "scc": {
+          "f1": 0.3870967741935484,
+          "precision": 0.4918032786885246,
+          "recall": 0.3191489361702128,
+          "support": 94
+        }
+      },
+      "sample_count": 3668,
+      "weighted_f1": 0.7806549872820598
+    },
+    "shared": {
+      "oracle_gate_four_class": {
+        "accuracy": 0.9342966194111232,
+        "balanced_accuracy": 0.8008432714098723,
+        "class_names": [
+          "non_malignant",
+          "melanoma",
+          "bcc",
+          "scc"
+        ],
+        "confusion_matrix": [
+          [
+            2398,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            617,
+            34,
+            27
+          ],
+          [
+            0,
+            57,
+            358,
+            83
+          ],
+          [
+            0,
+            11,
+            29,
+            54
+          ]
+        ],
+        "macro_f1": 0.775767052418407,
+        "macro_precision": 0.7700886285567607,
+        "macro_recall": 0.8008432714098723,
+        "per_class": {
+          "bcc": {
+            "f1": 0.779107725788901,
+            "precision": 0.850356294536817,
+            "recall": 0.7188755020080321,
+            "support": 498
+          },
+          "melanoma": {
+            "f1": 0.9053558327219369,
+            "precision": 0.9007299270072993,
+            "recall": 0.9100294985250738,
+            "support": 678
+          },
+          "non_malignant": {
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 2398
+          },
+          "scc": {
+            "f1": 0.4186046511627907,
+            "precision": 0.32926829268292684,
+            "recall": 0.574468085106383,
+            "support": 94
+          }
+        },
+        "sample_count": 3668,
+        "weighted_f1": 0.9376160684944516
+      },
+      "predicted_gate_four_class": {
+        "accuracy": 0.7091057797164667,
+        "balanced_accuracy": 0.6609983132639732,
+        "class_names": [
+          "non_malignant",
+          "melanoma",
+          "bcc",
+          "scc"
+        ],
+        "confusion_matrix": [
+          [
+            1683,
+            460,
+            181,
+            74
+          ],
+          [
+            102,
+            527,
+            27,
+            22
+          ],
+          [
+            19,
+            54,
+            347,
+            78
+          ],
+          [
+            15,
+            8,
+            27,
+            44
+          ]
+        ],
+        "macro_f1": 0.5832871340331853,
+        "macro_precision": 0.5564179151582284,
+        "macro_recall": 0.6609983132639732,
+        "per_class": {
+          "bcc": {
+            "f1": 0.6425925925925926,
+            "precision": 0.5962199312714777,
+            "recall": 0.6967871485943775,
+            "support": 498
+          },
+          "melanoma": {
+            "f1": 0.6103068905616676,
+            "precision": 0.5023832221163013,
+            "recall": 0.7772861356932154,
+            "support": 678
+          },
+          "non_malignant": {
+            "f1": 0.7981977709271995,
+            "precision": 0.9252336448598131,
+            "recall": 0.7018348623853211,
+            "support": 2398
+          },
+          "scc": {
+            "f1": 0.28205128205128205,
+            "precision": 0.2018348623853211,
+            "recall": 0.46808510638297873,
+            "support": 94
+          }
+        },
+        "sample_count": 3668,
+        "weighted_f1": 0.7291140289280714
+      },
+      "routing": {
+        "correctly_routed_malignant": 1134,
+        "malignant_block_rate": 0.10708661417322834,
+        "malignant_blocked_by_stage_1": 136,
+        "non_malignant_incorrect_route_rate": 0.2981651376146789,
+        "non_malignant_incorrectly_routed_to_stage_2": 715,
+        "predicted_malignant_count": 1849,
+        "sample_count": 3668,
+        "stage_2_execution_count": 1985,
+        "stage_2_execution_fraction": 0.5411668484187568,
+        "subtype_correct_after_correct_route": 918,
+        "subtype_error_after_correct_route": 216,
+        "subtype_error_rate_after_correct_route": 0.19047619047619047,
+        "true_malignant_count": 1270,
+        "true_non_malignant_count": 2398
+      },
+      "routing_loss_macro_f1": 0.19247991838522172,
+      "task1": {
+        "accuracy": 0.7679934569247546,
+        "balanced_accuracy": 0.7973741241060464,
+        "class_names": [
+          "non_malignant",
+          "malignant"
+        ],
+        "confusion_matrix": [
+          [
+            1683,
+            715
+          ],
+          [
+            136,
+            1134
+          ]
+        ],
+        "macro_f1": 0.7626769553577966,
+        "macro_precision": 0.7692690668863695,
+        "macro_recall": 0.7973741241060464,
+        "per_class": {
+          "malignant": {
+            "f1": 0.7271561397883937,
+            "precision": 0.6133044889129259,
+            "recall": 0.8929133858267716,
+            "support": 1270
+          },
+          "non_malignant": {
+            "f1": 0.7981977709271995,
+            "precision": 0.9252336448598131,
+            "recall": 0.7018348623853211,
+            "support": 2398
+          }
+        },
+        "sample_count": 3668,
+        "weighted_f1": 0.7736004777030219
+      },
+      "task2_malignant_subset": {
+        "accuracy": 0.8102362204724409,
+        "balanced_accuracy": 0.734457695213163,
+        "class_names": [
+          "melanoma",
+          "bcc",
+          "scc"
+        ],
+        "confusion_matrix": [
+          [
+            617,
+            34,
+            27
+          ],
+          [
+            57,
+            358,
+            83
+          ],
+          [
+            11,
+            29,
+            54
+          ]
+        ],
+        "macro_f1": 0.7010227365578762,
+        "macro_precision": 0.6934515047423476,
+        "macro_recall": 0.734457695213163,
+        "per_class": {
+          "bcc": {
+            "f1": 0.779107725788901,
+            "precision": 0.850356294536817,
+            "recall": 0.7188755020080321,
+            "support": 498
+          },
+          "melanoma": {
+            "f1": 0.9053558327219369,
+            "precision": 0.9007299270072993,
+            "recall": 0.9100294985250738,
+            "support": 678
+          },
+          "scc": {
+            "f1": 0.4186046511627907,
+            "precision": 0.32926829268292684,
+            "recall": 0.574468085106383,
+            "support": 94
+          }
+        },
+        "sample_count": 1270,
+        "weighted_f1": 0.8198234167225575
+      },
+      "task3": {
+        "accuracy": 0.47244094488188976,
+        "balanced_accuracy": 0.5549999999999999,
+        "class_names": [
+          "Tis",
+          "T1",
+          "T2",
+          "T3",
+          "T4"
+        ],
+        "confusion_matrix": [
+          [
+            44,
+            17,
+            14,
+            0,
+            2
+          ],
+          [
+            23,
+            11,
+            6,
+            0,
+            0
+          ],
+          [
+            1,
+            3,
+            3,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1,
+            1
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "macro_f1": 0.4366844746640764,
+        "macro_precision": 0.4764664631631053,
+        "macro_recall": 0.5549999999999999,
+        "per_class": {
+          "T1": {
+            "f1": 0.30985915492957744,
+            "precision": 0.3548387096774194,
+            "recall": 0.275,
+            "support": 40
+          },
+          "T2": {
+            "f1": 0.2,
+            "precision": 0.13043478260869565,
+            "recall": 0.42857142857142855,
+            "support": 7
+          },
+          "T3": {
+            "f1": 0.6666666666666666,
+            "precision": 1.0,
+            "recall": 0.5,
+            "support": 2
+          },
+          "T4": {
+            "f1": 0.4,
+            "precision": 0.25,
+            "recall": 1.0,
+            "support": 1
+          },
+          "Tis": {
+            "f1": 0.6068965517241379,
+            "precision": 0.6470588235294118,
+            "recall": 0.5714285714285714,
+            "support": 77
+          }
+        },
+        "sample_count": 127,
+        "weighted_f1": 0.4902262520730319
+      }
+    },
+    "standalone_task1": {
+      "accuracy": 0.8178844056706652,
+      "balanced_accuracy": 0.8288639483033762,
+      "class_names": [
+        "non_malignant",
+        "malignant"
+      ],
+      "confusion_matrix": [
+        [
+          1902,
+          496
+        ],
+        [
+          172,
+          1098
+        ]
+      ],
+      "macro_f1": 0.8086929473021457,
+      "macro_precision": 0.802950795473382,
+      "macro_recall": 0.8288639483033762,
+      "per_class": {
+        "malignant": {
+          "f1": 0.7667597765363129,
+          "precision": 0.6888331242158093,
+          "recall": 0.8645669291338582,
+          "support": 1270
+        },
+        "non_malignant": {
+          "f1": 0.8506261180679785,
+          "precision": 0.9170684667309547,
+          "recall": 0.7931609674728941,
+          "support": 2398
+        }
+      },
+      "sample_count": 3668,
+      "weighted_f1": 0.8215884262072327
+    },
+    "standalone_task2": {
+      "accuracy": 0.8519685039370078,
+      "balanced_accuracy": 0.7762865936853546,
+      "class_names": [
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          646,
+          21,
+          11
+        ],
+        [
+          91,
+          378,
+          29
+        ],
+        [
+          6,
+          30,
+          58
+        ]
+      ],
+      "macro_f1": 0.7763065024023224,
+      "macro_precision": 0.780801266284827,
+      "macro_recall": 0.7762865936853546,
+      "per_class": {
+        "bcc": {
+          "f1": 0.8155339805825242,
+          "precision": 0.8811188811188811,
+          "recall": 0.7590361445783133,
+          "support": 498
+        },
+        "melanoma": {
+          "f1": 0.9092188599577762,
+          "precision": 0.8694481830417228,
+          "recall": 0.9528023598820059,
+          "support": 678
+        },
+        "scc": {
+          "f1": 0.6041666666666666,
+          "precision": 0.5918367346938775,
+          "recall": 0.6170212765957447,
+          "support": 94
+        }
+      },
+      "sample_count": 1270,
+      "weighted_f1": 0.8499039181481385
+    },
+    "standalone_task3": {
+      "accuracy": 0.5511811023622047,
+      "balanced_accuracy": 0.5362337662337662,
+      "class_names": [
+        "Tis",
+        "T1",
+        "T2",
+        "T3",
+        "T4"
+      ],
+      "confusion_matrix": [
+        [
+          53,
+          14,
+          8,
+          0,
+          2
+        ],
+        [
+          26,
+          14,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "macro_f1": 0.43657311157311157,
+      "macro_precision": 0.4054190452552329,
+      "macro_recall": 0.5362337662337662,
+      "per_class": {
+        "T1": {
+          "f1": 0.3783783783783784,
+          "precision": 0.4117647058823529,
+          "recall": 0.35,
+          "support": 40
+        },
+        "T2": {
+          "f1": 0.125,
+          "precision": 0.1111111111111111,
+          "recall": 0.14285714285714285,
+          "support": 7
+        },
+        "T3": {
+          "f1": 0.5,
+          "precision": 0.5,
+          "recall": 0.5,
+          "support": 2
+        },
+        "T4": {
+          "f1": 0.5,
+          "precision": 0.3333333333333333,
+          "recall": 1.0,
+          "support": 1
+        },
+        "Tis": {
+          "f1": 0.6794871794871795,
+          "precision": 0.6708860759493671,
+          "recall": 0.6883116883116883,
+          "support": 77
+        }
+      },
+      "sample_count": 127,
+      "weighted_f1": 0.5498476216980155
+    }
+  },
+  "paired_export": {
+    "columns": [
+      "sample_id",
+      "true_label",
+      "shared_predicted_gate",
+      "shared_oracle_gate",
+      "flat_prediction",
+      "shared_correct",
+      "flat_correct",
+      "stage1_target",
+      "stage1_prediction",
+      "stage2_target",
+      "stage2_prediction"
+    ],
+    "ground_truth_identical": true,
+    "path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/reports/phase04_controlled_comparative/gate04d_validation/paired_validation_predictions.csv",
+    "row_count": 3668,
+    "shared_flat_order_identical": true,
+    "unique_sample_ids": true
+  },
+  "status": "PASS",
+  "validation_sample_counts": {
+    "flat_four_class": 3668,
+    "task1": 3668,
+    "task2_malignant_subset": 1270,
+    "task3": 127
+  }
+}
