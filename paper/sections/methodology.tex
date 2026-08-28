@@ -44,7 +44,7 @@ known-relation-disjoint, not fully patient-independent.
     \end{tabular}
 \end{table}
 
-All principal models were evaluated on the same locked 3,668-image test
+All final four-class comparisons used the same locked 3,668-image internal-test
 partition.
 
 \subsection{Preprocessing}
@@ -57,80 +57,66 @@ jitter. Validation and test preprocessing deterministically resized the
 shorter side to 256 pixels and applied a $224\times224$ centre crop. No
 stochastic validation or test augmentation was used.
 
-\subsection{Models and Conditional Inference}
+\subsection{Final Comparative Systems}
 
-Figure~\ref{fig:architecture} illustrates the backbone-matched EfficientNet-B0
-comparison.
+The final publication-facing four-class comparison uses two frozen systems.
+The flat classifier maps every image directly to one of four endpoint labels:
+non-malignant, melanoma, BCC, or SCC. The shared hierarchical model uses a
+shared representation with task-specific prediction heads. Under deployed
+hard routing, Task~1 first predicts non-malignant versus malignant. Samples
+predicted malignant are passed to Task~2, which predicts melanoma, BCC, or
+SCC; samples predicted non-malignant terminate at Task~1.
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.96\textwidth]
-    {figures/figure01_architecture.pdf}
-    \caption{Backbone-matched EfficientNet-B0 comparison. The flat system directly
-    predicts one of four classes. The hierarchy first predicts
-    non-malignant versus malignant and invokes Stage~2 only for predicted
-    malignant images. The DenseNet-121 flat comparator and standalone
-    T-category experiment are not shown.}
-    \label{fig:architecture}
-\end{figure*}
+Task~3 predicts melanoma T categories and is analysed as a secondary task.
+It is not part of the deployed four-class endpoint path. Shared Task~1--3
+heads are also compared descriptively with their standalone task-model
+counterparts to examine the trade-off between parameter sharing and
+specialisation.
 
-The flat EfficientNet-B0 model used an ImageNet-initialised backbone with a
-four-output classifier and ordinary cross-entropy. The flat DenseNet-121 model
-used the same split, transformations, cross-entropy protocol, optimiser,
-scheduler, validation-selection metric, seed, and locked-test policy; only the
-backbone implementation changed.
+The final model identities, checkpoints, class order, preprocessing, routing
+rules, and validation-based selection decisions were frozen before the
+internal test was evaluated. Phase~06 manuscript integration introduces no
+new training, inference rerun, checkpoint replacement, threshold search,
+calibration, or model reselection.
 
-The hierarchy used two independently trained ImageNet-initialised
-EfficientNet-B0 models. Stage~1 had two outputs and used ordinary
-cross-entropy. Stage~2 had three outputs ordered as melanoma, BCC, and SCC.
-Cross-entropy, inverse-frequency weighted cross-entropy, and class-balanced
-focal loss were compared using validation macro-F1. The selected Stage~2
-model used class-balanced focal loss with effective-number parameter
-$\beta=0.9999$ and focal parameter $\gamma=2.0$:
-\begin{equation}
-\mathcal{L}_{\mathrm{CBF}}
-=
--w_y(1-p_y)^{\gamma}\log p_y.
-\end{equation}
+\subsection{Oracle Routing Diagnostic}
 
-At inference, Stage~1 ran for every image. An argmax non-malignant prediction
-terminated the path, while an argmax malignant prediction invoked Stage~2.
-No internal-test threshold tuning was performed.
+To isolate the effect associated with upstream routing, an oracle-routing
+condition retains the frozen downstream hierarchical predictors but replaces
+the learned broad routing decision with the ground-truth broad category. For
+non-malignant cases, the endpoint is therefore fixed as non-malignant; for
+true malignant cases, the frozen Task~2 subtype prediction is used.
 
-\subsection{Training Protocol}
+Oracle routing is diagnostic only. It provides an upper-bound-style estimate
+of conditional hierarchical capability when Task~1 routing errors are removed,
+but it is not an implementable or deployable inference policy and was not used
+for any post-test tuning.
 
-Full runs used batch size 64, at most 30 epochs, and automatic mixed precision
-on an NVIDIA Tesla T4. AdamW used learning rate $3\times10^{-4}$ and weight
-decay $10^{-4}$. Cosine annealing reduced the learning rate toward
-$10^{-6}$. All experiments used seed 42, early-stopping patience seven, and
-validation macro-F1 for checkpoint selection. The internal test was not used
-for loss, threshold, hyperparameter, or checkpoint selection.
+\subsection{Standalone T-Category Evidence}
 
-The frozen checkpoints corresponded to epoch 2 for flat EfficientNet-B0,
-epoch 4 for flat DenseNet-121, epoch 5 for Stage~1, and epoch 8 for the
-selected Stage~2 model.
-
-\subsection{Standalone T-Category Experiment}
-
-A candidate identifier list was used only to locate public ISIC records. No
-images from that external repository or the Dermoscopy Atlas were used.
-Official ISIC Archive metadata supplied authoritative labels, licensing, and
-attribution.
-
-Of 856 candidates, 848 were eligible. Broad labels were derived from official
-diagnosis and Breslow-thickness metadata: in situ as Tis,
-$0$--$1$\,mm as T1, $>1$--$2$\,mm as T2,
-$>2$--$4$\,mm as T3, and $>4$\,mm as T4. The leakage-aware split contained
-594 training, 127 validation, and 127 test images. Training counts were
-355, 184, 33, 10, and 12 for Tis through T4. The selected
-EfficientNet-B0 model used inverse-frequency weighted cross-entropy and the
-epoch-12 validation-selected checkpoint.
+The secondary melanoma T-category task uses the labels Tis, T1, T2, T3, and
+T4. Its held-out test subset contains 127 cases. Rare-category support is
+extremely limited, with T2, T3, and T4 supports of 7, 2, and 1, respectively.
+Accordingly, Task~3 results are treated as support-limited descriptive evidence
+rather than stable class-level performance estimates.
 
 \subsection{Evaluation and Statistical Protocol}
 
-Accuracy, balanced accuracy, macro-F1, weighted-F1, per-class metrics, and
-confusion matrices were reported. For all pairwise model comparisons, predictions were aligned by image
-identifier and analysed using 10,000 ground-truth-class-stratified paired
-bootstrap replicates with seed 42 and percentile 95\% confidence intervals.
-Exact two-sided McNemar tests were used to assess differences in paired
-correctness.
+Accuracy, balanced accuracy, macro-F1, weighted-F1, and per-class F1 were
+reported for the final four-class comparison. Predictions from the flat model
+and shared predicted-gate hierarchy were aligned by image identifier and
+analysed using 10,000 ground-truth-class-stratified paired bootstrap
+replicates with seed 42 and percentile 95\% confidence intervals for metric
+differences.
+
+Exact two-sided McNemar testing was applied to paired correctness outcomes.
+McNemar's test is therefore interpreted as evidence about correctness
+asymmetry and the accuracy comparison; it is not used as a significance test
+for macro-F1.
+
+The internal test was consumed once under the frozen protocol. Its results
+were not used for threshold tuning, checkpoint selection, architecture
+selection, preprocessing changes, calibration, post-hoc optimisation,
+retraining, or model reselection. Validation-to-test comparisons are reported
+only as directional within-study consistency and were not used to modify the
+frozen systems.
