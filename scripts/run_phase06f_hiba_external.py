@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse, csv, hashlib, json, sys
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Mapping
 from collections import Counter
 
 import numpy as np
@@ -33,6 +33,16 @@ def sha256_file(p:Path)->str:
     with p.open('rb') as f:
         for c in iter(lambda:f.read(1024*1024),b''): h.update(c)
     return h.hexdigest()
+
+def sha256_csv_canonical_crlf(p:Path)->str:
+    """Hash CSV content in the CRLF form used when the frozen manifest was created.
+
+    Git may normalize text files to LF when committed/checked out. Normalizing here
+    preserves the originally frozen content hash without treating line-ending-only
+    changes as a scientific cohort change.
+    """
+    data=p.read_bytes().replace(b'\r\n',b'\n').replace(b'\r',b'\n')
+    return hashlib.sha256(data.replace(b'\n',b'\r\n')).hexdigest()
 
 def write_json(p:Path,x:object):
     p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(x,indent=2,sort_keys=True)+'\n',encoding='utf-8')
@@ -89,14 +99,15 @@ def main():
     if tuple(cfg['backbones'])!=EXPECTED_BACKBONES: raise ValueError('Backbone set/order mismatch')
     if cfg['protocol']['external_training_allowed'] or cfg['protocol']['external_finetuning_allowed'] or cfg['protocol']['external_threshold_tuning_allowed'] or cfg['protocol']['external_checkpoint_selection_allowed']: raise ValueError('External protocol is not frozen zero-shot')
     manifest=(root/cfg['hiba']['manifest_path']).resolve()
-    if sha256_file(manifest).lower()!=cfg['hiba']['manifest_sha256'].lower(): raise ValueError('HIBA manifest hash mismatch')
+    frozen_manifest_hash=sha256_csv_canonical_crlf(manifest)
+    if frozen_manifest_hash.lower()!=cfg['hiba']['manifest_sha256'].lower(): raise ValueError(f"HIBA manifest canonical hash mismatch: expected {cfg['hiba']['manifest_sha256']}, got {frozen_manifest_hash}")
     with manifest.open(newline='',encoding='utf-8-sig') as f: rows=list(csv.DictReader(f))
     if len(rows)!=int(cfg['hiba']['expected_rows']): raise ValueError('HIBA row count mismatch')
     counts=Counter(r['target_label'] for r in rows)
     if dict(counts)!=dict(cfg['hiba']['expected_class_counts']): raise ValueError(f'HIBA class-count mismatch: {counts}')
     if len({r['patient_id'] for r in rows})!=int(cfg['hiba']['expected_unique_patients']): raise ValueError('HIBA patient-count mismatch')
     if device.type=='cuda' and not torch.cuda.is_available(): raise RuntimeError('CUDA unavailable')
-    pre={'status':'PASS','dataset_constructed':False,'device':str(device),'backbones':{}}
+    pre={'status':'PASS','dataset_constructed':False,'device':str(device),'manifest_frozen_canonical_sha256':frozen_manifest_hash,'manifest_checkout_sha256':sha256_file(manifest),'backbones':{}}
     for a in EXPECTED_BACKBONES:
         pair=cfg['backbones'][a]; fp=resolve_checkpoint(root,phase02,pair['flat']); sp=resolve_checkpoint(root,phase02,pair['shared']); f=load_flat(a,fp,int(pair['flat']['expected_epoch'])); s=load_shared(a,sp,int(pair['shared']['expected_epoch'])); pre['backbones'][a]={'flat':str(fp),'shared':str(sp)}; del f,s
     if args.preflight_only: print(json.dumps(pre,indent=2,sort_keys=True)); return
@@ -117,5 +128,5 @@ def main():
         with pp.open('w',newline='',encoding='utf-8') as f: w=csv.DictWriter(f,fieldnames=list(rows_out[0])); w.writeheader(); w.writerows(rows_out)
         r={'architecture':a,'sample_count':len(rows_out),'flat':flatm,'shared_predicted_gate':hardm,'shared_oracle_gate':oraclem,'routing_loss_macro_f1':float(oraclem['macro_f1'])-float(hardm['macro_f1']),'delta_hierarchy_minus_flat_macro_f1':float(hardm['macro_f1'])-float(flatm['macro_f1']),'patient_cluster_bootstrap_95ci_macro_f1_delta':ci,'paired_predictions_sha256':sha256_file(pp)}; write_json(out/a/'metrics_and_statistics.json',r); results[a]=r
         print(f"{a}: flat={flatm['macro_f1']:.6f} shared={hardm['macro_f1']:.6f} oracle={oraclem['macro_f1']:.6f}",flush=True)
-    summary={'gate':'06F','status':'PASS','dataset':'HIBA','zero_shot':True,'manifest_sha256':sha256_file(manifest),'config_sha256':sha256_file(cfgp),'results':results}; write_json(out/'gate06f_hiba_external_summary.json',summary); print('PASS: Gate 06F HIBA external evaluation complete.')
+    summary={'gate':'06F','status':'PASS','dataset':'HIBA','zero_shot':True,'manifest_frozen_canonical_sha256':frozen_manifest_hash,'manifest_checkout_sha256':sha256_file(manifest),'config_sha256':sha256_file(cfgp),'results':results}; write_json(out/'gate06f_hiba_external_summary.json',summary); print('PASS: Gate 06F HIBA external evaluation complete.')
 if __name__=='__main__': main()
