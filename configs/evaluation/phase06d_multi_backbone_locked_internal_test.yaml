@@ -1,0 +1,121 @@
+phase: phase06_multi_backbone_shared_hierarchy
+status: gate06d_protocol_frozen
+execution_split: internal_test
+internal_test_execution_allowed: true
+seed: 42
+
+protocol:
+  selection_basis: validation_only
+  candidate_switching_after_test: false
+  retraining_after_test: false
+  test_tuning_allowed: false
+  report_all_backbones: true
+  purpose: matched_flat_vs_shared_backbone_comparison
+
+preprocessing:
+  input_size: [224, 224]
+  transform: deterministic_resize_256_center_crop_224
+  normalization: imagenet
+
+isic:
+  manifest_path: data/manifests/isic2019_train_val_test_split_seed42.csv
+  flat_class_names: [non_malignant, melanoma, bcc, scc]
+
+loader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+
+backbones:
+  efficientnet_b0:
+    flat:
+      root: project
+      path: runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt
+      sha256: f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7
+      expected_epoch: 2
+    shared:
+      root: project
+      path: runs/phase03_shared_three_task/seed_42/best_checkpoint.pt
+      sha256: 2f1c2393c5c9de15dfa4a1a132a31b9a5b8ede07d7ed6e07ab90918fc2aaa9eb
+      expected_epoch: 6
+
+  densenet121:
+    flat:
+      root: project
+      path: runs/phase11/full__phase11_flat_four_class_isic2019_densenet121_cross_entropy_seed42__20260730T155147Z/best_checkpoint.pt
+      sha256: 97f50dd5fb6b8d5a65b1c08035f07bab2bb5683e5647e519527c9cb56afbaa01
+      expected_epoch: 4
+    shared:
+      root: project
+      path: runs/phase06_shared_three_task/densenet121/seed_42/best_checkpoint.pt
+      sha256: fc12adcea9494809b389a16cc1b795e0ea6be443613462ccaada7de7cae0ea13
+      expected_epoch: 13
+
+  densenet169:
+    flat:
+      root: phase02
+      path: runs/phase02_full/densenet169/full__phase02_flat_four_class_isic2019_densenet169_cross_entropy_seed42__20260823T071733Z/best_checkpoint.pt
+      sha256: 73c9fd236ab0a630d4bf92cd459ec72abc5d1a45c4bd09e97fbd09d8481d8896
+      expected_epoch: 12
+    shared:
+      root: project
+      path: runs/phase06_shared_three_task/densenet169/seed_42/best_checkpoint.pt
+      sha256: f4fd80e72b720e54a1d6f63a71a01454f61c3eede03c2d3cde74591cdecd0300
+      expected_epoch: 7
+
+  resnet50:
+    flat:
+      root: phase02
+      path: runs/phase02_full/resnet50/full__phase02_flat_four_class_isic2019_resnet50_cross_entropy_seed42__20260823T080227Z/best_checkpoint.pt
+      sha256: d7e8a29975b73bf459c653a6f7803493c19e1042ae41ae7a35ca8e68dad49715
+      expected_epoch: 6
+    shared:
+      root: project
+      path: runs/phase06_shared_three_task/resnet50/seed_42/best_checkpoint.pt
+      sha256: 8a7923b658b8793cd08b483a91a7fcb8bc28b63bcc95f3d5190b511acf9661b0
+      expected_epoch: 13
+
+  mobilenet_v3_large:
+    flat:
+      root: phase02
+      path: runs/phase02_full/mobilenet_v3_large/full__phase02_flat_four_class_isic2019_mobilenet_v3_large_cross_entropy_seed42__20260823T082745Z/best_checkpoint.pt
+      sha256: 9024c37010758a148697f8714525216f573648087eb37285474c7d6c1e583d8a
+      expected_epoch: 8
+    shared:
+      root: project
+      path: runs/phase06_shared_three_task/mobilenet_v3_large/seed_42/best_checkpoint.pt
+      sha256: da439f8d1093bc06654b50e5fd3e198e7662d6321a16dcc7577b5e06ffa05ed2
+      expected_epoch: 10
+
+  efficientnet_b2:
+    flat:
+      root: phase02
+      path: runs/phase02_full/efficientnet_b2/full__phase02_flat_four_class_isic2019_efficientnet_b2_cross_entropy_seed42__20260823T091956Z/best_checkpoint.pt
+      sha256: 298d314e20be2d8a23bffddeaa033dbb3e180510d5e8bda5b2e5fe3269f9bc14
+      expected_epoch: 2
+    shared:
+      root: project
+      path: runs/phase06_shared_three_task/efficientnet_b2/seed_42/best_checkpoint.pt
+      sha256: 21b13d567f0f81c8db779881ad67569f1b7351fed06c362073a2d4e2d631febd
+      expected_epoch: 4
+
+  efficientnet_b3:
+    flat:
+      root: phase02
+      path: runs/phase02_full/efficientnet_b3/full__phase02_flat_four_class_isic2019_efficientnet_b3_cross_entropy_seed42__20260823T093834Z/best_checkpoint.pt
+      sha256: 67c8cfc64962fafa72f91a4623df85e2d61240ec57cefe021b0dd5244a2eb9e8
+      expected_epoch: 5
+    shared:
+      root: project
+      path: runs/phase06_shared_three_task/efficientnet_b3/seed_42/best_checkpoint.pt
+      sha256: e178526f54b1e1bc8a5da6d728c7199eab302bc412855ba1a59d62dbb41e0cd8
+      expected_epoch: 19
+
+outputs:
+  directory: reports/phase06_multi_backbone_shared/gate06d_locked_internal_test
+  write_paired_predictions: true
+  metrics: [accuracy, balanced_accuracy, macro_f1, weighted_f1, per_class]
+  hierarchy_modes: [predicted_gate, oracle_gate]
+  routing_gap: oracle_macro_f1_minus_predicted_macro_f1
