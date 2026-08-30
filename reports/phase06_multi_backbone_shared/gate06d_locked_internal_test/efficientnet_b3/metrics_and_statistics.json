@@ -1,0 +1,254 @@
+{
+  "architecture": "efficientnet_b3",
+  "checkpoint_provenance": {
+    "flat": {
+      "epoch": 5,
+      "path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification-phase02/runs/phase02_full/efficientnet_b3/full__phase02_flat_four_class_isic2019_efficientnet_b3_cross_entropy_seed42__20260823T093834Z/best_checkpoint.pt",
+      "sha256": "67c8cfc64962fafa72f91a4623df85e2d61240ec57cefe021b0dd5244a2eb9e8"
+    },
+    "shared": {
+      "epoch": 19,
+      "path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/runs/phase06_shared_three_task/efficientnet_b3/seed_42/best_checkpoint.pt",
+      "sha256": "e178526f54b1e1bc8a5da6d728c7199eab302bc412855ba1a59d62dbb41e0cd8"
+    }
+  },
+  "flat": {
+    "accuracy": 0.7739912758996729,
+    "balanced_accuracy": 0.6290042301258529,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        1968,
+        300,
+        111,
+        19
+      ],
+      [
+        174,
+        473,
+        26,
+        5
+      ],
+      [
+        61,
+        56,
+        375,
+        6
+      ],
+      [
+        19,
+        20,
+        32,
+        23
+      ]
+    ],
+    "macro_f1": 0.626039571343352,
+    "macro_precision": 0.6415287747315527,
+    "macro_recall": 0.6290042301258529,
+    "per_class": {
+      "bcc": {
+        "f1": 0.7197696737044146,
+        "precision": 0.6893382352941176,
+        "recall": 0.7530120481927711,
+        "support": 498
+      },
+      "melanoma": {
+        "f1": 0.6195153896529142,
+        "precision": 0.5571260306242638,
+        "recall": 0.6976401179941003,
+        "support": 678
+      },
+      "non_malignant": {
+        "f1": 0.8519480519480519,
+        "precision": 0.8856885688568857,
+        "recall": 0.8206839032527106,
+        "support": 2398
+      },
+      "scc": {
+        "f1": 0.3129251700680272,
+        "precision": 0.4339622641509434,
+        "recall": 0.24468085106382978,
+        "support": 94
+      }
+    },
+    "sample_count": 3668,
+    "weighted_f1": 0.7772254978863951
+  },
+  "paired_predictions": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/reports/phase06_multi_backbone_shared/gate06d_locked_internal_test/efficientnet_b3/paired_internal_test_predictions.csv",
+  "paired_predictions_sha256": "819d74c38caddb49b4f99a16d15c4290a18f34e5e61f4102342622888944ae8f",
+  "routing_loss_macro_f1": 0.20176137913482406,
+  "sample_count": 3668,
+  "shared_oracle_gate": {
+    "accuracy": 0.9416575790621592,
+    "balanced_accuracy": 0.7891730733893965,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        2398,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        612,
+        47,
+        19
+      ],
+      [
+        0,
+        77,
+        402,
+        19
+      ],
+      [
+        0,
+        10,
+        42,
+        42
+      ]
+    ],
+    "macro_f1": 0.7961474689012084,
+    "macro_precision": 0.8048184378906147,
+    "macro_recall": 0.7891730733893965,
+    "per_class": {
+      "bcc": {
+        "f1": 0.8129423660262892,
+        "precision": 0.8187372708757638,
+        "recall": 0.8072289156626506,
+        "support": 498
+      },
+      "melanoma": {
+        "f1": 0.8888888888888888,
+        "precision": 0.8755364806866953,
+        "recall": 0.9026548672566371,
+        "support": 678
+      },
+      "non_malignant": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 2398
+      },
+      "scc": {
+        "f1": 0.4827586206896552,
+        "precision": 0.525,
+        "recall": 0.44680851063829785,
+        "support": 94
+      }
+    },
+    "sample_count": 3668,
+    "weighted_f1": 0.9408100532422535
+  },
+  "shared_predicted_gate": {
+    "accuracy": 0.7172846237731734,
+    "balanced_accuracy": 0.6314502280654362,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        1731,
+        485,
+        149,
+        33
+      ],
+      [
+        121,
+        508,
+        32,
+        17
+      ],
+      [
+        56,
+        66,
+        361,
+        15
+      ],
+      [
+        12,
+        10,
+        41,
+        31
+      ]
+    ],
+    "macro_f1": 0.5943860897663843,
+    "macro_precision": 0.5797251553623988,
+    "macro_recall": 0.6314502280654362,
+    "per_class": {
+      "bcc": {
+        "f1": 0.667900092506938,
+        "precision": 0.6192109777015438,
+        "recall": 0.7248995983935743,
+        "support": 498
+      },
+      "melanoma": {
+        "f1": 0.5815684029765312,
+        "precision": 0.4752104770813845,
+        "recall": 0.7492625368731564,
+        "support": 678
+      },
+      "non_malignant": {
+        "f1": 0.8017600741083835,
+        "precision": 0.9015625,
+        "recall": 0.7218515429524603,
+        "support": 2398
+      },
+      "scc": {
+        "f1": 0.3263157894736842,
+        "precision": 0.3229166666666667,
+        "recall": 0.32978723404255317,
+        "support": 94
+      }
+    },
+    "sample_count": 3668,
+    "weighted_f1": 0.7307011900787822
+  },
+  "statistics_hierarchy_minus_flat": {
+    "accuracy": {
+      "delta_hierarchy_minus_flat": -0.0567066521264995,
+      "flat": 0.7739912758996729,
+      "hierarchy": 0.7172846237731734,
+      "paired_bootstrap_95ci": [
+        -0.0708833151581243,
+        -0.04280261723009815
+      ]
+    },
+    "macro_f1": {
+      "delta_hierarchy_minus_flat": -0.03165348157696768,
+      "flat": 0.626039571343352,
+      "hierarchy": 0.5943860897663843,
+      "paired_bootstrap_95ci": [
+        -0.062005940094790706,
+        -0.0010318204242812433
+      ]
+    },
+    "mcnemar": {
+      "both_correct": 2374,
+      "both_wrong": 572,
+      "discordant_pairs": 722,
+      "exact_two_sided_p_value": 8.680647214847428e-15,
+      "flat_correct_hierarchy_wrong": 465,
+      "flat_wrong_hierarchy_correct": 257,
+      "net_paired_correctness_advantage": 0.05670665212649945,
+      "paired_accuracy_difference": 0.05670665212649945,
+      "raw_discordant_pair_odds_ratio": {
+        "numeric_value": 1.8093385214007782,
+        "status": "finite"
+      }
+    }
+  }
+}
