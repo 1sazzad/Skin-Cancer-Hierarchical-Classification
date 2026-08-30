@@ -1,0 +1,15 @@
+=== efficientnet_b0: HIBA zero-shot ===
+efficientnet_b0: flat=0.634546 shared=0.598343 oracle=0.702269
+=== densenet121: HIBA zero-shot ===
+densenet121: flat=0.586650 shared=0.553003 oracle=0.671661
+=== densenet169: HIBA zero-shot ===
+densenet169: flat=0.633310 shared=0.527826 oracle=0.647657
+=== resnet50: HIBA zero-shot ===
+resnet50: flat=0.592521 shared=0.476445 oracle=0.633597
+=== mobilenet_v3_large: HIBA zero-shot ===
+mobilenet_v3_large: flat=0.634262 shared=0.617092 oracle=0.735248
+=== efficientnet_b2: HIBA zero-shot ===
+efficientnet_b2: flat=0.631638 shared=0.539516 oracle=0.673364
+=== efficientnet_b3: HIBA zero-shot ===
+efficientnet_b3: flat=0.652885 shared=0.594882 oracle=0.704156
+PASS: Gate 06F HIBA external evaluation complete.
