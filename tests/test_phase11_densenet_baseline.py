@@ -67,6 +67,11 @@ def test_supported_architectures_are_explicitly_locked() -> None:
     assert SUPPORTED_CLASSIFICATION_ARCHITECTURES == (
         "efficientnet_b0",
         "densenet121",
+        "densenet169",
+        "resnet50",
+        "mobilenet_v3_large",
+        "efficientnet_b2",
+        "efficientnet_b3",
     )
 
 

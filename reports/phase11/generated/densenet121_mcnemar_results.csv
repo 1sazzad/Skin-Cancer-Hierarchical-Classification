@@ -1,0 +1,3 @@
+comparison,both_correct,densenet121_only_correct,comparator_only_correct,both_incorrect,discordant_pairs,exact_two_sided_p_value
+densenet121_vs_flat_efficientnet_b0,2428,475,294,471,769,7.0079542951773787e-11
+densenet121_vs_predicted_gate_hierarchy,2431,472,284,481,756,8.1535009489804309e-12

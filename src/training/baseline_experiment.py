@@ -89,9 +89,9 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             f"Unsupported model architecture {architecture!r}. "
             f"Supported architectures: {supported}."
         )
-    if architecture == "densenet121" and task != "flat_four_class":
+    if architecture != "efficientnet_b0" and task != "flat_four_class":
         raise ValueError(
-            "densenet121 is approved only for the final flat_four_class baseline."
+            f"{architecture} is approved only for the flat_four_class task."
         )
     if model.get("pretrained_weights") != "imagenet":
         raise ValueError("Experiments must use declared ImageNet pretrained weights.")
@@ -128,6 +128,9 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
             raise ValueError(
                 "flat_four_class requires the phase06_flat_four_class_v1 mapping."
             )
+
+    if experiment.get("research_stage") == "phase02_controlled_backbone_benchmark":
+        _validate_phase02_config(loaded)
 
     if task == "emb_stage03":
         expected_mapping = {"Tis": 0, "T1": 1, "T2": 2, "T3": 3, "T4": 4}
@@ -336,6 +339,113 @@ def load_experiment_config(config_path: str | Path) -> dict[str, Any]:
         raise ValueError("training.early_stopping_patience must be positive.")
 
     return deepcopy(loaded)
+
+
+def _validate_phase02_config(config: Mapping[str, Any]) -> None:
+    """Reject scientific drift in a runnable Phase 02 new-backbone config."""
+
+    experiment = _mapping(config, "experiment")
+    data = _mapping(config, "data")
+    loader = _mapping(config, "loader")
+    model = _mapping(config, "model")
+    preprocessing = _mapping(config, "preprocessing")
+    training = _mapping(config, "training")
+
+    new_architectures = {
+        "densenet169",
+        "resnet50",
+        "mobilenet_v3_large",
+        "efficientnet_b2",
+        "efficientnet_b3",
+    }
+    architecture = str(model.get("architecture", ""))
+    if architecture not in new_architectures:
+        raise ValueError("Phase 02 runnable configs are only for the five new backbones.")
+
+    expected_values = {
+        "experiment.dataset": (experiment.get("dataset"), "isic2019"),
+        "experiment.model": (experiment.get("model"), architecture),
+        "experiment.variant": (experiment.get("variant"), "cross_entropy"),
+        "experiment.seed": (experiment.get("seed"), 42),
+        "data.split_manifest": (
+            data.get("split_manifest"),
+            "data/manifests/isic2019_train_val_test_split_seed42.csv",
+        ),
+        "data.task": (data.get("task"), "flat_four_class"),
+        "data.inclusion_policy": (
+            data.get("inclusion_policy"),
+            "split_included=1 and include_stage_1=1",
+        ),
+        "loader.batch_size": (loader.get("batch_size"), 64),
+        "loader.num_workers": (loader.get("num_workers"), 4),
+        "loader.pin_memory": (loader.get("pin_memory"), True),
+        "loader.persistent_workers": (loader.get("persistent_workers"), True),
+        "loader.prefetch_factor": (loader.get("prefetch_factor"), 2),
+        "loader.drop_last_train": (loader.get("drop_last_train"), False),
+        "model.pretrained_weights": (model.get("pretrained_weights"), "imagenet"),
+        "model.number_of_classes": (model.get("number_of_classes"), 4),
+        "model.dropout_probability": (model.get("dropout_probability"), 0.2),
+        "preprocessing.input_size": (preprocessing.get("input_size"), [224, 224]),
+        "preprocessing.normalization": (preprocessing.get("normalization"), "imagenet"),
+        "preprocessing.train_transform": (
+            preprocessing.get("train_transform"),
+            "locked_moderate_baseline",
+        ),
+        "preprocessing.validation_transform": (
+            preprocessing.get("validation_transform"),
+            "deterministic_resize_256_center_crop_224",
+        ),
+        "preprocessing.internal_test_transform": (
+            preprocessing.get("internal_test_transform"),
+            "deterministic_resize_256_center_crop_224",
+        ),
+        "training.epochs": (training.get("epochs"), 30),
+        "training.loss": (training.get("loss"), "cross_entropy"),
+        "training.weighted_sampler": (training.get("weighted_sampler"), False),
+        "training.class_weights": (training.get("class_weights"), None),
+        "training.focal_loss": (training.get("focal_loss"), False),
+        "training.amp": (training.get("amp"), True),
+        "training.selection_metric": (training.get("selection_metric"), "macro_f1"),
+        "training.early_stopping_patience": (
+            training.get("early_stopping_patience"),
+            7,
+        ),
+        "training.full_training_allowed": (
+            training.get("full_training_allowed"),
+            True,
+        ),
+        "training.evaluate_internal_test_after_training": (
+            training.get("evaluate_internal_test_after_training"),
+            False,
+        ),
+    }
+    optimizer = _mapping(training, "optimizer")
+    scheduler = _mapping(training, "scheduler")
+    expected_values.update(
+        {
+            "training.optimizer.name": (optimizer.get("name"), "adamw"),
+            "training.optimizer.learning_rate": (
+                optimizer.get("learning_rate"),
+                0.0003,
+            ),
+            "training.optimizer.weight_decay": (
+                optimizer.get("weight_decay"),
+                0.0001,
+            ),
+            "training.scheduler.name": (scheduler.get("name"), "cosine_annealing"),
+            "training.scheduler.minimum_learning_rate": (
+                scheduler.get("minimum_learning_rate"),
+                0.000001,
+            ),
+        }
+    )
+    mismatches = [
+        f"{name}: expected {expected!r}, got {actual!r}"
+        for name, (actual, expected) in expected_values.items()
+        if actual != expected
+    ]
+    if mismatches:
+        raise ValueError("Phase 02 frozen protocol mismatch: " + "; ".join(mismatches))
 
 
 def compute_effective_number_class_weights(

@@ -1,0 +1,18 @@
+{
+  "correctly_routed_malignant": 1100,
+  "malignant_block_rate": 0.13385826771653545,
+  "malignant_blocked_by_stage_1": 170,
+  "non_malignant_incorrect_route_rate": 0.31734778982485407,
+  "non_malignant_incorrectly_routed_to_stage_2": 761,
+  "predicted_malignant_count": 1861,
+  "routing_loss_macro_f1": 0.2083849122141178,
+  "sample_count": 3668,
+  "stage_2_execution_count": 2031,
+  "stage_2_execution_fraction": 0.5537077426390403,
+  "status": "PASS",
+  "subtype_correct_after_correct_route": 885,
+  "subtype_error_after_correct_route": 215,
+  "subtype_error_rate_after_correct_route": 0.19545454545454546,
+  "true_malignant_count": 1270,
+  "true_non_malignant_count": 2398
+}

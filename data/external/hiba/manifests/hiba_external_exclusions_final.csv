@@ -1,0 +1,404 @@
+isic_id,image_type,diagnosis,reason
+ISIC_0094098,clinical: overview,melanoma,non_dermoscopic
+ISIC_0107741,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_0116640,clinical: overview,melanoma,non_dermoscopic
+ISIC_0119854,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0133379,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0133773,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0169895,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_0211418,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0330896,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0370022,clinical: overview,nevus,non_dermoscopic
+ISIC_0373249,clinical: overview,melanoma,non_dermoscopic
+ISIC_0514929,clinical: overview,melanoma,non_dermoscopic
+ISIC_0520507,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_0542742,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0562305,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0580759,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_0633437,clinical: overview,melanoma,non_dermoscopic
+ISIC_0644328,clinical: overview,nevus,non_dermoscopic
+ISIC_0647125,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0708451,clinical: overview,melanoma,non_dermoscopic
+ISIC_0721601,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_0761934,clinical: overview,melanoma,non_dermoscopic
+ISIC_0765095,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_0784936,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_0797749,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_0799918,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_0821196,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_0830433,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_0921082,clinical: overview,nevus,non_dermoscopic
+ISIC_0928255,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_0962020,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_0973304,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_1000675,clinical: overview,melanoma,non_dermoscopic
+ISIC_1014434,clinical: overview,nevus,non_dermoscopic
+ISIC_1061847,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_1065512,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1096866,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_1112864,clinical: overview,melanoma,non_dermoscopic
+ISIC_1135829,clinical: overview,melanoma,non_dermoscopic
+ISIC_1152189,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1306256,clinical: overview,nevus,non_dermoscopic
+ISIC_1309231,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_1317893,clinical: overview,melanoma,non_dermoscopic
+ISIC_1321984,clinical: overview,melanoma,non_dermoscopic
+ISIC_1341581,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1346627,clinical: overview,melanoma,non_dermoscopic
+ISIC_1349417,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_1383624,clinical: overview,nevus,non_dermoscopic
+ISIC_1411587,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1464726,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_1482223,clinical: overview,melanoma,non_dermoscopic
+ISIC_1536832,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1559934,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_1634408,clinical: overview,melanoma,non_dermoscopic
+ISIC_1640110,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_1641940,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1659879,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_1687088,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_1714225,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_1733229,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_1735322,clinical: overview,solar lentigo,non_dermoscopic
+ISIC_1735952,clinical: overview,nevus,non_dermoscopic
+ISIC_1773269,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_1816574,clinical: overview,nevus,non_dermoscopic
+ISIC_1817773,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_1831970,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1939384,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1949623,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1966520,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_1976390,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_1990662,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_2035987,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_2060578,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_2072583,clinical: overview,nevus,non_dermoscopic
+ISIC_2084085,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_2107859,clinical: overview,melanoma,non_dermoscopic
+ISIC_2114677,clinical: overview,melanoma,non_dermoscopic
+ISIC_2136197,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_2214759,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_2224029,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_2286569,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2354429,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2400793,clinical: overview,nevus,non_dermoscopic
+ISIC_2436138,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_2456191,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_2464528,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2465944,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2522620,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_2536109,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2567615,clinical: overview,melanoma,non_dermoscopic
+ISIC_2596471,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_2596867,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_2606092,clinical: overview,nevus,non_dermoscopic
+ISIC_2685699,clinical: overview,nevus,non_dermoscopic
+ISIC_2696751,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_2700242,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2704825,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2720030,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2729912,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_2837037,clinical: overview,melanoma,non_dermoscopic
+ISIC_2845345,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_2870496,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_2900342,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_3007796,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_3019909,clinical: overview,nevus,non_dermoscopic
+ISIC_3069438,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3078834,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3098914,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3108030,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3114203,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_3136193,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_3149813,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3159253,clinical: overview,melanoma,non_dermoscopic
+ISIC_3222130,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3228579,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3231047,clinical: overview,melanoma,non_dermoscopic
+ISIC_3234368,clinical: overview,melanoma,non_dermoscopic
+ISIC_3240114,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3247622,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3289563,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3299133,clinical: overview,melanoma,non_dermoscopic
+ISIC_3304758,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_3311204,clinical: overview,melanoma,non_dermoscopic
+ISIC_3342666,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3359048,clinical: overview,melanoma,non_dermoscopic
+ISIC_3388616,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_3424187,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3426358,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3435457,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3439101,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3471170,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3498622,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3518714,clinical: overview,melanoma,non_dermoscopic
+ISIC_3531035,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_3560753,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3585954,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3610996,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3615362,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_3630590,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3716776,clinical: overview,nevus,non_dermoscopic
+ISIC_3754853,clinical: overview,melanoma,non_dermoscopic
+ISIC_3804099,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3867890,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_3881430,clinical: overview,nevus,non_dermoscopic
+ISIC_3968056,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_3969664,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_3971184,clinical: close-up,melanoma,non_dermoscopic
+ISIC_3978885,clinical: overview,nevus,non_dermoscopic
+ISIC_4035478,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4036953,clinical: overview,nevus,non_dermoscopic
+ISIC_4038015,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4047069,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_4079825,clinical: overview,melanoma,non_dermoscopic
+ISIC_4082554,clinical: overview,melanoma,non_dermoscopic
+ISIC_4117958,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_4146888,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4205538,clinical: overview,melanoma,non_dermoscopic
+ISIC_4214029,clinical: overview,melanoma,non_dermoscopic
+ISIC_4237289,clinical: overview,melanoma,non_dermoscopic
+ISIC_4256211,clinical: overview,melanoma,non_dermoscopic
+ISIC_4258119,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_4263601,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4292551,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4310474,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_4407081,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4415554,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_4489445,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4489603,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_4525930,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_4550448,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_4563689,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4564422,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4596148,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_4661821,clinical: overview,melanoma,non_dermoscopic
+ISIC_4663260,clinical: overview,nevus,non_dermoscopic
+ISIC_4690178,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4695565,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4700556,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_4706882,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_4732712,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4762072,clinical: overview,melanoma,non_dermoscopic
+ISIC_4766156,clinical: overview,melanoma,non_dermoscopic
+ISIC_4788959,clinical: overview,lichenoid keratosis,non_dermoscopic
+ISIC_4798806,clinical: overview,vascular lesion,non_dermoscopic
+ISIC_4816001,clinical: overview,nevus,non_dermoscopic
+ISIC_4817412,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4825485,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_4875503,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4875964,clinical: overview,nevus,non_dermoscopic
+ISIC_4879289,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4888155,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_4893808,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_4970724,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_4999508,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_5007626,clinical: overview,nevus,non_dermoscopic
+ISIC_5008132,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_5059671,clinical: overview,melanoma,non_dermoscopic
+ISIC_5081865,clinical: overview,melanoma,non_dermoscopic
+ISIC_5086718,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5113624,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_5121137,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5141599,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5184876,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5205467,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_5220778,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5233904,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5249982,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5279645,clinical: overview,nevus,non_dermoscopic
+ISIC_5280241,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5280521,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_5290918,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_5361878,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5375398,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_5400713,clinical: overview,nevus,non_dermoscopic
+ISIC_5401158,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5408518,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5449807,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5475971,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5560888,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5577519,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5644176,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5645939,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5702387,clinical: overview,nevus,non_dermoscopic
+ISIC_5731511,clinical: overview,solar lentigo,non_dermoscopic
+ISIC_5733934,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_5749049,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_5770532,clinical: overview,nevus,non_dermoscopic
+ISIC_5784016,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5815174,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5836857,clinical: overview,melanoma,non_dermoscopic
+ISIC_5847539,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5848879,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5911355,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5940534,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_5959220,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_5973072,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_5985738,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_5992988,clinical: overview,nevus,non_dermoscopic
+ISIC_6015979,clinical: overview,melanoma,non_dermoscopic
+ISIC_6037786,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_6038442,clinical: overview,nevus,non_dermoscopic
+ISIC_6045898,clinical: overview,nevus,non_dermoscopic
+ISIC_6127908,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6129060,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_6178183,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6215457,clinical: overview,melanoma,non_dermoscopic
+ISIC_6241688,clinical: overview,melanoma,non_dermoscopic
+ISIC_6259135,clinical: overview,solar lentigo,non_dermoscopic
+ISIC_6289062,clinical: overview,solar lentigo,non_dermoscopic
+ISIC_6315203,clinical: close-up,melanoma,non_dermoscopic
+ISIC_6340616,clinical: overview,melanoma,non_dermoscopic
+ISIC_6341872,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_6342903,clinical: overview,melanoma,non_dermoscopic
+ISIC_6415252,clinical: overview,nevus,non_dermoscopic
+ISIC_6450459,clinical: overview,nevus,non_dermoscopic
+ISIC_6516485,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_6525238,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6529148,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_6542300,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_6584700,clinical: overview,melanoma,non_dermoscopic
+ISIC_6589022,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6614811,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_6616147,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6652468,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6689070,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6736065,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_6788393,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6803155,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_6874409,clinical: close-up,basal cell carcinoma,non_dermoscopic
+ISIC_6889410,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6925301,clinical: overview,nevus,non_dermoscopic
+ISIC_6933767,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_6937526,clinical: overview,nevus,non_dermoscopic
+ISIC_6950870,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_6961311,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_7035648,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7038061,clinical: close-up,squamous cell carcinoma,non_dermoscopic
+ISIC_7089477,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_7128085,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7151644,clinical: overview,nevus,non_dermoscopic
+ISIC_7169848,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_7199177,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_7221652,clinical: overview,melanoma,non_dermoscopic
+ISIC_7231071,clinical: overview,melanoma,non_dermoscopic
+ISIC_7261723,clinical: overview,melanoma,non_dermoscopic
+ISIC_7338852,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7360494,clinical: overview,melanoma,non_dermoscopic
+ISIC_7435333,clinical: overview,melanoma,non_dermoscopic
+ISIC_7461496,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7490806,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_7498025,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7504036,clinical: overview,melanoma,non_dermoscopic
+ISIC_7546980,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_7579869,clinical: overview,nevus,non_dermoscopic
+ISIC_7587257,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7611886,clinical: overview,melanoma,non_dermoscopic
+ISIC_7756020,clinical: overview,nevus,non_dermoscopic
+ISIC_7796132,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7812886,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_7844517,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_7901155,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_7901514,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_7957576,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_7964676,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_7964849,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_7979741,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_8044078,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8053508,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_8095537,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_8097277,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8111280,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_8165921,clinical: close-up,basal cell carcinoma,non_dermoscopic
+ISIC_8174547,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_8219918,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8229835,clinical: close-up,basal cell carcinoma,non_dermoscopic
+ISIC_8236269,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8283429,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8329844,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8373120,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_8403508,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8459589,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8489375,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8495716,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8502375,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8536717,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_8539737,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_8544566,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8548189,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_8570943,clinical: overview,melanoma,non_dermoscopic
+ISIC_8613600,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8649181,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8664178,clinical: overview,melanoma,non_dermoscopic
+ISIC_8668169,clinical: overview,nevus,non_dermoscopic
+ISIC_8707120,clinical: overview,nevus,non_dermoscopic
+ISIC_8721218,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_8738680,clinical: overview,melanoma,non_dermoscopic
+ISIC_8767311,clinical: overview,melanoma,non_dermoscopic
+ISIC_8775112,clinical: overview,nevus,non_dermoscopic
+ISIC_8781042,clinical: overview,nevus,non_dermoscopic
+ISIC_8793798,clinical: overview,melanoma,non_dermoscopic
+ISIC_8803373,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8822408,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8841175,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8850095,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8904408,clinical: overview,nevus,non_dermoscopic
+ISIC_8930922,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8939503,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8941944,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_8948371,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8966458,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_8969985,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_9043183,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9060197,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9071082,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_9082062,clinical: overview,nevus,non_dermoscopic
+ISIC_9097641,clinical: overview,melanoma,non_dermoscopic
+ISIC_9098311,clinical: overview,melanoma,non_dermoscopic
+ISIC_9107240,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9129115,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_9195841,clinical: overview,melanoma,non_dermoscopic
+ISIC_9257589,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_9311797,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_9314666,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_9323828,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_9353417,clinical: overview,nevus,non_dermoscopic
+ISIC_9378991,clinical: overview,nevus,non_dermoscopic
+ISIC_9379115,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_9389788,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_9393700,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_9396173,clinical: overview,melanoma,non_dermoscopic
+ISIC_9396732,clinical: overview,nevus,non_dermoscopic
+ISIC_9401469,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9417610,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9446067,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9480238,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_9481737,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9497941,clinical: overview,nevus,non_dermoscopic
+ISIC_9513630,clinical: overview,nevus,non_dermoscopic
+ISIC_9523184,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9561124,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9597037,clinical: overview,melanoma,non_dermoscopic
+ISIC_9600064,clinical: overview,melanoma,non_dermoscopic
+ISIC_9611628,clinical: overview,nevus,non_dermoscopic
+ISIC_9645798,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9651464,clinical: overview,nevus,non_dermoscopic
+ISIC_9653384,clinical: overview,dermatofibroma,non_dermoscopic
+ISIC_9660302,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9683541,clinical: overview,squamous cell carcinoma,non_dermoscopic
+ISIC_9701230,clinical: overview,nevus,non_dermoscopic
+ISIC_9765735,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9795586,clinical: overview,seborrheic keratosis,non_dermoscopic
+ISIC_9882427,clinical: overview,nevus,non_dermoscopic
+ISIC_9892170,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_9905557,clinical: overview,nevus,non_dermoscopic
+ISIC_9910672,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9922955,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9925949,clinical: overview,nevus,non_dermoscopic
+ISIC_9947461,clinical: overview,basal cell carcinoma,non_dermoscopic
+ISIC_9968790,clinical: overview,nevus,non_dermoscopic
+ISIC_9997367,clinical: overview,actinic keratosis,non_dermoscopic
+ISIC_9999251,dermoscopic,actinic keratosis,actinic_keratosis_excluded_to_match_frozen_isic_task
+ISIC_7076637,dermoscopic,basal cell carcinoma,exact_content_duplicate_excluded;sha256=8dba0c857c6666dac0905d5e5edf7463cfca4b4adcf140c7c2d7dfdf3fe3c5ec;canonical_isic_id=ISIC_3844971
+ISIC_9600955,dermoscopic,nevus,exact_content_duplicate_excluded;sha256=922d1fca572716670b9b9698959e1f5e091b80312db8584d48c32f9ace80e098;canonical_isic_id=ISIC_3386975

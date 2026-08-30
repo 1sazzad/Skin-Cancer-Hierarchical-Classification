@@ -1,0 +1,212 @@
+{
+  "architecture": "densenet121",
+  "delta_hierarchy_minus_flat_macro_f1": -0.03364680403939069,
+  "flat": {
+    "accuracy": 0.7410714285714286,
+    "balanced_accuracy": 0.5457673706068419,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        682,
+        6,
+        6,
+        2
+      ],
+      [
+        89,
+        94,
+        9,
+        4
+      ],
+      [
+        88,
+        16,
+        110,
+        15
+      ],
+      [
+        42,
+        13,
+        29,
+        27
+      ]
+    ],
+    "macro_f1": 0.5866495382021059,
+    "macro_precision": 0.6906011554468211,
+    "macro_recall": 0.5457673706068419,
+    "per_class": {
+      "bcc": {
+        "f1": 0.5744125326370757,
+        "precision": 0.7142857142857143,
+        "recall": 0.48034934497816595,
+        "support": 229
+      },
+      "melanoma": {
+        "f1": 0.5784615384615385,
+        "precision": 0.7286821705426356,
+        "recall": 0.47959183673469385,
+        "support": 196
+      },
+      "non_malignant": {
+        "f1": 0.8541014402003757,
+        "precision": 0.7569367369589345,
+        "recall": 0.9798850574712644,
+        "support": 696
+      },
+      "scc": {
+        "f1": 0.33962264150943394,
+        "precision": 0.5625,
+        "recall": 0.24324324324324326,
+        "support": 111
+      }
+    },
+    "sample_count": 1232,
+    "weighted_f1": 0.7119088044637667
+  },
+  "paired_predictions_sha256": "a9048cc8b58e77c685eaa55d3a8b566ff9da9b3383b1e0bfcc04017e514e6d7f",
+  "patient_cluster_bootstrap_95ci_macro_f1_delta": [
+    -0.08234069465684075,
+    0.015894240947960114
+  ],
+  "routing_loss_macro_f1": 0.11865841614202166,
+  "sample_count": 1232,
+  "shared_oracle_gate": {
+    "accuracy": 0.8238636363636364,
+    "balanced_accuracy": 0.7129446196040083,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        696,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        182,
+        2,
+        12
+      ],
+      [
+        0,
+        74,
+        67,
+        88
+      ],
+      [
+        0,
+        33,
+        8,
+        70
+      ]
+    ],
+    "macro_f1": 0.6716611503047368,
+    "macro_precision": 0.7279130903698378,
+    "macro_recall": 0.7129446196040083,
+    "per_class": {
+      "bcc": {
+        "f1": 0.43790849673202614,
+        "precision": 0.8701298701298701,
+        "recall": 0.2925764192139738,
+        "support": 229
+      },
+      "melanoma": {
+        "f1": 0.7505154639175258,
+        "precision": 0.629757785467128,
+        "recall": 0.9285714285714286,
+        "support": 196
+      },
+      "non_malignant": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 696
+      },
+      "scc": {
+        "f1": 0.498220640569395,
+        "precision": 0.4117647058823529,
+        "recall": 0.6306306306306306,
+        "support": 111
+      }
+    },
+    "sample_count": 1232,
+    "weighted_f1": 0.8106205907326882
+  },
+  "shared_predicted_gate": {
+    "accuracy": 0.7077922077922078,
+    "balanced_accuracy": 0.5534747337301008,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confusion_matrix": [
+      [
+        647,
+        36,
+        9,
+        4
+      ],
+      [
+        65,
+        120,
+        1,
+        10
+      ],
+      [
+        58,
+        47,
+        59,
+        65
+      ],
+      [
+        41,
+        20,
+        4,
+        46
+      ]
+    ],
+    "macro_f1": 0.5530027341627152,
+    "macro_precision": 0.6280290719724011,
+    "macro_recall": 0.5534747337301008,
+    "per_class": {
+      "bcc": {
+        "f1": 0.39072847682119205,
+        "precision": 0.8082191780821918,
+        "recall": 0.2576419213973799,
+        "support": 229
+      },
+      "melanoma": {
+        "f1": 0.5727923627684964,
+        "precision": 0.5381165919282511,
+        "recall": 0.6122448979591837,
+        "support": 196
+      },
+      "non_malignant": {
+        "f1": 0.8586595885865959,
+        "precision": 0.7977805178791615,
+        "recall": 0.9295977011494253,
+        "support": 696
+      },
+      "scc": {
+        "f1": 0.3898305084745763,
+        "precision": 0.368,
+        "recall": 0.4144144144144144,
+        "support": 111
+      }
+    },
+    "sample_count": 1232,
+    "weighted_f1": 0.683962974343853
+  }
+}
