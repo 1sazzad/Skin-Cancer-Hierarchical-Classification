@@ -1,0 +1,1235 @@
+isic_id,image_path,patient_id,lesion_id,hiba_diagnosis,benign_malignant,diagnosis_confirm_type,target_label,target_index
+ISIC_0079358,extracted/images/ISIC_0079358.jpg,IP_9328831,IL_3989348,nevus,benign,,non_malignant,0
+ISIC_0086914,extracted/images/ISIC_0086914.jpg,IP_7506563,IL_9767756,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0088904,extracted/images/ISIC_0088904.jpg,IP_0222733,IL_8711401,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0095134,extracted/images/ISIC_0095134.jpg,IP_8235588,IL_4530268,melanoma,malignant,histopathology,melanoma,1
+ISIC_0115851,extracted/images/ISIC_0115851.jpg,IP_9935521,IL_3312003,nevus,benign,histopathology,non_malignant,0
+ISIC_0135184,extracted/images/ISIC_0135184.jpg,IP_7559190,IL_2147560,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_0141408,extracted/images/ISIC_0141408.jpg,IP_8450638,IL_2773088,nevus,benign,,non_malignant,0
+ISIC_0141681,extracted/images/ISIC_0141681.jpg,IP_6206689,IL_1666755,nevus,benign,,non_malignant,0
+ISIC_0142436,extracted/images/ISIC_0142436.jpg,IP_7035571,IL_7386068,nevus,benign,,non_malignant,0
+ISIC_0143790,extracted/images/ISIC_0143790.jpg,IP_0031063,IL_2407401,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0151137,extracted/images/ISIC_0151137.jpg,IP_1773325,IL_6061997,nevus,benign,histopathology,non_malignant,0
+ISIC_0168716,extracted/images/ISIC_0168716.jpg,IP_1117498,IL_1134487,melanoma,malignant,histopathology,melanoma,1
+ISIC_0174268,extracted/images/ISIC_0174268.jpg,IP_4968898,IL_9781276,nevus,benign,,non_malignant,0
+ISIC_0181785,extracted/images/ISIC_0181785.jpg,IP_7035571,IL_6770823,nevus,benign,,non_malignant,0
+ISIC_0199971,extracted/images/ISIC_0199971.jpg,IP_7938826,IL_6773574,nevus,benign,,non_malignant,0
+ISIC_0202238,extracted/images/ISIC_0202238.jpg,IP_7008738,IL_9855102,melanoma,malignant,histopathology,melanoma,1
+ISIC_0206756,extracted/images/ISIC_0206756.jpg,IP_9393377,IL_3250161,melanoma,malignant,histopathology,melanoma,1
+ISIC_0211882,extracted/images/ISIC_0211882.jpg,IP_9515056,IL_2104021,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0224810,extracted/images/ISIC_0224810.jpg,IP_7789397,IL_5681285,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0225097,extracted/images/ISIC_0225097.jpg,IP_1668152,IL_9070623,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0229233,extracted/images/ISIC_0229233.jpg,IP_6418662,IL_7520515,melanoma,malignant,histopathology,melanoma,1
+ISIC_0234964,extracted/images/ISIC_0234964.jpg,IP_8779056,IL_3035673,nevus,benign,histopathology,non_malignant,0
+ISIC_0235462,extracted/images/ISIC_0235462.jpg,IP_5504955,IL_1580365,seborrheic keratosis,benign,,non_malignant,0
+ISIC_0236147,extracted/images/ISIC_0236147.jpg,IP_4349293,IL_0007834,nevus,benign,,non_malignant,0
+ISIC_0246142,extracted/images/ISIC_0246142.jpg,IP_7243858,IL_7613468,nevus,benign,,non_malignant,0
+ISIC_0255566,extracted/images/ISIC_0255566.jpg,IP_5230560,IL_7601203,melanoma,malignant,histopathology,melanoma,1
+ISIC_0261344,extracted/images/ISIC_0261344.jpg,IP_2564151,IL_5086605,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_0267056,extracted/images/ISIC_0267056.jpg,IP_7243858,IL_2079152,nevus,benign,,non_malignant,0
+ISIC_0278351,extracted/images/ISIC_0278351.jpg,IP_1557078,IL_3766031,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0289994,extracted/images/ISIC_0289994.jpg,IP_9998114,IL_7059987,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0293360,extracted/images/ISIC_0293360.jpg,IP_4349293,IL_1731723,nevus,benign,,non_malignant,0
+ISIC_0320077,extracted/images/ISIC_0320077.jpg,IP_1404370,IL_0581481,nevus,benign,,non_malignant,0
+ISIC_0331449,extracted/images/ISIC_0331449.jpg,IP_1287590,IL_6041952,nevus,benign,histopathology,non_malignant,0
+ISIC_0333412,extracted/images/ISIC_0333412.jpg,IP_5504955,IL_7170324,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0342851,extracted/images/ISIC_0342851.jpg,IP_1117498,IL_3865867,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0348670,extracted/images/ISIC_0348670.jpg,IP_7551030,IL_3097501,vascular lesion,benign,,non_malignant,0
+ISIC_0365225,extracted/images/ISIC_0365225.jpg,IP_7966589,IL_6585280,melanoma,malignant,histopathology,melanoma,1
+ISIC_0371179,extracted/images/ISIC_0371179.jpg,IP_1794938,IL_2236610,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0375301,extracted/images/ISIC_0375301.jpg,IP_4064247,IL_1444659,nevus,benign,,non_malignant,0
+ISIC_0377055,extracted/images/ISIC_0377055.jpg,IP_7256360,IL_8239498,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0388469,extracted/images/ISIC_0388469.jpg,IP_6360818,IL_9181352,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0393678,extracted/images/ISIC_0393678.jpg,IP_4968898,IL_9124957,nevus,benign,,non_malignant,0
+ISIC_0400309,extracted/images/ISIC_0400309.jpg,IP_4065457,IL_8166474,nevus,benign,histopathology,non_malignant,0
+ISIC_0404097,extracted/images/ISIC_0404097.jpg,IP_6182640,IL_9559854,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0408926,extracted/images/ISIC_0408926.jpg,IP_9854686,IL_6585676,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0413031,extracted/images/ISIC_0413031.jpg,IP_6444963,IL_9777032,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0416482,extracted/images/ISIC_0416482.jpg,IP_7243858,IL_5727463,nevus,benign,,non_malignant,0
+ISIC_0421725,extracted/images/ISIC_0421725.jpg,IP_7035571,IL_8740100,nevus,benign,,non_malignant,0
+ISIC_0425007,extracted/images/ISIC_0425007.jpg,IP_8641208,IL_9233839,nevus,benign,histopathology,non_malignant,0
+ISIC_0426193,extracted/images/ISIC_0426193.jpg,IP_9694153,IL_0978837,nevus,benign,histopathology,non_malignant,0
+ISIC_0437776,extracted/images/ISIC_0437776.jpg,IP_3451310,IL_9826099,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0462317,extracted/images/ISIC_0462317.jpg,IP_7938826,IL_3570098,nevus,benign,,non_malignant,0
+ISIC_0469469,extracted/images/ISIC_0469469.jpg,IP_8075842,IL_6070149,vascular lesion,benign,,non_malignant,0
+ISIC_0469739,extracted/images/ISIC_0469739.jpg,IP_8408163,IL_8169413,melanoma,malignant,histopathology,melanoma,1
+ISIC_0477738,extracted/images/ISIC_0477738.jpg,IP_8107767,IL_0602189,vascular lesion,benign,,non_malignant,0
+ISIC_0480697,extracted/images/ISIC_0480697.jpg,IP_3875370,IL_8904771,nevus,benign,,non_malignant,0
+ISIC_0483611,extracted/images/ISIC_0483611.jpg,IP_1319015,IL_6844641,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0499306,extracted/images/ISIC_0499306.jpg,IP_5291194,IL_2236602,nevus,benign,,non_malignant,0
+ISIC_0501192,extracted/images/ISIC_0501192.jpg,IP_7884622,IL_3177073,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0511290,extracted/images/ISIC_0511290.jpg,IP_8326549,IL_0396863,nevus,benign,,non_malignant,0
+ISIC_0516105,extracted/images/ISIC_0516105.jpg,IP_5291194,IL_7484405,nevus,benign,,non_malignant,0
+ISIC_0517734,extracted/images/ISIC_0517734.jpg,IP_4891909,IL_0293819,nevus,benign,,non_malignant,0
+ISIC_0521708,extracted/images/ISIC_0521708.jpg,IP_4307149,IL_4193678,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0526911,extracted/images/ISIC_0526911.jpg,IP_2728527,IL_9351924,nevus,benign,histopathology,non_malignant,0
+ISIC_0542765,extracted/images/ISIC_0542765.jpg,IP_3114566,IL_0090343,melanoma,malignant,histopathology,melanoma,1
+ISIC_0554180,extracted/images/ISIC_0554180.jpg,IP_7938826,IL_3916081,nevus,benign,,non_malignant,0
+ISIC_0570235,extracted/images/ISIC_0570235.jpg,IP_0031063,IL_4970090,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0579124,extracted/images/ISIC_0579124.jpg,IP_1729411,IL_2429626,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0588796,extracted/images/ISIC_0588796.jpg,IP_6558273,IL_4524069,nevus,benign,histopathology,non_malignant,0
+ISIC_0599463,extracted/images/ISIC_0599463.jpg,IP_7181522,IL_1008743,melanoma,malignant,histopathology,melanoma,1
+ISIC_0604869,extracted/images/ISIC_0604869.jpg,IP_2640696,IL_3474593,nevus,benign,,non_malignant,0
+ISIC_0617780,extracted/images/ISIC_0617780.jpg,IP_2640696,IL_4592008,nevus,benign,,non_malignant,0
+ISIC_0624969,extracted/images/ISIC_0624969.jpg,IP_7035571,IL_4633314,nevus,benign,,non_malignant,0
+ISIC_0625744,extracted/images/ISIC_0625744.jpg,IP_3418123,IL_0174675,melanoma,malignant,histopathology,melanoma,1
+ISIC_0630195,extracted/images/ISIC_0630195.jpg,IP_5190758,IL_4297272,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0630222,extracted/images/ISIC_0630222.jpg,IP_2504588,IL_7022222,nevus,benign,,non_malignant,0
+ISIC_0630968,extracted/images/ISIC_0630968.jpg,IP_7203368,IL_1775432,nevus,benign,histopathology,non_malignant,0
+ISIC_0638700,extracted/images/ISIC_0638700.jpg,IP_7808184,IL_7131880,melanoma,malignant,histopathology,melanoma,1
+ISIC_0641560,extracted/images/ISIC_0641560.jpg,IP_1404370,IL_2580047,nevus,benign,,non_malignant,0
+ISIC_0647139,extracted/images/ISIC_0647139.jpg,IP_7035571,IL_7611794,nevus,benign,,non_malignant,0
+ISIC_0656566,extracted/images/ISIC_0656566.jpg,IP_4270560,IL_7758603,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0662865,extracted/images/ISIC_0662865.jpg,IP_9806536,IL_5133203,nevus,benign,histopathology,non_malignant,0
+ISIC_0664537,extracted/images/ISIC_0664537.jpg,IP_7035571,IL_5063892,nevus,benign,,non_malignant,0
+ISIC_0679886,extracted/images/ISIC_0679886.jpg,IP_8450638,IL_9497750,nevus,benign,single image expert consensus,non_malignant,0
+ISIC_0692300,extracted/images/ISIC_0692300.jpg,IP_1165379,IL_2259035,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_0718694,extracted/images/ISIC_0718694.jpg,IP_5958526,IL_4205718,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0736975,extracted/images/ISIC_0736975.jpg,IP_2728527,IL_5141157,nevus,benign,,non_malignant,0
+ISIC_0749272,extracted/images/ISIC_0749272.jpg,IP_6184736,IL_0646334,vascular lesion,benign,,non_malignant,0
+ISIC_0750046,extracted/images/ISIC_0750046.jpg,IP_7964395,IL_0398851,melanoma,malignant,histopathology,melanoma,1
+ISIC_0764879,extracted/images/ISIC_0764879.jpg,IP_3186244,IL_2432754,nevus,benign,,non_malignant,0
+ISIC_0772328,extracted/images/ISIC_0772328.jpg,IP_3426045,IL_1632455,nevus,benign,,non_malignant,0
+ISIC_0774442,extracted/images/ISIC_0774442.jpg,IP_3195622,IL_8223491,nevus,benign,histopathology,non_malignant,0
+ISIC_0776470,extracted/images/ISIC_0776470.jpg,IP_1404370,IL_2768754,nevus,benign,,non_malignant,0
+ISIC_0789191,extracted/images/ISIC_0789191.jpg,IP_0031063,IL_0060490,melanoma,malignant,histopathology,melanoma,1
+ISIC_0789847,extracted/images/ISIC_0789847.jpg,IP_2317296,IL_5630284,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0792800,extracted/images/ISIC_0792800.jpg,IP_6661147,IL_2767330,nevus,benign,histopathology,non_malignant,0
+ISIC_0799972,extracted/images/ISIC_0799972.jpg,IP_6555777,IL_1486711,melanoma,malignant,histopathology,melanoma,1
+ISIC_0803812,extracted/images/ISIC_0803812.jpg,IP_2504588,IL_9944291,nevus,benign,,non_malignant,0
+ISIC_0819010,extracted/images/ISIC_0819010.jpg,IP_4968898,IL_8748934,nevus,benign,,non_malignant,0
+ISIC_0820482,extracted/images/ISIC_0820482.jpg,IP_1414430,IL_2659423,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0841460,extracted/images/ISIC_0841460.jpg,IP_2538639,IL_0944800,vascular lesion,benign,single image expert consensus,non_malignant,0
+ISIC_0848988,extracted/images/ISIC_0848988.jpg,IP_1724147,IL_7571871,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0853333,extracted/images/ISIC_0853333.jpg,IP_8165031,IL_3969994,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0875010,extracted/images/ISIC_0875010.jpg,IP_9328831,IL_2965987,nevus,benign,,non_malignant,0
+ISIC_0889265,extracted/images/ISIC_0889265.jpg,IP_2434850,IL_5404208,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0897309,extracted/images/ISIC_0897309.jpg,IP_5230560,IL_3918161,dermatofibroma,benign,,non_malignant,0
+ISIC_0898734,extracted/images/ISIC_0898734.jpg,IP_5719687,IL_1570524,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_0900341,extracted/images/ISIC_0900341.jpg,IP_8408163,IL_8916823,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_0929319,extracted/images/ISIC_0929319.jpg,IP_8631699,IL_9246113,nevus,benign,,non_malignant,0
+ISIC_0933165,extracted/images/ISIC_0933165.jpg,IP_5291194,IL_4997109,nevus,benign,,non_malignant,0
+ISIC_0942544,extracted/images/ISIC_0942544.jpg,IP_5520689,IL_6065258,seborrheic keratosis,benign,,non_malignant,0
+ISIC_0959325,extracted/images/ISIC_0959325.jpg,IP_4790522,IL_3861159,melanoma,malignant,histopathology,melanoma,1
+ISIC_0967146,extracted/images/ISIC_0967146.jpg,IP_2504588,IL_5403853,nevus,benign,,non_malignant,0
+ISIC_0984487,extracted/images/ISIC_0984487.jpg,IP_3746855,IL_1451416,nevus,benign,,non_malignant,0
+ISIC_0988073,extracted/images/ISIC_0988073.jpg,IP_7035571,IL_6480724,nevus,benign,,non_malignant,0
+ISIC_0993014,extracted/images/ISIC_0993014.jpg,IP_6558273,IL_9265651,nevus,benign,histopathology,non_malignant,0
+ISIC_1000616,extracted/images/ISIC_1000616.jpg,IP_3028994,IL_0925062,melanoma,malignant,histopathology,melanoma,1
+ISIC_1000868,extracted/images/ISIC_1000868.jpg,IP_1354259,IL_7955938,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1016877,extracted/images/ISIC_1016877.jpg,IP_4349293,IL_9283976,nevus,benign,,non_malignant,0
+ISIC_1021252,extracted/images/ISIC_1021252.jpg,IP_8961406,IL_2939179,nevus,benign,,non_malignant,0
+ISIC_1030794,extracted/images/ISIC_1030794.jpg,IP_8474771,IL_8797370,nevus,benign,,non_malignant,0
+ISIC_1045759,extracted/images/ISIC_1045759.jpg,IP_8474771,IL_9306019,nevus,benign,,non_malignant,0
+ISIC_1047011,extracted/images/ISIC_1047011.jpg,IP_1117498,IL_1134487,melanoma,malignant,histopathology,melanoma,1
+ISIC_1067532,extracted/images/ISIC_1067532.jpg,IP_5291194,IL_4887161,nevus,benign,,non_malignant,0
+ISIC_1075553,extracted/images/ISIC_1075553.jpg,IP_6714333,IL_1605286,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1077735,extracted/images/ISIC_1077735.jpg,IP_9922378,IL_2423899,melanoma,malignant,histopathology,melanoma,1
+ISIC_1083942,extracted/images/ISIC_1083942.jpg,IP_5265455,IL_4911898,dermatofibroma,benign,,non_malignant,0
+ISIC_1091339,extracted/images/ISIC_1091339.jpg,IP_5801898,IL_0455383,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1096970,extracted/images/ISIC_1096970.jpg,IP_8450638,IL_6232291,nevus,benign,,non_malignant,0
+ISIC_1099966,extracted/images/ISIC_1099966.jpg,IP_8450638,IL_7733031,nevus,benign,,non_malignant,0
+ISIC_1109178,extracted/images/ISIC_1109178.jpg,IP_1404370,IL_4720761,nevus,benign,,non_malignant,0
+ISIC_1114771,extracted/images/ISIC_1114771.jpg,IP_3875370,IL_3774987,nevus,benign,,non_malignant,0
+ISIC_1116159,extracted/images/ISIC_1116159.jpg,IP_7243858,IL_9375162,nevus,benign,,non_malignant,0
+ISIC_1128187,extracted/images/ISIC_1128187.jpg,IP_4968898,IL_0341545,nevus,benign,,non_malignant,0
+ISIC_1133103,extracted/images/ISIC_1133103.jpg,IP_4817230,IL_3330226,nevus,benign,,non_malignant,0
+ISIC_1134575,extracted/images/ISIC_1134575.jpg,IP_2504588,IL_5765757,nevus,benign,,non_malignant,0
+ISIC_1141058,extracted/images/ISIC_1141058.jpg,IP_9876233,IL_0907670,nevus,benign,,non_malignant,0
+ISIC_1143376,extracted/images/ISIC_1143376.jpg,IP_8474771,IL_9656882,nevus,benign,,non_malignant,0
+ISIC_1143976,extracted/images/ISIC_1143976.jpg,IP_5430722,IL_0400264,melanoma,malignant,histopathology,melanoma,1
+ISIC_1156761,extracted/images/ISIC_1156761.jpg,IP_6179768,IL_4959696,nevus,benign,,non_malignant,0
+ISIC_1163959,extracted/images/ISIC_1163959.jpg,IP_7760539,IL_2556632,nevus,benign,,non_malignant,0
+ISIC_1165924,extracted/images/ISIC_1165924.jpg,IP_7035571,IL_5697593,nevus,benign,,non_malignant,0
+ISIC_1169087,extracted/images/ISIC_1169087.jpg,IP_8760962,IL_9584311,nevus,benign,,non_malignant,0
+ISIC_1195561,extracted/images/ISIC_1195561.jpg,IP_1794938,IL_7632784,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1195906,extracted/images/ISIC_1195906.jpg,IP_7670614,IL_7370033,nevus,benign,histopathology,non_malignant,0
+ISIC_1195993,extracted/images/ISIC_1195993.jpg,IP_2538639,IL_5707375,vascular lesion,benign,,non_malignant,0
+ISIC_1212037,extracted/images/ISIC_1212037.jpg,IP_3571314,IL_9502834,seborrheic keratosis,benign,,non_malignant,0
+ISIC_1223179,extracted/images/ISIC_1223179.jpg,IP_7035571,IL_0591796,nevus,benign,,non_malignant,0
+ISIC_1225057,extracted/images/ISIC_1225057.jpg,IP_5650689,IL_9505800,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1225394,extracted/images/ISIC_1225394.jpg,IP_7035571,IL_8578130,nevus,benign,,non_malignant,0
+ISIC_1237464,extracted/images/ISIC_1237464.jpg,IP_4349293,IL_8342863,nevus,benign,,non_malignant,0
+ISIC_1241693,extracted/images/ISIC_1241693.jpg,IP_1418688,IL_0983679,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1243946,extracted/images/ISIC_1243946.jpg,IP_8450638,IL_9044478,nevus,benign,,non_malignant,0
+ISIC_1250653,extracted/images/ISIC_1250653.jpg,IP_3186244,IL_6262612,nevus,benign,,non_malignant,0
+ISIC_1255828,extracted/images/ISIC_1255828.jpg,IP_5685461,IL_5693734,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1262790,extracted/images/ISIC_1262790.jpg,IP_4805821,IL_2551859,melanoma,malignant,histopathology,melanoma,1
+ISIC_1267080,extracted/images/ISIC_1267080.jpg,IP_4675400,IL_5872418,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1268424,extracted/images/ISIC_1268424.jpg,IP_3809381,IL_5012247,nevus,benign,histopathology,non_malignant,0
+ISIC_1293255,extracted/images/ISIC_1293255.jpg,IP_6384187,IL_2256733,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1293502,extracted/images/ISIC_1293502.jpg,IP_6184736,IL_1349993,vascular lesion,benign,,non_malignant,0
+ISIC_1297252,extracted/images/ISIC_1297252.jpg,IP_5193164,IL_5185294,melanoma,malignant,histopathology,melanoma,1
+ISIC_1299452,extracted/images/ISIC_1299452.jpg,IP_4817230,IL_3354760,melanoma,malignant,histopathology,melanoma,1
+ISIC_1301476,extracted/images/ISIC_1301476.jpg,IP_7526334,IL_5502639,melanoma,malignant,histopathology,melanoma,1
+ISIC_1315058,extracted/images/ISIC_1315058.jpg,IP_0412162,IL_6271464,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1328183,extracted/images/ISIC_1328183.jpg,IP_2317296,IL_2230533,nevus,benign,histopathology,non_malignant,0
+ISIC_1352389,extracted/images/ISIC_1352389.jpg,IP_2728527,IL_3483455,nevus,benign,,non_malignant,0
+ISIC_1354980,extracted/images/ISIC_1354980.jpg,IP_2650374,IL_2553823,melanoma,malignant,histopathology,melanoma,1
+ISIC_1364073,extracted/images/ISIC_1364073.jpg,IP_7243858,IL_6217739,nevus,benign,,non_malignant,0
+ISIC_1366505,extracted/images/ISIC_1366505.jpg,IP_5002052,IL_7175130,nevus,benign,,non_malignant,0
+ISIC_1368976,extracted/images/ISIC_1368976.jpg,IP_5002052,IL_6149955,nevus,benign,,non_malignant,0
+ISIC_1385650,extracted/images/ISIC_1385650.jpg,IP_9876233,IL_1375445,nevus,benign,,non_malignant,0
+ISIC_1388152,extracted/images/ISIC_1388152.jpg,IP_9326183,IL_4906683,nevus,benign,,non_malignant,0
+ISIC_1388529,extracted/images/ISIC_1388529.jpg,IP_9155557,IL_7625655,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1400723,extracted/images/ISIC_1400723.jpg,IP_0248765,IL_8379264,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1412871,extracted/images/ISIC_1412871.jpg,IP_7805648,IL_9220560,melanoma,malignant,histopathology,melanoma,1
+ISIC_1415980,extracted/images/ISIC_1415980.jpg,IP_8235588,IL_3644246,melanoma,malignant,histopathology,melanoma,1
+ISIC_1425492,extracted/images/ISIC_1425492.jpg,IP_9116795,IL_8012686,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1431710,extracted/images/ISIC_1431710.jpg,IP_7968700,IL_4723897,melanoma,malignant,histopathology,melanoma,1
+ISIC_1436772,extracted/images/ISIC_1436772.jpg,IP_6976405,IL_4207641,nevus,benign,histopathology,non_malignant,0
+ISIC_1452632,extracted/images/ISIC_1452632.jpg,IP_1218261,IL_6961144,melanoma,malignant,histopathology,melanoma,1
+ISIC_1479187,extracted/images/ISIC_1479187.jpg,IP_0031038,IL_5143908,nevus,benign,histopathology,non_malignant,0
+ISIC_1480519,extracted/images/ISIC_1480519.jpg,IP_3451310,IL_9826099,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1482166,extracted/images/ISIC_1482166.jpg,IP_7035571,IL_5250728,nevus,benign,,non_malignant,0
+ISIC_1483208,extracted/images/ISIC_1483208.jpg,IP_7428337,IL_6467350,nevus,benign,,non_malignant,0
+ISIC_1497097,extracted/images/ISIC_1497097.jpg,IP_8624681,IL_3412296,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1516153,extracted/images/ISIC_1516153.jpg,IP_1529893,IL_3148066,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1521119,extracted/images/ISIC_1521119.jpg,IP_4817230,IL_2055980,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1538558,extracted/images/ISIC_1538558.jpg,IP_8075842,IL_9115175,vascular lesion,benign,,non_malignant,0
+ISIC_1541229,extracted/images/ISIC_1541229.jpg,IP_2292214,IL_0274493,nevus,benign,histopathology,non_malignant,0
+ISIC_1542284,extracted/images/ISIC_1542284.jpg,IP_4968898,IL_3035260,nevus,benign,,non_malignant,0
+ISIC_1542632,extracted/images/ISIC_1542632.jpg,IP_8235588,IL_0665186,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1544365,extracted/images/ISIC_1544365.jpg,IP_7243858,IL_4315270,nevus,benign,,non_malignant,0
+ISIC_1565082,extracted/images/ISIC_1565082.jpg,IP_3875370,IL_3150083,nevus,benign,,non_malignant,0
+ISIC_1567732,extracted/images/ISIC_1567732.jpg,IP_3235334,IL_5053545,nevus,benign,histopathology,non_malignant,0
+ISIC_1573370,extracted/images/ISIC_1573370.jpg,IP_0214625,IL_4840568,nevus,benign,,non_malignant,0
+ISIC_1583042,extracted/images/ISIC_1583042.jpg,IP_3342129,IL_8218104,seborrheic keratosis,benign,,non_malignant,0
+ISIC_1588157,extracted/images/ISIC_1588157.jpg,IP_1529893,IL_5730696,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1591541,extracted/images/ISIC_1591541.jpg,IP_9328831,IL_3045189,nevus,benign,,non_malignant,0
+ISIC_1593833,extracted/images/ISIC_1593833.jpg,IP_9328831,IL_5399682,nevus,benign,,non_malignant,0
+ISIC_1595622,extracted/images/ISIC_1595622.jpg,IP_8188962,IL_7575344,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1596920,extracted/images/ISIC_1596920.jpg,IP_6003393,IL_1663524,nevus,benign,,non_malignant,0
+ISIC_1596930,extracted/images/ISIC_1596930.jpg,IP_9750730,IL_6813359,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1600101,extracted/images/ISIC_1600101.jpg,IP_2318326,IL_5096547,nevus,benign,,non_malignant,0
+ISIC_1603017,extracted/images/ISIC_1603017.jpg,IP_2650374,IL_4464085,vascular lesion,benign,,non_malignant,0
+ISIC_1604897,extracted/images/ISIC_1604897.jpg,IP_2504588,IL_1287991,nevus,benign,,non_malignant,0
+ISIC_1606343,extracted/images/ISIC_1606343.jpg,IP_7460725,IL_0862264,nevus,benign,histopathology,non_malignant,0
+ISIC_1609875,extracted/images/ISIC_1609875.jpg,IP_4336233,IL_5443888,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1610047,extracted/images/ISIC_1610047.jpg,IP_1566683,IL_1204728,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1613057,extracted/images/ISIC_1613057.jpg,IP_0685905,IL_9024769,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_1632850,extracted/images/ISIC_1632850.jpg,IP_7035571,IL_5873409,nevus,benign,,non_malignant,0
+ISIC_1635231,extracted/images/ISIC_1635231.jpg,IP_0197196,IL_9564184,melanoma,malignant,histopathology,melanoma,1
+ISIC_1642069,extracted/images/ISIC_1642069.jpg,IP_8631699,IL_5703090,melanoma,malignant,histopathology,melanoma,1
+ISIC_1667487,extracted/images/ISIC_1667487.jpg,IP_2080217,IL_3947218,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1681704,extracted/images/ISIC_1681704.jpg,IP_4968898,IL_9624580,nevus,benign,,non_malignant,0
+ISIC_1701883,extracted/images/ISIC_1701883.jpg,IP_1120258,IL_1155011,melanoma,malignant,histopathology,melanoma,1
+ISIC_1705532,extracted/images/ISIC_1705532.jpg,IP_4064247,IL_5001012,nevus,benign,,non_malignant,0
+ISIC_1707031,extracted/images/ISIC_1707031.jpg,IP_0232163,IL_5047846,nevus,benign,histopathology,non_malignant,0
+ISIC_1709695,extracted/images/ISIC_1709695.jpg,IP_3389004,IL_7588215,nevus,benign,histopathology,non_malignant,0
+ISIC_1713785,extracted/images/ISIC_1713785.jpg,IP_7506563,IL_7391643,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1714551,extracted/images/ISIC_1714551.jpg,IP_5520689,IL_4525954,dermatofibroma,benign,,non_malignant,0
+ISIC_1733131,extracted/images/ISIC_1733131.jpg,IP_7428337,IL_6588725,solar lentigo,benign,,non_malignant,0
+ISIC_1753011,extracted/images/ISIC_1753011.jpg,IP_1120258,IL_1155011,melanoma,malignant,histopathology,melanoma,1
+ISIC_1758803,extracted/images/ISIC_1758803.jpg,IP_6189247,IL_8470504,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1760258,extracted/images/ISIC_1760258.jpg,IP_0991357,IL_7629840,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_1773092,extracted/images/ISIC_1773092.jpg,IP_5291194,IL_9253571,nevus,benign,,non_malignant,0
+ISIC_1775932,extracted/images/ISIC_1775932.jpg,IP_0698655,IL_3547064,dermatofibroma,benign,,non_malignant,0
+ISIC_1778959,extracted/images/ISIC_1778959.jpg,IP_2341275,IL_3990222,melanoma,malignant,histopathology,melanoma,1
+ISIC_1791643,extracted/images/ISIC_1791643.jpg,IP_5505844,IL_3286248,melanoma,malignant,histopathology,melanoma,1
+ISIC_1810549,extracted/images/ISIC_1810549.jpg,IP_6443464,IL_6291255,melanoma,malignant,histopathology,melanoma,1
+ISIC_1810807,extracted/images/ISIC_1810807.jpg,IP_1615343,IL_7437495,melanoma,malignant,histopathology,melanoma,1
+ISIC_1813577,extracted/images/ISIC_1813577.jpg,IP_0774325,IL_1252219,melanoma,malignant,histopathology,melanoma,1
+ISIC_1816965,extracted/images/ISIC_1816965.jpg,IP_5892304,IL_9975476,melanoma,malignant,histopathology,melanoma,1
+ISIC_1827925,extracted/images/ISIC_1827925.jpg,IP_9655283,IL_6500902,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_1833010,extracted/images/ISIC_1833010.jpg,IP_7035571,IL_7760705,nevus,benign,,non_malignant,0
+ISIC_1842966,extracted/images/ISIC_1842966.jpg,IP_6420395,IL_5962239,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1858813,extracted/images/ISIC_1858813.jpg,IP_7381561,IL_8994652,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1859025,extracted/images/ISIC_1859025.jpg,IP_3875370,IL_9064596,nevus,benign,,non_malignant,0
+ISIC_1859657,extracted/images/ISIC_1859657.jpg,IP_5719687,IL_7568646,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1864096,extracted/images/ISIC_1864096.jpg,IP_9891821,IL_3110397,melanoma,malignant,histopathology,melanoma,1
+ISIC_1878950,extracted/images/ISIC_1878950.jpg,IP_2640696,IL_4371762,nevus,benign,,non_malignant,0
+ISIC_1906502,extracted/images/ISIC_1906502.jpg,IP_2754431,IL_4437201,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1907579,extracted/images/ISIC_1907579.jpg,IP_4393692,IL_6020575,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1908890,extracted/images/ISIC_1908890.jpg,IP_6251525,IL_6821221,melanoma,malignant,histopathology,melanoma,1
+ISIC_1914461,extracted/images/ISIC_1914461.jpg,IP_7762922,IL_3803224,dermatofibroma,benign,,non_malignant,0
+ISIC_1915490,extracted/images/ISIC_1915490.jpg,IP_2728527,IL_0361049,nevus,benign,,non_malignant,0
+ISIC_1930795,extracted/images/ISIC_1930795.jpg,IP_3814178,IL_1149796,melanoma,malignant,histopathology,melanoma,1
+ISIC_1932094,extracted/images/ISIC_1932094.jpg,IP_2504588,IL_1512859,nevus,benign,,non_malignant,0
+ISIC_1935227,extracted/images/ISIC_1935227.jpg,IP_4032231,IL_0398849,melanoma,malignant,histopathology,melanoma,1
+ISIC_1935605,extracted/images/ISIC_1935605.jpg,IP_2363839,IL_9792863,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1936429,extracted/images/ISIC_1936429.jpg,IP_7808184,IL_5626445,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1936710,extracted/images/ISIC_1936710.jpg,IP_7760539,IL_4124713,nevus,benign,,non_malignant,0
+ISIC_1949347,extracted/images/ISIC_1949347.jpg,IP_7035571,IL_7036224,nevus,benign,,non_malignant,0
+ISIC_1962816,extracted/images/ISIC_1962816.jpg,IP_1942334,IL_5638546,nevus,benign,histopathology,non_malignant,0
+ISIC_1970454,extracted/images/ISIC_1970454.jpg,IP_8450638,IL_5256970,nevus,benign,,non_malignant,0
+ISIC_1979964,extracted/images/ISIC_1979964.jpg,IP_3875370,IL_4417364,nevus,benign,,non_malignant,0
+ISIC_1980790,extracted/images/ISIC_1980790.jpg,IP_2650374,IL_6480787,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1985159,extracted/images/ISIC_1985159.jpg,IP_5549808,IL_4995475,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_1993128,extracted/images/ISIC_1993128.jpg,IP_9642873,IL_1557294,solar lentigo,benign,,non_malignant,0
+ISIC_1997620,extracted/images/ISIC_1997620.jpg,IP_0446005,IL_8182238,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_1999826,extracted/images/ISIC_1999826.jpg,IP_7789397,IL_5681285,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2000035,extracted/images/ISIC_2000035.jpg,IP_5264036,IL_5911888,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2000497,extracted/images/ISIC_2000497.jpg,IP_8641208,IL_9289474,nevus,benign,histopathology,non_malignant,0
+ISIC_2003612,extracted/images/ISIC_2003612.jpg,IP_0221369,IL_6848602,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2006754,extracted/images/ISIC_2006754.jpg,IP_3130162,IL_4098954,melanoma,malignant,histopathology,melanoma,1
+ISIC_2017112,extracted/images/ISIC_2017112.jpg,IP_5966083,IL_0766796,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2025941,extracted/images/ISIC_2025941.jpg,IP_4064247,IL_8895402,nevus,benign,,non_malignant,0
+ISIC_2031479,extracted/images/ISIC_2031479.jpg,IP_8388966,IL_6640027,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2032139,extracted/images/ISIC_2032139.jpg,IP_9074122,IL_0615609,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2039831,extracted/images/ISIC_2039831.jpg,IP_3809381,IL_5787211,melanoma,malignant,histopathology,melanoma,1
+ISIC_2047884,extracted/images/ISIC_2047884.jpg,IP_2504588,IL_5523737,nevus,benign,,non_malignant,0
+ISIC_2058767,extracted/images/ISIC_2058767.jpg,IP_8450638,IL_5739151,nevus,benign,,non_malignant,0
+ISIC_2061233,extracted/images/ISIC_2061233.jpg,IP_9696499,IL_2068231,nevus,benign,histopathology,non_malignant,0
+ISIC_2062303,extracted/images/ISIC_2062303.jpg,IP_7035571,IL_9756761,nevus,benign,,non_malignant,0
+ISIC_2068188,extracted/images/ISIC_2068188.jpg,IP_8464178,IL_5221633,melanoma,malignant,histopathology,melanoma,1
+ISIC_2070728,extracted/images/ISIC_2070728.jpg,IP_9516151,IL_8939141,melanoma,malignant,histopathology,melanoma,1
+ISIC_2079571,extracted/images/ISIC_2079571.jpg,IP_3235188,IL_9247514,melanoma,malignant,histopathology,melanoma,1
+ISIC_2082962,extracted/images/ISIC_2082962.jpg,IP_3875370,IL_3121779,solar lentigo,benign,,non_malignant,0
+ISIC_2113665,extracted/images/ISIC_2113665.jpg,IP_9086452,IL_7302914,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2122607,extracted/images/ISIC_2122607.jpg,IP_3975331,IL_6425441,nevus,benign,histopathology,non_malignant,0
+ISIC_2132963,extracted/images/ISIC_2132963.jpg,IP_7938826,IL_3498762,nevus,benign,,non_malignant,0
+ISIC_2134696,extracted/images/ISIC_2134696.jpg,IP_1914877,IL_0235947,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2135576,extracted/images/ISIC_2135576.jpg,IP_7035571,IL_4455971,nevus,benign,,non_malignant,0
+ISIC_2153041,extracted/images/ISIC_2153041.jpg,IP_6744475,IL_6378232,melanoma,malignant,histopathology,melanoma,1
+ISIC_2210618,extracted/images/ISIC_2210618.jpg,IP_2292420,IL_3001812,nevus,benign,histopathology,non_malignant,0
+ISIC_2211948,extracted/images/ISIC_2211948.jpg,IP_0325006,IL_4891081,melanoma,malignant,histopathology,melanoma,1
+ISIC_2212637,extracted/images/ISIC_2212637.jpg,IP_9093111,IL_5005356,melanoma,malignant,histopathology,melanoma,1
+ISIC_2228720,extracted/images/ISIC_2228720.jpg,IP_5398777,IL_2025836,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2233551,extracted/images/ISIC_2233551.jpg,IP_0150225,IL_2339753,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2248597,extracted/images/ISIC_2248597.jpg,IP_1609582,IL_3247383,nevus,benign,histopathology,non_malignant,0
+ISIC_2261128,extracted/images/ISIC_2261128.jpg,IP_5924646,IL_1400206,melanoma,malignant,histopathology,melanoma,1
+ISIC_2270337,extracted/images/ISIC_2270337.jpg,IP_4966888,IL_4169125,nevus,benign,histopathology,non_malignant,0
+ISIC_2277714,extracted/images/ISIC_2277714.jpg,IP_6640998,IL_3229123,melanoma,malignant,histopathology,melanoma,1
+ISIC_2283090,extracted/images/ISIC_2283090.jpg,IP_2738413,IL_3299234,nevus,benign,histopathology,non_malignant,0
+ISIC_2287405,extracted/images/ISIC_2287405.jpg,IP_5234321,IL_0998198,solar lentigo,benign,histopathology,non_malignant,0
+ISIC_2293513,extracted/images/ISIC_2293513.jpg,IP_7298406,IL_5507680,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2314763,extracted/images/ISIC_2314763.jpg,IP_6251525,IL_9143711,nevus,benign,histopathology,non_malignant,0
+ISIC_2317385,extracted/images/ISIC_2317385.jpg,IP_6819963,IL_5244040,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2322882,extracted/images/ISIC_2322882.jpg,IP_3875370,IL_5868536,nevus,benign,,non_malignant,0
+ISIC_2339761,extracted/images/ISIC_2339761.jpg,IP_4419089,IL_8997419,melanoma,malignant,histopathology,melanoma,1
+ISIC_2342692,extracted/images/ISIC_2342692.jpg,IP_5291194,IL_4627083,nevus,benign,,non_malignant,0
+ISIC_2345765,extracted/images/ISIC_2345765.jpg,IP_6251525,IL_6821221,melanoma,malignant,histopathology,melanoma,1
+ISIC_2349734,extracted/images/ISIC_2349734.jpg,IP_3303370,IL_5287043,nevus,benign,,non_malignant,0
+ISIC_2355590,extracted/images/ISIC_2355590.jpg,IP_9503214,IL_9859418,solar lentigo,benign,,non_malignant,0
+ISIC_2362051,extracted/images/ISIC_2362051.jpg,IP_6555777,IL_1486711,melanoma,malignant,histopathology,melanoma,1
+ISIC_2367098,extracted/images/ISIC_2367098.jpg,IP_1222567,IL_2243414,melanoma,malignant,histopathology,melanoma,1
+ISIC_2368449,extracted/images/ISIC_2368449.jpg,IP_1218261,IL_3211111,melanoma,malignant,histopathology,melanoma,1
+ISIC_2387381,extracted/images/ISIC_2387381.jpg,IP_1566368,IL_6151684,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2391775,extracted/images/ISIC_2391775.jpg,IP_3464474,IL_2552401,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2401042,extracted/images/ISIC_2401042.jpg,IP_1226729,IL_6066818,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2408370,extracted/images/ISIC_2408370.jpg,IP_9503214,IL_4609375,nevus,benign,,non_malignant,0
+ISIC_2414214,extracted/images/ISIC_2414214.jpg,IP_4278708,IL_9494337,vascular lesion,benign,,non_malignant,0
+ISIC_2421565,extracted/images/ISIC_2421565.jpg,IP_6809738,IL_2253396,melanoma,malignant,histopathology,melanoma,1
+ISIC_2425218,extracted/images/ISIC_2425218.jpg,IP_5650689,IL_9391482,nevus,benign,histopathology,non_malignant,0
+ISIC_2439069,extracted/images/ISIC_2439069.jpg,IP_7035571,IL_6380351,nevus,benign,,non_malignant,0
+ISIC_2463938,extracted/images/ISIC_2463938.jpg,IP_2427319,IL_5507125,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2474411,extracted/images/ISIC_2474411.jpg,IP_3809381,IL_4684735,melanoma,malignant,histopathology,melanoma,1
+ISIC_2480502,extracted/images/ISIC_2480502.jpg,IP_7074257,IL_9903609,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2503657,extracted/images/ISIC_2503657.jpg,IP_6184736,IL_0441214,dermatofibroma,benign,,non_malignant,0
+ISIC_2505335,extracted/images/ISIC_2505335.jpg,IP_9586825,IL_4606486,melanoma,malignant,histopathology,melanoma,1
+ISIC_2512321,extracted/images/ISIC_2512321.jpg,IP_2728527,IL_8939972,nevus,benign,,non_malignant,0
+ISIC_2515861,extracted/images/ISIC_2515861.jpg,IP_5291194,IL_0519984,nevus,benign,,non_malignant,0
+ISIC_2525721,extracted/images/ISIC_2525721.jpg,IP_1489055,IL_5632887,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2535067,extracted/images/ISIC_2535067.jpg,IP_3371330,IL_5370176,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2536460,extracted/images/ISIC_2536460.jpg,IP_8474771,IL_3900490,nevus,benign,,non_malignant,0
+ISIC_2553643,extracted/images/ISIC_2553643.jpg,IP_3530264,IL_3662071,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2564940,extracted/images/ISIC_2564940.jpg,IP_7506563,IL_6264203,nevus,benign,histopathology,non_malignant,0
+ISIC_2574924,extracted/images/ISIC_2574924.jpg,IP_6754451,IL_4683423,melanoma,malignant,histopathology,melanoma,1
+ISIC_2594715,extracted/images/ISIC_2594715.jpg,IP_3759020,IL_5889946,melanoma,malignant,histopathology,melanoma,1
+ISIC_2602043,extracted/images/ISIC_2602043.jpg,IP_3682931,IL_6794721,nevus,benign,histopathology,non_malignant,0
+ISIC_2608686,extracted/images/ISIC_2608686.jpg,IP_7296975,IL_3865898,nevus,benign,histopathology,non_malignant,0
+ISIC_2618460,extracted/images/ISIC_2618460.jpg,IP_5193650,IL_0094624,vascular lesion,benign,,non_malignant,0
+ISIC_2627758,extracted/images/ISIC_2627758.jpg,IP_6304785,IL_0137792,nevus,benign,histopathology,non_malignant,0
+ISIC_2642164,extracted/images/ISIC_2642164.jpg,IP_3672872,IL_0545896,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2643675,extracted/images/ISIC_2643675.jpg,IP_8123122,IL_3640591,nevus,benign,,non_malignant,0
+ISIC_2647879,extracted/images/ISIC_2647879.jpg,IP_8474771,IL_0776987,nevus,benign,,non_malignant,0
+ISIC_2654001,extracted/images/ISIC_2654001.jpg,IP_7243858,IL_6119706,nevus,benign,,non_malignant,0
+ISIC_2657529,extracted/images/ISIC_2657529.jpg,IP_0212365,IL_5354427,melanoma,malignant,histopathology,melanoma,1
+ISIC_2657883,extracted/images/ISIC_2657883.jpg,IP_2738413,IL_2730258,nevus,benign,,non_malignant,0
+ISIC_2665133,extracted/images/ISIC_2665133.jpg,IP_1404370,IL_9842387,nevus,benign,,non_malignant,0
+ISIC_2678887,extracted/images/ISIC_2678887.jpg,IP_4794455,IL_2853667,melanoma,malignant,histopathology,melanoma,1
+ISIC_2688303,extracted/images/ISIC_2688303.jpg,IP_6762758,IL_9348116,nevus,benign,,non_malignant,0
+ISIC_2692371,extracted/images/ISIC_2692371.jpg,IP_6578239,IL_8063573,dermatofibroma,benign,,non_malignant,0
+ISIC_2700225,extracted/images/ISIC_2700225.jpg,IP_9436253,IL_2139148,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_2706694,extracted/images/ISIC_2706694.jpg,IP_5801898,IL_1694184,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2710069,extracted/images/ISIC_2710069.jpg,IP_3150219,IL_6812801,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2719332,extracted/images/ISIC_2719332.jpg,IP_7506563,IL_1179218,vascular lesion,benign,,non_malignant,0
+ISIC_2732077,extracted/images/ISIC_2732077.jpg,IP_8404073,IL_0896205,nevus,benign,histopathology,non_malignant,0
+ISIC_2750923,extracted/images/ISIC_2750923.jpg,IP_0214625,IL_3242610,vascular lesion,benign,,non_malignant,0
+ISIC_2762326,extracted/images/ISIC_2762326.jpg,IP_4817230,IL_2055980,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2763265,extracted/images/ISIC_2763265.jpg,IP_9355646,IL_9661241,melanoma,malignant,histopathology,melanoma,1
+ISIC_2763446,extracted/images/ISIC_2763446.jpg,IP_2738763,IL_8678803,seborrheic keratosis,benign,,non_malignant,0
+ISIC_2767271,extracted/images/ISIC_2767271.jpg,IP_2650374,IL_4464085,vascular lesion,benign,,non_malignant,0
+ISIC_2791829,extracted/images/ISIC_2791829.jpg,IP_3875370,IL_9143040,nevus,benign,,non_malignant,0
+ISIC_2797379,extracted/images/ISIC_2797379.jpg,IP_0212365,IL_6201048,melanoma,malignant,histopathology,melanoma,1
+ISIC_2801005,extracted/images/ISIC_2801005.jpg,IP_7168930,IL_0263603,melanoma,malignant,histopathology,melanoma,1
+ISIC_2801460,extracted/images/ISIC_2801460.jpg,IP_4349293,IL_0137450,nevus,benign,,non_malignant,0
+ISIC_2808161,extracted/images/ISIC_2808161.jpg,IP_7070517,IL_2156637,nevus,benign,histopathology,non_malignant,0
+ISIC_2826889,extracted/images/ISIC_2826889.jpg,IP_2958522,IL_0357537,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2836241,extracted/images/ISIC_2836241.jpg,IP_4580444,IL_1232311,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2856850,extracted/images/ISIC_2856850.jpg,IP_0147267,IL_9222824,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2857128,extracted/images/ISIC_2857128.jpg,IP_3150219,IL_6014689,melanoma,malignant,histopathology,melanoma,1
+ISIC_2869797,extracted/images/ISIC_2869797.jpg,IP_1219162,IL_1930364,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_2871326,extracted/images/ISIC_2871326.jpg,IP_3567526,IL_4546629,nevus,benign,histopathology,non_malignant,0
+ISIC_2883836,extracted/images/ISIC_2883836.jpg,IP_8326549,IL_4837884,nevus,benign,,non_malignant,0
+ISIC_2887367,extracted/images/ISIC_2887367.jpg,IP_9096125,IL_1319562,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_2892864,extracted/images/ISIC_2892864.jpg,IP_3530264,IL_2585638,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2899095,extracted/images/ISIC_2899095.jpg,IP_2504588,IL_3756850,nevus,benign,,non_malignant,0
+ISIC_2914469,extracted/images/ISIC_2914469.jpg,IP_9876233,IL_3292072,nevus,benign,,non_malignant,0
+ISIC_2941155,extracted/images/ISIC_2941155.jpg,IP_9328831,IL_2531515,nevus,benign,,non_malignant,0
+ISIC_2943379,extracted/images/ISIC_2943379.jpg,IP_1429861,IL_9024634,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_2966808,extracted/images/ISIC_2966808.jpg,IP_6124657,IL_8182102,melanoma,malignant,histopathology,melanoma,1
+ISIC_3002927,extracted/images/ISIC_3002927.jpg,IP_9656549,IL_1321704,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3011033,extracted/images/ISIC_3011033.jpg,IP_7562016,IL_9294150,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3028898,extracted/images/ISIC_3028898.jpg,IP_2650374,IL_6480787,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3030394,extracted/images/ISIC_3030394.jpg,IP_9326183,IL_6414362,melanoma,malignant,histopathology,melanoma,1
+ISIC_3033701,extracted/images/ISIC_3033701.jpg,IP_4287801,IL_6084851,melanoma,malignant,histopathology,melanoma,1
+ISIC_3037206,extracted/images/ISIC_3037206.jpg,IP_1702479,IL_4594339,nevus,benign,histopathology,non_malignant,0
+ISIC_3037651,extracted/images/ISIC_3037651.jpg,IP_8408163,IL_8169413,melanoma,malignant,histopathology,melanoma,1
+ISIC_3053413,extracted/images/ISIC_3053413.jpg,IP_6754451,IL_1045215,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3059594,extracted/images/ISIC_3059594.jpg,IP_5291194,IL_6237029,nevus,benign,,non_malignant,0
+ISIC_3063248,extracted/images/ISIC_3063248.jpg,IP_7243858,IL_1274675,nevus,benign,,non_malignant,0
+ISIC_3073256,extracted/images/ISIC_3073256.jpg,IP_3342129,IL_0316981,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3079785,extracted/images/ISIC_3079785.jpg,IP_4906546,IL_3797557,nevus,benign,histopathology,non_malignant,0
+ISIC_3082952,extracted/images/ISIC_3082952.jpg,IP_7243858,IL_0314261,nevus,benign,,non_malignant,0
+ISIC_3088921,extracted/images/ISIC_3088921.jpg,IP_9806536,IL_3108375,nevus,benign,histopathology,non_malignant,0
+ISIC_3102961,extracted/images/ISIC_3102961.jpg,IP_9652021,IL_2951362,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3107044,extracted/images/ISIC_3107044.jpg,IP_9328831,IL_6953278,nevus,benign,,non_malignant,0
+ISIC_3110126,extracted/images/ISIC_3110126.jpg,IP_1561363,IL_3807827,melanoma,malignant,histopathology,melanoma,1
+ISIC_3118406,extracted/images/ISIC_3118406.jpg,IP_6257236,IL_5923839,solar lentigo,benign,histopathology,non_malignant,0
+ISIC_3121700,extracted/images/ISIC_3121700.jpg,IP_8519697,IL_9301722,vascular lesion,benign,,non_malignant,0
+ISIC_3124231,extracted/images/ISIC_3124231.jpg,IP_0076707,IL_7391525,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3125036,extracted/images/ISIC_3125036.jpg,IP_2279844,IL_9353341,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3130146,extracted/images/ISIC_3130146.jpg,IP_5143517,IL_4010754,nevus,benign,histopathology,non_malignant,0
+ISIC_3131925,extracted/images/ISIC_3131925.jpg,IP_0311962,IL_9960543,nevus,benign,histopathology,non_malignant,0
+ISIC_3139747,extracted/images/ISIC_3139747.jpg,IP_4336720,IL_5788979,nevus,benign,histopathology,non_malignant,0
+ISIC_3143079,extracted/images/ISIC_3143079.jpg,IP_8464178,IL_5221633,melanoma,malignant,histopathology,melanoma,1
+ISIC_3143299,extracted/images/ISIC_3143299.jpg,IP_9966565,IL_5222998,nevus,benign,histopathology,non_malignant,0
+ISIC_3159029,extracted/images/ISIC_3159029.jpg,IP_4968898,IL_9893119,nevus,benign,,non_malignant,0
+ISIC_3176105,extracted/images/ISIC_3176105.jpg,IP_1221322,IL_2793518,melanoma,malignant,histopathology,melanoma,1
+ISIC_3179415,extracted/images/ISIC_3179415.jpg,IP_2640696,IL_9871491,nevus,benign,,non_malignant,0
+ISIC_3192152,extracted/images/ISIC_3192152.jpg,IP_2552028,IL_2379694,melanoma,malignant,histopathology,melanoma,1
+ISIC_3204657,extracted/images/ISIC_3204657.jpg,IP_7547464,IL_9585230,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_3209410,extracted/images/ISIC_3209410.jpg,IP_2346299,IL_0220249,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3217752,extracted/images/ISIC_3217752.jpg,IP_4349293,IL_6483224,nevus,benign,,non_malignant,0
+ISIC_3222487,extracted/images/ISIC_3222487.jpg,IP_4968898,IL_4778488,nevus,benign,,non_malignant,0
+ISIC_3235131,extracted/images/ISIC_3235131.jpg,IP_5488862,IL_1581392,melanoma,malignant,histopathology,melanoma,1
+ISIC_3235777,extracted/images/ISIC_3235777.jpg,IP_8822719,IL_0880615,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_3241563,extracted/images/ISIC_3241563.jpg,IP_0031063,IL_0729649,nevus,benign,,non_malignant,0
+ISIC_3245953,extracted/images/ISIC_3245953.jpg,IP_8694186,IL_1994979,vascular lesion,benign,,non_malignant,0
+ISIC_3246265,extracted/images/ISIC_3246265.jpg,IP_8474771,IL_9836146,nevus,benign,,non_malignant,0
+ISIC_3249490,extracted/images/ISIC_3249490.jpg,IP_4097598,IL_9685676,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_3271069,extracted/images/ISIC_3271069.jpg,IP_9691655,IL_6844243,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3271387,extracted/images/ISIC_3271387.jpg,IP_5633768,IL_6925379,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3275416,extracted/images/ISIC_3275416.jpg,IP_5805678,IL_3895273,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3298946,extracted/images/ISIC_3298946.jpg,IP_6995173,IL_8963555,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3323494,extracted/images/ISIC_3323494.jpg,IP_8165031,IL_7404456,lichenoid keratosis,benign,,non_malignant,0
+ISIC_3332799,extracted/images/ISIC_3332799.jpg,IP_6005497,IL_0501728,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3333078,extracted/images/ISIC_3333078.jpg,IP_1319015,IL_2452828,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3344632,extracted/images/ISIC_3344632.jpg,IP_6420395,IL_4400056,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3359090,extracted/images/ISIC_3359090.jpg,IP_3047490,IL_3706643,nevus,benign,,non_malignant,0
+ISIC_3372885,extracted/images/ISIC_3372885.jpg,IP_5291194,IL_0764543,nevus,benign,,non_malignant,0
+ISIC_3373047,extracted/images/ISIC_3373047.jpg,IP_0912178,IL_4589945,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_3377796,extracted/images/ISIC_3377796.jpg,IP_8999577,IL_7459254,nevus,benign,histopathology,non_malignant,0
+ISIC_3381026,extracted/images/ISIC_3381026.jpg,IP_6640998,IL_3632801,melanoma,malignant,histopathology,melanoma,1
+ISIC_3382191,extracted/images/ISIC_3382191.jpg,IP_8450638,IL_6482445,nevus,benign,,non_malignant,0
+ISIC_3386975,extracted/images/ISIC_3386975.jpg,IP_6179768,IL_8645132,nevus,benign,,non_malignant,0
+ISIC_3388627,extracted/images/ISIC_3388627.jpg,IP_7035571,IL_5447795,nevus,benign,,non_malignant,0
+ISIC_3397588,extracted/images/ISIC_3397588.jpg,IP_0330850,IL_2612813,nevus,benign,histopathology,non_malignant,0
+ISIC_3403532,extracted/images/ISIC_3403532.jpg,IP_8450638,IL_1323170,nevus,benign,,non_malignant,0
+ISIC_3420082,extracted/images/ISIC_3420082.jpg,IP_4451052,IL_6332209,nevus,benign,histopathology,non_malignant,0
+ISIC_3433035,extracted/images/ISIC_3433035.jpg,IP_3759020,IL_8810391,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3438618,extracted/images/ISIC_3438618.jpg,IP_6102993,IL_1523771,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3440320,extracted/images/ISIC_3440320.jpg,IP_2346299,IL_8860012,melanoma,malignant,histopathology,melanoma,1
+ISIC_3443621,extracted/images/ISIC_3443621.jpg,IP_1770335,IL_3949403,solar lentigo,benign,histopathology,non_malignant,0
+ISIC_3468294,extracted/images/ISIC_3468294.jpg,IP_9238891,IL_8591642,nevus,benign,histopathology,non_malignant,0
+ISIC_3471895,extracted/images/ISIC_3471895.jpg,IP_3875370,IL_9809343,nevus,benign,,non_malignant,0
+ISIC_3473056,extracted/images/ISIC_3473056.jpg,IP_8450638,IL_4729479,nevus,benign,,non_malignant,0
+ISIC_3487766,extracted/images/ISIC_3487766.jpg,IP_4247962,IL_5533380,melanoma,malignant,histopathology,melanoma,1
+ISIC_3491406,extracted/images/ISIC_3491406.jpg,IP_6555777,IL_1486711,melanoma,malignant,histopathology,melanoma,1
+ISIC_3504002,extracted/images/ISIC_3504002.jpg,IP_3088564,IL_4088847,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3518630,extracted/images/ISIC_3518630.jpg,IP_5138682,IL_0834101,melanoma,malignant,histopathology,melanoma,1
+ISIC_3527069,extracted/images/ISIC_3527069.jpg,IP_3736688,IL_7955657,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3535471,extracted/images/ISIC_3535471.jpg,IP_5430722,IL_6036150,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3541262,extracted/images/ISIC_3541262.jpg,IP_1319015,IL_7229255,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3549843,extracted/images/ISIC_3549843.jpg,IP_3875370,IL_9877734,nevus,benign,,non_malignant,0
+ISIC_3550047,extracted/images/ISIC_3550047.jpg,IP_5520689,IL_6631639,dermatofibroma,benign,,non_malignant,0
+ISIC_3553101,extracted/images/ISIC_3553101.jpg,IP_2681150,IL_5384200,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3566586,extracted/images/ISIC_3566586.jpg,IP_7765996,IL_8088150,nevus,benign,histopathology,non_malignant,0
+ISIC_3569199,extracted/images/ISIC_3569199.jpg,IP_9326183,IL_4640314,vascular lesion,benign,,non_malignant,0
+ISIC_3570858,extracted/images/ISIC_3570858.jpg,IP_4641203,IL_3066011,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3573737,extracted/images/ISIC_3573737.jpg,IP_7035571,IL_2451805,nevus,benign,,non_malignant,0
+ISIC_3597597,extracted/images/ISIC_3597597.jpg,IP_6728907,IL_8606570,nevus,benign,histopathology,non_malignant,0
+ISIC_3598192,extracted/images/ISIC_3598192.jpg,IP_7559190,IL_3440737,melanoma,malignant,histopathology,melanoma,1
+ISIC_3606734,extracted/images/ISIC_3606734.jpg,IP_9328831,IL_3043470,nevus,benign,,non_malignant,0
+ISIC_3613321,extracted/images/ISIC_3613321.jpg,IP_6762758,IL_5378885,nevus,benign,,non_malignant,0
+ISIC_3619132,extracted/images/ISIC_3619132.jpg,IP_1248331,IL_3011668,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3639272,extracted/images/ISIC_3639272.jpg,IP_4966888,IL_7311295,nevus,benign,histopathology,non_malignant,0
+ISIC_3641359,extracted/images/ISIC_3641359.jpg,IP_3186244,IL_5140504,nevus,benign,,non_malignant,0
+ISIC_3654102,extracted/images/ISIC_3654102.jpg,IP_8450638,IL_4004543,nevus,benign,,non_malignant,0
+ISIC_3657799,extracted/images/ISIC_3657799.jpg,IP_4349293,IL_5920878,nevus,benign,,non_malignant,0
+ISIC_3684951,extracted/images/ISIC_3684951.jpg,IP_6558273,IL_0462608,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3719985,extracted/images/ISIC_3719985.jpg,IP_5418505,IL_7385265,melanoma,malignant,histopathology,melanoma,1
+ISIC_3734798,extracted/images/ISIC_3734798.jpg,IP_2504588,IL_4710229,nevus,benign,,non_malignant,0
+ISIC_3734863,extracted/images/ISIC_3734863.jpg,IP_7243858,IL_1807391,nevus,benign,,non_malignant,0
+ISIC_3740351,extracted/images/ISIC_3740351.jpg,IP_7968700,IL_4250712,melanoma,malignant,histopathology,melanoma,1
+ISIC_3743174,extracted/images/ISIC_3743174.jpg,IP_9565045,IL_0352449,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3749849,extracted/images/ISIC_3749849.jpg,IP_1418688,IL_1248740,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3750476,extracted/images/ISIC_3750476.jpg,IP_7960361,IL_4559146,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_3760864,extracted/images/ISIC_3760864.jpg,IP_7966589,IL_6585280,melanoma,malignant,histopathology,melanoma,1
+ISIC_3760884,extracted/images/ISIC_3760884.jpg,IP_6449966,IL_8621943,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3771739,extracted/images/ISIC_3771739.jpg,IP_2504588,IL_8334224,nevus,benign,,non_malignant,0
+ISIC_3772311,extracted/images/ISIC_3772311.jpg,IP_9328831,IL_3659700,nevus,benign,,non_malignant,0
+ISIC_3782782,extracted/images/ISIC_3782782.jpg,IP_4349293,IL_0340594,nevus,benign,,non_malignant,0
+ISIC_3788423,extracted/images/ISIC_3788423.jpg,IP_5291194,IL_7940400,nevus,benign,,non_malignant,0
+ISIC_3796317,extracted/images/ISIC_3796317.jpg,IP_1785797,IL_7051641,melanoma,malignant,histopathology,melanoma,1
+ISIC_3823228,extracted/images/ISIC_3823228.jpg,IP_4278708,IL_3523344,vascular lesion,benign,,non_malignant,0
+ISIC_3830607,extracted/images/ISIC_3830607.jpg,IP_6182640,IL_7771775,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3839522,extracted/images/ISIC_3839522.jpg,IP_9107521,IL_7226995,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3839985,extracted/images/ISIC_3839985.jpg,IP_2650374,IL_2553823,melanoma,malignant,histopathology,melanoma,1
+ISIC_3844442,extracted/images/ISIC_3844442.jpg,IP_4064247,IL_6805753,nevus,benign,,non_malignant,0
+ISIC_3844971,extracted/images/ISIC_3844971.jpg,IP_4573488,IL_1926940,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3868876,extracted/images/ISIC_3868876.jpg,IP_2650374,IL_6905874,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3875940,extracted/images/ISIC_3875940.jpg,IP_6443464,IL_0523598,nevus,benign,histopathology,non_malignant,0
+ISIC_3885770,extracted/images/ISIC_3885770.jpg,IP_1599385,IL_0339787,nevus,benign,histopathology,non_malignant,0
+ISIC_3891136,extracted/images/ISIC_3891136.jpg,IP_3682931,IL_8605960,melanoma,malignant,histopathology,melanoma,1
+ISIC_3894866,extracted/images/ISIC_3894866.jpg,IP_9947705,IL_4885444,nevus,benign,histopathology,non_malignant,0
+ISIC_3896065,extracted/images/ISIC_3896065.jpg,IP_5291194,IL_8000514,nevus,benign,,non_malignant,0
+ISIC_3906318,extracted/images/ISIC_3906318.jpg,IP_0292037,IL_6490041,nevus,benign,histopathology,non_malignant,0
+ISIC_3929329,extracted/images/ISIC_3929329.jpg,IP_9328831,IL_0067988,nevus,benign,,non_malignant,0
+ISIC_3932849,extracted/images/ISIC_3932849.jpg,IP_7923120,IL_7399308,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_3951375,extracted/images/ISIC_3951375.jpg,IP_4297168,IL_4705234,nevus,benign,histopathology,non_malignant,0
+ISIC_3973357,extracted/images/ISIC_3973357.jpg,IP_4968898,IL_8441819,nevus,benign,,non_malignant,0
+ISIC_3979501,extracted/images/ISIC_3979501.jpg,IP_3564884,IL_5689125,solar lentigo,benign,,non_malignant,0
+ISIC_3983413,extracted/images/ISIC_3983413.jpg,IP_4349934,IL_2764872,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_3992341,extracted/images/ISIC_3992341.jpg,IP_9531637,IL_4135776,nevus,benign,histopathology,non_malignant,0
+ISIC_4007421,extracted/images/ISIC_4007421.jpg,IP_4064247,IL_6247959,nevus,benign,,non_malignant,0
+ISIC_4020299,extracted/images/ISIC_4020299.jpg,IP_7035571,IL_6028136,nevus,benign,,non_malignant,0
+ISIC_4029548,extracted/images/ISIC_4029548.jpg,IP_3525266,IL_2822496,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4029605,extracted/images/ISIC_4029605.jpg,IP_2661584,IL_8831240,melanoma,malignant,histopathology,melanoma,1
+ISIC_4033848,extracted/images/ISIC_4033848.jpg,IP_1296603,IL_6991366,nevus,benign,,non_malignant,0
+ISIC_4041328,extracted/images/ISIC_4041328.jpg,IP_3047490,IL_3508054,nevus,benign,,non_malignant,0
+ISIC_4048896,extracted/images/ISIC_4048896.jpg,IP_7144815,IL_9788442,melanoma,malignant,histopathology,melanoma,1
+ISIC_4055713,extracted/images/ISIC_4055713.jpg,IP_7035571,IL_2575189,nevus,benign,,non_malignant,0
+ISIC_4085035,extracted/images/ISIC_4085035.jpg,IP_9284170,IL_1809634,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4092287,extracted/images/ISIC_4092287.jpg,IP_1785797,IL_7051641,melanoma,malignant,histopathology,melanoma,1
+ISIC_4093488,extracted/images/ISIC_4093488.jpg,IP_6044945,IL_7544597,melanoma,malignant,histopathology,melanoma,1
+ISIC_4100884,extracted/images/ISIC_4100884.jpg,IP_2538639,IL_8367983,vascular lesion,benign,,non_malignant,0
+ISIC_4105940,extracted/images/ISIC_4105940.jpg,IP_3875370,IL_0658399,solar lentigo,benign,,non_malignant,0
+ISIC_4110967,extracted/images/ISIC_4110967.jpg,IP_7035571,IL_8354156,nevus,benign,,non_malignant,0
+ISIC_4120244,extracted/images/ISIC_4120244.jpg,IP_2504588,IL_2742516,nevus,benign,,non_malignant,0
+ISIC_4125711,extracted/images/ISIC_4125711.jpg,IP_3915964,IL_3895709,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4141548,extracted/images/ISIC_4141548.jpg,IP_3459479,IL_3308062,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4163869,extracted/images/ISIC_4163869.jpg,IP_2105239,IL_0054159,melanoma,malignant,histopathology,melanoma,1
+ISIC_4164859,extracted/images/ISIC_4164859.jpg,IP_2512373,IL_7497589,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4172789,extracted/images/ISIC_4172789.jpg,IP_6525026,IL_2623480,melanoma,malignant,histopathology,melanoma,1
+ISIC_4182862,extracted/images/ISIC_4182862.jpg,IP_9180971,IL_6663142,vascular lesion,benign,,non_malignant,0
+ISIC_4185188,extracted/images/ISIC_4185188.jpg,IP_8450638,IL_2997977,nevus,benign,,non_malignant,0
+ISIC_4185946,extracted/images/ISIC_4185946.jpg,IP_2967644,IL_3083015,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4192421,extracted/images/ISIC_4192421.jpg,IP_3342129,IL_5825485,dermatofibroma,benign,,non_malignant,0
+ISIC_4207454,extracted/images/ISIC_4207454.jpg,IP_2359644,IL_5765588,vascular lesion,benign,,non_malignant,0
+ISIC_4207602,extracted/images/ISIC_4207602.jpg,IP_3426045,IL_6532075,nevus,benign,,non_malignant,0
+ISIC_4208886,extracted/images/ISIC_4208886.jpg,IP_0214625,IL_0820072,vascular lesion,benign,,non_malignant,0
+ISIC_4212047,extracted/images/ISIC_4212047.jpg,IP_1117498,IL_1134487,melanoma,malignant,histopathology,melanoma,1
+ISIC_4217986,extracted/images/ISIC_4217986.jpg,IP_0031063,IL_9035337,nevus,benign,,non_malignant,0
+ISIC_4245761,extracted/images/ISIC_4245761.jpg,IP_7035571,IL_9509013,nevus,benign,,non_malignant,0
+ISIC_4259027,extracted/images/ISIC_4259027.jpg,IP_4349293,IL_3769390,nevus,benign,,non_malignant,0
+ISIC_4289921,extracted/images/ISIC_4289921.jpg,IP_8474771,IL_9603681,nevus,benign,,non_malignant,0
+ISIC_4299584,extracted/images/ISIC_4299584.jpg,IP_9642873,IL_1052174,dermatofibroma,benign,,non_malignant,0
+ISIC_4301851,extracted/images/ISIC_4301851.jpg,IP_9929036,IL_4052831,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4319626,extracted/images/ISIC_4319626.jpg,IP_3580447,IL_8214313,melanoma,malignant,histopathology,melanoma,1
+ISIC_4323935,extracted/images/ISIC_4323935.jpg,IP_2512373,IL_3755962,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_4326975,extracted/images/ISIC_4326975.jpg,IP_0240453,IL_3601366,melanoma,malignant,histopathology,melanoma,1
+ISIC_4331030,extracted/images/ISIC_4331030.jpg,IP_0147267,IL_9069382,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4343221,extracted/images/ISIC_4343221.jpg,IP_6328281,IL_2529443,nevus,benign,histopathology,non_malignant,0
+ISIC_4349244,extracted/images/ISIC_4349244.jpg,IP_7035571,IL_3938826,nevus,benign,,non_malignant,0
+ISIC_4385084,extracted/images/ISIC_4385084.jpg,IP_4513580,IL_7279125,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4390920,extracted/images/ISIC_4390920.jpg,IP_3736688,IL_7955657,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4407852,extracted/images/ISIC_4407852.jpg,IP_5892304,IL_9975476,melanoma,malignant,histopathology,melanoma,1
+ISIC_4426133,extracted/images/ISIC_4426133.jpg,IP_2650374,IL_6480787,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4441641,extracted/images/ISIC_4441641.jpg,IP_6420395,IL_2912006,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4445863,extracted/images/ISIC_4445863.jpg,IP_2318326,IL_1409489,nevus,benign,,non_malignant,0
+ISIC_4447916,extracted/images/ISIC_4447916.jpg,IP_3875370,IL_2677729,nevus,benign,,non_malignant,0
+ISIC_4462757,extracted/images/ISIC_4462757.jpg,IP_5048300,IL_0526105,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4485929,extracted/images/ISIC_4485929.jpg,IP_9326183,IL_1921228,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4486613,extracted/images/ISIC_4486613.jpg,IP_3702153,IL_2920159,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_4489007,extracted/images/ISIC_4489007.jpg,IP_6003393,IL_5334768,dermatofibroma,benign,,non_malignant,0
+ISIC_4506388,extracted/images/ISIC_4506388.jpg,IP_3571314,IL_0508736,dermatofibroma,benign,,non_malignant,0
+ISIC_4514316,extracted/images/ISIC_4514316.jpg,IP_6872677,IL_3039529,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4515080,extracted/images/ISIC_4515080.jpg,IP_1414430,IL_2659423,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4521912,extracted/images/ISIC_4521912.jpg,IP_5291194,IL_9351912,nevus,benign,,non_malignant,0
+ISIC_4537252,extracted/images/ISIC_4537252.jpg,IP_9284170,IL_7615671,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4542236,extracted/images/ISIC_4542236.jpg,IP_6793136,IL_0966191,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4561534,extracted/images/ISIC_4561534.jpg,IP_3186244,IL_8679044,nevus,benign,,non_malignant,0
+ISIC_4562668,extracted/images/ISIC_4562668.jpg,IP_2504588,IL_6895187,nevus,benign,,non_malignant,0
+ISIC_4564463,extracted/images/ISIC_4564463.jpg,IP_3114566,IL_4543263,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4564762,extracted/images/ISIC_4564762.jpg,IP_3746855,IL_6639566,nevus,benign,,non_malignant,0
+ISIC_4565303,extracted/images/ISIC_4565303.jpg,IP_7035571,IL_3125009,nevus,benign,,non_malignant,0
+ISIC_4572891,extracted/images/ISIC_4572891.jpg,IP_1829752,IL_3143295,melanoma,malignant,histopathology,melanoma,1
+ISIC_4589863,extracted/images/ISIC_4589863.jpg,IP_9380899,IL_0028991,nevus,benign,histopathology,non_malignant,0
+ISIC_4620682,extracted/images/ISIC_4620682.jpg,IP_5291194,IL_6131058,nevus,benign,,non_malignant,0
+ISIC_4623020,extracted/images/ISIC_4623020.jpg,IP_8450638,IL_1893456,nevus,benign,,non_malignant,0
+ISIC_4627848,extracted/images/ISIC_4627848.jpg,IP_3682931,IL_1160690,nevus,benign,histopathology,non_malignant,0
+ISIC_4635075,extracted/images/ISIC_4635075.jpg,IP_9328831,IL_6905839,nevus,benign,,non_malignant,0
+ISIC_4636431,extracted/images/ISIC_4636431.jpg,IP_7966589,IL_6585280,melanoma,malignant,histopathology,melanoma,1
+ISIC_4641709,extracted/images/ISIC_4641709.jpg,IP_3303370,IL_1362230,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4645865,extracted/images/ISIC_4645865.jpg,IP_4287801,IL_0910000,nevus,benign,histopathology,non_malignant,0
+ISIC_4650728,extracted/images/ISIC_4650728.jpg,IP_4349293,IL_9230859,nevus,benign,,non_malignant,0
+ISIC_4652973,extracted/images/ISIC_4652973.jpg,IP_4451052,IL_0125648,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4679083,extracted/images/ISIC_4679083.jpg,IP_2413128,IL_3801788,nevus,benign,histopathology,non_malignant,0
+ISIC_4679243,extracted/images/ISIC_4679243.jpg,IP_4869081,IL_5077196,nevus,benign,histopathology,non_malignant,0
+ISIC_4679927,extracted/images/ISIC_4679927.jpg,IP_2175925,IL_8688599,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4683392,extracted/images/ISIC_4683392.jpg,IP_7035571,IL_5616637,nevus,benign,,non_malignant,0
+ISIC_4704027,extracted/images/ISIC_4704027.jpg,IP_7506563,IL_3992102,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4709950,extracted/images/ISIC_4709950.jpg,IP_3571314,IL_8496313,dermatofibroma,benign,,non_malignant,0
+ISIC_4711209,extracted/images/ISIC_4711209.jpg,IP_8033847,IL_1264174,nevus,benign,histopathology,non_malignant,0
+ISIC_4716453,extracted/images/ISIC_4716453.jpg,IP_1252834,IL_0813786,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4719387,extracted/images/ISIC_4719387.jpg,IP_4626612,IL_9000367,melanoma,malignant,histopathology,melanoma,1
+ISIC_4727095,extracted/images/ISIC_4727095.jpg,IP_8474771,IL_6963592,nevus,benign,,non_malignant,0
+ISIC_4733474,extracted/images/ISIC_4733474.jpg,IP_7351253,IL_2978481,dermatofibroma,benign,,non_malignant,0
+ISIC_4750998,extracted/images/ISIC_4750998.jpg,IP_7513395,IL_9092931,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4767060,extracted/images/ISIC_4767060.jpg,IP_8326549,IL_2111798,nevus,benign,,non_malignant,0
+ISIC_4784710,extracted/images/ISIC_4784710.jpg,IP_7035571,IL_9770171,nevus,benign,,non_malignant,0
+ISIC_4786444,extracted/images/ISIC_4786444.jpg,IP_0031063,IL_6342673,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4787478,extracted/images/ISIC_4787478.jpg,IP_7035571,IL_0544421,nevus,benign,,non_malignant,0
+ISIC_4794233,extracted/images/ISIC_4794233.jpg,IP_2081101,IL_3266357,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4815806,extracted/images/ISIC_4815806.jpg,IP_7243858,IL_6781257,nevus,benign,,non_malignant,0
+ISIC_4828029,extracted/images/ISIC_4828029.jpg,IP_1059364,IL_0873714,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4831758,extracted/images/ISIC_4831758.jpg,IP_4906546,IL_9496373,nevus,benign,histopathology,non_malignant,0
+ISIC_4849988,extracted/images/ISIC_4849988.jpg,IP_8474771,IL_5578064,nevus,benign,,non_malignant,0
+ISIC_4854546,extracted/images/ISIC_4854546.jpg,IP_2498144,IL_7738407,solar lentigo,benign,histopathology,non_malignant,0
+ISIC_4856639,extracted/images/ISIC_4856639.jpg,IP_1684513,IL_0026279,seborrheic keratosis,benign,,non_malignant,0
+ISIC_4864283,extracted/images/ISIC_4864283.jpg,IP_2754431,IL_4437201,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4867646,extracted/images/ISIC_4867646.jpg,IP_9461434,IL_2674348,melanoma,malignant,histopathology,melanoma,1
+ISIC_4877425,extracted/images/ISIC_4877425.jpg,IP_8961406,IL_8544426,nevus,benign,,non_malignant,0
+ISIC_4886694,extracted/images/ISIC_4886694.jpg,IP_2159758,IL_6953663,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4889384,extracted/images/ISIC_4889384.jpg,IP_4064247,IL_4041528,nevus,benign,,non_malignant,0
+ISIC_4906990,extracted/images/ISIC_4906990.jpg,IP_8641208,IL_9707629,nevus,benign,histopathology,non_malignant,0
+ISIC_4910630,extracted/images/ISIC_4910630.jpg,IP_9667170,IL_3270641,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4918794,extracted/images/ISIC_4918794.jpg,IP_5828031,IL_0370820,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4919062,extracted/images/ISIC_4919062.jpg,IP_9432107,IL_7515599,solar lentigo,benign,histopathology,non_malignant,0
+ISIC_4921433,extracted/images/ISIC_4921433.jpg,IP_6762758,IL_2357723,nevus,benign,,non_malignant,0
+ISIC_4926587,extracted/images/ISIC_4926587.jpg,IP_1414430,IL_2659423,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4932163,extracted/images/ISIC_4932163.jpg,IP_8408163,IL_8916823,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_4937427,extracted/images/ISIC_4937427.jpg,IP_4016358,IL_3293670,nevus,benign,histopathology,non_malignant,0
+ISIC_4937722,extracted/images/ISIC_4937722.jpg,IP_7035571,IL_2417454,nevus,benign,,non_malignant,0
+ISIC_4947108,extracted/images/ISIC_4947108.jpg,IP_9992081,IL_6133491,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_4957310,extracted/images/ISIC_4957310.jpg,IP_7200500,IL_8767905,melanoma,malignant,histopathology,melanoma,1
+ISIC_4963877,extracted/images/ISIC_4963877.jpg,IP_0212365,IL_4436851,melanoma,malignant,histopathology,melanoma,1
+ISIC_4975248,extracted/images/ISIC_4975248.jpg,IP_7243858,IL_6866293,nevus,benign,,non_malignant,0
+ISIC_4976736,extracted/images/ISIC_4976736.jpg,IP_4567280,IL_9353525,nevus,benign,histopathology,non_malignant,0
+ISIC_4983159,extracted/images/ISIC_4983159.jpg,IP_7035571,IL_6486804,nevus,benign,,non_malignant,0
+ISIC_5000172,extracted/images/ISIC_5000172.jpg,IP_6783333,IL_3070676,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5007109,extracted/images/ISIC_5007109.jpg,IP_5543648,IL_5682932,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5016039,extracted/images/ISIC_5016039.jpg,IP_8474771,IL_5791443,nevus,benign,,non_malignant,0
+ISIC_5017483,extracted/images/ISIC_5017483.jpg,IP_0412162,IL_2089622,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5018708,extracted/images/ISIC_5018708.jpg,IP_3571314,IL_6325559,seborrheic keratosis,benign,,non_malignant,0
+ISIC_5024302,extracted/images/ISIC_5024302.jpg,IP_2359644,IL_8955295,melanoma,malignant,histopathology,melanoma,1
+ISIC_5033005,extracted/images/ISIC_5033005.jpg,IP_4216830,IL_4512262,melanoma,malignant,histopathology,melanoma,1
+ISIC_5036479,extracted/images/ISIC_5036479.jpg,IP_5543648,IL_1038560,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5041733,extracted/images/ISIC_5041733.jpg,IP_3875370,IL_8468133,nevus,benign,,non_malignant,0
+ISIC_5053874,extracted/images/ISIC_5053874.jpg,IP_1371309,IL_5968442,dermatofibroma,benign,,non_malignant,0
+ISIC_5058915,extracted/images/ISIC_5058915.jpg,IP_6184736,IL_5530521,vascular lesion,benign,,non_malignant,0
+ISIC_5070010,extracted/images/ISIC_5070010.jpg,IP_7304770,IL_0875217,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_5086151,extracted/images/ISIC_5086151.jpg,IP_6872677,IL_7224729,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5086721,extracted/images/ISIC_5086721.jpg,IP_7034445,IL_6565119,melanoma,malignant,histopathology,melanoma,1
+ISIC_5098698,extracted/images/ISIC_5098698.jpg,IP_8961406,IL_0024631,nevus,benign,,non_malignant,0
+ISIC_5108945,extracted/images/ISIC_5108945.jpg,IP_7035571,IL_1872431,nevus,benign,,non_malignant,0
+ISIC_5131286,extracted/images/ISIC_5131286.jpg,IP_6515463,IL_4296126,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5135425,extracted/images/ISIC_5135425.jpg,IP_1684513,IL_0149051,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5137665,extracted/images/ISIC_5137665.jpg,IP_7035571,IL_2174668,nevus,benign,,non_malignant,0
+ISIC_5140276,extracted/images/ISIC_5140276.jpg,IP_0939358,IL_9714393,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5159406,extracted/images/ISIC_5159406.jpg,IP_6089636,IL_0621051,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_5164664,extracted/images/ISIC_5164664.jpg,IP_6579706,IL_5969628,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5170788,extracted/images/ISIC_5170788.jpg,IP_6762758,IL_3180849,nevus,benign,,non_malignant,0
+ISIC_5172790,extracted/images/ISIC_5172790.jpg,IP_9656549,IL_1321704,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5174665,extracted/images/ISIC_5174665.jpg,IP_3733060,IL_1561991,nevus,benign,,non_malignant,0
+ISIC_5186358,extracted/images/ISIC_5186358.jpg,IP_7938826,IL_2089739,nevus,benign,,non_malignant,0
+ISIC_5189439,extracted/images/ISIC_5189439.jpg,IP_5805678,IL_3567561,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5189637,extracted/images/ISIC_5189637.jpg,IP_0698655,IL_2248656,dermatofibroma,benign,,non_malignant,0
+ISIC_5206657,extracted/images/ISIC_5206657.jpg,IP_6189247,IL_7898912,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_5227868,extracted/images/ISIC_5227868.jpg,IP_7442897,IL_4838500,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5232077,extracted/images/ISIC_5232077.jpg,IP_9656549,IL_5777895,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5237045,extracted/images/ISIC_5237045.jpg,IP_3398957,IL_8648040,nevus,benign,histopathology,non_malignant,0
+ISIC_5254914,extracted/images/ISIC_5254914.jpg,IP_6804093,IL_8056394,nevus,benign,,non_malignant,0
+ISIC_5258479,extracted/images/ISIC_5258479.jpg,IP_1404370,IL_7957871,nevus,benign,,non_malignant,0
+ISIC_5264349,extracted/images/ISIC_5264349.jpg,IP_3746855,IL_6439523,nevus,benign,,non_malignant,0
+ISIC_5264466,extracted/images/ISIC_5264466.jpg,IP_0500329,IL_0256906,nevus,benign,histopathology,non_malignant,0
+ISIC_5272415,extracted/images/ISIC_5272415.jpg,IP_9503214,IL_5856952,nevus,benign,,non_malignant,0
+ISIC_5280920,extracted/images/ISIC_5280920.jpg,IP_4361900,IL_8008538,nevus,benign,histopathology,non_malignant,0
+ISIC_5286801,extracted/images/ISIC_5286801.jpg,IP_3770796,IL_6198269,melanoma,malignant,histopathology,melanoma,1
+ISIC_5295520,extracted/images/ISIC_5295520.jpg,IP_1908503,IL_9881910,melanoma,malignant,histopathology,melanoma,1
+ISIC_5307259,extracted/images/ISIC_5307259.jpg,IP_9656549,IL_5777895,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5323960,extracted/images/ISIC_5323960.jpg,IP_7035571,IL_4823994,nevus,benign,,non_malignant,0
+ISIC_5363974,extracted/images/ISIC_5363974.jpg,IP_6251525,IL_6821221,melanoma,malignant,histopathology,melanoma,1
+ISIC_5373632,extracted/images/ISIC_5373632.jpg,IP_2409824,IL_2034257,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5409096,extracted/images/ISIC_5409096.jpg,IP_8760962,IL_2070628,nevus,benign,,non_malignant,0
+ISIC_5426538,extracted/images/ISIC_5426538.jpg,IP_4132519,IL_4221866,nevus,benign,histopathology,non_malignant,0
+ISIC_5470538,extracted/images/ISIC_5470538.jpg,IP_0197196,IL_3159581,nevus,benign,histopathology,non_malignant,0
+ISIC_5481480,extracted/images/ISIC_5481480.jpg,IP_0093557,IL_7782929,melanoma,malignant,histopathology,melanoma,1
+ISIC_5487025,extracted/images/ISIC_5487025.jpg,IP_5685461,IL_7455931,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5502098,extracted/images/ISIC_5502098.jpg,IP_8075842,IL_5440652,dermatofibroma,benign,,non_malignant,0
+ISIC_5503013,extracted/images/ISIC_5503013.jpg,IP_8450638,IL_9602806,nevus,benign,,non_malignant,0
+ISIC_5504535,extracted/images/ISIC_5504535.jpg,IP_7243858,IL_6494017,nevus,benign,,non_malignant,0
+ISIC_5506127,extracted/images/ISIC_5506127.jpg,IP_1312835,IL_2141263,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5507397,extracted/images/ISIC_5507397.jpg,IP_4064247,IL_3827555,nevus,benign,,non_malignant,0
+ISIC_5513102,extracted/images/ISIC_5513102.jpg,IP_2080217,IL_1669261,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5516918,extracted/images/ISIC_5516918.jpg,IP_2681150,IL_9195889,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5521474,extracted/images/ISIC_5521474.jpg,IP_5924149,IL_9686443,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5529430,extracted/images/ISIC_5529430.jpg,IP_5719687,IL_6414572,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5530584,extracted/images/ISIC_5530584.jpg,IP_9328831,IL_9765728,nevus,benign,,non_malignant,0
+ISIC_5535303,extracted/images/ISIC_5535303.jpg,IP_2436647,IL_5405021,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_5538629,extracted/images/ISIC_5538629.jpg,IP_2650374,IL_2553823,melanoma,malignant,histopathology,melanoma,1
+ISIC_5555131,extracted/images/ISIC_5555131.jpg,IP_3386756,IL_0632184,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5562413,extracted/images/ISIC_5562413.jpg,IP_8961406,IL_1197704,nevus,benign,,non_malignant,0
+ISIC_5564514,extracted/images/ISIC_5564514.jpg,IP_2504588,IL_6648018,nevus,benign,,non_malignant,0
+ISIC_5566484,extracted/images/ISIC_5566484.jpg,IP_8195964,IL_0144737,melanoma,malignant,histopathology,melanoma,1
+ISIC_5567431,extracted/images/ISIC_5567431.jpg,IP_0214625,IL_8563830,nevus,benign,,non_malignant,0
+ISIC_5569726,extracted/images/ISIC_5569726.jpg,IP_2512373,IL_7497589,seborrheic keratosis,benign,,non_malignant,0
+ISIC_5582062,extracted/images/ISIC_5582062.jpg,IP_6720662,IL_4069279,nevus,benign,histopathology,non_malignant,0
+ISIC_5583449,extracted/images/ISIC_5583449.jpg,IP_3536249,IL_2753088,nevus,benign,histopathology,non_malignant,0
+ISIC_5587663,extracted/images/ISIC_5587663.jpg,IP_9495313,IL_6829361,nevus,benign,,non_malignant,0
+ISIC_5595591,extracted/images/ISIC_5595591.jpg,IP_3736688,IL_4354280,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5601722,extracted/images/ISIC_5601722.jpg,IP_6292883,IL_2799934,nevus,benign,histopathology,non_malignant,0
+ISIC_5604408,extracted/images/ISIC_5604408.jpg,IP_4817230,IL_2055980,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5610304,extracted/images/ISIC_5610304.jpg,IP_6640998,IL_3632801,melanoma,malignant,histopathology,melanoma,1
+ISIC_5612133,extracted/images/ISIC_5612133.jpg,IP_0545294,IL_8571682,melanoma,malignant,histopathology,melanoma,1
+ISIC_5618299,extracted/images/ISIC_5618299.jpg,IP_6959152,IL_9889961,nevus,benign,histopathology,non_malignant,0
+ISIC_5629618,extracted/images/ISIC_5629618.jpg,IP_7035571,IL_7192466,nevus,benign,,non_malignant,0
+ISIC_5634599,extracted/images/ISIC_5634599.jpg,IP_0823466,IL_4612097,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5644234,extracted/images/ISIC_5644234.jpg,IP_0281050,IL_5890741,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5646747,extracted/images/ISIC_5646747.jpg,IP_6251525,IL_6821221,melanoma,malignant,histopathology,melanoma,1
+ISIC_5649585,extracted/images/ISIC_5649585.jpg,IP_1404370,IL_5429641,nevus,benign,,non_malignant,0
+ISIC_5652129,extracted/images/ISIC_5652129.jpg,IP_7035571,IL_6266492,nevus,benign,,non_malignant,0
+ISIC_5653394,extracted/images/ISIC_5653394.jpg,IP_7035571,IL_7215674,nevus,benign,,non_malignant,0
+ISIC_5669463,extracted/images/ISIC_5669463.jpg,IP_3285261,IL_5888696,melanoma,malignant,histopathology,melanoma,1
+ISIC_5677432,extracted/images/ISIC_5677432.jpg,IP_3923816,IL_4538888,nevus,benign,histopathology,non_malignant,0
+ISIC_5698566,extracted/images/ISIC_5698566.jpg,IP_9284170,IL_8499384,melanoma,malignant,histopathology,melanoma,1
+ISIC_5703951,extracted/images/ISIC_5703951.jpg,IP_9642873,IL_0298823,dermatofibroma,benign,,non_malignant,0
+ISIC_5704967,extracted/images/ISIC_5704967.jpg,IP_9093111,IL_5005356,melanoma,malignant,histopathology,melanoma,1
+ISIC_5711830,extracted/images/ISIC_5711830.jpg,IP_6762758,IL_3206792,nevus,benign,,non_malignant,0
+ISIC_5718895,extracted/images/ISIC_5718895.jpg,IP_1914877,IL_9726141,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5727659,extracted/images/ISIC_5727659.jpg,IP_2933627,IL_7500912,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_5733031,extracted/images/ISIC_5733031.jpg,IP_2279844,IL_0889434,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5746105,extracted/images/ISIC_5746105.jpg,IP_0093557,IL_2584095,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_5759661,extracted/images/ISIC_5759661.jpg,IP_8107767,IL_3538887,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5764331,extracted/images/ISIC_5764331.jpg,IP_9326183,IL_0798792,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_5771780,extracted/images/ISIC_5771780.jpg,IP_0632920,IL_5821829,melanoma,malignant,histopathology,melanoma,1
+ISIC_5779099,extracted/images/ISIC_5779099.jpg,IP_4349293,IL_0680311,nevus,benign,,non_malignant,0
+ISIC_5783705,extracted/images/ISIC_5783705.jpg,IP_2081101,IL_5720550,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5794546,extracted/images/ISIC_5794546.jpg,IP_6640998,IL_1022413,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5805361,extracted/images/ISIC_5805361.jpg,IP_9998114,IL_1960281,seborrheic keratosis,benign,,non_malignant,0
+ISIC_5817621,extracted/images/ISIC_5817621.jpg,IP_2318326,IL_6803312,nevus,benign,,non_malignant,0
+ISIC_5819075,extracted/images/ISIC_5819075.jpg,IP_4817230,IL_3808977,nevus,benign,,non_malignant,0
+ISIC_5822470,extracted/images/ISIC_5822470.jpg,IP_9642873,IL_0098914,nevus,benign,,non_malignant,0
+ISIC_5827804,extracted/images/ISIC_5827804.jpg,IP_7605373,IL_3713441,seborrheic keratosis,benign,,non_malignant,0
+ISIC_5841971,extracted/images/ISIC_5841971.jpg,IP_9428318,IL_3096683,melanoma,malignant,histopathology,melanoma,1
+ISIC_5843101,extracted/images/ISIC_5843101.jpg,IP_7248754,IL_4358060,nevus,benign,histopathology,non_malignant,0
+ISIC_5852950,extracted/images/ISIC_5852950.jpg,IP_3746855,IL_3545516,nevus,benign,,non_malignant,0
+ISIC_5854879,extracted/images/ISIC_5854879.jpg,IP_9326183,IL_0624639,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5862918,extracted/images/ISIC_5862918.jpg,IP_0906253,IL_7535821,melanoma,malignant,histopathology,melanoma,1
+ISIC_5867238,extracted/images/ISIC_5867238.jpg,IP_8123122,IL_8926433,nevus,benign,,non_malignant,0
+ISIC_5868397,extracted/images/ISIC_5868397.jpg,IP_7938826,IL_4221809,nevus,benign,,non_malignant,0
+ISIC_5877281,extracted/images/ISIC_5877281.jpg,IP_9507746,IL_6515105,nevus,benign,histopathology,non_malignant,0
+ISIC_5877775,extracted/images/ISIC_5877775.jpg,IP_7736597,IL_8023144,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5882793,extracted/images/ISIC_5882793.jpg,IP_5722309,IL_9104107,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5888810,extracted/images/ISIC_5888810.jpg,IP_9328831,IL_6606588,nevus,benign,,non_malignant,0
+ISIC_5900008,extracted/images/ISIC_5900008.jpg,IP_1344764,IL_3077206,seborrheic keratosis,benign,,non_malignant,0
+ISIC_5916445,extracted/images/ISIC_5916445.jpg,IP_8107767,IL_6898262,vascular lesion,benign,,non_malignant,0
+ISIC_5918979,extracted/images/ISIC_5918979.jpg,IP_9328831,IL_5000141,nevus,benign,,non_malignant,0
+ISIC_5924838,extracted/images/ISIC_5924838.jpg,IP_7035571,IL_6768854,nevus,benign,,non_malignant,0
+ISIC_5926655,extracted/images/ISIC_5926655.jpg,IP_6555777,IL_5490451,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5928120,extracted/images/ISIC_5928120.jpg,IP_5842685,IL_4374423,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_5944090,extracted/images/ISIC_5944090.jpg,IP_1404370,IL_0860595,nevus,benign,,non_malignant,0
+ISIC_5948139,extracted/images/ISIC_5948139.jpg,IP_9786236,IL_4757470,solar lentigo,benign,,non_malignant,0
+ISIC_5978232,extracted/images/ISIC_5978232.jpg,IP_4817230,IL_5675353,nevus,benign,histopathology,non_malignant,0
+ISIC_5988562,extracted/images/ISIC_5988562.jpg,IP_9549575,IL_5360583,melanoma,malignant,histopathology,melanoma,1
+ISIC_5989162,extracted/images/ISIC_5989162.jpg,IP_0778689,IL_8738429,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6001467,extracted/images/ISIC_6001467.jpg,IP_7035571,IL_4827112,nevus,benign,,non_malignant,0
+ISIC_6021247,extracted/images/ISIC_6021247.jpg,IP_9328831,IL_2632067,nevus,benign,,non_malignant,0
+ISIC_6026692,extracted/images/ISIC_6026692.jpg,IP_5508520,IL_1701779,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6032373,extracted/images/ISIC_6032373.jpg,IP_8450638,IL_1043970,nevus,benign,,non_malignant,0
+ISIC_6034442,extracted/images/ISIC_6034442.jpg,IP_0080786,IL_3971241,melanoma,malignant,histopathology,melanoma,1
+ISIC_6043099,extracted/images/ISIC_6043099.jpg,IP_6420395,IL_9464341,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6050113,extracted/images/ISIC_6050113.jpg,IP_0398509,IL_1347663,nevus,benign,histopathology,non_malignant,0
+ISIC_6069561,extracted/images/ISIC_6069561.jpg,IP_7872950,IL_4104011,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6073696,extracted/images/ISIC_6073696.jpg,IP_8474771,IL_7188329,nevus,benign,,non_malignant,0
+ISIC_6085014,extracted/images/ISIC_6085014.jpg,IP_4270560,IL_7758603,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6090497,extracted/images/ISIC_6090497.jpg,IP_3423518,IL_6446523,melanoma,malignant,histopathology,melanoma,1
+ISIC_6118568,extracted/images/ISIC_6118568.jpg,IP_3342129,IL_4579628,seborrheic keratosis,benign,,non_malignant,0
+ISIC_6118945,extracted/images/ISIC_6118945.jpg,IP_8474771,IL_3658935,nevus,benign,,non_malignant,0
+ISIC_6119111,extracted/images/ISIC_6119111.jpg,IP_1773325,IL_0337405,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6119596,extracted/images/ISIC_6119596.jpg,IP_9002218,IL_8573962,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6126704,extracted/images/ISIC_6126704.jpg,IP_8546360,IL_0066008,melanoma,malignant,histopathology,melanoma,1
+ISIC_6128833,extracted/images/ISIC_6128833.jpg,IP_3370482,IL_9538195,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6135076,extracted/images/ISIC_6135076.jpg,IP_4419089,IL_1849090,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6152032,extracted/images/ISIC_6152032.jpg,IP_6418662,IL_7520515,melanoma,malignant,histopathology,melanoma,1
+ISIC_6155733,extracted/images/ISIC_6155733.jpg,IP_9328831,IL_3209636,nevus,benign,,non_malignant,0
+ISIC_6164036,extracted/images/ISIC_6164036.jpg,IP_1396436,IL_7167874,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_6168031,extracted/images/ISIC_6168031.jpg,IP_5520689,IL_2990239,seborrheic keratosis,benign,,non_malignant,0
+ISIC_6177508,extracted/images/ISIC_6177508.jpg,IP_3746855,IL_7081499,nevus,benign,,non_malignant,0
+ISIC_6192787,extracted/images/ISIC_6192787.jpg,IP_7035571,IL_5972519,nevus,benign,,non_malignant,0
+ISIC_6200169,extracted/images/ISIC_6200169.jpg,IP_8461521,IL_9438417,nevus,benign,histopathology,non_malignant,0
+ISIC_6204275,extracted/images/ISIC_6204275.jpg,IP_5291194,IL_8978163,nevus,benign,,non_malignant,0
+ISIC_6218790,extracted/images/ISIC_6218790.jpg,IP_8107767,IL_3557062,seborrheic keratosis,benign,,non_malignant,0
+ISIC_6230191,extracted/images/ISIC_6230191.jpg,IP_8542863,IL_8124990,melanoma,malignant,histopathology,melanoma,1
+ISIC_6231941,extracted/images/ISIC_6231941.jpg,IP_9189981,IL_5882175,nevus,benign,histopathology,non_malignant,0
+ISIC_6237589,extracted/images/ISIC_6237589.jpg,IP_1165379,IL_2898203,nevus,benign,,non_malignant,0
+ISIC_6240035,extracted/images/ISIC_6240035.jpg,IP_8945353,IL_8672238,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6243440,extracted/images/ISIC_6243440.jpg,IP_9328831,IL_3659700,nevus,benign,,non_malignant,0
+ISIC_6248396,extracted/images/ISIC_6248396.jpg,IP_9656549,IL_1321704,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6248652,extracted/images/ISIC_6248652.jpg,IP_4891909,IL_9875496,dermatofibroma,benign,,non_malignant,0
+ISIC_6253779,extracted/images/ISIC_6253779.jpg,IP_7708591,IL_9547816,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6258800,extracted/images/ISIC_6258800.jpg,IP_7035571,IL_4392343,nevus,benign,,non_malignant,0
+ISIC_6263512,extracted/images/ISIC_6263512.jpg,IP_1173614,IL_1120407,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6270346,extracted/images/ISIC_6270346.jpg,IP_7228742,IL_3637074,nevus,benign,,non_malignant,0
+ISIC_6281685,extracted/images/ISIC_6281685.jpg,IP_3186244,IL_1401679,nevus,benign,,non_malignant,0
+ISIC_6284148,extracted/images/ISIC_6284148.jpg,IP_6579706,IL_7614927,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_6287618,extracted/images/ISIC_6287618.jpg,IP_8474771,IL_6418323,nevus,benign,,non_malignant,0
+ISIC_6297688,extracted/images/ISIC_6297688.jpg,IP_4932731,IL_8200012,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6315176,extracted/images/ISIC_6315176.jpg,IP_4216830,IL_4512262,melanoma,malignant,histopathology,melanoma,1
+ISIC_6348247,extracted/images/ISIC_6348247.jpg,IP_0551634,IL_5041050,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6357401,extracted/images/ISIC_6357401.jpg,IP_9998114,IL_8991738,nevus,benign,histopathology,non_malignant,0
+ISIC_6364866,extracted/images/ISIC_6364866.jpg,IP_1780999,IL_4621761,nevus,benign,histopathology,non_malignant,0
+ISIC_6426979,extracted/images/ISIC_6426979.jpg,IP_5091395,IL_9453442,nevus,benign,histopathology,non_malignant,0
+ISIC_6427207,extracted/images/ISIC_6427207.jpg,IP_8812719,IL_9626445,dermatofibroma,benign,,non_malignant,0
+ISIC_6428520,extracted/images/ISIC_6428520.jpg,IP_1657399,IL_6671594,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_6438679,extracted/images/ISIC_6438679.jpg,IP_3746855,IL_7682253,nevus,benign,,non_malignant,0
+ISIC_6442663,extracted/images/ISIC_6442663.jpg,IP_7736597,IL_6643572,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6463451,extracted/images/ISIC_6463451.jpg,IP_4817230,IL_2055980,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6470456,extracted/images/ISIC_6470456.jpg,IP_2640696,IL_5727978,nevus,benign,,non_malignant,0
+ISIC_6471282,extracted/images/ISIC_6471282.jpg,IP_0197196,IL_7215851,melanoma,malignant,histopathology,melanoma,1
+ISIC_6478713,extracted/images/ISIC_6478713.jpg,IP_6610729,IL_3063049,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_6479781,extracted/images/ISIC_6479781.jpg,IP_3019489,IL_1866559,nevus,benign,histopathology,non_malignant,0
+ISIC_6486288,extracted/images/ISIC_6486288.jpg,IP_3702153,IL_3664250,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_6487305,extracted/images/ISIC_6487305.jpg,IP_1040510,IL_2307963,nevus,benign,histopathology,non_malignant,0
+ISIC_6524286,extracted/images/ISIC_6524286.jpg,IP_0939434,IL_8960181,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6543139,extracted/images/ISIC_6543139.jpg,IP_4968898,IL_0525537,nevus,benign,,non_malignant,0
+ISIC_6546922,extracted/images/ISIC_6546922.jpg,IP_6184736,IL_2506187,vascular lesion,benign,,non_malignant,0
+ISIC_6547193,extracted/images/ISIC_6547193.jpg,IP_3746855,IL_2417986,nevus,benign,,non_malignant,0
+ISIC_6563304,extracted/images/ISIC_6563304.jpg,IP_1726741,IL_4791021,melanoma,malignant,histopathology,melanoma,1
+ISIC_6563537,extracted/images/ISIC_6563537.jpg,IP_6375518,IL_3192877,vascular lesion,benign,,non_malignant,0
+ISIC_6572032,extracted/images/ISIC_6572032.jpg,IP_2521894,IL_3009245,nevus,benign,histopathology,non_malignant,0
+ISIC_6585351,extracted/images/ISIC_6585351.jpg,IP_1749049,IL_8603777,nevus,benign,histopathology,non_malignant,0
+ISIC_6596750,extracted/images/ISIC_6596750.jpg,IP_7506563,IL_3152128,nevus,benign,,non_malignant,0
+ISIC_6600684,extracted/images/ISIC_6600684.jpg,IP_7228742,IL_5068945,nevus,benign,,non_malignant,0
+ISIC_6604083,extracted/images/ISIC_6604083.jpg,IP_1780405,IL_2257174,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6611750,extracted/images/ISIC_6611750.jpg,IP_2317296,IL_2230533,nevus,benign,histopathology,non_malignant,0
+ISIC_6615839,extracted/images/ISIC_6615839.jpg,IP_7035571,IL_9281983,nevus,benign,,non_malignant,0
+ISIC_6634689,extracted/images/ISIC_6634689.jpg,IP_7605373,IL_1600217,nevus,benign,histopathology,non_malignant,0
+ISIC_6646645,extracted/images/ISIC_6646645.jpg,IP_4051388,IL_5837846,melanoma,malignant,histopathology,melanoma,1
+ISIC_6650394,extracted/images/ISIC_6650394.jpg,IP_2640696,IL_7644176,nevus,benign,,non_malignant,0
+ISIC_6653614,extracted/images/ISIC_6653614.jpg,IP_4307149,IL_4193678,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6666738,extracted/images/ISIC_6666738.jpg,IP_5291194,IL_7332611,nevus,benign,,non_malignant,0
+ISIC_6669306,extracted/images/ISIC_6669306.jpg,IP_2998823,IL_4981763,nevus,benign,histopathology,non_malignant,0
+ISIC_6672136,extracted/images/ISIC_6672136.jpg,IP_7035571,IL_2272931,nevus,benign,,non_malignant,0
+ISIC_6699015,extracted/images/ISIC_6699015.jpg,IP_7035571,IL_3205022,nevus,benign,,non_malignant,0
+ISIC_6707573,extracted/images/ISIC_6707573.jpg,IP_4419089,IL_0524150,melanoma,malignant,histopathology,melanoma,1
+ISIC_6713497,extracted/images/ISIC_6713497.jpg,IP_0936356,IL_9603815,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6725236,extracted/images/ISIC_6725236.jpg,IP_9328831,IL_2380316,nevus,benign,,non_malignant,0
+ISIC_6725312,extracted/images/ISIC_6725312.jpg,IP_0903782,IL_1463061,melanoma,malignant,histopathology,melanoma,1
+ISIC_6727830,extracted/images/ISIC_6727830.jpg,IP_4968071,IL_1463789,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_6760120,extracted/images/ISIC_6760120.jpg,IP_1404370,IL_1517503,nevus,benign,,non_malignant,0
+ISIC_6772786,extracted/images/ISIC_6772786.jpg,IP_4349293,IL_3078445,nevus,benign,,non_malignant,0
+ISIC_6775574,extracted/images/ISIC_6775574.jpg,IP_5518588,IL_7568313,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6800389,extracted/images/ISIC_6800389.jpg,IP_8450638,IL_5892615,nevus,benign,,non_malignant,0
+ISIC_6800726,extracted/images/ISIC_6800726.jpg,IP_8947694,IL_4901291,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6803717,extracted/images/ISIC_6803717.jpg,IP_8474771,IL_7002600,nevus,benign,,non_malignant,0
+ISIC_6807550,extracted/images/ISIC_6807550.jpg,IP_3303370,IL_8312711,seborrheic keratosis,benign,,non_malignant,0
+ISIC_6813711,extracted/images/ISIC_6813711.jpg,IP_2306048,IL_9189667,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6824249,extracted/images/ISIC_6824249.jpg,IP_8369422,IL_2144167,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6828620,extracted/images/ISIC_6828620.jpg,IP_4968898,IL_7103148,nevus,benign,,non_malignant,0
+ISIC_6846478,extracted/images/ISIC_6846478.jpg,IP_7243858,IL_7046293,nevus,benign,,non_malignant,0
+ISIC_6858967,extracted/images/ISIC_6858967.jpg,IP_3875370,IL_2385137,nevus,benign,,non_malignant,0
+ISIC_6861284,extracted/images/ISIC_6861284.jpg,IP_5685461,IL_0455150,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6883883,extracted/images/ISIC_6883883.jpg,IP_9800473,IL_3984045,dermatofibroma,benign,,non_malignant,0
+ISIC_6885294,extracted/images/ISIC_6885294.jpg,IP_3373935,IL_1035603,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6885409,extracted/images/ISIC_6885409.jpg,IP_5919148,IL_1178666,nevus,benign,histopathology,non_malignant,0
+ISIC_6886000,extracted/images/ISIC_6886000.jpg,IP_0180297,IL_7871663,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6892280,extracted/images/ISIC_6892280.jpg,IP_1619354,IL_3459478,melanoma,malignant,histopathology,melanoma,1
+ISIC_6892725,extracted/images/ISIC_6892725.jpg,IP_4349293,IL_9636253,nevus,benign,,non_malignant,0
+ISIC_6901614,extracted/images/ISIC_6901614.jpg,IP_2650374,IL_6905874,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6906741,extracted/images/ISIC_6906741.jpg,IP_5002052,IL_1877268,nevus,benign,,non_malignant,0
+ISIC_6911134,extracted/images/ISIC_6911134.jpg,IP_3530264,IL_9851410,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6912369,extracted/images/ISIC_6912369.jpg,IP_0426105,IL_2266721,melanoma,malignant,histopathology,melanoma,1
+ISIC_6913414,extracted/images/ISIC_6913414.jpg,IP_7035571,IL_5412116,nevus,benign,,non_malignant,0
+ISIC_6926022,extracted/images/ISIC_6926022.jpg,IP_1751755,IL_4195290,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_6926667,extracted/images/ISIC_6926667.jpg,IP_7035571,IL_3679152,nevus,benign,,non_malignant,0
+ISIC_6970728,extracted/images/ISIC_6970728.jpg,IP_1043202,IL_2080328,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_6972176,extracted/images/ISIC_6972176.jpg,IP_7035571,IL_8626997,nevus,benign,,non_malignant,0
+ISIC_6988783,extracted/images/ISIC_6988783.jpg,IP_2640696,IL_0407879,nevus,benign,,non_malignant,0
+ISIC_6992479,extracted/images/ISIC_6992479.jpg,IP_7263570,IL_7873244,nevus,benign,,non_malignant,0
+ISIC_6994675,extracted/images/ISIC_6994675.jpg,IP_1100982,IL_4681551,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_6998964,extracted/images/ISIC_6998964.jpg,IP_5796068,IL_1928438,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7016647,extracted/images/ISIC_7016647.jpg,IP_9332216,IL_3365653,seborrheic keratosis,benign,,non_malignant,0
+ISIC_7022116,extracted/images/ISIC_7022116.jpg,IP_6793136,IL_4619760,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7022431,extracted/images/ISIC_7022431.jpg,IP_6851796,IL_3400082,nevus,benign,,non_malignant,0
+ISIC_7041400,extracted/images/ISIC_7041400.jpg,IP_8641208,IL_3012343,nevus,benign,histopathology,non_malignant,0
+ISIC_7049497,extracted/images/ISIC_7049497.jpg,IP_2504588,IL_4414647,nevus,benign,,non_malignant,0
+ISIC_7058279,extracted/images/ISIC_7058279.jpg,IP_8760962,IL_9421186,nevus,benign,,non_malignant,0
+ISIC_7058949,extracted/images/ISIC_7058949.jpg,IP_3682931,IL_9366956,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7076637,extracted/images/ISIC_7076637.jpg,IP_2363839,IL_9792863,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7078727,extracted/images/ISIC_7078727.jpg,IP_1684513,IL_5977140,nevus,benign,histopathology,non_malignant,0
+ISIC_7085235,extracted/images/ISIC_7085235.jpg,IP_0159171,IL_0461540,melanoma,malignant,histopathology,melanoma,1
+ISIC_7087262,extracted/images/ISIC_7087262.jpg,IP_1404370,IL_0748342,nevus,benign,,non_malignant,0
+ISIC_7087577,extracted/images/ISIC_7087577.jpg,IP_7938826,IL_5883415,nevus,benign,,non_malignant,0
+ISIC_7091639,extracted/images/ISIC_7091639.jpg,IP_0031063,IL_5806562,nevus,benign,,non_malignant,0
+ISIC_7105580,extracted/images/ISIC_7105580.jpg,IP_9189981,IL_3522149,nevus,benign,histopathology,non_malignant,0
+ISIC_7105988,extracted/images/ISIC_7105988.jpg,IP_9525378,IL_7767090,melanoma,malignant,histopathology,melanoma,1
+ISIC_7110015,extracted/images/ISIC_7110015.jpg,IP_1404370,IL_5532380,nevus,benign,,non_malignant,0
+ISIC_7130469,extracted/images/ISIC_7130469.jpg,IP_3303370,IL_7230205,nevus,benign,,non_malignant,0
+ISIC_7131837,extracted/images/ISIC_7131837.jpg,IP_9876233,IL_6316270,nevus,benign,,non_malignant,0
+ISIC_7150949,extracted/images/ISIC_7150949.jpg,IP_6035700,IL_7722505,nevus,benign,histopathology,non_malignant,0
+ISIC_7154868,extracted/images/ISIC_7154868.jpg,IP_4758258,IL_7408964,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7155576,extracted/images/ISIC_7155576.jpg,IP_4349293,IL_7476140,nevus,benign,,non_malignant,0
+ISIC_7161696,extracted/images/ISIC_7161696.jpg,IP_2640696,IL_9203137,nevus,benign,,non_malignant,0
+ISIC_7164903,extracted/images/ISIC_7164903.jpg,IP_9234838,IL_5664729,nevus,benign,histopathology,non_malignant,0
+ISIC_7188290,extracted/images/ISIC_7188290.jpg,IP_7035571,IL_4204922,nevus,benign,,non_malignant,0
+ISIC_7200286,extracted/images/ISIC_7200286.jpg,IP_7243858,IL_3655618,nevus,benign,,non_malignant,0
+ISIC_7215728,extracted/images/ISIC_7215728.jpg,IP_0276872,IL_2965116,vascular lesion,benign,,non_malignant,0
+ISIC_7217475,extracted/images/ISIC_7217475.jpg,IP_9876233,IL_6003270,nevus,benign,,non_malignant,0
+ISIC_7221222,extracted/images/ISIC_7221222.jpg,IP_8867554,IL_2686098,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7224952,extracted/images/ISIC_7224952.jpg,IP_4643758,IL_6861626,nevus,benign,histopathology,non_malignant,0
+ISIC_7239902,extracted/images/ISIC_7239902.jpg,IP_7014123,IL_2083533,melanoma,malignant,histopathology,melanoma,1
+ISIC_7242294,extracted/images/ISIC_7242294.jpg,IP_5485052,IL_4038060,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7249773,extracted/images/ISIC_7249773.jpg,IP_7035571,IL_2234731,nevus,benign,,non_malignant,0
+ISIC_7254040,extracted/images/ISIC_7254040.jpg,IP_3302800,IL_0176882,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7277200,extracted/images/ISIC_7277200.jpg,IP_7035571,IL_9837867,nevus,benign,,non_malignant,0
+ISIC_7298213,extracted/images/ISIC_7298213.jpg,IP_3612977,IL_9884616,dermatofibroma,benign,,non_malignant,0
+ISIC_7307028,extracted/images/ISIC_7307028.jpg,IP_0024882,IL_6818892,nevus,benign,,non_malignant,0
+ISIC_7314588,extracted/images/ISIC_7314588.jpg,IP_1404370,IL_7406599,nevus,benign,,non_malignant,0
+ISIC_7317801,extracted/images/ISIC_7317801.jpg,IP_9079253,IL_0247953,melanoma,malignant,histopathology,melanoma,1
+ISIC_7320676,extracted/images/ISIC_7320676.jpg,IP_7938826,IL_2337181,nevus,benign,,non_malignant,0
+ISIC_7330612,extracted/images/ISIC_7330612.jpg,IP_8641208,IL_5313594,nevus,benign,histopathology,non_malignant,0
+ISIC_7338502,extracted/images/ISIC_7338502.jpg,IP_7442897,IL_0060683,melanoma,malignant,histopathology,melanoma,1
+ISIC_7342310,extracted/images/ISIC_7342310.jpg,IP_4968898,IL_3597065,nevus,benign,,non_malignant,0
+ISIC_7346353,extracted/images/ISIC_7346353.jpg,IP_7436342,IL_6278941,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7346491,extracted/images/ISIC_7346491.jpg,IP_8542863,IL_2601737,melanoma,malignant,histopathology,melanoma,1
+ISIC_7346994,extracted/images/ISIC_7346994.jpg,IP_1773608,IL_0452159,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7350243,extracted/images/ISIC_7350243.jpg,IP_1404370,IL_4856569,nevus,benign,,non_malignant,0
+ISIC_7368264,extracted/images/ISIC_7368264.jpg,IP_6783333,IL_5520788,nevus,benign,histopathology,non_malignant,0
+ISIC_7373164,extracted/images/ISIC_7373164.jpg,IP_4805821,IL_2551859,melanoma,malignant,histopathology,melanoma,1
+ISIC_7376452,extracted/images/ISIC_7376452.jpg,IP_3423518,IL_6446523,melanoma,malignant,histopathology,melanoma,1
+ISIC_7378130,extracted/images/ISIC_7378130.jpg,IP_5805678,IL_3895273,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7380125,extracted/images/ISIC_7380125.jpg,IP_2495114,IL_9520027,dermatofibroma,benign,,non_malignant,0
+ISIC_7382954,extracted/images/ISIC_7382954.jpg,IP_3279811,IL_5856523,melanoma,malignant,histopathology,melanoma,1
+ISIC_7388524,extracted/images/ISIC_7388524.jpg,IP_5527482,IL_8887018,nevus,benign,histopathology,non_malignant,0
+ISIC_7392005,extracted/images/ISIC_7392005.jpg,IP_5809978,IL_5092355,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_7400800,extracted/images/ISIC_7400800.jpg,IP_4349293,IL_0097932,nevus,benign,,non_malignant,0
+ISIC_7410617,extracted/images/ISIC_7410617.jpg,IP_8208875,IL_6199400,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7421277,extracted/images/ISIC_7421277.jpg,IP_7046757,IL_5933160,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7439706,extracted/images/ISIC_7439706.jpg,IP_3739383,IL_4336943,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7444626,extracted/images/ISIC_7444626.jpg,IP_9565045,IL_0352449,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7465137,extracted/images/ISIC_7465137.jpg,IP_7362744,IL_6936924,melanoma,malignant,histopathology,melanoma,1
+ISIC_7465865,extracted/images/ISIC_7465865.jpg,IP_9998114,IL_7059987,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7474602,extracted/images/ISIC_7474602.jpg,IP_5828031,IL_0370820,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7481097,extracted/images/ISIC_7481097.jpg,IP_4253242,IL_1878538,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7485597,extracted/images/ISIC_7485597.jpg,IP_8857970,IL_8001964,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7492627,extracted/images/ISIC_7492627.jpg,IP_8123122,IL_0711234,nevus,benign,,non_malignant,0
+ISIC_7509056,extracted/images/ISIC_7509056.jpg,IP_3564884,IL_7311742,nevus,benign,,non_malignant,0
+ISIC_7518056,extracted/images/ISIC_7518056.jpg,IP_8450638,IL_3627796,nevus,benign,,non_malignant,0
+ISIC_7534765,extracted/images/ISIC_7534765.jpg,IP_3426045,IL_1917034,nevus,benign,histopathology,non_malignant,0
+ISIC_7541596,extracted/images/ISIC_7541596.jpg,IP_4805821,IL_2551859,melanoma,malignant,histopathology,melanoma,1
+ISIC_7547877,extracted/images/ISIC_7547877.jpg,IP_2118132,IL_8656384,nevus,benign,histopathology,non_malignant,0
+ISIC_7550648,extracted/images/ISIC_7550648.jpg,IP_0383433,IL_0822230,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7560813,extracted/images/ISIC_7560813.jpg,IP_7872950,IL_7949381,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7577697,extracted/images/ISIC_7577697.jpg,IP_3746855,IL_3068593,nevus,benign,,non_malignant,0
+ISIC_7586374,extracted/images/ISIC_7586374.jpg,IP_6783950,IL_3648459,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7586913,extracted/images/ISIC_7586913.jpg,IP_5002052,IL_0514683,nevus,benign,,non_malignant,0
+ISIC_7595330,extracted/images/ISIC_7595330.jpg,IP_2504588,IL_3215398,nevus,benign,,non_malignant,0
+ISIC_7597095,extracted/images/ISIC_7597095.jpg,IP_5398777,IL_2025836,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7599710,extracted/images/ISIC_7599710.jpg,IP_0709746,IL_0288201,melanoma,malignant,histopathology,melanoma,1
+ISIC_7602580,extracted/images/ISIC_7602580.jpg,IP_8961406,IL_5891398,nevus,benign,,non_malignant,0
+ISIC_7629750,extracted/images/ISIC_7629750.jpg,IP_2318326,IL_3251055,nevus,benign,,non_malignant,0
+ISIC_7648065,extracted/images/ISIC_7648065.jpg,IP_2504588,IL_2582243,nevus,benign,,non_malignant,0
+ISIC_7653833,extracted/images/ISIC_7653833.jpg,IP_0412162,IL_6538837,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7656000,extracted/images/ISIC_7656000.jpg,IP_5251892,IL_5475527,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7657199,extracted/images/ISIC_7657199.jpg,IP_8474771,IL_6814274,nevus,benign,,non_malignant,0
+ISIC_7660163,extracted/images/ISIC_7660163.jpg,IP_3322141,IL_4507074,melanoma,malignant,histopathology,melanoma,1
+ISIC_7663270,extracted/images/ISIC_7663270.jpg,IP_6566825,IL_6032807,nevus,benign,histopathology,non_malignant,0
+ISIC_7666432,extracted/images/ISIC_7666432.jpg,IP_7056884,IL_3394383,melanoma,malignant,histopathology,melanoma,1
+ISIC_7683106,extracted/images/ISIC_7683106.jpg,IP_6588465,IL_8406844,melanoma,malignant,histopathology,melanoma,1
+ISIC_7697103,extracted/images/ISIC_7697103.jpg,IP_2754431,IL_4437201,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7698231,extracted/images/ISIC_7698231.jpg,IP_7243858,IL_3659443,nevus,benign,,non_malignant,0
+ISIC_7708200,extracted/images/ISIC_7708200.jpg,IP_3423518,IL_6446523,melanoma,malignant,histopathology,melanoma,1
+ISIC_7709870,extracted/images/ISIC_7709870.jpg,IP_5828031,IL_0941887,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7711976,extracted/images/ISIC_7711976.jpg,IP_8450638,IL_4707174,nevus,benign,,non_malignant,0
+ISIC_7716885,extracted/images/ISIC_7716885.jpg,IP_1354259,IL_5608518,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7737773,extracted/images/ISIC_7737773.jpg,IP_7304770,IL_4798233,nevus,benign,histopathology,non_malignant,0
+ISIC_7738029,extracted/images/ISIC_7738029.jpg,IP_2132492,IL_8292848,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7739038,extracted/images/ISIC_7739038.jpg,IP_5398777,IL_2025836,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7739392,extracted/images/ISIC_7739392.jpg,IP_6381524,IL_1937691,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7740693,extracted/images/ISIC_7740693.jpg,IP_4968898,IL_6481002,nevus,benign,,non_malignant,0
+ISIC_7747824,extracted/images/ISIC_7747824.jpg,IP_9328831,IL_9327085,solar lentigo,benign,,non_malignant,0
+ISIC_7752332,extracted/images/ISIC_7752332.jpg,IP_5112313,IL_5299187,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7753429,extracted/images/ISIC_7753429.jpg,IP_0214540,IL_9548275,nevus,benign,histopathology,non_malignant,0
+ISIC_7758839,extracted/images/ISIC_7758839.jpg,IP_1390183,IL_6482607,nevus,benign,histopathology,non_malignant,0
+ISIC_7770086,extracted/images/ISIC_7770086.jpg,IP_0276872,IL_9809892,nevus,benign,,non_malignant,0
+ISIC_7771190,extracted/images/ISIC_7771190.jpg,IP_2356300,IL_5240289,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7802948,extracted/images/ISIC_7802948.jpg,IP_4906546,IL_5757144,nevus,benign,histopathology,non_malignant,0
+ISIC_7817418,extracted/images/ISIC_7817418.jpg,IP_7035571,IL_2177414,nevus,benign,,non_malignant,0
+ISIC_7824315,extracted/images/ISIC_7824315.jpg,IP_1081239,IL_4069815,melanoma,malignant,histopathology,melanoma,1
+ISIC_7831385,extracted/images/ISIC_7831385.jpg,IP_7035571,IL_8011325,nevus,benign,,non_malignant,0
+ISIC_7835312,extracted/images/ISIC_7835312.jpg,IP_2440667,IL_6968885,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7836709,extracted/images/ISIC_7836709.jpg,IP_3928555,IL_2469593,nevus,benign,,non_malignant,0
+ISIC_7838914,extracted/images/ISIC_7838914.jpg,IP_2179904,IL_7619293,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7854366,extracted/images/ISIC_7854366.jpg,IP_4260877,IL_3529997,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_7866161,extracted/images/ISIC_7866161.jpg,IP_6179768,IL_4460987,nevus,benign,,non_malignant,0
+ISIC_7874486,extracted/images/ISIC_7874486.jpg,IP_4577038,IL_9261445,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7894542,extracted/images/ISIC_7894542.jpg,IP_0214625,IL_0391815,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7899998,extracted/images/ISIC_7899998.jpg,IP_6184736,IL_5447318,vascular lesion,benign,,non_malignant,0
+ISIC_7903404,extracted/images/ISIC_7903404.jpg,IP_9565045,IL_9133248,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7903695,extracted/images/ISIC_7903695.jpg,IP_5664551,IL_9701157,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_7908490,extracted/images/ISIC_7908490.jpg,IP_7035571,IL_7949489,nevus,benign,,non_malignant,0
+ISIC_7908827,extracted/images/ISIC_7908827.jpg,IP_0290734,IL_4489985,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7910779,extracted/images/ISIC_7910779.jpg,IP_5049519,IL_5400065,nevus,benign,histopathology,non_malignant,0
+ISIC_7924913,extracted/images/ISIC_7924913.jpg,IP_7432169,IL_2921619,melanoma,malignant,histopathology,melanoma,1
+ISIC_7931985,extracted/images/ISIC_7931985.jpg,IP_4704077,IL_8807627,melanoma,malignant,histopathology,melanoma,1
+ISIC_7934367,extracted/images/ISIC_7934367.jpg,IP_7923120,IL_9840135,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7936019,extracted/images/ISIC_7936019.jpg,IP_2650374,IL_2553823,melanoma,malignant,histopathology,melanoma,1
+ISIC_7952844,extracted/images/ISIC_7952844.jpg,IP_1589808,IL_3023782,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_7952870,extracted/images/ISIC_7952870.jpg,IP_5919148,IL_2794261,melanoma,malignant,histopathology,melanoma,1
+ISIC_7982985,extracted/images/ISIC_7982985.jpg,IP_2650374,IL_5885260,melanoma,malignant,histopathology,melanoma,1
+ISIC_7993345,extracted/images/ISIC_7993345.jpg,IP_4291496,IL_2912868,melanoma,malignant,histopathology,melanoma,1
+ISIC_7993515,extracted/images/ISIC_7993515.jpg,IP_6831352,IL_8123853,nevus,benign,histopathology,non_malignant,0
+ISIC_8007904,extracted/images/ISIC_8007904.jpg,IP_5722309,IL_9271518,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8021816,extracted/images/ISIC_8021816.jpg,IP_6251525,IL_6821221,melanoma,malignant,histopathology,melanoma,1
+ISIC_8030233,extracted/images/ISIC_8030233.jpg,IP_4817230,IL_8671426,nevus,benign,,non_malignant,0
+ISIC_8031206,extracted/images/ISIC_8031206.jpg,IP_3235334,IL_9652094,nevus,benign,histopathology,non_malignant,0
+ISIC_8032536,extracted/images/ISIC_8032536.jpg,IP_8450638,IL_4673359,nevus,benign,,non_malignant,0
+ISIC_8035370,extracted/images/ISIC_8035370.jpg,IP_7923120,IL_1427673,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8054866,extracted/images/ISIC_8054866.jpg,IP_9328831,IL_0435529,nevus,benign,,non_malignant,0
+ISIC_8056469,extracted/images/ISIC_8056469.jpg,IP_9018935,IL_0036649,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8057521,extracted/images/ISIC_8057521.jpg,IP_1512479,IL_1460166,nevus,benign,histopathology,non_malignant,0
+ISIC_8073246,extracted/images/ISIC_8073246.jpg,IP_3875370,IL_0969802,nevus,benign,,non_malignant,0
+ISIC_8074199,extracted/images/ISIC_8074199.jpg,IP_2650374,IL_2553823,melanoma,malignant,histopathology,melanoma,1
+ISIC_8077139,extracted/images/ISIC_8077139.jpg,IP_1785797,IL_7051641,melanoma,malignant,histopathology,melanoma,1
+ISIC_8081874,extracted/images/ISIC_8081874.jpg,IP_3875370,IL_4452698,nevus,benign,,non_malignant,0
+ISIC_8086106,extracted/images/ISIC_8086106.jpg,IP_9328831,IL_7187554,nevus,benign,,non_malignant,0
+ISIC_8087078,extracted/images/ISIC_8087078.jpg,IP_2504588,IL_6063470,nevus,benign,,non_malignant,0
+ISIC_8089258,extracted/images/ISIC_8089258.jpg,IP_2504588,IL_6242850,nevus,benign,,non_malignant,0
+ISIC_8092226,extracted/images/ISIC_8092226.jpg,IP_9973647,IL_7070145,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_8097683,extracted/images/ISIC_8097683.jpg,IP_1319015,IL_8628562,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8102884,extracted/images/ISIC_8102884.jpg,IP_2079372,IL_9587318,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8113304,extracted/images/ISIC_8113304.jpg,IP_8450638,IL_2779948,nevus,benign,,non_malignant,0
+ISIC_8133882,extracted/images/ISIC_8133882.jpg,IP_0248765,IL_7474548,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8150058,extracted/images/ISIC_8150058.jpg,IP_6728907,IL_5313721,nevus,benign,histopathology,non_malignant,0
+ISIC_8157239,extracted/images/ISIC_8157239.jpg,IP_6555777,IL_1486711,melanoma,malignant,histopathology,melanoma,1
+ISIC_8160405,extracted/images/ISIC_8160405.jpg,IP_5756413,IL_0835543,nevus,benign,histopathology,non_malignant,0
+ISIC_8172964,extracted/images/ISIC_8172964.jpg,IP_0076707,IL_3938806,melanoma,malignant,histopathology,melanoma,1
+ISIC_8194745,extracted/images/ISIC_8194745.jpg,IP_7765996,IL_0102345,nevus,benign,histopathology,non_malignant,0
+ISIC_8201369,extracted/images/ISIC_8201369.jpg,IP_9355646,IL_7240638,nevus,benign,histopathology,non_malignant,0
+ISIC_8220302,extracted/images/ISIC_8220302.jpg,IP_1219162,IL_7952985,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_8224838,extracted/images/ISIC_8224838.jpg,IP_6093731,IL_0652737,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8229257,extracted/images/ISIC_8229257.jpg,IP_9096125,IL_9356702,nevus,benign,histopathology,non_malignant,0
+ISIC_8232332,extracted/images/ISIC_8232332.jpg,IP_3746855,IL_8381900,nevus,benign,,non_malignant,0
+ISIC_8233814,extracted/images/ISIC_8233814.jpg,IP_3928555,IL_4195929,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8234208,extracted/images/ISIC_8234208.jpg,IP_3746855,IL_8618140,nevus,benign,,non_malignant,0
+ISIC_8244796,extracted/images/ISIC_8244796.jpg,IP_7035571,IL_5145025,nevus,benign,,non_malignant,0
+ISIC_8251625,extracted/images/ISIC_8251625.jpg,IP_5291194,IL_7943617,nevus,benign,,non_malignant,0
+ISIC_8253210,extracted/images/ISIC_8253210.jpg,IP_9328831,IL_8578128,nevus,benign,,non_malignant,0
+ISIC_8260443,extracted/images/ISIC_8260443.jpg,IP_0778689,IL_3928264,seborrheic keratosis,benign,,non_malignant,0
+ISIC_8266547,extracted/images/ISIC_8266547.jpg,IP_8474771,IL_7133604,nevus,benign,,non_malignant,0
+ISIC_8272399,extracted/images/ISIC_8272399.jpg,IP_3451310,IL_9362413,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_8277825,extracted/images/ISIC_8277825.jpg,IP_2074301,IL_5983850,melanoma,malignant,histopathology,melanoma,1
+ISIC_8311079,extracted/images/ISIC_8311079.jpg,IP_7938826,IL_1000328,nevus,benign,,non_malignant,0
+ISIC_8319588,extracted/images/ISIC_8319588.jpg,IP_9140462,IL_7365600,nevus,benign,histopathology,non_malignant,0
+ISIC_8320375,extracted/images/ISIC_8320375.jpg,IP_2504588,IL_1782925,nevus,benign,,non_malignant,0
+ISIC_8327495,extracted/images/ISIC_8327495.jpg,IP_5722309,IL_2046229,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_8331251,extracted/images/ISIC_8331251.jpg,IP_4349293,IL_6673466,nevus,benign,,non_malignant,0
+ISIC_8346315,extracted/images/ISIC_8346315.jpg,IP_5002052,IL_9587540,nevus,benign,,non_malignant,0
+ISIC_8348187,extracted/images/ISIC_8348187.jpg,IP_3356357,IL_2174880,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8349136,extracted/images/ISIC_8349136.jpg,IP_3564884,IL_9150472,nevus,benign,histopathology,non_malignant,0
+ISIC_8362562,extracted/images/ISIC_8362562.jpg,IP_2504588,IL_9560939,nevus,benign,,non_malignant,0
+ISIC_8384844,extracted/images/ISIC_8384844.jpg,IP_3388406,IL_4874075,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8386678,extracted/images/ISIC_8386678.jpg,IP_3302800,IL_0176882,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_8400587,extracted/images/ISIC_8400587.jpg,IP_4032231,IL_0398849,melanoma,malignant,histopathology,melanoma,1
+ISIC_8408331,extracted/images/ISIC_8408331.jpg,IP_2118132,IL_1454921,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8412921,extracted/images/ISIC_8412921.jpg,IP_2738763,IL_8887437,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8413624,extracted/images/ISIC_8413624.jpg,IP_0232163,IL_1954016,nevus,benign,,non_malignant,0
+ISIC_8453583,extracted/images/ISIC_8453583.jpg,IP_0645386,IL_3871707,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8470466,extracted/images/ISIC_8470466.jpg,IP_0123674,IL_7079473,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_8473293,extracted/images/ISIC_8473293.jpg,IP_9648606,IL_3064026,melanoma,malignant,histopathology,melanoma,1
+ISIC_8479513,extracted/images/ISIC_8479513.jpg,IP_8450638,IL_0754213,nevus,benign,,non_malignant,0
+ISIC_8519085,extracted/images/ISIC_8519085.jpg,IP_7884622,IL_7436943,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8521370,extracted/images/ISIC_8521370.jpg,IP_8694186,IL_1035115,vascular lesion,benign,,non_malignant,0
+ISIC_8540289,extracted/images/ISIC_8540289.jpg,IP_5091395,IL_0219895,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8544975,extracted/images/ISIC_8544975.jpg,IP_3852191,IL_4023041,nevus,benign,histopathology,non_malignant,0
+ISIC_8554946,extracted/images/ISIC_8554946.jpg,IP_2504588,IL_3790742,nevus,benign,,non_malignant,0
+ISIC_8559763,extracted/images/ISIC_8559763.jpg,IP_7550129,IL_0533405,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8565066,extracted/images/ISIC_8565066.jpg,IP_7035571,IL_0214462,nevus,benign,,non_malignant,0
+ISIC_8577193,extracted/images/ISIC_8577193.jpg,IP_4097598,IL_5705728,nevus,benign,histopathology,non_malignant,0
+ISIC_8610200,extracted/images/ISIC_8610200.jpg,IP_2640696,IL_4713558,nevus,benign,,non_malignant,0
+ISIC_8614007,extracted/images/ISIC_8614007.jpg,IP_8450638,IL_5713873,nevus,benign,,non_malignant,0
+ISIC_8614156,extracted/images/ISIC_8614156.jpg,IP_2385814,IL_9185684,nevus,benign,histopathology,non_malignant,0
+ISIC_8614870,extracted/images/ISIC_8614870.jpg,IP_9966565,IL_9925958,nevus,benign,histopathology,non_malignant,0
+ISIC_8617778,extracted/images/ISIC_8617778.jpg,IP_2504588,IL_0600074,nevus,benign,,non_malignant,0
+ISIC_8617795,extracted/images/ISIC_8617795.jpg,IP_9966565,IL_5361546,nevus,benign,,non_malignant,0
+ISIC_8647229,extracted/images/ISIC_8647229.jpg,IP_1638675,IL_9587219,dermatofibroma,benign,,non_malignant,0
+ISIC_8653165,extracted/images/ISIC_8653165.jpg,IP_9328831,IL_3891700,nevus,benign,,non_malignant,0
+ISIC_8671596,extracted/images/ISIC_8671596.jpg,IP_2559304,IL_6768931,melanoma,malignant,histopathology,melanoma,1
+ISIC_8673390,extracted/images/ISIC_8673390.jpg,IP_0207220,IL_0032035,nevus,benign,histopathology,non_malignant,0
+ISIC_8678583,extracted/images/ISIC_8678583.jpg,IP_8549992,IL_8085303,melanoma,malignant,histopathology,melanoma,1
+ISIC_8687441,extracted/images/ISIC_8687441.jpg,IP_5352106,IL_6634733,melanoma,malignant,histopathology,melanoma,1
+ISIC_8693729,extracted/images/ISIC_8693729.jpg,IP_8326549,IL_6429649,nevus,benign,,non_malignant,0
+ISIC_8694134,extracted/images/ISIC_8694134.jpg,IP_6463258,IL_9727429,nevus,benign,histopathology,non_malignant,0
+ISIC_8706734,extracted/images/ISIC_8706734.jpg,IP_9531637,IL_3257339,nevus,benign,histopathology,non_malignant,0
+ISIC_8728477,extracted/images/ISIC_8728477.jpg,IP_3150219,IL_0520999,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8735220,extracted/images/ISIC_8735220.jpg,IP_2504588,IL_2837651,nevus,benign,,non_malignant,0
+ISIC_8749951,extracted/images/ISIC_8749951.jpg,IP_4349293,IL_5176081,nevus,benign,,non_malignant,0
+ISIC_8750784,extracted/images/ISIC_8750784.jpg,IP_7966589,IL_6585280,melanoma,malignant,histopathology,melanoma,1
+ISIC_8760682,extracted/images/ISIC_8760682.jpg,IP_0311962,IL_0812366,nevus,benign,histopathology,non_malignant,0
+ISIC_8772836,extracted/images/ISIC_8772836.jpg,IP_0214625,IL_7570397,nevus,benign,,non_malignant,0
+ISIC_8774580,extracted/images/ISIC_8774580.jpg,IP_9876233,IL_3761230,nevus,benign,,non_malignant,0
+ISIC_8786983,extracted/images/ISIC_8786983.jpg,IP_5804995,IL_6841868,melanoma,malignant,histopathology,melanoma,1
+ISIC_8788296,extracted/images/ISIC_8788296.jpg,IP_4836760,IL_7230509,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8792684,extracted/images/ISIC_8792684.jpg,IP_9277025,IL_3049104,melanoma,malignant,histopathology,melanoma,1
+ISIC_8798068,extracted/images/ISIC_8798068.jpg,IP_8961406,IL_0966829,nevus,benign,,non_malignant,0
+ISIC_8799134,extracted/images/ISIC_8799134.jpg,IP_4869081,IL_7155605,nevus,benign,histopathology,non_malignant,0
+ISIC_8801293,extracted/images/ISIC_8801293.jpg,IP_7035571,IL_8636254,nevus,benign,,non_malignant,0
+ISIC_8802195,extracted/images/ISIC_8802195.jpg,IP_4473222,IL_6361168,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8810984,extracted/images/ISIC_8810984.jpg,IP_9189981,IL_2628887,nevus,benign,histopathology,non_malignant,0
+ISIC_8829983,extracted/images/ISIC_8829983.jpg,IP_1384522,IL_5142318,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_8837942,extracted/images/ISIC_8837942.jpg,IP_5291194,IL_1035125,nevus,benign,,non_malignant,0
+ISIC_8837985,extracted/images/ISIC_8837985.jpg,IP_8450638,IL_4322116,nevus,benign,,non_malignant,0
+ISIC_8841053,extracted/images/ISIC_8841053.jpg,IP_4595006,IL_3206008,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_8842827,extracted/images/ISIC_8842827.jpg,IP_1404370,IL_6705568,nevus,benign,,non_malignant,0
+ISIC_8843280,extracted/images/ISIC_8843280.jpg,IP_4968898,IL_4211784,nevus,benign,,non_malignant,0
+ISIC_8851514,extracted/images/ISIC_8851514.jpg,IP_8216345,IL_2423851,melanoma,malignant,histopathology,melanoma,1
+ISIC_8852229,extracted/images/ISIC_8852229.jpg,IP_0232163,IL_2917009,nevus,benign,histopathology,non_malignant,0
+ISIC_8877777,extracted/images/ISIC_8877777.jpg,IP_4064247,IL_2019555,nevus,benign,,non_malignant,0
+ISIC_8880006,extracted/images/ISIC_8880006.jpg,IP_5091395,IL_2090686,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8883101,extracted/images/ISIC_8883101.jpg,IP_4451052,IL_8228479,nevus,benign,histopathology,non_malignant,0
+ISIC_8894889,extracted/images/ISIC_8894889.jpg,IP_1371309,IL_7294588,dermatofibroma,benign,,non_malignant,0
+ISIC_8902296,extracted/images/ISIC_8902296.jpg,IP_0311962,IL_4520698,melanoma,malignant,histopathology,melanoma,1
+ISIC_8902611,extracted/images/ISIC_8902611.jpg,IP_6937340,IL_2946051,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_8906116,extracted/images/ISIC_8906116.jpg,IP_9621492,IL_9784934,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8917750,extracted/images/ISIC_8917750.jpg,IP_9710310,IL_4939505,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_8925463,extracted/images/ISIC_8925463.jpg,IP_6347933,IL_6866730,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8927080,extracted/images/ISIC_8927080.jpg,IP_6102993,IL_1977299,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8941935,extracted/images/ISIC_8941935.jpg,IP_2538639,IL_2727524,vascular lesion,benign,,non_malignant,0
+ISIC_8943077,extracted/images/ISIC_8943077.jpg,IP_2504588,IL_0106119,nevus,benign,,non_malignant,0
+ISIC_8954688,extracted/images/ISIC_8954688.jpg,IP_8546360,IL_4892242,nevus,benign,histopathology,non_malignant,0
+ISIC_8954845,extracted/images/ISIC_8954845.jpg,IP_8474771,IL_8372358,nevus,benign,,non_malignant,0
+ISIC_8969274,extracted/images/ISIC_8969274.jpg,IP_5924646,IL_1524376,melanoma,malignant,histopathology,melanoma,1
+ISIC_8986575,extracted/images/ISIC_8986575.jpg,IP_1319015,IL_6022331,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_8987984,extracted/images/ISIC_8987984.jpg,IP_0682714,IL_3798662,melanoma,malignant,histopathology,melanoma,1
+ISIC_8989457,extracted/images/ISIC_8989457.jpg,IP_8474771,IL_5660874,nevus,benign,,non_malignant,0
+ISIC_8995601,extracted/images/ISIC_8995601.jpg,IP_8411585,IL_7047330,nevus,benign,histopathology,non_malignant,0
+ISIC_8998096,extracted/images/ISIC_8998096.jpg,IP_2738413,IL_2973966,nevus,benign,,non_malignant,0
+ISIC_9003833,extracted/images/ISIC_9003833.jpg,IP_1684513,IL_5868402,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9010344,extracted/images/ISIC_9010344.jpg,IP_6558273,IL_9330933,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9021203,extracted/images/ISIC_9021203.jpg,IP_0076707,IL_7391525,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9026520,extracted/images/ISIC_9026520.jpg,IP_7034777,IL_0787677,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_9058406,extracted/images/ISIC_9058406.jpg,IP_8450638,IL_0847224,nevus,benign,,non_malignant,0
+ISIC_9071060,extracted/images/ISIC_9071060.jpg,IP_6483049,IL_7750730,nevus,benign,histopathology,non_malignant,0
+ISIC_9074861,extracted/images/ISIC_9074861.jpg,IP_4079884,IL_3176026,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9078177,extracted/images/ISIC_9078177.jpg,IP_3342129,IL_3383993,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9083409,extracted/images/ISIC_9083409.jpg,IP_7035571,IL_0202677,nevus,benign,,non_malignant,0
+ISIC_9089005,extracted/images/ISIC_9089005.jpg,IP_9328831,IL_7629973,nevus,benign,,non_malignant,0
+ISIC_9104374,extracted/images/ISIC_9104374.jpg,IP_2118132,IL_0879434,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9105532,extracted/images/ISIC_9105532.jpg,IP_2504588,IL_0374505,nevus,benign,,non_malignant,0
+ISIC_9110427,extracted/images/ISIC_9110427.jpg,IP_7243858,IL_9572790,nevus,benign,,non_malignant,0
+ISIC_9116328,extracted/images/ISIC_9116328.jpg,IP_7614546,IL_8581865,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_9116556,extracted/images/ISIC_9116556.jpg,IP_2304858,IL_1123157,dermatofibroma,benign,,non_malignant,0
+ISIC_9120796,extracted/images/ISIC_9120796.jpg,IP_9696499,IL_1699781,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9134293,extracted/images/ISIC_9134293.jpg,IP_7035571,IL_3584743,nevus,benign,,non_malignant,0
+ISIC_9138658,extracted/images/ISIC_9138658.jpg,IP_5828031,IL_0370820,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9144329,extracted/images/ISIC_9144329.jpg,IP_7144815,IL_8556564,melanoma,malignant,histopathology,melanoma,1
+ISIC_9149374,extracted/images/ISIC_9149374.jpg,IP_0214625,IL_6610222,nevus,benign,,non_malignant,0
+ISIC_9162639,extracted/images/ISIC_9162639.jpg,IP_2640696,IL_6666746,nevus,benign,,non_malignant,0
+ISIC_9163137,extracted/images/ISIC_9163137.jpg,IP_3851887,IL_3679921,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9178395,extracted/images/ISIC_9178395.jpg,IP_8292097,IL_0955363,melanoma,malignant,histopathology,melanoma,1
+ISIC_9187217,extracted/images/ISIC_9187217.jpg,IP_3225258,IL_4146389,nevus,benign,histopathology,non_malignant,0
+ISIC_9187524,extracted/images/ISIC_9187524.jpg,IP_7304770,IL_5132774,melanoma,malignant,histopathology,melanoma,1
+ISIC_9188672,extracted/images/ISIC_9188672.jpg,IP_3672872,IL_8394236,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_9192498,extracted/images/ISIC_9192498.jpg,IP_7243858,IL_3537150,nevus,benign,,non_malignant,0
+ISIC_9200533,extracted/images/ISIC_9200533.jpg,IP_6579706,IL_8168888,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9211210,extracted/images/ISIC_9211210.jpg,IP_8382257,IL_4890198,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9214111,extracted/images/ISIC_9214111.jpg,IP_4573488,IL_3293475,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9229628,extracted/images/ISIC_9229628.jpg,IP_2681150,IL_5384200,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9235932,extracted/images/ISIC_9235932.jpg,IP_1404370,IL_1048304,nevus,benign,,non_malignant,0
+ISIC_9239505,extracted/images/ISIC_9239505.jpg,IP_7705323,IL_1751294,nevus,benign,,non_malignant,0
+ISIC_9248617,extracted/images/ISIC_9248617.jpg,IP_6558273,IL_1309007,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_9250149,extracted/images/ISIC_9250149.jpg,IP_9328831,IL_8063701,nevus,benign,,non_malignant,0
+ISIC_9275875,extracted/images/ISIC_9275875.jpg,IP_7736597,IL_7452668,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9276265,extracted/images/ISIC_9276265.jpg,IP_0031038,IL_0421499,nevus,benign,histopathology,non_malignant,0
+ISIC_9280667,extracted/images/ISIC_9280667.jpg,IP_2333985,IL_4427884,nevus,benign,histopathology,non_malignant,0
+ISIC_9289401,extracted/images/ISIC_9289401.jpg,IP_2728527,IL_4640383,nevus,benign,,non_malignant,0
+ISIC_9292767,extracted/images/ISIC_9292767.jpg,IP_1404370,IL_0066556,nevus,benign,,non_malignant,0
+ISIC_9307961,extracted/images/ISIC_9307961.jpg,IP_8075842,IL_8070081,vascular lesion,benign,,non_malignant,0
+ISIC_9309046,extracted/images/ISIC_9309046.jpg,IP_5291194,IL_4020580,nevus,benign,,non_malignant,0
+ISIC_9309212,extracted/images/ISIC_9309212.jpg,IP_9046195,IL_3094443,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9314356,extracted/images/ISIC_9314356.jpg,IP_4473222,IL_5870994,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9333062,extracted/images/ISIC_9333062.jpg,IP_6809738,IL_8899158,nevus,benign,histopathology,non_malignant,0
+ISIC_9337100,extracted/images/ISIC_9337100.jpg,IP_0905638,IL_3871197,melanoma,malignant,histopathology,melanoma,1
+ISIC_9349247,extracted/images/ISIC_9349247.jpg,IP_4058211,IL_2250085,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_9351344,extracted/images/ISIC_9351344.jpg,IP_8779056,IL_0786376,dermatofibroma,benign,histopathology,non_malignant,0
+ISIC_9353595,extracted/images/ISIC_9353595.jpg,IP_0031063,IL_9299492,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9356985,extracted/images/ISIC_9356985.jpg,IP_6762758,IL_0925069,nevus,benign,,non_malignant,0
+ISIC_9397749,extracted/images/ISIC_9397749.jpg,IP_7263570,IL_4678969,nevus,benign,,non_malignant,0
+ISIC_9416204,extracted/images/ISIC_9416204.jpg,IP_8641208,IL_9241217,nevus,benign,histopathology,non_malignant,0
+ISIC_9417047,extracted/images/ISIC_9417047.jpg,IP_6347933,IL_4267487,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9417725,extracted/images/ISIC_9417725.jpg,IP_6089636,IL_0998127,seborrheic keratosis,benign,,non_malignant,0
+ISIC_9418190,extracted/images/ISIC_9418190.jpg,IP_4064247,IL_3920732,nevus,benign,,non_malignant,0
+ISIC_9420341,extracted/images/ISIC_9420341.jpg,IP_2919597,IL_3668756,nevus,benign,histopathology,non_malignant,0
+ISIC_9444427,extracted/images/ISIC_9444427.jpg,IP_7513820,IL_2668525,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9445352,extracted/images/ISIC_9445352.jpg,IP_3426045,IL_2315848,nevus,benign,histopathology,non_malignant,0
+ISIC_9464094,extracted/images/ISIC_9464094.jpg,IP_5701997,IL_2606689,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9465155,extracted/images/ISIC_9465155.jpg,IP_4259365,IL_7245628,melanoma,malignant,histopathology,melanoma,1
+ISIC_9476229,extracted/images/ISIC_9476229.jpg,IP_7800510,IL_4771776,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9486550,extracted/images/ISIC_9486550.jpg,IP_4216830,IL_4512262,melanoma,malignant,histopathology,melanoma,1
+ISIC_9495622,extracted/images/ISIC_9495622.jpg,IP_1619354,IL_3459478,melanoma,malignant,histopathology,melanoma,1
+ISIC_9500805,extracted/images/ISIC_9500805.jpg,IP_7035571,IL_2068103,nevus,benign,,non_malignant,0
+ISIC_9532969,extracted/images/ISIC_9532969.jpg,IP_9531637,IL_8532385,nevus,benign,histopathology,non_malignant,0
+ISIC_9542893,extracted/images/ISIC_9542893.jpg,IP_9328831,IL_8283457,nevus,benign,,non_malignant,0
+ISIC_9569426,extracted/images/ISIC_9569426.jpg,IP_0311962,IL_8841301,melanoma,malignant,histopathology,melanoma,1
+ISIC_9573206,extracted/images/ISIC_9573206.jpg,IP_9355646,IL_7552896,nevus,benign,histopathology,non_malignant,0
+ISIC_9576566,extracted/images/ISIC_9576566.jpg,IP_7035571,IL_5402496,nevus,benign,,non_malignant,0
+ISIC_9579068,extracted/images/ISIC_9579068.jpg,IP_8408163,IL_8916823,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9585033,extracted/images/ISIC_9585033.jpg,IP_1120258,IL_1155011,melanoma,malignant,histopathology,melanoma,1
+ISIC_9590599,extracted/images/ISIC_9590599.jpg,IP_7035571,IL_6087806,nevus,benign,,non_malignant,0
+ISIC_9600955,extracted/images/ISIC_9600955.jpg,IP_6851796,IL_8866439,nevus,benign,,non_malignant,0
+ISIC_9605390,extracted/images/ISIC_9605390.jpg,IP_4419089,IL_7690459,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9611196,extracted/images/ISIC_9611196.jpg,IP_1414430,IL_2659423,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9626660,extracted/images/ISIC_9626660.jpg,IP_0214625,IL_0391815,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9641773,extracted/images/ISIC_9641773.jpg,IP_5291194,IL_5407326,nevus,benign,,non_malignant,0
+ISIC_9663992,extracted/images/ISIC_9663992.jpg,IP_5213199,IL_2266035,nevus,benign,histopathology,non_malignant,0
+ISIC_9669158,extracted/images/ISIC_9669158.jpg,IP_0679532,IL_9313691,melanoma,malignant,histopathology,melanoma,1
+ISIC_9672493,extracted/images/ISIC_9672493.jpg,IP_7243858,IL_7100298,nevus,benign,,non_malignant,0
+ISIC_9677008,extracted/images/ISIC_9677008.jpg,IP_5493434,IL_3556705,melanoma,malignant,histopathology,melanoma,1
+ISIC_9678073,extracted/images/ISIC_9678073.jpg,IP_7040685,IL_0856931,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_9680465,extracted/images/ISIC_9680465.jpg,IP_7035571,IL_7912899,nevus,benign,,non_malignant,0
+ISIC_9681659,extracted/images/ISIC_9681659.jpg,IP_7243858,IL_4862343,nevus,benign,,non_malignant,0
+ISIC_9698115,extracted/images/ISIC_9698115.jpg,IP_6720662,IL_3584418,melanoma,malignant,histopathology,melanoma,1
+ISIC_9700037,extracted/images/ISIC_9700037.jpg,IP_2899400,IL_8660999,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9704179,extracted/images/ISIC_9704179.jpg,IP_8785134,IL_9624120,seborrheic keratosis,benign,,non_malignant,0
+ISIC_9704734,extracted/images/ISIC_9704734.jpg,IP_4968898,IL_3262935,nevus,benign,,non_malignant,0
+ISIC_9706840,extracted/images/ISIC_9706840.jpg,IP_8369422,IL_2144167,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9712239,extracted/images/ISIC_9712239.jpg,IP_2738413,IL_3183000,nevus,benign,,non_malignant,0
+ISIC_9721167,extracted/images/ISIC_9721167.jpg,IP_0601118,IL_7247003,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9729122,extracted/images/ISIC_9729122.jpg,IP_9642873,IL_2205959,nevus,benign,,non_malignant,0
+ISIC_9729425,extracted/images/ISIC_9729425.jpg,IP_8107767,IL_0051948,vascular lesion,benign,,non_malignant,0
+ISIC_9743746,extracted/images/ISIC_9743746.jpg,IP_3530264,IL_4800880,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9759583,extracted/images/ISIC_9759583.jpg,IP_0041636,IL_5447502,squamous cell carcinoma,malignant,histopathology,scc,3
+ISIC_9766934,extracted/images/ISIC_9766934.jpg,IP_9107521,IL_1728025,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9777827,extracted/images/ISIC_9777827.jpg,IP_5685461,IL_3171739,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9782748,extracted/images/ISIC_9782748.jpg,IP_4097497,IL_0785616,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9790120,extracted/images/ISIC_9790120.jpg,IP_8961406,IL_1241859,nevus,benign,,non_malignant,0
+ISIC_9801717,extracted/images/ISIC_9801717.jpg,IP_9507746,IL_9028192,nevus,benign,histopathology,non_malignant,0
+ISIC_9804428,extracted/images/ISIC_9804428.jpg,IP_5719687,IL_2378537,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9811964,extracted/images/ISIC_9811964.jpg,IP_9328831,IL_2955769,nevus,benign,,non_malignant,0
+ISIC_9841598,extracted/images/ISIC_9841598.jpg,IP_1319015,IL_1778616,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9869653,extracted/images/ISIC_9869653.jpg,IP_4869081,IL_9488998,solar lentigo,benign,histopathology,non_malignant,0
+ISIC_9870670,extracted/images/ISIC_9870670.jpg,IP_5213199,IL_4437816,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9874172,extracted/images/ISIC_9874172.jpg,IP_7358226,IL_5978849,nevus,benign,histopathology,non_malignant,0
+ISIC_9876533,extracted/images/ISIC_9876533.jpg,IP_9495313,IL_7972414,melanoma,malignant,histopathology,melanoma,1
+ISIC_9896159,extracted/images/ISIC_9896159.jpg,IP_2504588,IL_0195253,nevus,benign,,non_malignant,0
+ISIC_9907020,extracted/images/ISIC_9907020.jpg,IP_1785797,IL_7051641,melanoma,malignant,histopathology,melanoma,1
+ISIC_9907628,extracted/images/ISIC_9907628.jpg,IP_7428337,IL_3417598,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9908866,extracted/images/ISIC_9908866.jpg,IP_3759020,IL_5889946,melanoma,malignant,histopathology,melanoma,1
+ISIC_9930788,extracted/images/ISIC_9930788.jpg,IP_2576931,IL_9569130,basal cell carcinoma,malignant,histopathology,bcc,2
+ISIC_9937715,extracted/images/ISIC_9937715.jpg,IP_7035571,IL_7385485,nevus,benign,,non_malignant,0
+ISIC_9939005,extracted/images/ISIC_9939005.jpg,IP_8123122,IL_1418943,nevus,benign,,non_malignant,0
+ISIC_9941411,extracted/images/ISIC_9941411.jpg,IP_9891821,IL_3110397,melanoma,malignant,histopathology,melanoma,1
+ISIC_9944002,extracted/images/ISIC_9944002.jpg,IP_7035571,IL_2520087,nevus,benign,,non_malignant,0
+ISIC_9951833,extracted/images/ISIC_9951833.jpg,IP_1404370,IL_4818356,nevus,benign,,non_malignant,0
+ISIC_9951988,extracted/images/ISIC_9951988.jpg,IP_5985919,IL_3901065,melanoma,malignant,histopathology,melanoma,1
+ISIC_9955470,extracted/images/ISIC_9955470.jpg,IP_8760962,IL_7534613,nevus,benign,,non_malignant,0
+ISIC_9977122,extracted/images/ISIC_9977122.jpg,IP_6123331,IL_8889739,seborrheic keratosis,benign,histopathology,non_malignant,0
+ISIC_9983708,extracted/images/ISIC_9983708.jpg,IP_7243858,IL_3662756,nevus,benign,,non_malignant,0
+ISIC_9988844,extracted/images/ISIC_9988844.jpg,IP_3875370,IL_5724975,nevus,benign,,non_malignant,0
+ISIC_9989778,extracted/images/ISIC_9989778.jpg,IP_1404370,IL_8944708,nevus,benign,,non_malignant,0
+ISIC_9995847,extracted/images/ISIC_9995847.jpg,IP_8538177,IL_1047690,vascular lesion,benign,histopathology,non_malignant,0
+ISIC_9998679,extracted/images/ISIC_9998679.jpg,IP_5842685,IL_3341905,basal cell carcinoma,malignant,histopathology,bcc,2

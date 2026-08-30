@@ -1,0 +1,33 @@
+{
+  "candidate_manifest_sha256": "77e4de540d241ca4cb0813c66160a2523d957e7dac5e1e90402a0f56b6a53347",
+  "candidate_rows": 1234,
+  "class_counts": {
+    "bcc": 229,
+    "melanoma": 196,
+    "non_malignant": 696,
+    "scc": 111
+  },
+  "clinical_images_excluded": 355,
+  "dataset": "HIBA Skin Lesions",
+  "deduplication_rule": "For identical image SHA-256 content, retain the lexicographically smallest ISIC ID.",
+  "dermoscopic_actinic_keratosis_excluded": 46,
+  "diagnosis_confirmation_counts": {
+    "<missing>": 492,
+    "histopathology": 738,
+    "single image expert consensus": 2
+  },
+  "evaluation_role": "frozen_zero_shot_external_generalization",
+  "exact_content_duplicates_excluded": 2,
+  "exact_duplicate_groups": 2,
+  "exact_duplicate_rows_removed": 2,
+  "final_exclusions_sha256": "49cf31b49fa58159f745671636548c2c50f1a3a18f6bca09b128fff307d1c3a9",
+  "final_manifest_sha256": "a2f30f14a249d8acb2bd9f03884e5e41c773ddbee19910d5b739407521e3706a",
+  "final_rows": 1232,
+  "gate": "06E",
+  "isic2019_content_hash_overlap": 0,
+  "isic2019_id_overlap": 0,
+  "source_metadata_sha256": "57d0b754effb4d066bc7e75f964522fa01867ebea67a633b0eb652d742aebcc1",
+  "source_zip_sha256": "e5635c842be4a9e0614dbf551a2830ae93157d8ce27a34076d6a131e6718bd2f",
+  "unique_lesions": 1158,
+  "unique_patients": 568
+}
