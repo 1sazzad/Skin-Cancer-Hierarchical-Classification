@@ -113,7 +113,7 @@ def main() -> int:
     parser.add_argument(
         "--config",
         type=Path,
-        default=Path("configs/analysis/phase07_paired_model_comparison.yaml"),
+        default=Path('configs/paper/evaluation/phase07_statistical_comparison.yaml'),
     )
     args = parser.parse_args()
     config = yaml.safe_load(args.config.read_text(encoding="utf-8"))

@@ -216,7 +216,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--project-root", type=Path, default=ROOT)
     parser.add_argument("--phase02-root", type=Path, default=Path.home() / "projects/Skin-Cancer-Hierarchical-Classification-phase02")
-    parser.add_argument("--config", type=Path, default=Path("configs/evaluation/phase06d_multi_backbone_locked_internal_test.yaml"))
+    parser.add_argument("--config", type=Path, default=Path('configs/paper/evaluation/phase06d_internal_isic.yaml'))
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
     parser.add_argument("--preflight-only", action="store_true")
     args = parser.parse_args()

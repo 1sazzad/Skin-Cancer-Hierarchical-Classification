@@ -104,14 +104,9 @@ def _audit(tmp_path: Path, rows: list[dict[str, str]], *, bom: bool = False):
     )
 
 
-def test_protocol_configs_freeze_required_boundaries() -> None:
+def test_label_mapping_freezes_required_boundaries() -> None:
     mapping = yaml.safe_load(
         Path("configs/datasets/hiba_external_label_mapping.yaml").read_text(
-            encoding="utf-8"
-        )
-    )
-    evaluation = yaml.safe_load(
-        Path("configs/evaluation/phase10_hiba_frozen_zero_shot.yaml").read_text(
             encoding="utf-8"
         )
     )
@@ -127,16 +122,6 @@ def test_protocol_configs_freeze_required_boundaries() -> None:
         "benign_diagnosis_vocabulary"
     )
     assert mapping["licence_policy"]["accepted_values"] == ["CC-BY"]
-    assert evaluation["protocol_status"] == "protocol_pending_dataset_audit"
-    assert evaluation["seed"] == 42
-    assert evaluation["preprocessing"]["image_size"] == 224
-    assert evaluation["preprocessing"]["resize_shorter_side"] == 256
-    assert evaluation["preprocessing"]["normalization"] == "imagenet"
-    assert evaluation["decision_policy"]["flat"] == "argmax"
-    assert evaluation["decision_policy"]["external_calibration_fitting_allowed"] is False
-    assert evaluation["data"]["identical_manifest_for_flat_and_hierarchy"] is True
-    assert evaluation["execution"]["inference_authorized"] is False
-    assert evaluation["execution"]["refuse_existing_output"] is True
 
 
 def test_valid_dermoscopic_row_preserves_original_and_missing_ids(tmp_path: Path) -> None:

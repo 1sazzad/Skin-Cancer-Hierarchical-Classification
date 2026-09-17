@@ -282,7 +282,7 @@ def generate_figures(source: Path, output: Path, generated: Path, command: str) 
             "flat_direct_path": True,
         },
         "outputs": {
-            f"reports/phase07/figures/{path.name}": {
+            f"paper/routing_errors_limit_hierarchical_skin_lesion_classification/figures/{path.name}": {
                 "sha256": sha256_file(path),
                 "format": path.suffix[1:],
                 "figure_inches": list(FIGURE_SPECS[path.stem]),
@@ -300,7 +300,7 @@ def generate_figures(source: Path, output: Path, generated: Path, command: str) 
     manifest_path.write_text(
         "".join(
             f"{sha256_file(path)}  "
-            f"{'reports/phase07/figures/' + path.name if path in figure_files else 'reports/phase07/generated/figure_data_audit.json'}\n"
+            f"{'paper/routing_errors_limit_hierarchical_skin_lesion_classification/figures/' + path.name if path in figure_files else 'results/paper/statistics/phase07_generated/figure_data_audit.json'}\n"
             for path in manifest_files
         ),
         encoding="utf-8",

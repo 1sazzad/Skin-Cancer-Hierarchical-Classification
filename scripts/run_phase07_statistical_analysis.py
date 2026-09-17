@@ -58,10 +58,7 @@ GATE3_GENERATED_FILES = (
     "statistical_execution_manifest.json",
 )
 CANONICAL_COMMAND = (
-    ".\\.venv\\Scripts\\python.exe scripts/run_phase07_statistical_analysis.py "
-    "--output-directory reports/phase07/generated "
-    "--control-directory reports/phase07/control "
-    "--report-path reports/phase07/phase07_statistical_analysis_results.md"
+    '.\\.venv\\Scripts\\python.exe scripts/run_phase07_statistical_analysis.py --output-directory results/paper/statistics/phase07_generated --control-directory results/paper/statistics/control --report-path docs/paper/statistical_results.md'
 )
 
 
@@ -166,12 +163,12 @@ def _report(result: dict[str, object], provenance: dict[str, object], command: s
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-directory", type=Path, default=Path("reports/phase07/generated"))
-    parser.add_argument("--control-directory", type=Path, default=Path("reports/phase07/control"))
+    parser.add_argument("--output-directory", type=Path, default=Path('results/paper/statistics/phase07_generated'))
+    parser.add_argument("--control-directory", type=Path, default=Path("results/paper/statistics/control"))
     parser.add_argument(
         "--report-path",
         type=Path,
-        default=Path("reports/phase07/phase07_statistical_analysis_results.md"),
+        default=Path("docs/paper/statistical_results.md"),
     )
     args = parser.parse_args()
     command = CANONICAL_COMMAND
@@ -191,7 +188,7 @@ def main() -> int:
         datetime.now(timezone.utc).isoformat() + "\n", encoding="utf-8"
     )
 
-    protocol = Path("reports/phase07/generated/statistical_protocol_lock.json")
+    protocol = Path('results/paper/statistics/phase07_generated/statistical_protocol_lock.json')
     hierarchical_path = Path(
         "runs/phase05_hierarchical_internal_test/locked_primary_evaluation/"
         "per_image_hierarchical_predictions.csv"
@@ -199,7 +196,7 @@ def main() -> int:
     archive_path = Path(
         "runs/backups/phase06c/phase06c_selected_flat_internal_test_550e7cdb1144.tar.gz"
     )
-    paired_path = Path("reports/phase07/generated/paired_prediction_manifest.csv")
+    paired_path = Path('results/paper/statistics/phase07_generated/paired_prediction_manifest.csv')
     verify_hash(protocol, PROTOCOL_HASH, "Amended protocol lock")
     verify_hash(hierarchical_path, HIERARCHICAL_HASH, "Phase 05 predictions")
     verify_hash(paired_path, MANIFEST_HASH, "Paired manifest")

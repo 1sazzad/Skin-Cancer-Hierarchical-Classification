@@ -20,12 +20,12 @@ def main() -> int:
     parser.add_argument(
         "--config",
         type=Path,
-        default=Path("configs/analysis/phase07_paired_model_comparison.yaml"),
+        default=Path('configs/paper/evaluation/phase07_statistical_comparison.yaml'),
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("reports/phase07/generated/statistical_protocol_lock.json"),
+        default=Path('results/paper/statistics/phase07_generated/statistical_protocol_lock.json'),
     )
     args = parser.parse_args()
     protocol = load_and_validate_protocol(args.config)

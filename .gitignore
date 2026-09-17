@@ -122,6 +122,9 @@ reports/dataset_audits/isic_stage03_image_audit.json
 # Local and VM runtime logs/status artifacts
 /logs/
 
+# Local repository backups
+/backups/
+
 # LaTeX temporary build artifacts
 /paper/**/*.aux
 /paper/**/*.synctex.gz

@@ -255,7 +255,7 @@ def test_registry_and_protocol_keep_official_release_and_scope_locks() -> None:
         encoding="utf-8"
     )
     protocol = Path(
-        "reports/phase10/hiba_official_acquisition_protocol.md"
+        'docs/paper/provenance/hiba_official_acquisition_protocol.md'
     ).read_text(encoding="utf-8")
     assert "ISIC collection 251" in registry_text
     assert "10.34970/587329" in registry_text

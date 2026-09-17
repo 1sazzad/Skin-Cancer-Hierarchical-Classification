@@ -16,13 +16,13 @@ from src.analysis.phase07_evidence_review import generate_gate4  # noqa: E402
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--source", type=Path, default=Path("reports/phase07/generated")
+        "--source", type=Path, default=Path('results/paper/statistics/phase07_generated')
     )
     parser.add_argument(
-        "--generated-output", type=Path, default=Path("reports/phase07/generated")
+        "--generated-output", type=Path, default=Path('results/paper/statistics/phase07_generated')
     )
     parser.add_argument(
-        "--report-output", type=Path, default=Path("reports/phase07")
+        "--report-output", type=Path, default=Path("docs/paper")
     )
     args = parser.parse_args()
     outputs = generate_gate4(args.source, args.generated_output, args.report_output)

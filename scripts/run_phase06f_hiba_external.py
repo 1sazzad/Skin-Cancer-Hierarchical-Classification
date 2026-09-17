@@ -94,7 +94,7 @@ def patient_cluster_ci(target,flat,hier,patient_ids,reps,seed):
     lo,hi=np.quantile(np.asarray(deltas),[.025,.975]); return [float(lo),float(hi)]
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--project-root',type=Path,default=ROOT); ap.add_argument('--phase02-root',type=Path,default=Path.home()/ 'projects/Skin-Cancer-Hierarchical-Classification-phase02'); ap.add_argument('--config',type=Path,default=Path('configs/evaluation/phase06f_hiba_frozen_external.yaml')); ap.add_argument('--device',choices=('cpu','cuda'),default='cuda'); ap.add_argument('--preflight-only',action='store_true'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--project-root',type=Path,default=ROOT); ap.add_argument('--phase02-root',type=Path,default=Path.home()/ 'projects/Skin-Cancer-Hierarchical-Classification-phase02'); ap.add_argument('--config',type=Path,default=Path('configs/paper/evaluation/phase06f_hiba_external.yaml')); ap.add_argument('--device',choices=('cpu','cuda'),default='cuda'); ap.add_argument('--preflight-only',action='store_true'); args=ap.parse_args()
     root=args.project_root.resolve(); phase02=args.phase02_root.expanduser().resolve(); cfgp=args.config if args.config.is_absolute() else root/args.config; cfg=yaml.safe_load(cfgp.read_text()); device=torch.device(args.device)
     if tuple(cfg['backbones'])!=EXPECTED_BACKBONES: raise ValueError('Backbone set/order mismatch')
     if cfg['protocol']['external_training_allowed'] or cfg['protocol']['external_finetuning_allowed'] or cfg['protocol']['external_threshold_tuning_allowed'] or cfg['protocol']['external_checkpoint_selection_allowed']: raise ValueError('External protocol is not frozen zero-shot')

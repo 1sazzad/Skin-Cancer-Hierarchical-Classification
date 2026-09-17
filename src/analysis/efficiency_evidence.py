@@ -226,7 +226,7 @@ def generate_efficiency(repository: Path, generated: Path, reports: Path) -> lis
         add("throughput_evaluator_loop", throughput, "samples/second", system, source, "samples_per_second", "A", "direct locked measurement", **common)
         add("mean_evaluator_loop_time_per_sample", mean_milliseconds(elapsed, 3668), "milliseconds/sample", system, source, "elapsed_seconds / sample_count * 1000", "B", "deterministic derivation", **common)
 
-    routing_source = "reports/phase07/generated/gate04_evidence_review.json"
+    routing_source = 'results/paper/statistics/phase07_generated/gate04_evidence_review.json'
     add("stage2_invocation_count", 1799, "samples", "hierarchical", routing_source, "routing audit", "A", "direct committed routing count", sample_count=3668)
     add("stage2_invocation_rate", compute["stage2_invocation_rate"], "fraction", "hierarchical", routing_source, "1799 / 3668", "B", "deterministic derivation", sample_count=3668)
     add("stage2_bypass_rate", compute["stage2_bypass_rate"], "fraction", "hierarchical", routing_source, "1869 / 3668", "B", "deterministic derivation", sample_count=3668)

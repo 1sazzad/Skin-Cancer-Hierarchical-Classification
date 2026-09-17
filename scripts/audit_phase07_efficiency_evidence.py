@@ -16,8 +16,8 @@ from src.analysis.efficiency_evidence import generate_efficiency  # noqa: E402
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repository", type=Path, default=Path("."))
-    parser.add_argument("--generated-output", type=Path, default=Path("reports/phase07/generated"))
-    parser.add_argument("--report-output", type=Path, default=Path("reports/phase07"))
+    parser.add_argument("--generated-output", type=Path, default=Path('results/paper/statistics/phase07_generated'))
+    parser.add_argument("--report-output", type=Path, default=Path("docs/paper"))
     args = parser.parse_args()
     outputs = generate_efficiency(args.repository, args.generated_output, args.report_output)
     print(f"Generated {len(outputs)} Gate 5A artifacts without model execution.")

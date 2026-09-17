@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="${ROOT:-$PWD}"
-CONFIG="configs/experiments/phase09_stage03_emb_efficientnet_b0_cross_entropy.yaml"
-WCE_CONFIG="configs/experiments/phase09_stage03_isic_derived_efficientnet_b0_weighted_cross_entropy.yaml"
+CONFIG="configs/extensions/stage03/emb_cross_entropy_superseded.yaml"
+WCE_CONFIG="configs/extensions/stage03/weighted_cross_entropy.yaml"
 
 case "${1:-help}" in
   update)

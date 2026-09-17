@@ -18,7 +18,7 @@ import yaml
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = (
     PROJECT_ROOT
-    / "configs/experiments/phase03_shared_three_task_hierarchical_baseline.yaml"
+    / 'configs/paper/shared_hard/shared_three_task.yaml'
 )
 DEFAULT_RUN_DIRECTORY = (
     PROJECT_ROOT / "runs/phase03_shared_three_task/seed_42"

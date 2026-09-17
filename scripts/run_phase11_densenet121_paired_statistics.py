@@ -25,7 +25,7 @@ from src.analysis.stored_prediction_statistics import (  # noqa: E402
 )
 
 DENSE_PATH = Path("experiments/evaluations/phase11_densenet121_internal_test_seed42__best_epoch04/internal_test_predictions.csv")
-MANIFEST_PATH = Path("reports/phase07/generated/paired_prediction_manifest.csv")
+MANIFEST_PATH = Path('results/paper/statistics/phase07_generated/paired_prediction_manifest.csv')
 HIERARCHY_PATH = Path("runs/phase05_hierarchical_internal_test/locked_primary_evaluation/per_image_hierarchical_predictions.csv")
 OUTPUT = Path("reports/phase11/generated")
 REPORT = Path("reports/phase11/phase11_densenet121_paired_statistical_analysis.md")

@@ -29,7 +29,7 @@ from src.utils.reproducibility import seed_everything
 
 DEFAULT_CONFIG = (
     PROJECT_ROOT
-    / "configs/experiments/phase03_shared_three_task_hierarchical_baseline.yaml"
+    / 'configs/paper/shared_hard/shared_three_task.yaml'
 )
 
 
