@@ -346,8 +346,8 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
     assert "output_root=Path(SMOKE_OUTPUT_ROOT)" in source
     assert 'CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"' in source
     assert "EPOCH_LIMIT = 1" in source
-    assert "MAX_TRAIN_BATCHES = 10" in source
-    assert "MAX_VALIDATION_BATCHES = 5" in source
+    assert "MAX_TRAIN_BATCHES = 50" in source
+    assert "MAX_VALIDATION_BATCHES = 10" in source
     assert 'GPU = "T4"' in source
     assert "MAX_CONTAINERS = 1" in source
     assert "RETRIES = 0" in source
@@ -359,7 +359,7 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
     assert "create_if_missing=False" in source
     assert "/root/project/data/raw/isic2019" in source
     assert "/root/project/data/raw/emb" in source
-    assert "smoke_runs" in source
+    assert "timing_benchmarks/flat_seed42_50train_10val" in source
     assert "web_endpoint" not in source
     assert not any(
         isinstance(node, ast.Call)
@@ -367,6 +367,30 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
         and node.func.attr in {"put", "reload"}
         for node in ast.walk(tree)
     )
+
+
+def test_modal_harness_has_production_flat_seed42_function():
+    source = (ROOT / "scripts/modal_paul2026_swin.py").read_text(encoding="utf-8")
+    production_start = source.rfind("@app.function(", 0, source.index("def run_flat_production"))
+    production = source[production_start:]
+    assert 'CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"' in source
+    assert "PRODUCTION_TIMEOUT_SECONDS = 14 * 60 * 60" in source
+    assert 'PRODUCTION_OUTPUT_ROOT = "/root/project/results/extensions/paul2026_swin/runs"' in source
+    assert "timeout=PRODUCTION_TIMEOUT_SECONDS" in production
+    assert "gpu=GPU" in production
+    assert "max_containers=MAX_CONTAINERS" in production
+    assert "retries=RETRIES" in production
+    assert "single_use_containers=SINGLE_USE_CONTAINERS" in production
+    assert "epoch_limit=None" in production
+    assert "max_train_batches=None" in production
+    assert "max_validation_batches=None" in production
+    assert "Path(PRODUCTION_OUTPUT_ROOT)" in production
+    assert 'print("mode: production")' in production
+    assert 'print("bounded_batches: false")' in production
+    assert "stopped_early" in production
+    assert "run_flat_production.remote()" in source
+    assert "run_flat_smoke.remote()" not in source
+    assert "timing_benchmarks/flat_seed42_50train_10val" in source
 
 
 def test_modal_ignore_callback_handles_relative_and_absolute_paths():
