@@ -1,4 +1,4 @@
-"""Run the bounded PAUL Flat Swin-T seed-42 smoke test with Modal."""
+"""Deploy PAUL Flat Swin-T functions; submit production via the dedicated launcher."""
 
 from pathlib import Path
 import time
@@ -155,6 +155,7 @@ def run_flat_production():
     config = load_paul_config(config_path)
     training = config["training"]
     print("mode: production")
+    print("resume_capable: true")
     print("system: flat")
     print("backbone: swin_t")
     print("seed: 42")
@@ -172,6 +173,8 @@ def run_flat_production():
         epoch_limit=None,
         max_train_batches=None,
         max_validation_batches=None,
+        resume=True,
+        persist_callback=results_volume.commit,
     )
     elapsed = time.perf_counter() - started
     memory_gib = (
@@ -189,4 +192,8 @@ def run_flat_production():
 
 @app.local_entrypoint()
 def main():
-    run_flat_production.remote()
+    raise SystemExit(
+        "Production requires the deployed app. First run: "
+        "modal deploy scripts/modal_paul2026_swin.py\n"
+        "Then submit with: modal run scripts/launch_paul2026_swin_production.py"
+    )

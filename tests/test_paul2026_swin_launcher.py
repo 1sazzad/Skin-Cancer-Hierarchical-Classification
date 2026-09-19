@@ -15,6 +15,7 @@ from src.models.classification_backbone import SUPPORTED_CLASSIFICATION_ARCHITEC
 from src.models.shared_three_task import SUPPORTED_SHARED_ARCHITECTURES
 from src.training import baseline_experiment as baseline
 from src.training import paul2026_swin as paul
+from src.training.engine import EpochResult
 from scripts import train_paul2026_swin as train_cli
 from scripts.train_paul2026_swin import positive_integer
 
@@ -276,6 +277,202 @@ def test_flat_without_limits_keeps_full_run_controls_unset(monkeypatch, tmp_path
     assert kwargs["max_validation_batches"] is None
 
 
+def test_paul_resume_reaches_baseline_for_existing_run(monkeypatch, tmp_path):
+    runner = Mock()
+    monkeypatch.setattr(paul, "run_baseline_experiment", runner)
+    run_directory = tmp_path / "paul2026_flat_swin_t_seed42"
+    run_directory.mkdir()
+    (run_directory / "resolved_config.yaml").write_text("bootstrap\n")
+    paul.run_paul_experiment(
+        config_path("flat"), output_root=tmp_path, resume=True
+    )
+    assert runner.call_args.kwargs["resume"] is True
+    assert runner.call_args.kwargs["run_directory"] == run_directory
+
+
+def _resumable_test_components(monkeypatch, call_state, *, fail_on_call=None):
+    def data_builder(*args, **kwargs):
+        generator = torch.Generator().manual_seed(42)
+        dataset = torch.utils.data.TensorDataset(
+            torch.zeros(4, 1), torch.arange(4)
+        )
+        return {
+            "train": torch.utils.data.DataLoader(
+                dataset, batch_size=4, generator=generator, shuffle=True
+            ),
+            "validation": torch.utils.data.DataLoader(dataset, batch_size=4),
+        }
+
+    def model_builder(*args, **kwargs):
+        return torch.nn.Linear(1, 4)
+
+    def fake_epoch(model, dataloader, criterion, device, **kwargs):
+        del dataloader, criterion, device
+        call_state["calls"] += 1
+        if fail_on_call == call_state["calls"]:
+            raise RuntimeError("simulated preemption")
+        optimizer = kwargs.get("optimizer")
+        if optimizer is not None:
+            parameter = next(model.parameters())
+            optimizer.state[parameter]["step"] = torch.tensor(1.0)
+            optimizer.state[parameter]["exp_avg"] = torch.zeros_like(parameter)
+            optimizer.state[parameter]["exp_avg_sq"] = torch.zeros_like(parameter)
+            optimizer.state[parameter]["marker"] = torch.tensor(
+                [call_state["calls"]]
+            )
+            parameter.data.fill_(call_state["calls"])
+        targets = torch.tensor([0, 1, 2, 3])
+        predictions = targets.clone()
+        return EpochResult(
+            mean_loss=0.25,
+            sample_count=4,
+            targets=targets,
+            predictions=predictions,
+            probabilities=torch.nn.functional.one_hot(
+                predictions, num_classes=4
+            ).float(),
+        )
+
+    monkeypatch.setattr(baseline, "run_classification_epoch", fake_epoch)
+    return data_builder, model_builder
+
+
+def test_resumable_bootstrap_directory_restarts_at_epoch_one(monkeypatch, tmp_path):
+    run_directory = tmp_path / "run"
+    run_directory.mkdir()
+    (run_directory / "resolved_config.yaml").write_text("bootstrap\n")
+    (run_directory / "environment.json").write_text("{}\n")
+    state = {"calls": 0}
+    data_builder, model_builder = _resumable_test_components(monkeypatch, state)
+    output = baseline.run_baseline_experiment(
+        config_path("flat"),
+        project_root=ROOT,
+        output_root=tmp_path,
+        device="cpu",
+        epoch_limit=1,
+        config_loader=paul.load_paul_config,
+        model_builder=model_builder,
+        dataloader_builder=data_builder,
+        run_directory=run_directory,
+        resume=True,
+    )
+    assert output.best_epoch == 1
+    assert torch.load(
+        run_directory / "last_checkpoint.pt", weights_only=False
+    )["resume_state"]["completed_epoch"] == 1
+
+
+def test_resumable_run_restores_epoch_state_without_duplicate_history(monkeypatch, tmp_path):
+    run_directory = tmp_path / "run"
+    state = {"calls": 0, "restored_parameter": None, "restored_marker": None}
+    data_builder, model_builder = _resumable_test_components(monkeypatch, state)
+    callback = Mock()
+    baseline.run_baseline_experiment(
+        config_path("flat"), project_root=ROOT, output_root=tmp_path, device="cpu",
+        epoch_limit=1, config_loader=paul.load_paul_config,
+        model_builder=model_builder, dataloader_builder=data_builder,
+        run_directory=run_directory, resume=True, persist_callback=callback,
+    )
+    checkpoint_before = torch.load(
+        run_directory / "last_checkpoint.pt", weights_only=False
+    )
+    assert callback.call_count == 1
+    original_epoch = state["calls"]
+
+    def observing_epoch(model, dataloader, criterion, device, **kwargs):
+        del dataloader, criterion, device
+        if kwargs.get("optimizer") is not None:
+            state["restored_parameter"] = float(next(model.parameters()).flatten()[0])
+            parameter = next(model.parameters())
+            state["restored_marker"] = kwargs["optimizer"].state[parameter]["marker"].clone()
+        return EpochResult(
+            mean_loss=0.25, sample_count=4,
+            targets=torch.tensor([0, 1, 2, 3]),
+            predictions=torch.tensor([0, 1, 2, 3]),
+            probabilities=torch.eye(4),
+        )
+
+    monkeypatch.setattr(baseline, "run_classification_epoch", observing_epoch)
+    baseline.run_baseline_experiment(
+        config_path("flat"), project_root=ROOT, output_root=tmp_path, device="cpu",
+        epoch_limit=2, config_loader=paul.load_paul_config,
+        model_builder=model_builder, dataloader_builder=data_builder,
+        run_directory=run_directory, resume=True, persist_callback=callback,
+    )
+    checkpoint_after = torch.load(
+        run_directory / "last_checkpoint.pt", weights_only=False
+    )
+    resume_state = checkpoint_after["resume_state"]
+    assert original_epoch == 2
+    assert state["restored_parameter"] == 1.0
+    assert state["restored_marker"].item() == 1
+    assert checkpoint_after["scheduler_state_dict"]["last_epoch"] == 2
+    assert "scaler_state_dict" in resume_state
+    assert resume_state["best_epoch"] == 1
+    assert resume_state["epochs_without_improvement"] == 1
+    assert resume_state["completed_epoch"] == 2
+    assert [row["epoch"] for row in resume_state["history"]] == [1, 2]
+    assert callback.call_count == 2
+    assert "train_generator_state" in resume_state
+    assert "python_rng_state" in resume_state
+    assert "numpy_rng_state" in resume_state
+    assert "torch_cpu_rng_state" in resume_state
+    assert "cumulative_training_seconds" in resume_state
+    assert checkpoint_before["resume_state"]["completed_epoch"] == 1
+
+
+def test_resumable_failed_epoch_does_not_commit_or_publish_history(monkeypatch, tmp_path):
+    run_directory = tmp_path / "run"
+    state = {"calls": 0}
+    data_builder, model_builder = _resumable_test_components(
+        monkeypatch, state, fail_on_call=1
+    )
+    callback = Mock()
+    with pytest.raises(RuntimeError, match="simulated preemption"):
+        baseline.run_baseline_experiment(
+            config_path("flat"), project_root=ROOT, output_root=tmp_path, device="cpu",
+            epoch_limit=1, config_loader=paul.load_paul_config,
+            model_builder=model_builder, dataloader_builder=data_builder,
+            run_directory=run_directory, resume=True, persist_callback=callback,
+        )
+    assert callback.call_count == 0
+    assert not (run_directory / "last_checkpoint.pt").exists()
+    assert not (run_directory / "history.json").exists()
+
+
+@pytest.mark.parametrize("mismatch", ["seed", "run_name", "config_identity"])
+def test_resumable_checkpoint_identity_mismatch_is_rejected(
+    monkeypatch, tmp_path, mismatch
+):
+    run_directory = tmp_path / "run"
+    state = {"calls": 0}
+    data_builder, model_builder = _resumable_test_components(monkeypatch, state)
+    baseline.run_baseline_experiment(
+        config_path("flat"), project_root=ROOT, output_root=tmp_path, device="cpu",
+        epoch_limit=1, config_loader=paul.load_paul_config,
+        model_builder=model_builder, dataloader_builder=data_builder,
+        run_directory=run_directory, resume=True,
+    )
+    checkpoint_path = run_directory / "last_checkpoint.pt"
+    checkpoint = torch.load(checkpoint_path, weights_only=False)
+    if mismatch == "seed":
+        checkpoint["resume_state"]["seed"] = 123
+    elif mismatch == "run_name":
+        checkpoint["resume_state"]["run_name"] = "wrong-run"
+    else:
+        checkpoint["resume_state"]["config_identity"]["experiment"]["run_name"] = (
+            "wrong-run"
+        )
+    torch.save(checkpoint, checkpoint_path)
+    with pytest.raises(ValueError, match="identity"):
+        baseline.run_baseline_experiment(
+            config_path("flat"), project_root=ROOT, output_root=tmp_path, device="cpu",
+            config_loader=paul.load_paul_config,
+            model_builder=model_builder, dataloader_builder=data_builder,
+            run_directory=run_directory, resume=True,
+        )
+
+
 @pytest.mark.parametrize("name", ["epoch_limit", "max_train_batches", "max_validation_batches"])
 @pytest.mark.parametrize("value", [0, -1, True, "1"])
 def test_smoke_limits_require_positive_integers(name, value):
@@ -384,11 +581,14 @@ def test_modal_harness_has_production_flat_seed42_function():
     assert "epoch_limit=None" in production
     assert "max_train_batches=None" in production
     assert "max_validation_batches=None" in production
+    assert "resume=True" in production
+    assert "persist_callback=results_volume.commit" in production
     assert "Path(PRODUCTION_OUTPUT_ROOT)" in production
     assert 'print("mode: production")' in production
+    assert 'print("resume_capable: true")' in production
     assert 'print("bounded_batches: false")' in production
     assert "stopped_early" in production
-    assert "run_flat_production.remote()" in source
+    assert "run_flat_production.remote()" not in source
     assert "run_flat_smoke.remote()" not in source
     assert "timing_benchmarks/flat_seed42_50train_10val" in source
 

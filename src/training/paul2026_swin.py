@@ -218,6 +218,8 @@ def run_paul_experiment(
     epoch_limit: int | None = None,
     max_train_batches: int | None = None,
     max_validation_batches: int | None = None,
+    resume: bool = False,
+    persist_callback=None,
 ):
     """Execute a declared run through an existing loop; never use internal test."""
     validate_smoke_limits(
@@ -228,14 +230,20 @@ def run_paul_experiment(
     config = load_paul_config(config_path)
     system = validate_paul_config(config)
     limits = (epoch_limit, max_train_batches, max_validation_batches)
-    if system == "shared_hard" and any(value is not None for value in limits):
+    if system == "shared_hard" and (
+        any(value is not None for value in limits)
+        or resume
+        or persist_callback is not None
+    ):
         raise ValueError(
-            "Bounded Shared-Hard smoke controls are not implemented yet."
+            "Shared-Hard bounded controls and resume support are not implemented yet."
         )
+    if resume and any(value is not None for value in limits):
+        raise ValueError("PAUL resume support is reserved for unbounded production runs.")
     root = Path(project_root).expanduser().resolve()
     output = Path(output_root).expanduser().resolve() if output_root is not None else root / DEFAULT_OUTPUT_ROOT
     run_directory = output / config["experiment"]["run_name"]
-    if run_directory.exists() and any(run_directory.iterdir()):
+    if not resume and run_directory.exists() and any(run_directory.iterdir()):
         raise FileExistsError(f"Run directory is not empty: {run_directory}")
     if system == "flat":
         return run_baseline_experiment(
@@ -245,6 +253,8 @@ def run_paul_experiment(
             epoch_limit=epoch_limit,
             max_train_batches=max_train_batches,
             max_validation_batches=max_validation_batches,
+            resume=resume,
+            persist_callback=persist_callback,
         )
     resolved_device = phase03._resolve_device(device)
     seed_everything(config["experiment"]["seed"])

@@ -6,6 +6,7 @@ import csv
 import json
 import math
 import platform
+import random
 import time
 from copy import deepcopy
 from dataclasses import asdict, dataclass
@@ -14,6 +15,7 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 
 import torch
+import numpy as np
 import yaml
 from torch import nn
 from torch.optim import AdamW, Optimizer
@@ -678,6 +680,111 @@ def _checkpoint_payload(
     }
 
 
+def _atomic_torch_save(payload: Mapping[str, Any], path: Path) -> None:
+    temporary_path = path.with_name(f".{path.name}.tmp")
+    torch.save(payload, temporary_path)
+    temporary_path.replace(path)
+
+
+def _resumable_checkpoint_payload(
+    *,
+    base_payload: dict[str, Any],
+    completed_epoch: int,
+    scaler: torch.amp.GradScaler,
+    best_metric: float,
+    best_epoch: int,
+    epochs_without_improvement: int,
+    history: list[dict[str, Any]],
+    run_name: str,
+    seed: int,
+    config_identity: Mapping[str, Any],
+    train_generator: torch.Generator,
+    cumulative_training_seconds: float,
+) -> dict[str, Any]:
+    resume_state = {
+        "completed_epoch": completed_epoch,
+        "scaler_state_dict": scaler.state_dict(),
+        "best_validation_macro_f1": best_metric,
+        "best_epoch": best_epoch,
+        "epochs_without_improvement": epochs_without_improvement,
+        "history": deepcopy(history),
+        "python_rng_state": random.getstate(),
+        "numpy_rng_state": np.random.get_state(),
+        "torch_cpu_rng_state": torch.get_rng_state(),
+        "torch_cuda_rng_states": (
+            torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []
+        ),
+        "train_generator_state": train_generator.get_state(),
+        "cumulative_training_seconds": cumulative_training_seconds,
+        "run_name": run_name,
+        "seed": seed,
+        "config_identity": deepcopy(dict(config_identity)),
+    }
+    return {**base_payload, "resume_state": resume_state}
+
+
+def _restore_resumable_checkpoint(
+    checkpoint: Mapping[str, Any],
+    *,
+    model: nn.Module,
+    optimizer: Optimizer,
+    scheduler: LRScheduler,
+    scaler: torch.amp.GradScaler,
+    train_generator: torch.Generator,
+    run_name: str,
+    seed: int,
+    class_names: list[str],
+    config_identity: Mapping[str, Any],
+    configured_epochs: int,
+) -> tuple[int, list[dict[str, Any]], float, int, int, float]:
+    state = checkpoint.get("resume_state")
+    if not isinstance(state, Mapping):
+        raise ValueError("last_checkpoint.pt lacks resumable PAUL state.")
+    if state.get("run_name") != run_name or state.get("seed") != seed:
+        raise ValueError("Resumable checkpoint identity does not match the config.")
+    if checkpoint.get("class_names") != class_names:
+        raise ValueError("Resumable checkpoint class names do not match the config.")
+    if state.get("config_identity") != dict(config_identity):
+        raise ValueError("Resumable checkpoint config identity does not match.")
+
+    completed_epoch = state.get("completed_epoch")
+    history = state.get("history")
+    if type(completed_epoch) is not int or not isinstance(history, list):
+        raise ValueError("Resumable checkpoint has invalid epoch/history state.")
+    if completed_epoch < 0 or completed_epoch > configured_epochs:
+        raise ValueError("Resumable checkpoint completed epoch is out of range.")
+    history_epochs = [record.get("epoch") for record in history if isinstance(record, Mapping)]
+    if len(history) != completed_epoch or history_epochs != list(range(1, completed_epoch + 1)):
+        raise ValueError("Resumable checkpoint history is incomplete or duplicated.")
+    if checkpoint.get("epoch") != completed_epoch:
+        raise ValueError("Resumable checkpoint epoch fields disagree.")
+
+    try:
+        model.load_state_dict(checkpoint["model_state_dict"])
+        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+        scaler.load_state_dict(state["scaler_state_dict"])
+        random.setstate(state["python_rng_state"])
+        np.random.set_state(state["numpy_rng_state"])
+        torch.set_rng_state(state["torch_cpu_rng_state"])
+        if torch.cuda.is_available():
+            torch.cuda.set_rng_state_all(state["torch_cuda_rng_states"])
+        train_generator.set_state(state["train_generator_state"])
+    except (KeyError, TypeError, RuntimeError, ValueError) as error:
+        raise ValueError(
+            f"Resumable checkpoint state could not be restored: {error}"
+        ) from error
+
+    return (
+        completed_epoch,
+        deepcopy(history),
+        float(state["best_validation_macro_f1"]),
+        int(state["best_epoch"]),
+        int(state["epochs_without_improvement"]),
+        float(state["cumulative_training_seconds"]),
+    )
+
+
 def _epoch_record(
     *,
     epoch: int,
@@ -716,6 +823,8 @@ def run_baseline_experiment(
     model_builder: Callable | None = None,
     dataloader_builder: Callable | None = None,
     run_directory: str | Path | None = None,
+    resume: bool = False,
+    persist_callback: Callable[[], None] | None = None,
 ) -> TrainingOutcome:
     """Train one Stage 1 or Stage 2 clean baseline using validation only.
 
@@ -723,8 +832,8 @@ def run_baseline_experiment(
     A sanity run is never eligible for paper reporting or checkpoint freezing.
     The internal-test loader is never iterated by this function.
     Optional builders let extensions reuse this loop; omitted builders retain
-    historical behavior. An explicit run_directory must be empty, while the
-    default keeps the historical timestamped directory naming.
+    historical behavior. Resumable runs are opt-in and require an explicit
+    run_directory.
     """
 
     config = (config_loader or load_experiment_config)(config_path)
@@ -742,10 +851,14 @@ def run_baseline_experiment(
 
     seed = int(experiment["seed"])
     seed_everything(seed)
+    config_identity = deepcopy(config)
     sanity_run = any(
         value is not None
         for value in (max_train_batches, max_validation_batches, epoch_limit)
     )
+    if resume and run_directory is None:
+        raise ValueError("resume=True requires an explicit run_directory.")
+    resume_checkpoint_path: Path | None = None
     if run_directory is None:
         run_directory = _make_run_directory(
             output_root_path,
@@ -755,7 +868,32 @@ def run_baseline_experiment(
     else:
         run_directory = Path(run_directory).expanduser().resolve()
         if run_directory.exists() and any(run_directory.iterdir()):
-            raise FileExistsError(f"Run directory is not empty: {run_directory}")
+            if not resume:
+                raise FileExistsError(f"Run directory is not empty: {run_directory}")
+            contents = {path.name for path in run_directory.iterdir()}
+            resume_checkpoint_path = run_directory / "last_checkpoint.pt"
+            bootstrap_only = contents <= {"resolved_config.yaml", "environment.json"}
+            allowed_resume_files = {
+                "resolved_config.yaml",
+                "environment.json",
+                "last_checkpoint.pt",
+                "best_checkpoint.pt",
+                "best_validation_metrics.json",
+                "history.json",
+                "history.csv",
+                "run_summary.json",
+            }
+            unexpected_files = {
+                name for name in contents
+                if name not in allowed_resume_files
+                and not name.startswith("validation_metrics_epoch_")
+            }
+            if not bootstrap_only and not (
+                resume_checkpoint_path.is_file() and not unexpected_files
+            ):
+                raise ValueError(
+                    "Resumable run directory has suspicious or inconsistent files."
+                )
         run_directory.mkdir(parents=True, exist_ok=True)
 
     config["runtime"] = {
@@ -768,11 +906,13 @@ def run_baseline_experiment(
         "max_validation_batches": max_validation_batches,
         "epoch_limit": epoch_limit,
     }
-    (run_directory / "resolved_config.yaml").write_text(
-        yaml.safe_dump(config, sort_keys=False),
-        encoding="utf-8",
-    )
-    _json_dump(run_directory / "environment.json", _environment_payload(resolved_device))
+    if not resume or not (run_directory / "resolved_config.yaml").exists():
+        (run_directory / "resolved_config.yaml").write_text(
+            yaml.safe_dump(config, sort_keys=False),
+            encoding="utf-8",
+        )
+    if not resume or not (run_directory / "environment.json").exists():
+        _json_dump(run_directory / "environment.json", _environment_payload(resolved_device))
 
     loader_config = DataLoaderConfig(
         batch_size=int(loader["batch_size"]),
@@ -822,7 +962,40 @@ def run_baseline_experiment(
     last_checkpoint_path = run_directory / "last_checkpoint.pt"
     started_at = time.perf_counter()
 
-    for epoch in range(1, epochs + 1):
+    resumed_from_epoch = 0
+    cumulative_training_seconds = 0.0
+    if resume and resume_checkpoint_path is not None and resume_checkpoint_path.exists():
+        checkpoint = torch.load(
+            resume_checkpoint_path,
+            map_location=resolved_device,
+            weights_only=False,
+        )
+        (
+            resumed_from_epoch,
+            history,
+            best_metric,
+            best_epoch,
+            epochs_without_improvement,
+            cumulative_training_seconds,
+        ) = _restore_resumable_checkpoint(
+            checkpoint,
+            model=model,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            scaler=scaler,
+            train_generator=dataloaders["train"].generator,
+            run_name=str(experiment["run_name"]),
+            seed=seed,
+            class_names=class_names,
+            config_identity=config_identity,
+            configured_epochs=configured_epochs,
+        )
+    if resume:
+        print(f"resume_enabled: true")
+        print(f"resumed_from_epoch: {resumed_from_epoch}")
+        print(f"next_epoch: {resumed_from_epoch + 1}")
+
+    for epoch in range(resumed_from_epoch + 1, epochs + 1):
         epoch_started_at = time.perf_counter()
         learning_rate = float(optimizer.param_groups[0]["lr"])
 
@@ -865,8 +1038,9 @@ def run_baseline_experiment(
             validation_metrics=validation_metrics,
             epoch_seconds=epoch_seconds,
         )
-        history.append(record)
-        _write_history(run_directory, history)
+        if not resume:
+            history.append(record)
+            _write_history(run_directory, history)
         _json_dump(
             run_directory / f"validation_metrics_epoch_{epoch:03d}.json",
             validation_metrics,
@@ -878,8 +1052,7 @@ def run_baseline_experiment(
             best_metric = current_metric
             best_epoch = epoch
             epochs_without_improvement = 0
-            torch.save(
-                _checkpoint_payload(
+            best_payload = _checkpoint_payload(
                     epoch=epoch,
                     model=model,
                     optimizer=optimizer,
@@ -887,9 +1060,11 @@ def run_baseline_experiment(
                     validation_metrics=validation_metrics,
                     config=config,
                     class_names=class_names,
-                ),
-                best_checkpoint_path,
-            )
+                )
+            if resume:
+                _atomic_torch_save(best_payload, best_checkpoint_path)
+            else:
+                torch.save(best_payload, best_checkpoint_path)
             _json_dump(
                 run_directory / "best_validation_metrics.json",
                 validation_metrics,
@@ -898,8 +1073,7 @@ def run_baseline_experiment(
             epochs_without_improvement += 1
 
         scheduler.step()
-        torch.save(
-            _checkpoint_payload(
+        last_payload = _checkpoint_payload(
                 epoch=epoch,
                 model=model,
                 optimizer=optimizer,
@@ -907,9 +1081,31 @@ def run_baseline_experiment(
                 validation_metrics=validation_metrics,
                 config=config,
                 class_names=class_names,
-            ),
-            last_checkpoint_path,
-        )
+            )
+        if resume:
+            history.append(record)
+            cumulative_training_seconds += time.perf_counter() - started_at
+            started_at = time.perf_counter()
+            last_payload = _resumable_checkpoint_payload(
+                base_payload=last_payload,
+                completed_epoch=epoch,
+                scaler=scaler,
+                best_metric=best_metric,
+                best_epoch=best_epoch,
+                epochs_without_improvement=epochs_without_improvement,
+                history=history,
+                run_name=str(experiment["run_name"]),
+                seed=seed,
+                config_identity=config_identity,
+                train_generator=dataloaders["train"].generator,
+                cumulative_training_seconds=cumulative_training_seconds,
+            )
+            _write_history(run_directory, history)
+            _atomic_torch_save(last_payload, last_checkpoint_path)
+            if persist_callback is not None:
+                persist_callback()
+        else:
+            torch.save(last_payload, last_checkpoint_path)
 
         print(
             f"epoch={epoch:03d}/{epochs:03d} "
@@ -923,7 +1119,11 @@ def run_baseline_experiment(
             stopped_early = True
             break
 
-    total_seconds = time.perf_counter() - started_at
+    total_seconds = (
+        cumulative_training_seconds + time.perf_counter() - started_at
+        if resume
+        else time.perf_counter() - started_at
+    )
     parameter_count = sum(parameter.numel() for parameter in model.parameters())
     trainable_parameter_count = sum(
         parameter.numel() for parameter in model.parameters() if parameter.requires_grad
