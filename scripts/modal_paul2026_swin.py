@@ -16,11 +16,11 @@ CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"
 EPOCH_LIMIT = 1
 MAX_TRAIN_BATCHES = 10
 MAX_VALIDATION_BATCHES = 5
-PROJECT_ROOT = Path("/root/project")
+PROJECT_ROOT = "/root/project"
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 ISIC_DATA_PATH = "/root/project/data/raw/isic2019"
 EMB_DATA_PATH = "/root/project/data/raw/emb"
-SMOKE_OUTPUT_ROOT = PROJECT_ROOT / "results/extensions/paul2026_swin/smoke_runs"
+SMOKE_OUTPUT_ROOT = "/root/project/results/extensions/paul2026_swin/smoke_runs"
 
 
 def ignore_runtime_data(path: Path) -> bool:
@@ -34,7 +34,7 @@ image = (
     modal.Image.debian_slim(python_version="3.11")
     .add_local_dir(
         str(REPOSITORY_ROOT),
-        remote_path=str(PROJECT_ROOT),
+        remote_path=PROJECT_ROOT,
         ignore=ignore_runtime_data,
     )
     .pip_install_from_requirements(str(REPOSITORY_ROOT / "requirements.txt"))
@@ -53,8 +53,8 @@ results_volume = modal.Volume.from_name(
     timeout=TIMEOUT_SECONDS,
     scaledown_window=SCALEDOWN_WINDOW_SECONDS,
     volumes={
-        str(PROJECT_ROOT / "data/raw"): data_volume,
-        str(PROJECT_ROOT / "results/extensions/paul2026_swin"): results_volume,
+        "/root/project/data/raw": data_volume,
+        "/root/project/results/extensions/paul2026_swin": results_volume,
     },
 )
 def run_flat_smoke():
@@ -78,9 +78,9 @@ def run_flat_smoke():
 
     started = time.perf_counter()
     outcome = run_paul_experiment(
-        PROJECT_ROOT / CONFIG_PATH,
-        project_root=PROJECT_ROOT,
-        output_root=SMOKE_OUTPUT_ROOT,
+        Path(PROJECT_ROOT) / CONFIG_PATH,
+        project_root=Path(PROJECT_ROOT),
+        output_root=Path(SMOKE_OUTPUT_ROOT),
         device="cuda",
         epoch_limit=EPOCH_LIMIT,
         max_train_batches=MAX_TRAIN_BATCHES,

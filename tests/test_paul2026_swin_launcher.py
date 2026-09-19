@@ -317,6 +317,20 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
     source_path = ROOT / "scripts/modal_paul2026_swin.py"
     source = source_path.read_text(encoding="utf-8")
     tree = ast.parse(source)
+    assert 'PROJECT_ROOT = "/root/project"' in source
+    assert 'remote_path=PROJECT_ROOT' in source
+    assert '"/root/project/data/raw": data_volume' in source
+    assert '"/root/project/results/extensions/paul2026_swin": results_volume' in source
+    remote_path_lines = [
+        line.strip()
+        for line in source.splitlines()
+        if "remote_path=" in line or "volumes={" in line
+        or "data_volume" in line or "results_volume" in line
+    ]
+    assert all("\\" not in line for line in remote_path_lines)
+    assert "Path(PROJECT_ROOT) / CONFIG_PATH" in source
+    assert "project_root=Path(PROJECT_ROOT)" in source
+    assert "output_root=Path(SMOKE_OUTPUT_ROOT)" in source
     assert 'CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"' in source
     assert "EPOCH_LIMIT = 1" in source
     assert "MAX_TRAIN_BATCHES = 10" in source
