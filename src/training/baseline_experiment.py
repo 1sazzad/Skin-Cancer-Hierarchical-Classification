@@ -11,7 +11,7 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 import torch
 import yaml
@@ -712,15 +712,22 @@ def run_baseline_experiment(
     max_train_batches: int | None = None,
     max_validation_batches: int | None = None,
     epoch_limit: int | None = None,
+    config_loader: Callable | None = None,
+    model_builder: Callable | None = None,
+    dataloader_builder: Callable | None = None,
+    run_directory: str | Path | None = None,
 ) -> TrainingOutcome:
     """Train one Stage 1 or Stage 2 clean baseline using validation only.
 
     ``max_*_batches`` and ``epoch_limit`` create a clearly labelled sanity run.
     A sanity run is never eligible for paper reporting or checkpoint freezing.
     The internal-test loader is never iterated by this function.
+    Optional builders let extensions reuse this loop; omitted builders retain
+    historical behavior. An explicit run_directory must be empty, while the
+    default keeps the historical timestamped directory naming.
     """
 
-    config = load_experiment_config(config_path)
+    config = (config_loader or load_experiment_config)(config_path)
     project_root_path = Path(project_root).expanduser().resolve()
     output_root_path = Path(output_root).expanduser().resolve()
     resolved_device = torch.device(device)
@@ -739,11 +746,17 @@ def run_baseline_experiment(
         value is not None
         for value in (max_train_batches, max_validation_batches, epoch_limit)
     )
-    run_directory = _make_run_directory(
-        output_root_path,
-        str(experiment["run_name"]),
-        sanity_run=sanity_run,
-    )
+    if run_directory is None:
+        run_directory = _make_run_directory(
+            output_root_path,
+            str(experiment["run_name"]),
+            sanity_run=sanity_run,
+        )
+    else:
+        run_directory = Path(run_directory).expanduser().resolve()
+        if run_directory.exists() and any(run_directory.iterdir()):
+            raise FileExistsError(f"Run directory is not empty: {run_directory}")
+        run_directory.mkdir(parents=True, exist_ok=True)
 
     config["runtime"] = {
         "config_path": str(Path(config_path).expanduser().resolve()),
@@ -770,7 +783,7 @@ def run_baseline_experiment(
         drop_last_train=bool(loader.get("drop_last_train", False)),
         seed=seed,
     )
-    dataloaders = build_stage_dataloaders(
+    dataloaders = (dataloader_builder or build_stage_dataloaders)(
         project_root_path / str(data["split_manifest"]),
         project_root_path,
         str(data["task"]),
@@ -779,7 +792,7 @@ def run_baseline_experiment(
     )
 
     class_names = _ordered_class_names(config)
-    model = build_classification_model(
+    model = (model_builder or build_classification_model)(
         str(model_config["architecture"]),
         int(model_config["number_of_classes"]),
         pretrained="imagenet",

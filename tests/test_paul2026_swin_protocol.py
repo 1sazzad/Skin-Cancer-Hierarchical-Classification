@@ -71,7 +71,7 @@ def test_scientific_semantics_match_paper_template(system):
         expected = copy.deepcopy(template)
         expected["model"]["architecture"] = "swin_t"
         expected["experiment"].update(
-            status="planned", research_stage="paul2026_swin_extension",
+            status="ready_for_training", research_stage="paul2026_swin_extension",
             seed=doc["experiment"]["seed"],
             run_name=doc["experiment"]["run_name"],
             output_root="runs/extensions/paul2026_swin/",

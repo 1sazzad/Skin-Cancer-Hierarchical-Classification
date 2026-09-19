@@ -1,5 +1,5 @@
 experiment:
-  status: planned
+  status: ready_for_training
   research_stage: paul2026_swin_extension
   run_name: paul2026_flat_swin_t_seed42
   output_root: runs/extensions/paul2026_swin/
