@@ -146,6 +146,22 @@ def _loader_config(config):
     }, seed=config["experiment"]["seed"])
 
 
+def validate_smoke_limits(
+    *,
+    epoch_limit: int | None = None,
+    max_train_batches: int | None = None,
+    max_validation_batches: int | None = None,
+) -> None:
+    """Validate optional bounded-run controls without changing their values."""
+    for name, value in (
+        ("epoch_limit", epoch_limit),
+        ("max_train_batches", max_train_batches),
+        ("max_validation_batches", max_validation_batches),
+    ):
+        if value is not None and (type(value) is not int or value <= 0):
+            raise ValueError(f"{name} must be a positive integer when supplied.")
+
+
 def preflight(config, *, project_root=PROJECT_ROOT, device="cpu") -> dict[str, Any]:
     """Check local inputs and CPU model construction; no epochs or output files."""
     system = validate_paul_config(config)
@@ -193,11 +209,29 @@ def preflight(config, *, project_root=PROJECT_ROOT, device="cpu") -> dict[str, A
     }
 
 
-def run_paul_experiment(config_path, *, project_root=PROJECT_ROOT,
-                        output_root=None, device="cpu"):
+def run_paul_experiment(
+    config_path,
+    *,
+    project_root=PROJECT_ROOT,
+    output_root=None,
+    device="cpu",
+    epoch_limit: int | None = None,
+    max_train_batches: int | None = None,
+    max_validation_batches: int | None = None,
+):
     """Execute a declared run through an existing loop; never use internal test."""
+    validate_smoke_limits(
+        epoch_limit=epoch_limit,
+        max_train_batches=max_train_batches,
+        max_validation_batches=max_validation_batches,
+    )
     config = load_paul_config(config_path)
     system = validate_paul_config(config)
+    limits = (epoch_limit, max_train_batches, max_validation_batches)
+    if system == "shared_hard" and any(value is not None for value in limits):
+        raise ValueError(
+            "Bounded Shared-Hard smoke controls are not implemented yet."
+        )
     root = Path(project_root).expanduser().resolve()
     output = Path(output_root).expanduser().resolve() if output_root is not None else root / DEFAULT_OUTPUT_ROOT
     run_directory = output / config["experiment"]["run_name"]
@@ -208,6 +242,9 @@ def run_paul_experiment(config_path, *, project_root=PROJECT_ROOT,
             config_path, project_root=root, output_root=output, device=device,
             config_loader=load_paul_config, model_builder=build_flat_model,
             dataloader_builder=build_flat_dataloaders, run_directory=run_directory,
+            epoch_limit=epoch_limit,
+            max_train_batches=max_train_batches,
+            max_validation_batches=max_validation_batches,
         )
     resolved_device = phase03._resolve_device(device)
     seed_everything(config["experiment"]["seed"])

@@ -1,6 +1,7 @@
 """Offline launcher contracts, using mocked data and no training epochs."""
 
 from copy import deepcopy
+import ast
 import csv
 from pathlib import Path
 from types import SimpleNamespace
@@ -14,6 +15,8 @@ from src.models.classification_backbone import SUPPORTED_CLASSIFICATION_ARCHITEC
 from src.models.shared_three_task import SUPPORTED_SHARED_ARCHITECTURES
 from src.training import baseline_experiment as baseline
 from src.training import paul2026_swin as paul
+from scripts import train_paul2026_swin as train_cli
+from scripts.train_paul2026_swin import positive_integer
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_DIR = ROOT / "configs/extensions/paul2026_swin"
@@ -245,6 +248,95 @@ def test_full_run_dispatch_preserves_seed_identity_and_imagenet(monkeypatch, tmp
         seed_spy.assert_called_once_with(2026)
         assert yaml.safe_load((run / "resolved_config.yaml").read_text()) == config
         assert builder.call_args.kwargs["pretrained"] == "imagenet"
+
+
+def test_flat_bounded_arguments_are_forwarded_unchanged(monkeypatch, tmp_path):
+    runner = Mock()
+    monkeypatch.setattr(paul, "run_baseline_experiment", runner)
+    paul.run_paul_experiment(
+        config_path("flat"),
+        output_root=tmp_path,
+        epoch_limit=1,
+        max_train_batches=10,
+        max_validation_batches=5,
+    )
+    kwargs = runner.call_args.kwargs
+    assert kwargs["epoch_limit"] == 1
+    assert kwargs["max_train_batches"] == 10
+    assert kwargs["max_validation_batches"] == 5
+
+
+def test_flat_without_limits_keeps_full_run_controls_unset(monkeypatch, tmp_path):
+    runner = Mock()
+    monkeypatch.setattr(paul, "run_baseline_experiment", runner)
+    paul.run_paul_experiment(config_path("flat"), output_root=tmp_path)
+    kwargs = runner.call_args.kwargs
+    assert kwargs["epoch_limit"] is None
+    assert kwargs["max_train_batches"] is None
+    assert kwargs["max_validation_batches"] is None
+
+
+@pytest.mark.parametrize("name", ["epoch_limit", "max_train_batches", "max_validation_batches"])
+@pytest.mark.parametrize("value", [0, -1, True, "1"])
+def test_smoke_limits_require_positive_integers(name, value):
+    with pytest.raises(ValueError, match="positive integer"):
+        paul.validate_smoke_limits(**{name: value})
+
+
+def test_shared_hard_rejects_bounded_arguments(tmp_path):
+    with pytest.raises(ValueError, match="Shared-Hard"):
+        paul.run_paul_experiment(
+            config_path("shared_hard"), output_root=tmp_path, epoch_limit=1
+        )
+
+
+@pytest.mark.parametrize("value", ["0", "-1", "not-an-int"])
+def test_cli_positive_integer_validation(value):
+    with pytest.raises(Exception, match="positive integer"):
+        positive_integer(value)
+
+
+def test_cli_preflight_rejects_training_limits(monkeypatch):
+    monkeypatch.setattr(
+        train_cli.sys,
+        "argv",
+        [
+            "train_paul2026_swin.py",
+            "--config",
+            str(config_path("flat")),
+            "--preflight",
+            "--epoch-limit",
+            "1",
+        ],
+    )
+    with pytest.raises(SystemExit):
+        train_cli.main()
+
+
+def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
+    source_path = ROOT / "scripts/modal_paul2026_swin.py"
+    source = source_path.read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    assert 'CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"' in source
+    assert "EPOCH_LIMIT = 1" in source
+    assert "MAX_TRAIN_BATCHES = 10" in source
+    assert "MAX_VALIDATION_BATCHES = 5" in source
+    assert 'GPU = "T4"' in source
+    assert "MAX_CONTAINERS = 1" in source
+    assert "RETRIES = 0" in source
+    assert "SCALEDOWN_WINDOW_SECONDS = 0" in source
+    assert "ignore_runtime_data" in source
+    assert "create_if_missing=False" in source
+    assert "/root/project/data/raw/isic2019" in source
+    assert "/root/project/data/raw/emb" in source
+    assert "smoke_runs" in source
+    assert "web_endpoint" not in source
+    assert not any(
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr in {"put", "reload"}
+        for node in ast.walk(tree)
+    )
 
 
 @pytest.mark.parametrize("system", ["flat", "shared_hard"])
