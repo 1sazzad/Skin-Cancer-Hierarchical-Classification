@@ -1,6 +1,7 @@
 """Deploy PAUL Flat Swin-T functions; submit production via the dedicated launcher."""
 
 from pathlib import Path
+import json
 import time
 
 import modal
@@ -14,6 +15,11 @@ TIMEOUT_SECONDS = 30 * 60
 PRODUCTION_TIMEOUT_SECONDS = 14 * 60 * 60
 SINGLE_USE_CONTAINERS = True
 CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"
+FLAT_CONFIG_BY_SEED = {
+    42: "configs/extensions/paul2026_swin/flat_seed42.yaml",
+    123: "configs/extensions/paul2026_swin/flat_seed123.yaml",
+    2026: "configs/extensions/paul2026_swin/flat_seed2026.yaml",
+}
 EPOCH_LIMIT = 1
 MAX_TRAIN_BATCHES = 50
 MAX_VALIDATION_BATCHES = 10
@@ -135,7 +141,10 @@ def run_flat_smoke():
         "/root/project/results/extensions/paul2026_swin": results_volume,
     },
 )
-def run_flat_production():
+def run_flat_production(seed: int):
+    if type(seed) is not int or seed not in FLAT_CONFIG_BY_SEED:
+        raise ValueError("production seed must be one of: 42, 123, 2026")
+
     import sys
 
     import torch
@@ -151,14 +160,28 @@ def run_flat_production():
                 f"Required Modal data directory is missing: {required}"
             )
 
-    config_path = Path(PROJECT_ROOT) / CONFIG_PATH
+    selected_config = FLAT_CONFIG_BY_SEED[seed]
+    config_path = Path(PROJECT_ROOT) / selected_config
     config = load_paul_config(config_path)
+    if config["experiment"]["seed"] != seed or "task_losses" in config:
+        raise ValueError("production config must match the selected Flat seed")
+    run_name = config["experiment"]["run_name"]
+    run_directory = Path(PRODUCTION_OUTPUT_ROOT) / run_name
+    summary_path = run_directory / "run_summary.json"
+    if summary_path.exists():
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        if (
+            summary.get("run_name") == run_name
+            and summary.get("reportable_as_full_result") is True
+        ):
+            raise RuntimeError(f"production run already completed: {run_name}")
     training = config["training"]
     print("mode: production")
     print("resume_capable: true")
     print("system: flat")
     print("backbone: swin_t")
-    print("seed: 42")
+    print(f"seed: {config['experiment']['seed']}")
+    print(f"config: {selected_config}")
     print(f"gpu: {GPU}")
     print(f"max_epochs: {training['epochs']}")
     print(f"early_stopping_patience: {training['early_stopping_patience']}")
@@ -195,5 +218,5 @@ def main():
     raise SystemExit(
         "Production requires the deployed app. First run: "
         "modal deploy scripts/modal_paul2026_swin.py\n"
-        "Then submit with: modal run scripts/launch_paul2026_swin_production.py"
+        "Then submit with: modal run scripts/launch_paul2026_swin_production.py --seed 123"
     )

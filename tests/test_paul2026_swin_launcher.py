@@ -566,10 +566,12 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
     )
 
 
-def test_modal_harness_has_production_flat_seed42_function():
+def test_modal_harness_has_seed_parameterized_production_function():
     source = (ROOT / "scripts/modal_paul2026_swin.py").read_text(encoding="utf-8")
     production_start = source.rfind("@app.function(", 0, source.index("def run_flat_production"))
     production = source[production_start:]
+    assert "def run_flat_production(seed: int):" in production
+    assert "selected_config = FLAT_CONFIG_BY_SEED[seed]" in production
     assert 'CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"' in source
     assert "PRODUCTION_TIMEOUT_SECONDS = 14 * 60 * 60" in source
     assert 'PRODUCTION_OUTPUT_ROOT = "/root/project/results/extensions/paul2026_swin/runs"' in source
