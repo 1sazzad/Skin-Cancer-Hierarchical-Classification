@@ -230,13 +230,9 @@ def run_paul_experiment(
     config = load_paul_config(config_path)
     system = validate_paul_config(config)
     limits = (epoch_limit, max_train_batches, max_validation_batches)
-    if system == "shared_hard" and (
-        any(value is not None for value in limits)
-        or resume
-        or persist_callback is not None
-    ):
+    if system == "shared_hard" and any(value is not None for value in limits):
         raise ValueError(
-            "Shared-Hard bounded controls and resume support are not implemented yet."
+            "Shared-Hard bounded controls are not implemented yet."
         )
     if resume and any(value is not None for value in limits):
         raise ValueError("PAUL resume support is reserved for unbounded production runs.")
@@ -256,15 +252,30 @@ def run_paul_experiment(
             resume=resume,
             persist_callback=persist_callback,
         )
-    resolved_device = phase03._resolve_device(device)
-    seed_everything(config["experiment"]["seed"])
-    run_directory = phase03._prepare_run_directory(run_directory)
+    if resume:
+        from src.training.shared_resume import prepare_resumable_directory, load_shared_resume
+
+        run_directory = prepare_resumable_directory(run_directory, config)
+        if (run_directory / "last_checkpoint.pt").exists():
+            load_shared_resume(run_directory / "last_checkpoint.pt", config)
+        resolved_device = phase03._resolve_device(device)
+        seed_everything(config["experiment"]["seed"])
+    else:
+        resolved_device = phase03._resolve_device(device)
+        seed_everything(config["experiment"]["seed"])
+        run_directory = phase03._prepare_run_directory(run_directory)
+    resume_options = {}
+    if resume:
+        resume_options["resume"] = True
+    if persist_callback is not None:
+        resume_options["persist_callback"] = persist_callback
     resolved_path = run_directory / "resolved_config.yaml"
     resolved_path.write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
-    with shared_model_builder(), (run_directory / "logs/train_console.log").open("w", encoding="utf-8") as log:
+    with shared_model_builder(), (run_directory / "logs/train_console.log").open("a" if resume else "w", encoding="utf-8") as log:
         tee = phase03.Tee(sys.stdout, log)
         with redirect_stdout(tee), redirect_stderr(tee):
             return phase03._run_training(
                 config, config_path=resolved_path, project_root=root,
                 run_directory=run_directory, device=resolved_device,
+                **resume_options,
             )

@@ -152,7 +152,7 @@ def test_idle_submission_returns_call_id_without_waiting(launcher, capsys):
     function.remote.assert_not_called()
     call.get.assert_not_called()
     assert capsys.readouterr().out.splitlines() == [
-        "launch_status: submitted", "app: paul2026-swin",
+        "launch_status: submitted", "app: paul2026-swin", "system: flat",
         "function: run_flat_production", "seed: 123", "function_call_id: fc-offline-test",
         "local_process_required: false",
     ]
@@ -212,3 +212,73 @@ def test_submission_has_no_training_or_internal_test_imports():
     assert len(imports) == 1
     assert isinstance(imports[0], ast.Import)
     assert [alias.name for alias in imports[0].names] == ["modal"]
+
+
+@pytest.mark.parametrize("seed", [42, 123, 2026])
+def test_shared_submission(launcher, seed, capsys):
+    main, modal, function, call = launcher
+    main(seed, system="shared_hard")
+    modal.Function.from_name.assert_called_once_with("paul2026-swin", "run_shared_hard_production")
+    function.spawn.assert_called_once_with(seed)
+    function.remote.assert_not_called()
+    call.get.assert_not_called()
+    assert "system: shared_hard" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("system", ["shared", "", None, True, []])
+def test_invalid_system(launcher, system):
+    main, modal, function, _ = launcher
+    with pytest.raises(ValueError, match="system"):
+        main(42, system=system)
+    modal.Function.from_name.assert_not_called()
+    function.spawn.assert_not_called()
+
+
+@pytest.mark.parametrize("running,backlog", [(1, 0), (0, 1)])
+def test_shared_busy_refuses_spawn(launcher, running, backlog):
+    main, _, function, call = launcher
+    function.get_current_stats.return_value = SimpleNamespace(num_running_inputs=running, backlog=backlog)
+    with pytest.raises(SystemExit, match="production launch refused"):
+        main(42, system="shared_hard")
+    function.spawn.assert_not_called()
+    function.remote.assert_not_called()
+    call.get.assert_not_called()
+
+
+@pytest.mark.parametrize("seed", [42, 123, 2026])
+def test_shared_production_mapping(production, seed, capsys):
+    flat, namespace, runner, output = production
+    run = namespace["run_shared_hard_production"]
+    run.__globals__.update(flat.__globals__)
+    expected = f"configs/extensions/paul2026_swin/shared_hard_seed{seed}.yaml"
+    assert namespace["SHARED_HARD_CONFIG_BY_SEED"][seed] == expected
+    with pytest.raises(RuntimeError, match="offline dispatch reached"):
+        run(seed)
+    runner.assert_called_once_with(
+        ROOT / expected, project_root=ROOT, output_root=output, device="cuda",
+        resume=True, persist_callback=namespace["results_volume"].commit,
+    )
+    assert "system: shared_hard" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("seed", [True, "42", 43, None, []])
+def test_shared_production_invalid_seed(production, seed):
+    _, namespace, runner, _ = production
+    with pytest.raises(ValueError, match="seed"):
+        namespace["run_shared_hard_production"](seed)
+    runner.assert_not_called()
+
+
+def test_shared_production_completed_guard(production):
+    flat, namespace, runner, output = production
+    run = namespace["run_shared_hard_production"]
+    run.__globals__.update(flat.__globals__)
+    name = "paul2026_shared_hard_swin_t_seed42"
+    directory = output / name
+    directory.mkdir()
+    (directory / "run_summary.json").write_text(json.dumps({
+        "run_name": name, "reportable_as_full_result": True,
+    }))
+    with pytest.raises(RuntimeError, match="already completed"):
+        run(42)
+    runner.assert_not_called()

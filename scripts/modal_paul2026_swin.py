@@ -20,6 +20,11 @@ FLAT_CONFIG_BY_SEED = {
     123: "configs/extensions/paul2026_swin/flat_seed123.yaml",
     2026: "configs/extensions/paul2026_swin/flat_seed2026.yaml",
 }
+SHARED_HARD_CONFIG_BY_SEED = {
+    42: "configs/extensions/paul2026_swin/shared_hard_seed42.yaml",
+    123: "configs/extensions/paul2026_swin/shared_hard_seed123.yaml",
+    2026: "configs/extensions/paul2026_swin/shared_hard_seed2026.yaml",
+}
 EPOCH_LIMIT = 1
 MAX_TRAIN_BATCHES = 50
 MAX_VALIDATION_BATCHES = 10
@@ -211,6 +216,59 @@ def run_flat_production(seed: int):
     print(f"stopped_early: {outcome.stopped_early}")
     print(f"elapsed_seconds: {elapsed:.3f}")
     print(f"max_memory_allocated_gib: {memory_gib:.3f}")
+
+
+@app.function(
+    image=image,
+    gpu=GPU,
+    max_containers=MAX_CONTAINERS,
+    retries=RETRIES,
+    timeout=PRODUCTION_TIMEOUT_SECONDS,
+    single_use_containers=SINGLE_USE_CONTAINERS,
+    volumes={
+        "/root/project/data/raw": data_volume,
+        "/root/project/results/extensions/paul2026_swin": results_volume,
+    },
+)
+def run_shared_hard_production(seed: int):
+    if type(seed) is not int or seed not in SHARED_HARD_CONFIG_BY_SEED:
+        raise ValueError("production seed must be one of: 42, 123, 2026")
+
+    import sys
+
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
+
+    from src.training.paul2026_swin import load_paul_config, run_paul_experiment
+    from src.training.shared_resume import refuse_completed_run
+
+    selected_config = SHARED_HARD_CONFIG_BY_SEED[seed]
+    config_path = Path(PROJECT_ROOT) / selected_config
+    config = load_paul_config(config_path)
+    if config["experiment"]["seed"] != seed or "task_losses" not in config:
+        raise ValueError("production config must match the selected Shared-Hard seed")
+    run_directory = Path(PRODUCTION_OUTPUT_ROOT) / config["experiment"]["run_name"]
+    refuse_completed_run(run_directory, config)
+    for required in (Path(ISIC_DATA_PATH), Path(EMB_DATA_PATH)):
+        if not required.is_dir():
+            raise FileNotFoundError(f"Required Modal data directory is missing: {required}")
+
+    print("mode: production")
+    print("resume_capable: true")
+    print("system: shared_hard")
+    print("backbone: swin_t")
+    print(f"seed: {config['experiment']['seed']}")
+    print(f"config: {selected_config}")
+    print(f"gpu: {GPU}")
+    print(f"max_epochs: {config['training']['epochs']}")
+    print(f"early_stopping_patience: {config['training']['early_stopping_patience']}")
+    print("bounded_batches: false")
+    run_paul_experiment(
+        config_path, project_root=Path(PROJECT_ROOT),
+        output_root=Path(PRODUCTION_OUTPUT_ROOT), device="cuda",
+        resume=True, persist_callback=results_volume.commit,
+    )
+    print(f"run_directory: {run_directory}")
 
 
 @app.local_entrypoint()

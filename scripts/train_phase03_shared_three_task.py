@@ -349,7 +349,21 @@ def _run_training(
     project_root: Path,
     run_directory: Path,
     device: torch.device,
+    resume: bool = False,
+    persist_callback=None,
 ) -> None:
+    resume_state = None
+    if resume:
+        from src.training.shared_resume import (
+            prepare_resumable_directory, load_shared_resume,
+            restore_shared_resume, save_shared_resume,
+        )
+        from src.training.shared_resume_loader import ResumableTrainLoader
+
+        run_directory = prepare_resumable_directory(run_directory, config)
+        last_path = run_directory / "last_checkpoint.pt"
+        if last_path.exists():
+            resume_state = load_shared_resume(last_path, config)
     seed = int(config["experiment"]["seed"])
     seed_everything(seed)
     dataloaders, model, criterion, optimizer, scheduler = _build_components(
@@ -373,12 +387,39 @@ def _run_training(
     started = time.perf_counter()
     checkpoint_path = run_directory / "best_checkpoint.pt"
     git_commit = _git_commit(project_root)
+    completed_epoch = 0
+    cumulative_seconds = 0.0
+    best_payload = None
+    train_loader = dataloaders.train
+    if resume:
+        if not isinstance(train_loader.generator, torch.Generator):
+            raise ValueError("Shared resume requires a training DataLoader generator")
+        if resume_state is not None:
+            restore_shared_resume(
+                resume_state, model=model, optimizer=optimizer, scheduler=scheduler,
+                scaler=scaler, control=control, train_generator=train_loader.generator,
+            )
+            completed_epoch = resume_state["completed_epoch"]
+            history = deepcopy(resume_state["history"])
+            best_metrics = deepcopy(resume_state["best_validation_metrics"])
+            best_payload = resume_state["best_checkpoint_payload"]
+            cumulative_seconds = resume_state["cumulative_training_seconds"]
+            stopped_early = control.epochs_without_improvement >= control.patience
+            # Recover the selected model from the same durable epoch snapshot.
+            save_best_checkpoint(checkpoint_path, best_payload)
+        train_loader = ResumableTrainLoader(
+            train_loader,
+            resume_state["worker_rng_states"] if resume_state else None,
+            resumed=resume_state is not None,
+        )
 
-    for epoch in range(1, int(config["training"]["epochs"]) + 1):
+    for epoch in range(completed_epoch + 1, int(config["training"]["epochs"]) + 1):
+        if stopped_early:
+            break
         learning_rate = float(optimizer.param_groups[0]["lr"])
         train_result = run_shared_training_epoch(
             model,
-            dataloaders.train,
+            train_loader,
             criterion,
             optimizer,
             device,
@@ -418,6 +459,8 @@ def _run_training(
                 ),
             )
             save_best_checkpoint(checkpoint_path, payload)
+            if resume:
+                best_payload = deepcopy(payload)
 
         record = {
             "epoch": epoch,
@@ -431,6 +474,17 @@ def _run_training(
             "patience_counter": control.epochs_without_improvement,
         }
         history.append(record)
+        if resume:
+            # The atomic checkpoint is authoritative; JSON/CSV are projections
+            # that can be regenerated after an interrupted artifact write.
+            save_shared_resume(
+                last_path, config=config, model=model, optimizer=optimizer,
+                scheduler=scheduler, scaler=scaler, control=control,
+                best_metrics=best_metrics, history=history,
+                train_generator=train_loader.generator,
+                cumulative_seconds=cumulative_seconds + time.perf_counter() - started,
+                best_payload=best_payload, worker_states=train_loader.worker_states,
+            )
         running_summary = {
             "completion_status": "running",
             "best_epoch": control.best_epoch,
@@ -464,6 +518,8 @@ def _run_training(
             f"learning_rate={learning_rate:.8f} "
             f"patience_counter={control.epochs_without_improvement}"
         )
+        if persist_callback is not None:
+            persist_callback()
         if should_stop:
             stopped_early = True
             break
@@ -488,9 +544,14 @@ def _run_training(
         "config_path": str(config_path),
         "git_commit": git_commit,
         "best_checkpoint_path": str(checkpoint_path),
-        "training_seconds": time.perf_counter() - started,
+        "training_seconds": cumulative_seconds + time.perf_counter() - started,
         "internal_test_evaluated": False,
     }
+    if resume:
+        summary.update(
+            run_name=config["experiment"]["run_name"],
+            reportable_as_full_result=True,
+        )
     write_training_history(
         run_directory,
         history,
@@ -498,6 +559,8 @@ def _run_training(
         csv_filename="training_history.csv",
     )
     print(json.dumps(summary, indent=2, sort_keys=True))
+    if persist_callback is not None:
+        persist_callback()
 
 
 def main() -> None:
