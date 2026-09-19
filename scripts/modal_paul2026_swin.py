@@ -11,7 +11,7 @@ GPU = "T4"
 MAX_CONTAINERS = 1
 RETRIES = 0
 TIMEOUT_SECONDS = 30 * 60
-SCALEDOWN_WINDOW_SECONDS = 0
+SINGLE_USE_CONTAINERS = True
 CONFIG_PATH = "configs/extensions/paul2026_swin/flat_seed42.yaml"
 EPOCH_LIMIT = 1
 MAX_TRAIN_BATCHES = 10
@@ -24,20 +24,34 @@ SMOKE_OUTPUT_ROOT = "/root/project/results/extensions/paul2026_swin/smoke_runs"
 
 
 def ignore_runtime_data(path: Path) -> bool:
-    relative = path.relative_to(REPOSITORY_ROOT)
-    return relative.parts[:1] in {(".git",), (".venv",), ("runs",), ("results",)} or (
-        relative.parts[:2] == ("data", "raw")
+    candidate = Path(path)
+    if candidate.is_absolute():
+        try:
+            candidate = candidate.relative_to(REPOSITORY_ROOT)
+        except ValueError:
+            return False
+
+    excluded_roots = (
+        Path(".git"),
+        Path(".venv"),
+        Path("runs"),
+        Path("results"),
+        Path("data") / "raw",
+    )
+    return any(
+        candidate == excluded or candidate.is_relative_to(excluded)
+        for excluded in excluded_roots
     )
 
 app = modal.App(APP_NAME)
 image = (
     modal.Image.debian_slim(python_version="3.11")
+    .pip_install_from_requirements(str(REPOSITORY_ROOT / "requirements.txt"))
     .add_local_dir(
         str(REPOSITORY_ROOT),
         remote_path=PROJECT_ROOT,
         ignore=ignore_runtime_data,
     )
-    .pip_install_from_requirements(str(REPOSITORY_ROOT / "requirements.txt"))
 )
 data_volume = modal.Volume.from_name("paul2026-swin-data", create_if_missing=False)
 results_volume = modal.Volume.from_name(
@@ -51,14 +65,19 @@ results_volume = modal.Volume.from_name(
     max_containers=MAX_CONTAINERS,
     retries=RETRIES,
     timeout=TIMEOUT_SECONDS,
-    scaledown_window=SCALEDOWN_WINDOW_SECONDS,
+    single_use_containers=SINGLE_USE_CONTAINERS,
     volumes={
         "/root/project/data/raw": data_volume,
         "/root/project/results/extensions/paul2026_swin": results_volume,
     },
 )
 def run_flat_smoke():
+    import sys
+
     import torch
+
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
 
     from src.training.paul2026_swin import run_paul_experiment
 

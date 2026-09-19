@@ -317,6 +317,19 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
     source_path = ROOT / "scripts/modal_paul2026_swin.py"
     source = source_path.read_text(encoding="utf-8")
     tree = ast.parse(source)
+    image_source = source[source.index("image = ("):source.index("data_volume =")]
+    assert image_source.index("pip_install_from_requirements") < image_source.index(
+        "add_local_dir"
+    )
+    assert image_source.rstrip().endswith(")")
+    assert "add_local_dir" not in image_source[image_source.index("add_local_dir") + 1:]
+    remote_function = source[source.index("def run_flat_smoke") :]
+    assert "import sys" in remote_function
+    assert "if PROJECT_ROOT not in sys.path:" in remote_function
+    assert "sys.path.insert(0, PROJECT_ROOT)" in remote_function
+    assert remote_function.index("sys.path.insert") < remote_function.index(
+        "from src.training.paul2026_swin"
+    )
     assert 'PROJECT_ROOT = "/root/project"' in source
     assert 'remote_path=PROJECT_ROOT' in source
     assert '"/root/project/data/raw": data_volume' in source
@@ -338,7 +351,10 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
     assert 'GPU = "T4"' in source
     assert "MAX_CONTAINERS = 1" in source
     assert "RETRIES = 0" in source
-    assert "SCALEDOWN_WINDOW_SECONDS = 0" in source
+    assert "SINGLE_USE_CONTAINERS = True" in source
+    assert "single_use_containers=SINGLE_USE_CONTAINERS" in source
+    assert "scaledown_window=0" not in source
+    assert "SCALEDOWN_WINDOW_SECONDS" not in source
     assert "ignore_runtime_data" in source
     assert "create_if_missing=False" in source
     assert "/root/project/data/raw/isic2019" in source
@@ -351,6 +367,28 @@ def test_modal_harness_is_fixed_flat_seed42_smoke_without_importing_modal():
         and node.func.attr in {"put", "reload"}
         for node in ast.walk(tree)
     )
+
+
+def test_modal_ignore_callback_handles_relative_and_absolute_paths():
+    source = (ROOT / "scripts/modal_paul2026_swin.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    function = next(
+        node
+        for node in tree.body
+        if isinstance(node, ast.FunctionDef)
+        and node.name == "ignore_runtime_data"
+    )
+    namespace = {"Path": Path, "REPOSITORY_ROOT": ROOT}
+    exec(compile(ast.Module(body=[function], type_ignores=[]), "modal_test", "exec"), namespace)
+    ignore_runtime_data = namespace["ignore_runtime_data"]
+
+    assert ignore_runtime_data(Path(".gitignore")) is False
+    assert ignore_runtime_data(Path("requirements.txt")) is False
+    assert ignore_runtime_data(Path(".git/config")) is True
+    assert ignore_runtime_data(Path(".venv/Lib/site.py")) is True
+    assert ignore_runtime_data(Path("data/raw/isic2019/x.jpg")) is True
+    assert ignore_runtime_data(Path("results/foo.pt")) is True
+    assert ignore_runtime_data(ROOT / "data/raw/isic2019/x.jpg") is True
 
 
 @pytest.mark.parametrize("system", ["flat", "shared_hard"])
