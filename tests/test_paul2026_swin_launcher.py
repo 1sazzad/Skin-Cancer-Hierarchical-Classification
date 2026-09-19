@@ -626,6 +626,99 @@ def test_refuses_nonempty_run_directory(tmp_path, system):
     assert sentinel.read_text() == "keep"
 
 
+def test_resume_load_stays_on_cpu_for_cuda_training(monkeypatch, tmp_path):
+    # Execute the actual load expression with a CUDA training device in scope.
+    # This catches device remapping without allocating a CUDA tensor or training.
+    tree = ast.parse((ROOT / "src/training/baseline_experiment.py").read_text())
+    load = next(
+        node for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "load"
+        and node.args and isinstance(node.args[0], ast.Name)
+        and node.args[0].id == "resume_checkpoint_path"
+    )
+    spy = Mock(return_value={})
+    monkeypatch.setattr(torch, "load", spy)
+    path = tmp_path / "last_checkpoint.pt"
+    eval(compile(ast.Expression(load), "resume_load", "eval"), {
+        "torch": torch, "resume_checkpoint_path": path,
+        "resolved_device": torch.device("cuda"),
+    })
+    spy.assert_called_once_with(path, map_location="cpu", weights_only=False)
+
+
+def test_rng_normalizer_preserves_cpu_bytes():
+    value = torch.get_rng_state()
+    normalized = baseline._require_cpu_byte_rng_state(value, "test_rng")
+    assert normalized.device.type == "cpu"
+    assert normalized.dtype == torch.uint8
+    assert normalized is not value
+    assert torch.equal(normalized, value)
+
+
+@pytest.mark.parametrize("value", [None, [1, 2], torch.ones(2), torch.ones(2, dtype=torch.int64)])
+def test_rng_normalizer_rejects_invalid_state(value):
+    with pytest.raises(TypeError, match="test_rng.*torch.uint8"):
+        baseline._require_cpu_byte_rng_state(value, "test_rng")
+
+
+@pytest.mark.parametrize("cuda_available", [False, True])
+def test_restore_normalizes_rng_and_preserves_restoration_order(monkeypatch, cuda_available):
+    calls = Mock()
+    monkeypatch.setattr(baseline.random, "setstate", calls.python_rng)
+    monkeypatch.setattr(baseline.np.random, "set_state", calls.numpy_rng)
+    monkeypatch.setattr(torch, "set_rng_state", calls.cpu_rng)
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: cuda_available)
+    monkeypatch.setattr(torch.cuda, "set_rng_state_all", calls.cuda_rng)
+    # Tensor mocks represent serialized device tensors without using a GPU.
+    saved = []
+    for _ in range(4):
+        tensor = Mock(spec=torch.Tensor)
+        tensor.dtype = torch.uint8
+        tensor.detach.return_value.cpu.return_value = torch.get_rng_state()
+        saved.append(tensor)
+    state = {
+        "run_name": "run", "seed": 42, "config_identity": {},
+        "completed_epoch": 2, "history": [{"epoch": 1}, {"epoch": 2}],
+        "scaler_state_dict": {}, "python_rng_state": (), "numpy_rng_state": (),
+        "torch_cpu_rng_state": saved[0], "torch_cuda_rng_states": saved[1:3],
+        "train_generator_state": saved[3], "best_validation_macro_f1": 0.58,
+        "best_epoch": 2, "epochs_without_improvement": 0,
+        "cumulative_training_seconds": 10.0,
+    }
+    checkpoint = {
+        "resume_state": state, "class_names": ["a"], "epoch": 2,
+        "model_state_dict": {}, "optimizer_state_dict": {}, "scheduler_state_dict": {},
+    }
+    kwargs = dict(
+        model=calls.model, optimizer=calls.optimizer, scheduler=calls.scheduler,
+        scaler=calls.scaler, train_generator=calls.generator, run_name="run",
+        seed=42, class_names=["a"], config_identity={}, configured_epochs=30,
+    )
+    result = baseline._restore_resumable_checkpoint(checkpoint, **kwargs)
+    assert result[0] == 2
+    expected = [
+        "model.load_state_dict", "optimizer.load_state_dict", "scheduler.load_state_dict",
+        "scaler.load_state_dict", "python_rng", "numpy_rng", "cpu_rng",
+    ] + (["cuda_rng"] if cuda_available else []) + ["generator.set_state"]
+    assert [call[0] for call in calls.mock_calls] == expected
+    restored = [calls.cpu_rng.call_args.args[0], calls.generator.set_state.call_args.args[0]]
+    if cuda_available:
+        restored.extend(calls.cuda_rng.call_args.args[0])
+    for tensor in restored:
+        assert tensor.device.type == "cpu"
+        assert tensor.dtype == torch.uint8
+    for tensor in saved:
+        tensor.detach.assert_called_once_with()
+        tensor.detach.return_value.cpu.assert_called_once_with()
+
+    for invalid in (None, "invalid", torch.zeros(2, dtype=torch.uint8), [torch.ones(2)], [None]):
+        state["torch_cuda_rng_states"] = invalid
+        with pytest.raises(ValueError, match="torch_cuda_rng_states"):
+            baseline._restore_resumable_checkpoint(checkpoint, **kwargs)
+
+
 def test_registry_stays_planned_and_paper_files_unchanged():
     from tests.test_paul2026_swin_protocol import test_paper_configs_and_registry_remain_unchanged
     test_paper_configs_and_registry_remain_unchanged()

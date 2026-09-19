@@ -9,6 +9,7 @@ import platform
 import random
 import time
 from copy import deepcopy
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -723,6 +724,15 @@ def _resumable_checkpoint_payload(
     return {**base_payload, "resume_state": resume_state}
 
 
+def _require_cpu_byte_rng_state(value: Any, name: str) -> torch.Tensor:
+    """Preserve RNG bytes while normalizing their device for PyTorch RNG APIs."""
+    if not isinstance(value, torch.Tensor):
+        raise TypeError(f"{name} must be a torch.Tensor with dtype torch.uint8.")
+    if value.dtype != torch.uint8:
+        raise TypeError(f"{name} must have dtype torch.uint8; got {value.dtype}.")
+    return value.detach().cpu()
+
+
 def _restore_resumable_checkpoint(
     checkpoint: Mapping[str, Any],
     *,
@@ -766,10 +776,21 @@ def _restore_resumable_checkpoint(
         scaler.load_state_dict(state["scaler_state_dict"])
         random.setstate(state["python_rng_state"])
         np.random.set_state(state["numpy_rng_state"])
-        torch.set_rng_state(state["torch_cpu_rng_state"])
+        torch.set_rng_state(_require_cpu_byte_rng_state(
+            state["torch_cpu_rng_state"], "torch_cpu_rng_state",
+        ))
+        cuda_states = state["torch_cuda_rng_states"]
+        if not isinstance(cuda_states, Sequence) or isinstance(cuda_states, (str, bytes)):
+            raise TypeError("torch_cuda_rng_states must be a sequence of ByteTensors.")
+        cuda_states = [
+            _require_cpu_byte_rng_state(value, f"torch_cuda_rng_states[{index}]")
+            for index, value in enumerate(cuda_states)
+        ]
         if torch.cuda.is_available():
-            torch.cuda.set_rng_state_all(state["torch_cuda_rng_states"])
-        train_generator.set_state(state["train_generator_state"])
+            torch.cuda.set_rng_state_all(cuda_states)
+        train_generator.set_state(_require_cpu_byte_rng_state(
+            state["train_generator_state"], "train_generator_state",
+        ))
     except (KeyError, TypeError, RuntimeError, ValueError) as error:
         raise ValueError(
             f"Resumable checkpoint state could not be restored: {error}"
@@ -967,7 +988,7 @@ def run_baseline_experiment(
     if resume and resume_checkpoint_path is not None and resume_checkpoint_path.exists():
         checkpoint = torch.load(
             resume_checkpoint_path,
-            map_location=resolved_device,
+            map_location="cpu",
             weights_only=False,
         )
         (
