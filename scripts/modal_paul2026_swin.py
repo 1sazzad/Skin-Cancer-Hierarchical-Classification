@@ -271,6 +271,114 @@ def run_shared_hard_production(seed: int):
     print(f"run_directory: {run_directory}")
 
 
+def _log_isic_evaluation_protocol():
+    print("mode: locked_internal_test_evaluation", flush=True)
+    print("system: flat_shared_hard_oracle", flush=True)
+    print("backbone: swin_t", flush=True)
+    print("seeds: 42,123,2026", flush=True)
+    print("dataset: ISIC2019", flush=True)
+    print("split: internal_test", flush=True)
+    print("sample_count_expected: 3668", flush=True)
+    print("model_selection_from_test: false", flush=True)
+    print("tuning_from_test: false", flush=True)
+
+
+@app.function(
+    image=image,
+    max_containers=1,
+    retries=0,
+    timeout=60 * 60,
+    single_use_containers=True,
+    volumes={"/root/project/results/extensions/paul2026_swin": results_volume},
+)
+def run_isic_evaluation_preflight():
+    """CPU checkpoint inspection only; no test dataset or raw-data mount."""
+    import sys
+
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
+    from src.evaluation.paul2026_swin_evaluation import checkpoint_only_preflight
+
+    _log_isic_evaluation_protocol()
+    print("checkpoint_only: true", flush=True)
+    result = checkpoint_only_preflight(
+        PROJECT_ROOT, require_cuda=False, persist_callback=results_volume.commit,
+    )
+    print("preflight_status: PASS", flush=True)
+    return result
+
+
+@app.function(
+    image=image,
+    gpu="T4",
+    max_containers=1,
+    retries=0,
+    timeout=4 * 60 * 60,
+    single_use_containers=True,
+    volumes={
+        "/root/project/data/raw": data_volume,
+        "/root/project/results/extensions/paul2026_swin": results_volume,
+    },
+)
+def run_isic_evaluation_production():
+    import sys
+
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
+    from src.evaluation.paul2026_swin_evaluation import run_isic_evaluation
+
+    _log_isic_evaluation_protocol()
+    return run_isic_evaluation(
+        PROJECT_ROOT, device="cuda", persist_callback=results_volume.commit,
+    )
+
+
+@app.function(
+    image=image,
+    max_containers=1,
+    retries=0,
+    timeout=60 * 60,
+    single_use_containers=True,
+    volumes={
+        "/root/project/data/raw": data_volume,
+        "/root/project/data/external/hiba/extracted": data_volume,
+        "/root/project/results/extensions/paul2026_swin": results_volume,
+    },
+)
+def run_hiba_evaluation_preflight():
+    """CPU-only checkpoint and frozen image-byte validation; no inference."""
+    import sys
+
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
+    from src.evaluation.paul2026_swin_hiba_evaluation import hiba_preflight
+
+    return hiba_preflight(PROJECT_ROOT, persist_callback=results_volume.commit)
+
+
+@app.function(
+    image=image,
+    gpu="T4",
+    max_containers=1,
+    retries=0,
+    timeout=4 * 60 * 60,
+    single_use_containers=True,
+    volumes={
+        "/root/project/data/raw": data_volume,
+        "/root/project/data/external/hiba/extracted": data_volume,
+        "/root/project/results/extensions/paul2026_swin": results_volume,
+    },
+)
+def run_hiba_evaluation_production():
+    import sys
+
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
+    from src.evaluation.paul2026_swin_hiba_evaluation import run_hiba_evaluation
+
+    return run_hiba_evaluation(PROJECT_ROOT, device="cuda", persist_callback=results_volume.commit)
+
+
 @app.local_entrypoint()
 def main():
     raise SystemExit(

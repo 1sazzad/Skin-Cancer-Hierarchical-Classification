@@ -1,0 +1,35 @@
+{
+  "best_checkpoint_bytes": 330722247,
+  "best_epoch": 10,
+  "best_validation_macro_f1": 0.6806543601968976,
+  "class_names": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "class_to_index": {
+    "bcc": 2,
+    "melanoma": 1,
+    "non_malignant": 0,
+    "scc": 3
+  },
+  "class_weight_source": null,
+  "class_weights": null,
+  "completed_epochs": 17,
+  "configured_epochs": 30,
+  "focal_gamma": null,
+  "label_mapping_strategy": "phase06_flat_four_class_v1",
+  "label_source": "diagnosis_canonical",
+  "last_checkpoint_bytes": 330745061,
+  "loss": "cross_entropy",
+  "parameter_count": 27522430,
+  "reportable_as_full_result": true,
+  "run_name": "paul2026_flat_swin_t_seed123",
+  "sanity_run": false,
+  "selection_metric": "macro_f1",
+  "stopped_early": true,
+  "task": "flat_four_class",
+  "total_training_seconds": 2378.6437064269994,
+  "trainable_parameter_count": 27522430
+}

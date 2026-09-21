@@ -1,0 +1,19 @@
+{
+  "best_checkpoint_path": "/__modal/volumes/vo-4ovGW7WQ3lAmGeRnuildUa/runs/paul2026_shared_hard_swin_t_seed42/best_checkpoint.pt",
+  "best_epoch": 10,
+  "best_shared_validation_score": 0.4160725408444291,
+  "best_task1_val_macro_f1": 0.6199479371956371,
+  "best_task2_val_macro_f1": 0.4500257070936719,
+  "best_task3_val_macro_f1": 0.17824397824397825,
+  "completion_status": "completed_early_stopping",
+  "config_path": "/__modal/volumes/vo-4ovGW7WQ3lAmGeRnuildUa/runs/paul2026_shared_hard_swin_t_seed42/resolved_config.yaml",
+  "configured_epochs": 30,
+  "early_stopping": true,
+  "epochs_completed": 17,
+  "git_commit": null,
+  "internal_test_evaluated": false,
+  "reportable_as_full_result": true,
+  "run_name": "paul2026_shared_hard_swin_t_seed42",
+  "seed": 42,
+  "training_seconds": 3101.80203918
+}

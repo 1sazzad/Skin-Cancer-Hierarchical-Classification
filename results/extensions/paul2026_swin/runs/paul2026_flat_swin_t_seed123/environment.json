@@ -1,0 +1,10 @@
+{
+  "cuda_available": true,
+  "cuda_build": "13.0",
+  "device": "cuda",
+  "gpu_memory_bytes": 15637086208,
+  "gpu_name": "Tesla T4",
+  "platform": "Linux-4.19.0-gvisor-x86_64-with-glibc2.36",
+  "python": "3.11.12",
+  "torch": "2.13.0+cu130"
+}

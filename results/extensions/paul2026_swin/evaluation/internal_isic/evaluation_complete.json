@@ -1,0 +1,61 @@
+{
+  "manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+  "preflight_lock_sha256": "6805994ae0ec48e9b30d98b6d8649c72d3f68b9632fc312321773fd48e88d542",
+  "protocol": {
+    "augmentation": false,
+    "backbone": "swin_t",
+    "batch_size": 64,
+    "bootstrap_replicates": 10000,
+    "center_crop": 224,
+    "class_names": [
+      "non_malignant",
+      "melanoma",
+      "bcc",
+      "scc"
+    ],
+    "confidence_level": 0.95,
+    "dataset": "ISIC2019",
+    "drop_last": false,
+    "ensemble": false,
+    "inference_autocast": "float16_on_cuda_float32_on_cpu",
+    "mode": "locked_internal_test_evaluation",
+    "model_selection_from_test": false,
+    "normalization_mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "normalization_std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "num_workers": 4,
+    "resize": 256,
+    "sample_count_expected": 3668,
+    "seeds": [
+      42,
+      123,
+      2026
+    ],
+    "shuffle": false,
+    "split": "internal_test",
+    "statistical_seed": 42,
+    "std_ddof": 1,
+    "system": "flat_shared_hard_oracle",
+    "task": "flat_four_class",
+    "tuning_from_test": false
+  },
+  "seed_completion_sha256": {
+    "123": "edf2aa956bd47080114ddbd31198ad3fcfcfdc14d9e928c0069b2be484a2d1f2",
+    "2026": "80b8c37d8ded7caf7e024cf83f569615e3a357253a1e1d8a1c2dc86ffa0fab8f",
+    "42": "20573ab40bdf379e704c3246ad2438d130a390c013f0f29081e333b6a6e9454d"
+  },
+  "seeds": [
+    42,
+    123,
+    2026
+  ],
+  "status": "PASS",
+  "summary_sha256": "6e4e2dcf0fdc550c7efd9091048588c0e496029f313adfa06d09b8d2b9ecd267"
+}

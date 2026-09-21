@@ -1,0 +1,71 @@
+experiment:
+  status: ready_for_training
+  research_stage: paul2026_swin_extension
+  run_name: paul2026_flat_swin_t_seed123
+  output_root: runs/extensions/paul2026_swin/
+  dataset: isic2019
+  model: swin_t
+  variant: cross_entropy
+  seed: 123
+data:
+  split_manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
+  task: flat_four_class
+  label_source: diagnosis_canonical
+  label_mapping_strategy: phase06_flat_four_class_v1
+  inclusion_policy: split_included=1 and include_stage_1=1
+  class_to_index:
+    non_malignant: 0
+    melanoma: 1
+    bcc: 2
+    scc: 3
+  verify_image_paths: false
+  internal_test:
+    allowed: false
+    construct_loader: false
+    influence_selection: false
+loader:
+  batch_size: 64
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  prefetch_factor: 2
+  drop_last_train: false
+model:
+  architecture: swin_t
+  pretrained_weights: imagenet
+  number_of_classes: 4
+  dropout_probability: 0.2
+preprocessing:
+  input_size:
+  - 224
+  - 224
+  normalization: imagenet
+  train_transform: locked_moderate_baseline
+  validation_transform: deterministic_resize_256_center_crop_224
+  internal_test_transform: deterministic_resize_256_center_crop_224
+training:
+  epochs: 30
+  loss: cross_entropy
+  weighted_sampler: false
+  class_weights: null
+  focal_loss: false
+  amp: true
+  optimizer:
+    name: adamw
+    learning_rate: 0.0003
+    weight_decay: 0.0001
+  scheduler:
+    name: cosine_annealing
+    minimum_learning_rate: 1.0e-06
+  selection_metric: macro_f1
+  early_stopping_patience: 7
+  full_training_allowed: true
+runtime:
+  config_path: /root/project/configs/extensions/paul2026_swin/flat_seed123.yaml
+  project_root: /root/project
+  output_root: /__modal/volumes/vo-4ovGW7WQ3lAmGeRnuildUa/runs
+  device: cuda
+  sanity_run: false
+  max_train_batches: null
+  max_validation_batches: null
+  epoch_limit: null
