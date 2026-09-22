@@ -1,0 +1,68 @@
+{
+  "input_files": {
+    "densenet121": {
+      "path": "results/paper/external_hiba/gate06f/densenet121/paired_hiba_predictions.csv",
+      "sha256": "a9048cc8b58e77c685eaa55d3a8b566ff9da9b3383b1e0bfcc04017e514e6d7f",
+      "size_bytes": 40747
+    },
+    "densenet169": {
+      "path": "results/paper/external_hiba/gate06f/densenet169/paired_hiba_predictions.csv",
+      "sha256": "0a60d285825403725735e76dc2aa7d61a462c538b50c775a2613eac4762d4894",
+      "size_bytes": 40747
+    },
+    "efficientnet_b0": {
+      "path": "results/paper/external_hiba/gate06f/efficientnet_b0/paired_hiba_predictions.csv",
+      "sha256": "767d617e9a3947e40b9b78bff839717f0c61784c824c0b089accb0142c4d722c",
+      "size_bytes": 40747
+    },
+    "efficientnet_b2": {
+      "path": "results/paper/external_hiba/gate06f/efficientnet_b2/paired_hiba_predictions.csv",
+      "sha256": "78283b1e0033f8a6e383f669f5370d324b17fdbbbbd0b92331ef7ef33e0440dd",
+      "size_bytes": 40747
+    },
+    "efficientnet_b3": {
+      "path": "results/paper/external_hiba/gate06f/efficientnet_b3/paired_hiba_predictions.csv",
+      "sha256": "1d22e2e3c3e52e642f2b89de60a8c61c9d2777880b986d62454c4cd047db91f9",
+      "size_bytes": 40747
+    },
+    "mobilenet_v3_large": {
+      "path": "results/paper/external_hiba/gate06f/mobilenet_v3_large/paired_hiba_predictions.csv",
+      "sha256": "c8d07fbeef9b050d7fbb28c7bdbd812c40e893ff4f8cf00ced6a0e8d5ee5590d",
+      "size_bytes": 40747
+    },
+    "resnet50": {
+      "path": "results/paper/external_hiba/gate06f/resnet50/paired_hiba_predictions.csv",
+      "sha256": "ba9c0dcd983cc8ccf0ba9506be9f907586ab399db69a0f2e39d5620c3d9557a9",
+      "size_bytes": 40747
+    }
+  },
+  "models": [
+    "densenet121",
+    "densenet169",
+    "resnet50",
+    "mobilenet_v3_large",
+    "efficientnet_b0",
+    "efficientnet_b2",
+    "efficientnet_b3"
+  ],
+  "outputs": [
+    "per_sample_consensus_predictions.csv",
+    "full_coverage_metrics.csv",
+    "selective_referral_metrics.csv",
+    "agreement_strata.csv",
+    "itt05_hiba_results.json",
+    "itt05_execution_manifest.json"
+  ],
+  "patient_count": 568,
+  "phase": "ITT-05",
+  "prohibitions_respected": {
+    "checkpoint_loading": true,
+    "hierarchical_predictions_used": false,
+    "model_selection": true,
+    "threshold_tuning": true,
+    "training": true,
+    "zero_shot_preserved": true
+  },
+  "sample_count": 1232,
+  "status": "PASS"
+}

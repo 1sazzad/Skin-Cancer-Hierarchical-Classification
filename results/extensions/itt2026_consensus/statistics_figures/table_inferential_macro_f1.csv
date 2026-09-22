@@ -1,0 +1,7 @@
+cohort,comparison,point_difference_macro_f1,ci95_lower,ci95_upper,bootstrap_method,replicates,seed,ci_excludes_zero
+ISIC internal test,majority_minus_densenet169,0.03546305686248441,0.013013472651042579,0.05819740182372963,paired image bootstrap,10000,42,True
+ISIC internal test,weighted_minus_densenet169,0.03546305686248441,0.013013472651042579,0.05819740182372963,paired image bootstrap,10000,42,True
+ISIC internal test,weighted_minus_majority,0.0,0.0,0.0,paired image bootstrap,10000,42,False
+HIBA external,majority_minus_densenet169,0.028872308730311658,0.0002677991494733721,0.05738411443184188,patient-cluster bootstrap,10000,42,True
+HIBA external,weighted_minus_densenet169,0.028872308730311658,0.0002677991494733721,0.05738411443184188,patient-cluster bootstrap,10000,42,True
+HIBA external,weighted_minus_majority,0.0,0.0,0.0,patient-cluster bootstrap,10000,42,False
