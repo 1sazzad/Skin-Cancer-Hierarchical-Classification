@@ -1,0 +1,33 @@
+{
+  "hiba_bootstrap_unit": "patient",
+  "hiba_patient_count": 568,
+  "input_hashes": {
+    "results/extensions/itt2026_consensus/external_hiba/agreement_strata.csv": "eed930d2e9c97ef9068230a8613857f074a55d64943c9e8d4b222b6345835f94",
+    "results/extensions/itt2026_consensus/external_hiba/full_coverage_metrics.csv": "3ecacdcd4b4114118b5fe967ac77de8b6290b0b144ba03912b7093ca92ca85da",
+    "results/extensions/itt2026_consensus/external_hiba/per_sample_consensus_predictions.csv": "c1ca1e8e4c1841780b368e7a93b159686368d79ab5d8bcca579ba575c85362a0",
+    "results/extensions/itt2026_consensus/external_hiba/selective_referral_metrics.csv": "4545a7d3b5a5eb6d05a6e1ec11d8f1fd7e5e10b39db0821dd411b73ed844b2d2",
+    "results/extensions/itt2026_consensus/internal_isic/agreement_strata.csv": "3211f4e3e91522e2cee08f1edc494741f3b0f1db986b0aee4ec27ac986d4924f",
+    "results/extensions/itt2026_consensus/internal_isic/full_coverage_metrics.csv": "d3a67a81ea768979ed20dfa6ce095eddddd7291022ef11ba11c9de1221122f16",
+    "results/extensions/itt2026_consensus/internal_isic/per_sample_consensus_predictions.csv": "5f7e76e4328f275fb98b7557fdc2b34cedecb0a1ba86258e4983266680cc3c68",
+    "results/extensions/itt2026_consensus/internal_isic/selective_referral_metrics.csv": "8e1fe8712a85bd727822894fbaa42224d5e8b8ca5da6877913793c2ffbb202c5"
+  },
+  "internal_bootstrap_unit": "image",
+  "interpretation_boundary": "Bootstrap intervals quantify the prespecified macro-F1 differences. Internal McNemar assesses paired correctness and is a different estimand. Selective-referral threshold results remain descriptive; no threshold is selected.",
+  "outputs": [
+    "bootstrap_hiba_patient_cluster_10000.csv",
+    "bootstrap_internal_isic_10000.csv",
+    "fig1_full_coverage_macro_f1.png",
+    "fig2_risk_coverage.png",
+    "fig3_agreement_distribution.png",
+    "fig4_macro_f1_coverage.png",
+    "table_agreement_strata.csv",
+    "table_full_coverage_metrics.csv",
+    "table_inferential_macro_f1.csv",
+    "table_internal_mcnemar.csv",
+    "table_selective_referral.csv"
+  ],
+  "phase": "ITT-06",
+  "replicates": 10000,
+  "seed": 42,
+  "status": "PASS"
+}

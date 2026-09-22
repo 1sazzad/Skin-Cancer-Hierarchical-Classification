@@ -1,0 +1,130 @@
+protocol:
+  name: itt2026_consensus_selective_referral
+  phase: ITT-01
+  status: frozen
+  source_main_commit: edbb506b941ae97a45a21b7274e786eba607d885
+  bootstrap_seed: 42
+  bootstrap_replicates: 10000
+
+classes:
+  0: non_malignant
+  1: melanoma
+  2: bcc
+  3: scc
+
+models:
+  - densenet121
+  - densenet169
+  - resnet50
+  - mobilenet_v3_large
+  - efficientnet_b0
+  - efficientnet_b2
+  - efficientnet_b3
+
+validation:
+  metric: macro_f1
+  per_image_predictions_available: false
+  values:
+    densenet121: 0.6449820791
+    densenet169: 0.6659647727
+    resnet50: 0.6533194436
+    mobilenet_v3_large: 0.6582407229
+    efficientnet_b0: 0.6535716654
+    efficientnet_b2: 0.6544148913
+    efficientnet_b3: 0.6583008001
+  normalized_weights:
+    densenet121: 0.140555890366
+    densenet169: 0.145128484360
+    resnet50: 0.142372786880
+    mobilenet_v3_large: 0.143445242714
+    efficientnet_b0: 0.142427751600
+    efficientnet_b2: 0.142611509213
+    efficientnet_b3: 0.143458334867
+  ranking:
+    - densenet169
+    - efficientnet_b3
+    - mobilenet_v3_large
+    - efficientnet_b2
+    - efficientnet_b0
+    - resnet50
+    - densenet121
+
+primary_ensemble:
+  method: hard_majority_vote
+  tie_break:
+    - validation_weight_sum_among_tied_classes
+    - highest_validation_ranked_model_among_tied_classes
+
+secondary_ensemble:
+  method: validation_weighted_hard_vote
+  tie_break:
+    - highest_validation_ranked_model_among_tied_classes
+
+primary_individual_comparator: densenet169
+primary_endpoint: macro_f1
+
+disagreement:
+  agreement: max_class_vote_count_divided_by_7
+  disagreement: one_minus_agreement
+  source: unweighted_hard_votes
+
+selective_referral:
+  prediction_system: majority_vote
+  thresholds:
+    - 7
+    - 6
+    - 5
+    - 4
+  threshold_denominator: 7
+  choose_optimal_from_internal_test: false
+  choose_optimal_from_hiba: false
+  primary_analysis: full_coverage_performance_curve
+
+internal_isic:
+  expected_rows: 3668
+  id_field: sample_id
+  target_field: true_label
+  prediction_field: flat_prediction
+  bootstrap_unit: image
+  mcnemar: exact_two_sided
+
+external_hiba:
+  expected_rows: 1232
+  expected_patients: 568
+  id_field: isic_id
+  patient_field: patient_id
+  target_field: target
+  prediction_field: flat_prediction
+  bootstrap_unit: patient_cluster
+  image_level_mcnemar_primary: false
+  zero_shot: true
+
+metrics:
+  - accuracy
+  - macro_f1
+  - weighted_f1
+  - balanced_accuracy
+  - per_class_precision
+  - per_class_recall
+  - per_class_f1
+  - confusion_matrix
+  - malignant_sensitivity
+  - scc_sensitivity
+  - class_specific_coverage
+  - malignant_coverage
+  - retained_error_rate
+  - overall_coverage
+
+fixed_class_labels: [0, 1, 2, 3]
+zero_division: 0
+
+prohibited:
+  - tune_weights_on_internal_test
+  - tune_weights_on_hiba
+  - choose_referral_threshold_on_internal_test
+  - choose_referral_threshold_on_hiba
+  - drop_models_after_test_results
+  - change_primary_ensemble_after_test_results
+  - use_hierarchical_predictions_for_consensus
+  - retrain_constituent_models_in_initial_itt_experiment
+  - overwrite_results_paper

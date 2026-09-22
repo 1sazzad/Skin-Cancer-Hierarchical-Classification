@@ -1,0 +1,54 @@
+{
+  "checkpoint_matches": {
+    "densenet121": [
+      {
+        "expected_epoch": 4,
+        "original_vm_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/runs/phase11/full__phase11_flat_four_class_isic2019_densenet121_cross_entropy_seed42__20260730T155147Z/best_checkpoint.pt",
+        "path": "F:\\Research\\Final Year\\Skin-Cancer-Hierarchical-Classification-main\\runs\\phase11\\full__phase11_flat_four_class_isic2019_densenet121_cross_entropy_seed42__20260730T155147Z\\best_checkpoint.pt",
+        "sha256": "97f50dd5fb6b8d5a65b1c08035f07bab2bb5683e5647e519527c9cb56afbaa01"
+      }
+    ],
+    "densenet169": [],
+    "efficientnet_b0": [
+      {
+        "expected_epoch": 2,
+        "original_vm_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt",
+        "path": "F:\\Research\\Final Year\\Skin-Cancer-Hierarchical-Classification-main\\runs\\phase06_full\\failed_attempt_01_external_termination_epoch06__20260726T225000Z\\best_checkpoint.pt",
+        "sha256": "f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7"
+      },
+      {
+        "expected_epoch": 2,
+        "original_vm_path": "/home/m-sazzad-h/projects/Skin-Cancer-Hierarchical-Classification/runs/phase06_full/full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z/best_checkpoint.pt",
+        "path": "F:\\Research\\Final Year\\Skin-Cancer-Hierarchical-Classification-main\\runs\\phase06_full\\full__phase06_flat_four_class_isic2019_efficientnet_b0_cross_entropy_seed42__20260726T232308Z\\best_checkpoint.pt",
+        "sha256": "f3d8b8b0e5ef42e3c287a2377b5570411d442246acd16cb874ccf903facdc7a7"
+      }
+    ],
+    "efficientnet_b2": [],
+    "efficientnet_b3": [],
+    "mobilenet_v3_large": [],
+    "resnet50": []
+  },
+  "expected_checkpoint_count": 7,
+  "hash_errors": [],
+  "missing_models": [
+    "densenet169",
+    "resnet50",
+    "mobilenet_v3_large",
+    "efficientnet_b2",
+    "efficientnet_b3"
+  ],
+  "note": "No model inference or test/HIBA ensemble computation was performed. Validation CSV candidates are filename candidates only and require schema/provenance verification.",
+  "recovered_checkpoint_count": 2,
+  "recovered_models": [
+    "densenet121",
+    "efficientnet_b0"
+  ],
+  "roots": [
+    "F:\\Research\\Final Year"
+  ],
+  "scanned_checkpoint_files": 36,
+  "scanned_csv_files": 152,
+  "scope": "local_recovery_audit_only",
+  "status": "INCOMPLETE",
+  "validation_prediction_candidates": []
+}

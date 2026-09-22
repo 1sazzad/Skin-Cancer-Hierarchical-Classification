@@ -1,0 +1,66 @@
+{
+  "input_files": {
+    "densenet121": {
+      "path": "results/paper/internal_isic/gate06d/densenet121/paired_internal_test_predictions.csv",
+      "sha256": "8562afdf75dc9515003802091f70865dd9fa186094caf76f4e1cae7652c940d5",
+      "size_bytes": 129994
+    },
+    "densenet169": {
+      "path": "results/paper/internal_isic/gate06d/densenet169/paired_internal_test_predictions.csv",
+      "sha256": "b5e58055611629648876983b2c9b73d2098d484bcbf5ae4fbbaf72e672b02c58",
+      "size_bytes": 130288
+    },
+    "efficientnet_b0": {
+      "path": "results/paper/internal_isic/gate06d/efficientnet_b0/paired_internal_test_predictions.csv",
+      "sha256": "338a843062a9a1747961f55e7de48e7470cd633bc3b5f96615c7a870d0c02aea",
+      "size_bytes": 129938
+    },
+    "efficientnet_b2": {
+      "path": "results/paper/internal_isic/gate06d/efficientnet_b2/paired_internal_test_predictions.csv",
+      "sha256": "aaa395b7caac78a019e0c39e79094ba5bb3f8300f7b5c09ef6f1592b6d0d6fe0",
+      "size_bytes": 130266
+    },
+    "efficientnet_b3": {
+      "path": "results/paper/internal_isic/gate06d/efficientnet_b3/paired_internal_test_predictions.csv",
+      "sha256": "819d74c38caddb49b4f99a16d15c4290a18f34e5e61f4102342622888944ae8f",
+      "size_bytes": 130032
+    },
+    "mobilenet_v3_large": {
+      "path": "results/paper/internal_isic/gate06d/mobilenet_v3_large/paired_internal_test_predictions.csv",
+      "sha256": "35063eb03d52c27f8a5b77051d18dab3f5132ea72d307565c1e8bfb3935d3cb0",
+      "size_bytes": 130203
+    },
+    "resnet50": {
+      "path": "results/paper/internal_isic/gate06d/resnet50/paired_internal_test_predictions.csv",
+      "sha256": "d662484583711ba26d57b89e0d61c47339aee4a0c1a70672cf8d7358c039d94b",
+      "size_bytes": 130111
+    }
+  },
+  "models": [
+    "densenet121",
+    "densenet169",
+    "resnet50",
+    "mobilenet_v3_large",
+    "efficientnet_b0",
+    "efficientnet_b2",
+    "efficientnet_b3"
+  ],
+  "outputs": [
+    "per_sample_consensus_predictions.csv",
+    "full_coverage_metrics.csv",
+    "selective_referral_metrics.csv",
+    "agreement_strata.csv",
+    "itt04_internal_isic_results.json",
+    "itt04_execution_manifest.json"
+  ],
+  "phase": "ITT-04",
+  "prohibitions_respected": {
+    "checkpoint_loading": true,
+    "hiba_access": true,
+    "hierarchical_predictions_used": false,
+    "threshold_tuning": true,
+    "training": true
+  },
+  "sample_count": 3668,
+  "status": "PASS"
+}
