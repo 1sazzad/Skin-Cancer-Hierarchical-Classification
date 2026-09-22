@@ -61,11 +61,15 @@ def require_validation_scope(*, dataset="isic2019", split="validation", stage="f
 
 
 def output_directory(project_root):
-    root = Path(project_root).resolve()
+    root = Path(project_root)
+    frozen = Path("results/extensions/comesyso2026_probability_fusion/validation_fit")
+    if ".." in root.parts or OUTPUT != frozen:
+        raise ValueError("CoMeSySo output must use the exact frozen relative path without traversal")
+    # Validate the requested namespace, not a mounted volume's backing path.
+    root = root.absolute()
     path = root / OUTPUT
-    # Reject symlinks/junctions escaping the fixed tree, including parent links.
-    if path.resolve() != path:
-        raise ValueError("CoMeSySo output path must not be redirected")
+    if path.relative_to(root) != frozen:
+        raise ValueError("CoMeSySo output must remain under the supplied project root")
     return path
 
 
@@ -76,7 +80,7 @@ def _visible(directory):
         raise ValueError(f"Expected artifact directory: {directory}")
     entries = list(directory.iterdir())
     for path in entries:
-        if path.resolve() != path.absolute():
+        if path.resolve() != directory.resolve() / path.name:
             raise ValueError(f"Redirected artifact: {path}")
     return {p.name for p in entries if not p.name.startswith(".")}
 
@@ -237,7 +241,7 @@ def verify_preflight_lock(project_root):
     path = output_directory(project_root) / LOCK_NAME
     if not path.is_file():
         raise FileNotFoundError("COM-03 preflight lock required before production")
-    if path.resolve() != path:
+    if path.resolve() != path.parent.resolve() / path.name:
         raise ValueError("Redirected preflight lock")
     lock = _read_json(path)
     _require_equal(inspect_inputs(project_root), lock, "COM-03 preflight identity drift")
@@ -421,8 +425,8 @@ def _final_marker(output, lock):
 
 
 def run_validation_fit_production(project_root, *, device="cuda", persist_callback=None):
-    root = Path(project_root).resolve()
-    output = output_directory(root)
+    output = output_directory(project_root)
+    root = Path(project_root).absolute()
     lock = verify_preflight_lock(root)  # Never create a lock here.
     allowed = {LOCK_NAME, SUMMARY_NAME, COMPLETE_NAME} | {f"seed{s}" for s in SEEDS}
     visible = _visible(output)

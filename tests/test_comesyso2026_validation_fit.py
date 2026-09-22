@@ -4,7 +4,7 @@ import copy
 import importlib.util
 import json
 from dataclasses import replace
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -324,6 +324,68 @@ def test_output_boundary(tmp_path):
     assert not output.is_relative_to(tmp_path / "results/extensions/paul2026_swin")
 
 
+def test_modal_output_namespace_without_filesystem_resolution(monkeypatch):
+    # Pure POSIX paths keep this runtime-path check portable to Windows hosts.
+    class LexicalPath(PurePosixPath):
+        def absolute(self):
+            return self
+
+        def resolve(self):
+            raise AssertionError("Output construction must not resolve the mount")
+
+    monkeypatch.setattr(fit, "Path", LexicalPath)
+    monkeypatch.setattr(fit, "OUTPUT", LexicalPath(fit.OUTPUT.as_posix()))
+    output = fit.output_directory("/root/project")
+    assert output.parent == PurePosixPath("/root/project/results/extensions/comesyso2026_probability_fusion")
+    assert output.name == "validation_fit"
+
+
+@pytest.mark.parametrize("alternative", [
+    "results/extensions/paul2026_swin/validation_fit", "results/paper/validation_fit",
+    "results/other/validation_fit", "../outside", "/outside",
+    "results/extensions/comesyso2026_probability_fusion/../paul2026_swin/validation_fit",
+])
+def test_alternate_output_rejected(monkeypatch, tmp_path, alternative):
+    monkeypatch.setattr(fit, "OUTPUT", Path(alternative))
+    with pytest.raises(ValueError, match="frozen relative path"):
+        fit.output_directory(tmp_path)
+
+
+def test_project_root_traversal_rejected(tmp_path):
+    with pytest.raises(ValueError, match="traversal"):
+        fit.output_directory(tmp_path / ".." / "other")
+
+
+def test_mounted_output_artifacts_and_lock(monkeypatch, tmp_path, lock):
+    output = fit.output_directory(tmp_path)
+    fit._publish_json(output / fit.LOCK_NAME, lock)
+    mount = output.parent
+    backing = tmp_path / "volume-backing"
+    original_resolve = Path.resolve
+
+    def mounted_resolve(path, *args, **kwargs):
+        if path.is_relative_to(mount):
+            return backing / path.relative_to(mount)
+        return original_resolve(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "resolve", mounted_resolve)
+    monkeypatch.setattr(fit, "inspect_inputs", lambda root: lock)
+    assert fit.output_directory(tmp_path) == output
+    assert fit._visible(output) == {fit.LOCK_NAME}
+    assert fit.verify_preflight_lock(tmp_path) == lock
+
+    def redirected_resolve(path, *args, **kwargs):
+        if path == output / fit.LOCK_NAME:
+            return tmp_path / "results/paul2026_swin/foreign.json"
+        return mounted_resolve(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "resolve", redirected_resolve)
+    with pytest.raises(ValueError, match="Redirected artifact"):
+        fit._visible(output)
+    with pytest.raises(ValueError, match="Redirected preflight lock"):
+        fit.verify_preflight_lock(tmp_path)
+
+
 def test_preflight_idempotent_without_loader_or_fit(monkeypatch, tmp_path, lock):
     monkeypatch.setattr(fit, "inspect_inputs", lambda root: lock)
     loader = Mock(side_effect=AssertionError("preflight must not construct loader"))
@@ -398,10 +460,39 @@ def test_byte_verification_detects_manifest_drift(tmp_path, lock):
         fit.verify_input_bytes(tmp_path, lock)
 
 
+@pytest.mark.parametrize("module_file,runtime_root,expected", [
+    (PurePosixPath("/work/repo/scripts/comesyso2026/modal_comesyso2026_probability_fusion.py"),
+     PurePosixPath("/root/project"), PurePosixPath("/work/repo")),
+    (PureWindowsPath("D:/work/repo/scripts/comesyso2026/modal_comesyso2026_probability_fusion.py"),
+     PureWindowsPath("/root/project"), PureWindowsPath("D:/work/repo")),
+    (PurePosixPath("/root/modal_comesyso2026_probability_fusion.py"),
+     PurePosixPath("/root/project"), PurePosixPath("/root/project")),
+])
+def test_modal_repository_root_resolution(module_file, runtime_root, expected):
+    # Extract only the pure helper: no Modal import, image build, or remote call.
+    path = ROOT / "scripts/comesyso2026/modal_comesyso2026_probability_fusion.py"
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    helper = next(n for n in tree.body if isinstance(n, ast.FunctionDef)
+                  and n.name == "resolve_repository_root")
+    namespace = {"Path": Path}
+    exec(compile(ast.Module(body=[helper], type_ignores=[]), str(path), "exec"), namespace)
+    assert namespace["resolve_repository_root"](module_file, runtime_root) == expected
+    assignment = next(n for n in tree.body if isinstance(n, ast.Assign)
+                      and any(isinstance(t, ast.Name) and t.id == "REPOSITORY_ROOT" for t in n.targets))
+    assert isinstance(assignment.value, ast.Call)
+    assert assignment.value.func.id == "resolve_repository_root"
+
+
 def test_modal_architecture_static():
     path = ROOT / "scripts/comesyso2026/modal_comesyso2026_probability_fusion.py"
     text = path.read_text(encoding="utf-8")
     tree = ast.parse(text)
+    constants = {target.id: ast.literal_eval(node.value)
+                 for node in tree.body if isinstance(node, ast.Assign)
+                 and isinstance(node.value, ast.Constant)
+                 for target in node.targets if isinstance(target, ast.Name)}
+    assert constants["APP_NAME"] == "comesyso2026-probability-fusion"
+    assert constants["PROJECT_ROOT"] == "/root/project"
     calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call)]
     volume_calls = [n for n in calls if isinstance(n.func, ast.Attribute) and n.func.attr == "from_name"]
     assert {ast.literal_eval(n.args[0]) for n in volume_calls} == {

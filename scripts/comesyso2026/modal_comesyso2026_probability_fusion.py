@@ -5,7 +5,19 @@ import modal
 
 APP_NAME = "comesyso2026-probability-fusion"
 PROJECT_ROOT = "/root/project"
-REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+
+def resolve_repository_root(module_file: Path, runtime_project_root: Path) -> Path:
+    """Resolve the known source layout or Modal's flattened runtime layout."""
+    directory = module_file.parent
+    if directory.name == "comesyso2026" and directory.parent.name == "scripts":
+        return directory.parent.parent
+    if directory == runtime_project_root.parent:
+        return runtime_project_root
+    raise ValueError(f"Unexpected COM-03 module location: {module_file}")
+
+
+REPOSITORY_ROOT = resolve_repository_root(Path(__file__).resolve(), Path(PROJECT_ROOT))
 
 
 def ignore_runtime_data(path):
