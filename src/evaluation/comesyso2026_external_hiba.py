@@ -44,24 +44,24 @@ METRICS = com04.METRICS
 def prepare_hiba_volume_paths(project_root):
     """Expose the historical HIBA path from one Modal data-volume mount.
 
-    paul2026-swin-data stores HIBA at images/ISIC_*.jpg beside isic2019/
-    and emb/ (docs/extensions/paul2026_swin_hiba_evaluation.md). Only the
-    container-local alias is created; no volume data or manifest is changed.
+    The verified live paul2026-swin-data layout stores HIBA JPEGs beneath
+    emb/images/isic/. Only the container-local alias is created; no volume
+    data or manifest is changed.
     Call only in the Modal preflight/inference wrappers, not CPU analysis.
     """
     root = Path(project_root).absolute()
-    mounted = root / "data/raw"
+    source = root / "data/raw/emb/images/isic"
     alias = root / "data/external/hiba/extracted"
-    if not (mounted / "images").is_dir():
-        raise FileNotFoundError(f"Expected HIBA images at the data-volume root: {mounted / 'images'}")
+    if not source.is_dir():
+        raise FileNotFoundError(f"Required live HIBA image directory is missing: {source}")
     if alias.is_symlink():
-        if alias.resolve() != mounted.resolve():
+        if alias.resolve() != source.resolve():
             raise ValueError(f"Incompatible HIBA extracted alias: {alias}")
         return
     if alias.exists():
         raise ValueError(f"Refusing to replace existing HIBA extracted path: {alias}")
     alias.parent.mkdir(parents=True, exist_ok=True)
-    alias.symlink_to(mounted, target_is_directory=True)
+    alias.symlink_to(source, target_is_directory=True)
 
 
 def output_directory(project_root):

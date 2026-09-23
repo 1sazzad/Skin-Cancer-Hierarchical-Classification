@@ -559,9 +559,10 @@ def test_common_provenance_drift_blocks_cpu_analysis(bundle):
 
 
 
-def test_single_mount_hiba_alias_targets_volume_root(monkeypatch, tmp_path):
+def test_single_mount_hiba_alias_targets_live_images(monkeypatch, tmp_path):
     mounted = tmp_path / "data/raw"
-    (mounted / "images").mkdir(parents=True)
+    source = mounted / "emb/images/isic"
+    source.mkdir(parents=True)
     (mounted / "isic2019").mkdir()
     alias = tmp_path / "data/external/hiba/extracted"
     manifest = alias.parent / "manifests/frozen.csv"
@@ -571,21 +572,23 @@ def test_single_mount_hiba_alias_targets_volume_root(monkeypatch, tmp_path):
     # Do not require Windows symlink privileges for this unit test.
     monkeypatch.setattr(Path, "symlink_to", lambda self, target, **kwargs: calls.append((self, target, kwargs)))
     external.prepare_hiba_volume_paths(tmp_path)
-    assert calls == [(alias, mounted, {"target_is_directory": True})]
+    assert calls == [(alias, source, {"target_is_directory": True})]
+    assert source.relative_to(tmp_path).as_posix() == "data/raw/emb/images/isic"
     assert manifest.read_text(encoding="utf-8") == "unchanged manifest"
     assert (mounted / "isic2019").is_dir()
     assert alias.parent.is_dir()
 
 
-def test_hiba_alias_requires_documented_images_directory(tmp_path):
-    (tmp_path / "data/raw").mkdir(parents=True)
-    with pytest.raises(FileNotFoundError, match="data-volume root"):
+def test_hiba_alias_requires_live_images_directory(tmp_path):
+    # The obsolete volume-root images directory must not be used as a fallback.
+    (tmp_path / "data/raw/images").mkdir(parents=True)
+    with pytest.raises(FileNotFoundError, match="Required live HIBA image directory"):
         external.prepare_hiba_volume_paths(tmp_path)
     assert not (tmp_path / "data/external/hiba/extracted").exists()
 
 
 def test_hiba_alias_does_not_replace_existing_directory(tmp_path):
-    (tmp_path / "data/raw/images").mkdir(parents=True)
+    (tmp_path / "data/raw/emb/images/isic").mkdir(parents=True)
     alias = tmp_path / "data/external/hiba/extracted"
     alias.mkdir(parents=True)
     with pytest.raises(ValueError, match="Refusing to replace"):
@@ -596,13 +599,14 @@ def test_hiba_alias_does_not_replace_existing_directory(tmp_path):
 @pytest.mark.parametrize("compatible", [True, False])
 def test_existing_hiba_alias_checked_without_replacement(monkeypatch, tmp_path, compatible):
     mounted = tmp_path / "data/raw"
-    (mounted / "images").mkdir(parents=True)
+    source = mounted / "emb/images/isic"
+    source.mkdir(parents=True)
     alias = tmp_path / "data/external/hiba/extracted"
     real_is_symlink, real_resolve = Path.is_symlink, Path.resolve
     monkeypatch.setattr(Path, "is_symlink", lambda self: True if self == alias else real_is_symlink(self))
     def resolved(self, *args, **kwargs):
         if self == alias:
-            return real_resolve(mounted if compatible else tmp_path / "wrong-volume")
+            return real_resolve(source if compatible else mounted)
         return real_resolve(self, *args, **kwargs)
     monkeypatch.setattr(Path, "resolve", resolved)
     create = Mock(side_effect=AssertionError("Existing alias must not be replaced"))

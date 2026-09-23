@@ -19,7 +19,7 @@ from scripts.comesyso2026.modal_comesyso2026_probability_fusion import REPOSITOR
 
 # The inherited source image deliberately excludes all data/external. Include
 # only the frozen manifest. Mount the data volume once at data/raw; the wrappers
-# alias data/external/hiba/extracted to it for historical manifest compatibility.
+# alias data/external/hiba/extracted to data/raw/emb/images/isic for the manifest.
 HIBA_MANIFEST = "data/external/hiba/manifests/hiba_external_dermoscopic_4class_final.csv"
 hiba_image = image.add_local_file(str(REPOSITORY_ROOT / HIBA_MANIFEST),
                                   remote_path=f"{PROJECT_ROOT}/{HIBA_MANIFEST}")
