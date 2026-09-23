@@ -176,17 +176,66 @@ def validate_checkpoint_records(records, root):
             raise ValueError("Malformed checkpoint SHA256")
 
 
+def _completed_fits_from_persisted_lock(root, expected_lock_digest):
+    """Validate frozen COM-03 artifacts without rebuilding its old source identity."""
+    output = fit.output_directory(root)
+    lock_path = output / fit.LOCK_NAME
+    if not lock_path.is_file():
+        raise FileNotFoundError("Completed COM-03 preflight lock is required")
+    lock = _read_json(lock_path)
+    for key, value in (("schema_version", 1), ("phase", "COM-03"), ("status", "PASS"),
+                       ("created_before_validation_inference", True),
+                       ("seeds", list(SEEDS)), ("dataset", "isic2019"),
+                       ("split", "validation"), ("stage", "flat_four_class")):
+        eq(lock.get(key), value, f"Persisted COM-03 lock {key}")
+    eq(fit._digest(lock), expected_lock_digest, "Persisted COM-03 lock anchor")
+    eq(fit._visible(output), {fit.LOCK_NAME, fit.SUMMARY_NAME, fit.COMPLETE_NAME}
+       | {f"seed{s}" for s in SEEDS}, "COM-03 completed file set")
+
+    results, cohort, models = {}, None, {}
+    for seed in SEEDS:
+        model, metadata, cohort = fit.validate_completed_seed(
+            output / f"seed{seed}", seed, lock, expected_cohort=cohort)
+        models[seed], results[seed] = model, metadata
+    eq(_read_json(output / fit.SUMMARY_NAME), fit.three_seed_summary(results),
+       "Persisted COM-03 summary")
+    eq(_read_json(output / fit.COMPLETE_NAME), fit._final_marker(output, lock),
+       "Persisted COM-03 completion marker")
+    return lock, models
+
+
+def _completed_com04_from_persisted_lock(root):
+    """Validate frozen COM-04 artifacts without reconstructing prior source hashes."""
+    output = com04.output_directory(root)
+    lock_path = output / com04.LOCK_NAME
+    if not lock_path.is_file():
+        raise FileNotFoundError("Completed COM-04 preflight lock is required")
+    lock = _read_json(lock_path)
+    for key, value in (("schema_version", 1), ("phase", "COM-04"), ("status", "PASS"),
+                       ("protocol_identity", fusion.PROTOCOL_ID), ("seeds", list(SEEDS)),
+                       ("dataset", "isic2019"), ("split", "internal_test"),
+                       ("stage", "flat_four_class"), ("created_before_test_inference", True),
+                       ("internal_test_dataset_constructed", False), ("hiba_access", False),
+                       ("feature_order", list(fusion.FEATURE_ORDER)),
+                       ("class_order", list(fusion.CLASS_NAMES))):
+        eq(lock.get(key), value, f"Persisted COM-04 lock {key}")
+    validate_checkpoint_records(lock["checkpoints"], Path(root))
+    if not (output / com04.COMPLETE_NAME).is_file():
+        raise ValueError("Completed COM-04 is required")
+    results = com04.validate_outputs(output, lock)
+    eq(set(results), set(SEEDS), "Completed COM-04 seeds")
+    com03, models = _completed_fits_from_persisted_lock(root, lock["com03_lock_sha256"])
+    return lock, com03, models
+
+
 def inspect_inputs(project_root):
     """Stage A only: CPU checkpoint validation and byte hashing, no dataset/forward."""
     root = Path(project_root).absolute()
     initial_hashes = _hashes(root, (*SOURCE_PATHS, hiba.CONFIG.as_posix(), MANIFEST.as_posix(),
                                     fusion.PROTOCOL_PATH))
-    previous = com04.verify_preflight_lock(root)
+    previous, _, models = _completed_com04_from_persisted_lock(root)
     previous_output = com04.output_directory(root)
-    if not (previous_output / com04.COMPLETE_NAME).is_file():
-        raise ValueError("Completed COM-04 is required")
-    com04.validate_outputs(previous_output, previous)
-    _, models = com04._completed_fits(root)
+
     protocol = yaml.safe_load((root / fusion.PROTOCOL_PATH).read_text(encoding="utf-8"))
     validate_protocol(protocol)
     cfg = hiba._config(root)
@@ -202,23 +251,44 @@ def inspect_inputs(project_root):
     for seed in SEEDS:
         eq(models[seed].seed, seed, "Fusion seed")
         eq(models[seed].fitting_partition, fusion.FIT_PARTITION, "Validation-only fusion")
-    # Stage C needs source/provenance and persisted predictions, never neural
-    # weights or raw images. All upstream COM-03/04 artifacts remain hash-bound.
-    common = {p: digest for p, digest in previous["input_sha256"].items()
-              if not p.startswith("results/extensions/paul2026_swin/")}
-    upstream_paths = [previous_output / n for n in (com04.LOCK_NAME, com04.SUMMARY_NAME, com04.COMPLETE_NAME)]
+
+    # Current COM-05 bytes are locked afresh. Historical COM-03/04 source-file
+    # hashes remain preserved inside their immutable preflight locks, but are not
+    # reconstructed from this later checkout because checkout byte formatting can
+    # differ (for example CRLF versus LF) without changing the completed artifacts.
+    common = dict(initial_hashes)
+
+    upstream_paths = [previous_output / n for n in
+                      (com04.LOCK_NAME, com04.SUMMARY_NAME, com04.COMPLETE_NAME)]
     upstream_paths += [previous_output / f"seed{s}" / n for s in SEEDS
                        for n in sorted(com04.SEED_FILES | {"seed_complete.json"})]
     common.update(_hashes(root, [p.relative_to(root).as_posix() for p in upstream_paths]))
-    common.update(initial_hashes)
+
+    fit_prefix = fit.OUTPUT.as_posix().rstrip("/") + "/"
+    for path, digest in previous["input_sha256"].items():
+        if path.startswith(fit_prefix):
+            eq(sha256_file(_safe_input(root, path)), digest,
+               f"Persisted COM-03 artifact drift: {path}")
+            common[path] = digest
+
     inference_inputs = {p: digest for p, digest in previous["input_sha256"].items()
                         if p.startswith("results/extensions/paul2026_swin/")}
+    for record in checkpoints:
+        eq(inference_inputs.get(record["path"]), record["sha256"], "Checkpoint hash anchor")
+
     for row in rows:
         path = _safe_input(root, row["image_path"])
         if not path.resolve().is_relative_to(root.resolve()):
             raise ValueError("HIBA image path escapes project root")
         inference_inputs[row["image_path"]] = row["image_sha256"].lower()
+
     fusion_paths = {str(s): (fit.OUTPUT / f"seed{s}/fusion_model.json").as_posix() for s in SEEDS}
+    for path in fusion_paths.values():
+        expected = previous["input_sha256"].get(path)
+        if expected is None:
+            raise ValueError(f"COM-04 lock does not anchor frozen fusion model: {path}")
+        eq(common.get(path), expected, f"Frozen fusion artifact anchor: {path}")
+
     lock = {"schema_version": 1, "phase": "COM-05", "status": "PASS", "zero_shot": True,
             "inference_performed": False, "dataset_constructed": False,
             "protocol_identity": fusion.PROTOCOL_ID, "seeds": list(SEEDS),
@@ -227,12 +297,12 @@ def inspect_inputs(project_root):
             "manifest_canonical_sha256": MANIFEST_CANONICAL_SHA256,
             "common_input_sha256": common, "inference_input_sha256": inference_inputs,
             "fusion_paths": fusion_paths, "com04_lock_sha256": fit._digest(previous)}
+
     verify_input_bytes(root, lock, inference=True, require_lock=False)
-    com04.verify_input_bytes(root, previous)
-    com04.validate_outputs(previous_output, previous)
+    confirmed, _, _ = _completed_com04_from_persisted_lock(root)
+    eq(confirmed, previous, "COM-04 changed during COM-05 preflight")
     verify_input_bytes(root, lock, inference=True, require_lock=False)
     return lock
-
 
 def verify_input_bytes(root, lock, *, inference=False, require_lock=True):
     files = dict(lock["common_input_sha256"])
