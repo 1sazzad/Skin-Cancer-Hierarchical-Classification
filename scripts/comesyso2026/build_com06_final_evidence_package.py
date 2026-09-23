@@ -187,7 +187,7 @@ def main():
         "",
     ]
 
-    OUTPUT.write_text("\n".join(lines), encoding="utf-8")
+    OUTPUT.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     print("COM-06C: PASS")
     print(f"OUTPUT: {OUTPUT}")
     print(f"COM-06A SHA256: {_sha256(INVENTORY)}")
