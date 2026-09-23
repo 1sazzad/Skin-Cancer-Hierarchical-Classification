@@ -5,6 +5,8 @@ Deploy this module to register all three phases. Submit one launcher at a time.
 import sys
 from pathlib import Path
 
+import modal
+
 _directory = Path(__file__).resolve().parent
 _repository = (_directory.parent.parent if _directory.name == "comesyso2026"
                else Path("/root/project"))
@@ -46,7 +48,7 @@ def run_external_hiba_preflight():
 @app.function(
     image=hiba_image, gpu="T4", max_containers=1, retries=0, timeout=4 * 60 * 60,
     single_use_containers=True,
-    volumes={"/root/project/data/raw": data_volume,
+    volumes={HIBA_SOURCE_MOUNT: hiba_volume,
              INPUT_CHECKPOINT_MOUNT: checkpoint_volume, OUTPUT_MOUNT: output_volume},
 )
 def run_external_hiba_inference():
