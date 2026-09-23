@@ -619,3 +619,20 @@ def test_no_emb_alias_or_symlink_creation_in_com05_sources():
     assert ".symlink_to(" not in combined
     assert "comesyso2026-hiba-data" in modal_source
     assert "/mnt/comesyso2026-hiba-data" in modal_source
+
+
+def test_com05_consumes_persisted_upstream_locks_without_reconstructing_old_source_hashes():
+    source = (ROOT / "src/evaluation/comesyso2026_external_hiba.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    functions = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef)}
+    inspect = ast.unparse(functions["inspect_inputs"])
+    assert "_completed_com04_from_persisted_lock" in inspect
+    assert "com04.verify_preflight_lock" not in inspect
+    assert "com04._completed_fits" not in inspect
+
+    com04_helper = ast.unparse(functions["_completed_com04_from_persisted_lock"])
+    com03_helper = ast.unparse(functions["_completed_fits_from_persisted_lock"])
+    assert "com04.validate_outputs" in com04_helper
+    assert "fit.validate_completed_seed" in com03_helper
+    assert "fit.three_seed_summary" in com03_helper
+    assert "fit._final_marker" in com03_helper
