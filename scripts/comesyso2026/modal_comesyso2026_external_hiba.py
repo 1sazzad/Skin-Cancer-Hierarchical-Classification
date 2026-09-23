@@ -18,7 +18,8 @@ from scripts.comesyso2026.modal_comesyso2026_internal_isic import (
 from scripts.comesyso2026.modal_comesyso2026_probability_fusion import REPOSITORY_ROOT
 
 # The inherited source image deliberately excludes all data/external. Include
-# only the frozen manifest; images use the same volume mapping as historical HIBA.
+# only the frozen manifest. Mount the data volume once at data/raw; the wrappers
+# alias data/external/hiba/extracted to it for historical manifest compatibility.
 HIBA_MANIFEST = "data/external/hiba/manifests/hiba_external_dermoscopic_4class_final.csv"
 hiba_image = image.add_local_file(str(REPOSITORY_ROOT / HIBA_MANIFEST),
                                   remote_path=f"{PROJECT_ROOT}/{HIBA_MANIFEST}")
@@ -28,12 +29,14 @@ hiba_image = image.add_local_file(str(REPOSITORY_ROOT / HIBA_MANIFEST),
     image=hiba_image, max_containers=1, retries=0, timeout=2 * 60 * 60,
     single_use_containers=True,
     volumes={"/root/project/data/raw": data_volume,
-             "/root/project/data/external/hiba/extracted": data_volume,
              INPUT_CHECKPOINT_MOUNT: checkpoint_volume, OUTPUT_MOUNT: output_volume},
 )
 def run_external_hiba_preflight():
     """CPU-only checkpoint/cohort hashing; no image decoding or forward passes."""
-    from src.evaluation.comesyso2026_external_hiba import run_external_hiba_preflight as preflight
+    from src.evaluation.comesyso2026_external_hiba import (
+        prepare_hiba_volume_paths, run_external_hiba_preflight as preflight,
+    )
+    prepare_hiba_volume_paths(PROJECT_ROOT)
     return preflight(PROJECT_ROOT, persist_callback=output_volume.commit)
 
 
@@ -41,12 +44,14 @@ def run_external_hiba_preflight():
     image=hiba_image, gpu="T4", max_containers=1, retries=0, timeout=4 * 60 * 60,
     single_use_containers=True,
     volumes={"/root/project/data/raw": data_volume,
-             "/root/project/data/external/hiba/extracted": data_volume,
              INPUT_CHECKPOINT_MOUNT: checkpoint_volume, OUTPUT_MOUNT: output_volume},
 )
 def run_external_hiba_inference():
     """Publish raw paired inference, commit each seed, return without statistics."""
-    from src.evaluation.comesyso2026_external_hiba import run_external_hiba_inference as infer
+    from src.evaluation.comesyso2026_external_hiba import (
+        prepare_hiba_volume_paths, run_external_hiba_inference as infer,
+    )
+    prepare_hiba_volume_paths(PROJECT_ROOT)
     return infer(PROJECT_ROOT, device="cuda", persist_callback=output_volume.commit)
 
 

@@ -41,6 +41,29 @@ SYSTEMS = com04.SYSTEMS
 METRICS = com04.METRICS
 
 
+def prepare_hiba_volume_paths(project_root):
+    """Expose the historical HIBA path from one Modal data-volume mount.
+
+    paul2026-swin-data stores HIBA at images/ISIC_*.jpg beside isic2019/
+    and emb/ (docs/extensions/paul2026_swin_hiba_evaluation.md). Only the
+    container-local alias is created; no volume data or manifest is changed.
+    Call only in the Modal preflight/inference wrappers, not CPU analysis.
+    """
+    root = Path(project_root).absolute()
+    mounted = root / "data/raw"
+    alias = root / "data/external/hiba/extracted"
+    if not (mounted / "images").is_dir():
+        raise FileNotFoundError(f"Expected HIBA images at the data-volume root: {mounted / 'images'}")
+    if alias.is_symlink():
+        if alias.resolve() != mounted.resolve():
+            raise ValueError(f"Incompatible HIBA extracted alias: {alias}")
+        return
+    if alias.exists():
+        raise ValueError(f"Refusing to replace existing HIBA extracted path: {alias}")
+    alias.parent.mkdir(parents=True, exist_ok=True)
+    alias.symlink_to(mounted, target_is_directory=True)
+
+
 def output_directory(project_root):
     root = Path(project_root)
     frozen = Path("results/extensions/comesyso2026_probability_fusion/external_hiba")

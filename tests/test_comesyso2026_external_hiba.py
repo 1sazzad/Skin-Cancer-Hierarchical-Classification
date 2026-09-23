@@ -391,10 +391,25 @@ def test_modal_stage_architecture():
             assert ast.literal_eval(options["gpu"]) == "T4"
         else:
             assert "gpu" not in options
+        # Evaluate only the declarative mount dictionary with stand-in Volume
+        # objects: no Modal import/deployment and no filesystem operations.
+        namespace = {"data_volume": object(), "checkpoint_volume": object(), "output_volume": object(),
+                     "INPUT_CHECKPOINT_MOUNT": "/root/project/results/extensions/paul2026_swin",
+                     "OUTPUT_MOUNT": "/root/project/results/extensions/comesyso2026_probability_fusion"}
+        mounts = eval(compile(ast.Expression(options["volumes"]), str(path), "eval"), namespace)
+        assert len({id(volume) for volume in mounts.values()}) == len(mounts)
         if name.endswith("analysis"):
             assert ast.unparse(options["volumes"]) == "{OUTPUT_MOUNT: output_volume}"
+            assert "prepare_hiba_volume_paths" not in ast.unparse(fn)
+        else:
+            assert mounts["/root/project/data/raw"] is namespace["data_volume"]
+            assert "/root/project/data/external/hiba/extracted" not in mounts
+            assert mounts[namespace["INPUT_CHECKPOINT_MOUNT"]] is namespace["checkpoint_volume"]
+            calls = [n.value for n in fn.body if isinstance(n, ast.Expr) and isinstance(n.value, ast.Call)]
+            assert calls[0].func.id == "prepare_hiba_volume_paths"
+            assert isinstance(fn.body[-1], ast.Return)
     assert "add_local_file" in source
-    assert "data/external/hiba/extracted" in source
+    assert "data/external/hiba/extracted" in source  # Documented alias, not a second mount.
     assert "modal.App(" not in source
 
 
@@ -541,3 +556,60 @@ def test_common_provenance_drift_blocks_cpu_analysis(bundle):
     with pytest.raises(ValueError, match="Locked input drift"):
         external.run_external_hiba_analysis(bundle.root)
     bundle.bootstrap.assert_not_called()
+
+
+
+def test_single_mount_hiba_alias_targets_volume_root(monkeypatch, tmp_path):
+    mounted = tmp_path / "data/raw"
+    (mounted / "images").mkdir(parents=True)
+    (mounted / "isic2019").mkdir()
+    alias = tmp_path / "data/external/hiba/extracted"
+    manifest = alias.parent / "manifests/frozen.csv"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text("unchanged manifest", encoding="utf-8")
+    calls = []
+    # Do not require Windows symlink privileges for this unit test.
+    monkeypatch.setattr(Path, "symlink_to", lambda self, target, **kwargs: calls.append((self, target, kwargs)))
+    external.prepare_hiba_volume_paths(tmp_path)
+    assert calls == [(alias, mounted, {"target_is_directory": True})]
+    assert manifest.read_text(encoding="utf-8") == "unchanged manifest"
+    assert (mounted / "isic2019").is_dir()
+    assert alias.parent.is_dir()
+
+
+def test_hiba_alias_requires_documented_images_directory(tmp_path):
+    (tmp_path / "data/raw").mkdir(parents=True)
+    with pytest.raises(FileNotFoundError, match="data-volume root"):
+        external.prepare_hiba_volume_paths(tmp_path)
+    assert not (tmp_path / "data/external/hiba/extracted").exists()
+
+
+def test_hiba_alias_does_not_replace_existing_directory(tmp_path):
+    (tmp_path / "data/raw/images").mkdir(parents=True)
+    alias = tmp_path / "data/external/hiba/extracted"
+    alias.mkdir(parents=True)
+    with pytest.raises(ValueError, match="Refusing to replace"):
+        external.prepare_hiba_volume_paths(tmp_path)
+    assert alias.is_dir()
+
+
+@pytest.mark.parametrize("compatible", [True, False])
+def test_existing_hiba_alias_checked_without_replacement(monkeypatch, tmp_path, compatible):
+    mounted = tmp_path / "data/raw"
+    (mounted / "images").mkdir(parents=True)
+    alias = tmp_path / "data/external/hiba/extracted"
+    real_is_symlink, real_resolve = Path.is_symlink, Path.resolve
+    monkeypatch.setattr(Path, "is_symlink", lambda self: True if self == alias else real_is_symlink(self))
+    def resolved(self, *args, **kwargs):
+        if self == alias:
+            return real_resolve(mounted if compatible else tmp_path / "wrong-volume")
+        return real_resolve(self, *args, **kwargs)
+    monkeypatch.setattr(Path, "resolve", resolved)
+    create = Mock(side_effect=AssertionError("Existing alias must not be replaced"))
+    monkeypatch.setattr(Path, "symlink_to", create)
+    if compatible:
+        external.prepare_hiba_volume_paths(tmp_path)
+    else:
+        with pytest.raises(ValueError, match="Incompatible"):
+            external.prepare_hiba_volume_paths(tmp_path)
+    create.assert_not_called()
