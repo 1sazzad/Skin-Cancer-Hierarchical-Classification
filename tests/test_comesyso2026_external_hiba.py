@@ -376,6 +376,7 @@ def test_redirected_stage_rejected(monkeypatch, bundle):
         external.validate_outputs(output, bundle.lock)
 
 
+
 def test_modal_stage_architecture():
     path = ROOT / "scripts/comesyso2026/modal_comesyso2026_external_hiba.py"
     source = path.read_text(encoding="utf-8")
@@ -391,25 +392,28 @@ def test_modal_stage_architecture():
             assert ast.literal_eval(options["gpu"]) == "T4"
         else:
             assert "gpu" not in options
-        # Evaluate only the declarative mount dictionary with stand-in Volume
-        # objects: no Modal import/deployment and no filesystem operations.
-        namespace = {"data_volume": object(), "checkpoint_volume": object(), "output_volume": object(),
+        namespace = {"hiba_volume": object(), "checkpoint_volume": object(), "output_volume": object(),
+                     "HIBA_SOURCE_MOUNT": "/mnt/comesyso2026-hiba-data",
                      "INPUT_CHECKPOINT_MOUNT": "/root/project/results/extensions/paul2026_swin",
                      "OUTPUT_MOUNT": "/root/project/results/extensions/comesyso2026_probability_fusion"}
         mounts = eval(compile(ast.Expression(options["volumes"]), str(path), "eval"), namespace)
         assert len({id(volume) for volume in mounts.values()}) == len(mounts)
         if name.endswith("analysis"):
             assert ast.unparse(options["volumes"]) == "{OUTPUT_MOUNT: output_volume}"
-            assert "prepare_hiba_volume_paths" not in ast.unparse(fn)
+            assert "stage_hiba_images" not in ast.unparse(fn)
         else:
-            assert mounts["/root/project/data/raw"] is namespace["data_volume"]
-            assert "/root/project/data/external/hiba/extracted" not in mounts
+            assert mounts[namespace["HIBA_SOURCE_MOUNT"]] is namespace["hiba_volume"]
             assert mounts[namespace["INPUT_CHECKPOINT_MOUNT"]] is namespace["checkpoint_volume"]
+            assert mounts[namespace["OUTPUT_MOUNT"]] is namespace["output_volume"]
+            assert "/root/project/data/raw" not in mounts
+            assert "/root/project/data/external/hiba/extracted" not in mounts
             calls = [n.value for n in fn.body if isinstance(n, ast.Expr) and isinstance(n.value, ast.Call)]
-            assert calls[0].func.id == "prepare_hiba_volume_paths"
+            assert calls[0].func.id == "stage_hiba_images"
             assert isinstance(fn.body[-1], ast.Return)
-    assert "add_local_file" in source
-    assert "data/external/hiba/extracted" in source  # Documented alias, not a second mount.
+    assert "comesyso2026-hiba-data" in source
+    assert 'HIBA_SOURCE_MOUNT = "/mnt/comesyso2026-hiba-data"' in source
+    assert "data/raw/emb/images/isic" not in source
+    assert "prepare_hiba_volume_paths" not in source
     assert "modal.App(" not in source
 
 
@@ -559,61 +563,59 @@ def test_common_provenance_drift_blocks_cpu_analysis(bundle):
 
 
 
-def test_single_mount_hiba_alias_targets_live_images(monkeypatch, tmp_path):
-    mounted = tmp_path / "data/raw"
-    source = mounted / "emb/images/isic"
-    source.mkdir(parents=True)
-    (mounted / "isic2019").mkdir()
-    alias = tmp_path / "data/external/hiba/extracted"
-    manifest = alias.parent / "manifests/frozen.csv"
+
+def test_hiba_staging_copies_real_manifest_bound_files(monkeypatch, tmp_path):
+    source_root = tmp_path / "hiba-volume"
+    source_images = source_root / "images"
+    source_images.mkdir(parents=True)
+    payload = b"synthetic hiba image bytes"
+    source = source_images / "ISIC_TEST.jpg"
+    source.write_bytes(payload)
+    digest = external.sha256_file(source)
+
+    manifest = tmp_path / "data/external/hiba/manifests/frozen.csv"
     manifest.parent.mkdir(parents=True)
-    manifest.write_text("unchanged manifest", encoding="utf-8")
-    calls = []
-    # Do not require Windows symlink privileges for this unit test.
-    monkeypatch.setattr(Path, "symlink_to", lambda self, target, **kwargs: calls.append((self, target, kwargs)))
-    external.prepare_hiba_volume_paths(tmp_path)
-    assert calls == [(alias, source, {"target_is_directory": True})]
-    assert source.relative_to(tmp_path).as_posix() == "data/raw/emb/images/isic"
-    assert manifest.read_text(encoding="utf-8") == "unchanged manifest"
-    assert (mounted / "isic2019").is_dir()
-    assert alias.parent.is_dir()
+    manifest.write_text(
+        "isic_id,image_path,image_sha256\n"
+        f"ISIC_TEST,data/external/hiba/extracted/images/ISIC_TEST.jpg,{digest}\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(external, "MANIFEST", manifest.relative_to(tmp_path))
+
+    assert external.stage_hiba_images(tmp_path, source_root) == 1
+    destination = tmp_path / "data/external/hiba/extracted/images/ISIC_TEST.jpg"
+    assert destination.is_file()
+    assert not destination.is_symlink()
+    assert destination.read_bytes() == payload
+    assert external.stage_hiba_images(tmp_path, source_root) == 1
+    assert external.sha256_file(destination) == digest
 
 
-def test_hiba_alias_requires_live_images_directory(tmp_path):
-    # The obsolete volume-root images directory must not be used as a fallback.
-    (tmp_path / "data/raw/images").mkdir(parents=True)
-    with pytest.raises(FileNotFoundError, match="Required live HIBA image directory"):
-        external.prepare_hiba_volume_paths(tmp_path)
-    assert not (tmp_path / "data/external/hiba/extracted").exists()
+def test_hiba_staging_fails_closed_on_missing_or_wrong_source(monkeypatch, tmp_path):
+    source_root = tmp_path / "hiba-volume"
+    source_images = source_root / "images"
+    source_images.mkdir(parents=True)
+    manifest = tmp_path / "data/external/hiba/manifests/frozen.csv"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        "isic_id,image_path,image_sha256\n"
+        "ISIC_TEST,data/external/hiba/extracted/images/ISIC_TEST.jpg," + "0" * 64 + "\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(external, "MANIFEST", manifest.relative_to(tmp_path))
+    with pytest.raises(FileNotFoundError, match="source image is missing"):
+        external.stage_hiba_images(tmp_path, source_root)
+    (source_images / "ISIC_TEST.jpg").write_bytes(b"wrong bytes")
+    with pytest.raises(ValueError):
+        external.stage_hiba_images(tmp_path, source_root)
 
 
-def test_hiba_alias_does_not_replace_existing_directory(tmp_path):
-    (tmp_path / "data/raw/emb/images/isic").mkdir(parents=True)
-    alias = tmp_path / "data/external/hiba/extracted"
-    alias.mkdir(parents=True)
-    with pytest.raises(ValueError, match="Refusing to replace"):
-        external.prepare_hiba_volume_paths(tmp_path)
-    assert alias.is_dir()
-
-
-@pytest.mark.parametrize("compatible", [True, False])
-def test_existing_hiba_alias_checked_without_replacement(monkeypatch, tmp_path, compatible):
-    mounted = tmp_path / "data/raw"
-    source = mounted / "emb/images/isic"
-    source.mkdir(parents=True)
-    alias = tmp_path / "data/external/hiba/extracted"
-    real_is_symlink, real_resolve = Path.is_symlink, Path.resolve
-    monkeypatch.setattr(Path, "is_symlink", lambda self: True if self == alias else real_is_symlink(self))
-    def resolved(self, *args, **kwargs):
-        if self == alias:
-            return real_resolve(source if compatible else mounted)
-        return real_resolve(self, *args, **kwargs)
-    monkeypatch.setattr(Path, "resolve", resolved)
-    create = Mock(side_effect=AssertionError("Existing alias must not be replaced"))
-    monkeypatch.setattr(Path, "symlink_to", create)
-    if compatible:
-        external.prepare_hiba_volume_paths(tmp_path)
-    else:
-        with pytest.raises(ValueError, match="Incompatible"):
-            external.prepare_hiba_volume_paths(tmp_path)
-    create.assert_not_called()
+def test_no_emb_alias_or_symlink_creation_in_com05_sources():
+    evaluator = (ROOT / "src/evaluation/comesyso2026_external_hiba.py").read_text(encoding="utf-8")
+    modal_source = (ROOT / "scripts/comesyso2026/modal_comesyso2026_external_hiba.py").read_text(encoding="utf-8")
+    combined = evaluator + "\n" + modal_source
+    assert "data/raw/emb/images/isic" not in combined
+    assert "prepare_hiba_volume_paths" not in combined
+    assert ".symlink_to(" not in combined
+    assert "comesyso2026-hiba-data" in modal_source
+    assert "/mnt/comesyso2026-hiba-data" in modal_source

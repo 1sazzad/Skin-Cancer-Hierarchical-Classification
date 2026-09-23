@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import csv
 import os
+import shutil
 import tempfile
 from pathlib import Path
 
@@ -26,6 +27,8 @@ COUNTS = (696, 196, 229, 111)
 PATIENT_COUNT = 568
 MANIFEST = Path("data/external/hiba/manifests/hiba_external_dermoscopic_4class_final.csv")
 MANIFEST_CANONICAL_SHA256 = "a2f30f14a249d8acb2bd9f03884e5e41c773ddbee19910d5b739407521e3706a"
+HIBA_EXTRACTED = Path("data/external/hiba/extracted")
+HIBA_IMAGE_DIR = HIBA_EXTRACTED / "images"
 OUTPUT = Path("results/extensions/comesyso2026_probability_fusion/external_hiba")
 LOCK_NAME = "preflight_lock.json"
 INFERENCE_COMPLETE = "inference_complete.json"
@@ -41,27 +44,64 @@ SYSTEMS = com04.SYSTEMS
 METRICS = com04.METRICS
 
 
-def prepare_hiba_volume_paths(project_root):
-    """Expose the historical HIBA path from one Modal data-volume mount.
 
-    The verified live paul2026-swin-data layout stores HIBA JPEGs beneath
-    emb/images/isic/. Only the container-local alias is created; no volume
-    data or manifest is changed.
-    Call only in the Modal preflight/inference wrappers, not CPU analysis.
+def stage_hiba_images(project_root, source_root):
+    """Stage the frozen HIBA cohort as real container-local files.
+
+    source_root is the root of the dedicated read-only HIBA Modal volume.
+    The historical evaluator requires manifest paths to resolve beneath the
+    project root, so source files are copied into the ephemeral container
+    rather than exposed through a symlink or project-root volume mount.
+    Every source and staged file is verified against the frozen manifest hash.
     """
     root = Path(project_root).absolute()
-    source = root / "data/raw/emb/images/isic"
-    alias = root / "data/external/hiba/extracted"
-    if not source.is_dir():
-        raise FileNotFoundError(f"Required live HIBA image directory is missing: {source}")
-    if alias.is_symlink():
-        if alias.resolve() != source.resolve():
-            raise ValueError(f"Incompatible HIBA extracted alias: {alias}")
-        return
-    if alias.exists():
-        raise ValueError(f"Refusing to replace existing HIBA extracted path: {alias}")
-    alias.parent.mkdir(parents=True, exist_ok=True)
-    alias.symlink_to(source, target_is_directory=True)
+    source_root = Path(source_root).absolute()
+    source_images = source_root / "images"
+    destination_images = root / HIBA_IMAGE_DIR
+    extracted = root / HIBA_EXTRACTED
+
+    if not source_images.is_dir():
+        raise FileNotFoundError(f"Dedicated HIBA source image directory is missing: {source_images}")
+    if extracted.is_symlink() or destination_images.is_symlink():
+        raise ValueError("HIBA staging destination must be a real container-local directory")
+
+    manifest = root / MANIFEST
+    if not manifest.is_file():
+        raise FileNotFoundError(f"Frozen HIBA manifest is missing: {manifest}")
+    with manifest.open(newline="", encoding="utf-8-sig") as handle:
+        rows = list(csv.DictReader(handle))
+
+    destination_images.mkdir(parents=True, exist_ok=True)
+    root_resolved = root.resolve()
+    for row in rows:
+        sample_id = row["isic_id"].strip()
+        relative = Path(row["image_path"])
+        expected = HIBA_IMAGE_DIR / f"{sample_id}.jpg"
+        if relative.as_posix() != expected.as_posix():
+            raise ValueError(f"Unexpected frozen HIBA image path for {sample_id}: {relative}")
+
+        source = source_images / relative.name
+        destination = root / relative
+        if not source.is_file():
+            raise FileNotFoundError(f"Frozen HIBA source image is missing: {source}")
+        expected_sha = row["image_sha256"].lower()
+        eq(sha256_file(source).lower(), expected_sha, f"HIBA source image hash: {sample_id}")
+
+        if destination.exists():
+            if destination.is_symlink() or not destination.is_file():
+                raise ValueError(f"Invalid staged HIBA destination: {destination}")
+            eq(sha256_file(destination).lower(), expected_sha, f"Staged HIBA image hash: {sample_id}")
+        else:
+            shutil.copy2(source, destination)
+
+        resolved = destination.resolve()
+        if not resolved.is_relative_to(root_resolved):
+            raise ValueError("Staged HIBA image path escapes project root")
+        if destination.is_symlink():
+            raise ValueError("Staged HIBA images must not be symlinks")
+        eq(sha256_file(destination).lower(), expected_sha, f"Staged HIBA image hash: {sample_id}")
+
+    return len(rows)
 
 
 def output_directory(project_root):
@@ -151,6 +191,8 @@ def inspect_inputs(project_root):
     validate_protocol(protocol)
     cfg = hiba._config(root)
     eq(cfg["hiba"]["manifest_path"], MANIFEST.as_posix(), "Historical HIBA manifest")
+    if not (root / HIBA_IMAGE_DIR).is_dir():
+        raise FileNotFoundError(f"Staged HIBA image directory is missing: {root / HIBA_IMAGE_DIR}")
     # Historical _cohort validates the canonical manifest, patient mapping,
     # labels, all image hashes and path containment; it never constructs a dataset.
     rows = hiba._cohort(root, cfg)
