@@ -296,7 +296,7 @@ def render_markdown(inv: dict) -> str:
     for key, value in inv["completion_hashes"].items():
         lines.append(f"- \`{key}\`: \`{value}\`")
     lines += ["", "COM-06A is ready for publication-table and narrative synthesis.", ""]
-    return "\\n".join(lines)
+    return "\n".join(lines)
 
 
 def main():
@@ -306,7 +306,7 @@ def main():
     REPORT_ROOT.mkdir(parents=True, exist_ok=True)
     json_path = REPORT_ROOT / "com06a_evidence_inventory.json"
     md_path = REPORT_ROOT / "COM06A_EVIDENCE_INVENTORY.md"
-    json_path.write_text(json.dumps(inv, indent=2, sort_keys=True) + "\\n", encoding="utf-8")
+    json_path.write_text(json.dumps(inv, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     md_path.write_text(render_markdown(inv), encoding="utf-8")
     print("COM-06A: PASS")
     print(f"JSON: {json_path}")
