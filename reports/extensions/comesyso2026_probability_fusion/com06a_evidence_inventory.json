@@ -1,0 +1,1212 @@
+{
+  "completion_hashes": {
+    "external_hiba_complete_sha256": "e46113cfb1c6e4a01f0b0157c3fbf2059f5a95e5188166c7c8141d56a67b235d",
+    "external_hiba_inference_complete_sha256": "107f51b01f2f56fd3f0b23264ee7f13bc14ee723c419459b22b1cd0aa69661c1",
+    "internal_isic_complete_sha256": "bd8183c9573cf2f117f1de72197016d80df9945aedb12d6bb51366f4e046a530",
+    "validation_fit_complete_sha256": "cb94a2dc626b17917d38f29d8f17a4e560defd2a16ccbfb28d749dcc6e406e81"
+  },
+  "external_hiba": {
+    "fusion_minus_flat_macro_f1": {
+      "individual_seed_values": {
+        "123": -0.41530277017573985,
+        "2026": -0.20973113906367152,
+        "42": -0.3886620767353974
+      },
+      "mean": -0.3378986619916029,
+      "sample_standard_deviation": 0.11179274165551599
+    },
+    "fusion_per_class_f1": {
+      "bcc": {
+        "individual_seed_values": {
+          "123": 0.0,
+          "2026": 0.46280991735537197,
+          "42": 0.0
+        },
+        "mean": 0.15426997245179067,
+        "sample_standard_deviation": 0.26720343036875244
+      },
+      "melanoma": {
+        "individual_seed_values": {
+          "123": 0.13392857142857142,
+          "2026": 0.3230769230769231,
+          "42": 0.11926605504587157
+        },
+        "mean": 0.19209051651712206,
+        "sample_standard_deviation": 0.11367421156205729
+      },
+      "non_malignant": {
+        "individual_seed_values": {
+          "123": 0.7242105263157894,
+          "2026": 0.7872832369942195,
+          "42": 0.7250786988457502
+        },
+        "mean": 0.7455241540519196,
+        "sample_standard_deviation": 0.036167031769580596
+      },
+      "scc": {
+        "individual_seed_values": {
+          "123": 0.0,
+          "2026": 0.0,
+          "42": 0.0
+        },
+        "mean": 0.0,
+        "sample_standard_deviation": 0.0
+      }
+    },
+    "hard_per_class_f1": {
+      "bcc": {
+        "individual_seed_values": {
+          "123": 0.16976127320954906,
+          "2026": 0.34042553191489355,
+          "42": 0.0
+        },
+        "mean": 0.1700622683748142,
+        "sample_standard_deviation": 0.1702129655562457
+      },
+      "melanoma": {
+        "individual_seed_values": {
+          "123": 0.37241379310344824,
+          "2026": 0.4451612903225806,
+          "42": 0.3876923076923077
+        },
+        "mean": 0.4017557970394455,
+        "sample_standard_deviation": 0.03835864814321162
+      },
+      "non_malignant": {
+        "individual_seed_values": {
+          "123": 0.7437722419928825,
+          "2026": 0.8206419131529263,
+          "42": 0.7215119510839355
+        },
+        "mean": 0.7619753687432481,
+        "sample_standard_deviation": 0.05201156325825342
+      },
+      "scc": {
+        "individual_seed_values": {
+          "123": 0.0,
+          "2026": 0.34745762711864403,
+          "42": 0.0
+        },
+        "mean": 0.11581920903954801,
+        "sample_standard_deviation": 0.20060475454893775
+      }
+    },
+    "oracle_minus_fusion_macro_f1": {
+      "individual_seed_values": {
+        "123": 0.2103688868890562,
+        "2026": 0.26361928442579236,
+        "42": 0.3544869536627367
+      },
+      "mean": 0.27615837499252843,
+      "sample_standard_deviation": 0.07287266899754917
+    },
+    "path_soft_minus_hard_macro_f1": {
+      "individual_seed_values": {
+        "123": -0.12581313495696111,
+        "2026": -0.04432065478065306,
+        "42": -0.070422430250034
+      },
+      "mean": -0.08018540666254939,
+      "sample_standard_deviation": 0.04161421467053042
+    },
+    "primary_contrast_macro_f1": {
+      "individual_seed_values": {
+        "123": -0.10695205264037971,
+        "2026": -0.09512907127063247,
+        "42": -0.06621487622115535
+      },
+      "mean": -0.08943200004405584,
+      "sample_standard_deviation": 0.020957620358076627
+    },
+    "seeds": {
+      "123": {
+        "primary_statistics": {
+          "bootstrap_replicates": 5000,
+          "bootstrap_seed": 42,
+          "bootstrap_unit": "patient_cluster",
+          "confidence_interval_95": [
+            -0.13074410014520774,
+            -0.08305275960761566
+          ],
+          "point_difference": -0.10695205264037971
+        },
+        "rescue": {
+          "dataset": "hiba",
+          "hard_wrong_fusion_wrong_prediction_changed": 82,
+          "malignant_routed_nm": {
+            "by_class": {
+              "bcc": {
+                "count": 190,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "melanoma": {
+                "count": 91,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "scc": {
+                "count": 82,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              }
+            },
+            "count": 363,
+            "fusion_correct": 0,
+            "fusion_still_incorrect": 363,
+            "hard_correct": 0,
+            "harmed": 0,
+            "rescued": 0,
+            "rescued_true_subtype_counts": {
+              "bcc": 0,
+              "melanoma": 0,
+              "scc": 0
+            },
+            "total": 363
+          },
+          "nm_routed_malignant": {
+            "changed_to_another_incorrect_class": 0,
+            "corrections": 61,
+            "count": 69,
+            "fusion_correct": 61,
+            "fusion_still_incorrect": 8,
+            "hard_correct": 0,
+            "harmed": 0,
+            "made_worse_correct_to_wrong_count": 0,
+            "new_errors": 0,
+            "rescued": 61,
+            "total": 69,
+            "unchanged_incorrect_prediction": 8
+          },
+          "pairwise_partition": {
+            "both_correct": 642,
+            "both_wrong_different_predictions": 82,
+            "both_wrong_same_prediction": 376,
+            "hard_correct_fusion_wrong": 71,
+            "hard_wrong_fusion_correct": 61
+          },
+          "sample_count": 1232,
+          "seed": 123
+        }
+      },
+      "2026": {
+        "primary_statistics": {
+          "bootstrap_replicates": 5000,
+          "bootstrap_seed": 42,
+          "bootstrap_unit": "patient_cluster",
+          "confidence_interval_95": [
+            -0.1336727834582289,
+            -0.05584643186878837
+          ],
+          "point_difference": -0.09512907127063247
+        },
+        "rescue": {
+          "dataset": "hiba",
+          "hard_wrong_fusion_wrong_prediction_changed": 61,
+          "malignant_routed_nm": {
+            "by_class": {
+              "bcc": {
+                "count": 95,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "melanoma": {
+                "count": 106,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "scc": {
+                "count": 40,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              }
+            },
+            "count": 241,
+            "fusion_correct": 0,
+            "fusion_still_incorrect": 241,
+            "hard_correct": 0,
+            "harmed": 0,
+            "rescued": 0,
+            "rescued_true_subtype_counts": {
+              "bcc": 0,
+              "melanoma": 0,
+              "scc": 0
+            },
+            "total": 241
+          },
+          "nm_routed_malignant": {
+            "changed_to_another_incorrect_class": 1,
+            "corrections": 29,
+            "count": 44,
+            "fusion_correct": 29,
+            "fusion_still_incorrect": 15,
+            "hard_correct": 0,
+            "harmed": 0,
+            "made_worse_correct_to_wrong_count": 0,
+            "new_errors": 0,
+            "rescued": 29,
+            "total": 44,
+            "unchanged_incorrect_prediction": 14
+          },
+          "pairwise_partition": {
+            "both_correct": 735,
+            "both_wrong_different_predictions": 61,
+            "both_wrong_same_prediction": 281,
+            "hard_correct_fusion_wrong": 83,
+            "hard_wrong_fusion_correct": 72
+          },
+          "sample_count": 1232,
+          "seed": 2026
+        }
+      },
+      "42": {
+        "primary_statistics": {
+          "bootstrap_replicates": 5000,
+          "bootstrap_seed": 42,
+          "bootstrap_unit": "patient_cluster",
+          "confidence_interval_95": [
+            -0.08702599216956727,
+            -0.04473668671272054
+          ],
+          "point_difference": -0.06621487622115535
+        },
+        "rescue": {
+          "dataset": "hiba",
+          "hard_wrong_fusion_wrong_prediction_changed": 15,
+          "malignant_routed_nm": {
+            "by_class": {
+              "bcc": {
+                "count": 218,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "melanoma": {
+                "count": 133,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "scc": {
+                "count": 103,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              }
+            },
+            "count": 454,
+            "fusion_correct": 0,
+            "fusion_still_incorrect": 454,
+            "hard_correct": 0,
+            "harmed": 0,
+            "rescued": 0,
+            "rescued_true_subtype_counts": {
+              "bcc": 0,
+              "melanoma": 0,
+              "scc": 0
+            },
+            "total": 454
+          },
+          "nm_routed_malignant": {
+            "changed_to_another_incorrect_class": 0,
+            "corrections": 42,
+            "count": 47,
+            "fusion_correct": 42,
+            "fusion_still_incorrect": 5,
+            "hard_correct": 0,
+            "harmed": 0,
+            "made_worse_correct_to_wrong_count": 0,
+            "new_errors": 0,
+            "rescued": 42,
+            "total": 47,
+            "unchanged_incorrect_prediction": 5
+          },
+          "pairwise_partition": {
+            "both_correct": 662,
+            "both_wrong_different_predictions": 15,
+            "both_wrong_same_prediction": 463,
+            "hard_correct_fusion_wrong": 50,
+            "hard_wrong_fusion_correct": 42
+          },
+          "sample_count": 1232,
+          "seed": 42
+        }
+      }
+    },
+    "summary_sha256": "905ad9900974df4add33c40189ac6ad0d9db205efe9899ee7fe5fa4ff44b630a",
+    "systems_accuracy": {
+      "flat": {
+        "individual_seed_values": {
+          "123": 0.75,
+          "2026": 0.7435064935064936,
+          "42": 0.7386363636363636
+        },
+        "mean": 0.7440476190476191,
+        "sample_standard_deviation": 0.0057011113381237695
+      },
+      "fusion": {
+        "individual_seed_values": {
+          "123": 0.5706168831168831,
+          "2026": 0.6550324675324676,
+          "42": 0.5714285714285714
+        },
+        "mean": 0.5990259740259741,
+        "sample_standard_deviation": 0.048504744053015185
+      },
+      "hard": {
+        "individual_seed_values": {
+          "123": 0.5787337662337663,
+          "2026": 0.663961038961039,
+          "42": 0.577922077922078
+        },
+        "mean": 0.6068722943722943,
+        "sample_standard_deviation": 0.04944196879694434
+      },
+      "oracle": {
+        "individual_seed_values": {
+          "123": 0.7094155844155844,
+          "2026": 0.8108766233766234,
+          "42": 0.8125
+        },
+        "mean": 0.7775974025974026,
+        "sample_standard_deviation": 0.05905276526843783
+      },
+      "path_soft": {
+        "individual_seed_values": {
+          "123": 0.5689935064935064,
+          "2026": 0.648538961038961,
+          "42": 0.5706168831168831
+        },
+        "mean": 0.5960497835497836,
+        "sample_standard_deviation": 0.04546420738375536
+      }
+    },
+    "systems_balanced_accuracy": {
+      "flat": {
+        "individual_seed_values": {
+          "123": 0.6058480512286146,
+          "2026": 0.5632181598063188,
+          "42": 0.57627292025484
+        },
+        "mean": 0.5817797104299245,
+        "sample_standard_deviation": 0.021841942775162815
+      },
+      "fusion": {
+        "individual_seed_values": {
+          "123": 0.2662590898428337,
+          "2026": 0.38988655430550473,
+          "42": 0.264785655641567
+        },
+        "mean": 0.3069770999299685,
+        "sample_standard_deviation": 0.07180547312512614
+      },
+      "hard": {
+        "individual_seed_values": {
+          "123": 0.32902756607838135,
+          "2026": 0.47568331990186485,
+          "42": 0.3134749589490969
+        },
+        "mean": 0.3727286149764477,
+        "sample_standard_deviation": 0.08949985668613808
+      },
+      "oracle": {
+        "individual_seed_values": {
+          "123": 0.4682180732555031,
+          "2026": 0.6838611905283771,
+          "42": 0.6046586756973531
+        },
+        "mean": 0.5855793131604111,
+        "sample_standard_deviation": 0.10908026889819568
+      },
+      "path_soft": {
+        "individual_seed_values": {
+          "123": 0.25729386582219094,
+          "2026": 0.4270860378300361,
+          "42": 0.2625938306357025
+        },
+        "mean": 0.3156579114293099,
+        "sample_standard_deviation": 0.09653596698453011
+      }
+    },
+    "systems_macro_f1": {
+      "flat": {
+        "individual_seed_values": {
+          "123": 0.6298375446118301,
+          "2026": 0.6030236584203001,
+          "42": 0.5997482652083028
+        },
+        "mean": 0.610869822746811,
+        "sample_standard_deviation": 0.016507964887739517
+      },
+      "fusion": {
+        "individual_seed_values": {
+          "123": 0.2145347744360902,
+          "2026": 0.3932925193566286,
+          "42": 0.21108618847290544
+        },
+        "mean": 0.2729711607552081,
+        "sample_standard_deviation": 0.10421561873373442
+      },
+      "hard": {
+        "individual_seed_values": {
+          "123": 0.3214868270764699,
+          "2026": 0.4884215906272611,
+          "42": 0.2773010646940608
+        },
+        "mean": 0.36240316079926393,
+        "sample_standard_deviation": 0.11134890610852027
+      },
+      "oracle": {
+        "individual_seed_values": {
+          "123": 0.4249036613251464,
+          "2026": 0.656911803782421,
+          "42": 0.5655731421356421
+        },
+        "mean": 0.5491295357477365,
+        "sample_standard_deviation": 0.11687488474817433
+      },
+      "path_soft": {
+        "individual_seed_values": {
+          "123": 0.1956736921195088,
+          "2026": 0.44410093584660804,
+          "42": 0.2068786344440268
+        },
+        "mean": 0.2822177541367145,
+        "sample_standard_deviation": 0.14030684613914154
+      }
+    }
+  },
+  "internal_isic": {
+    "fusion_minus_flat_macro_f1": {
+      "individual_seed_values": {
+        "123": -0.3407189129292919,
+        "2026": -0.17319805168706204,
+        "42": -0.39674933576243543
+      },
+      "mean": -0.30355543345959646,
+      "sample_standard_deviation": 0.1163169691302947
+    },
+    "fusion_per_class_f1": {
+      "bcc": {
+        "individual_seed_values": {
+          "123": 0.0,
+          "2026": 0.5935727788279773,
+          "42": 0.0
+        },
+        "mean": 0.19785759294265912,
+        "sample_standard_deviation": 0.34269940363996687
+      },
+      "melanoma": {
+        "individual_seed_values": {
+          "123": 0.3619631901840491,
+          "2026": 0.5035460992907801,
+          "42": 0.28792270531400965
+        },
+        "mean": 0.38447733159627956,
+        "sample_standard_deviation": 0.10956060847842543
+      },
+      "non_malignant": {
+        "individual_seed_values": {
+          "123": 0.7974332292750608,
+          "2026": 0.8318829113924051,
+          "42": 0.7861271676300577
+        },
+        "mean": 0.8051477694325078,
+        "sample_standard_deviation": 0.023833434901248403
+      },
+      "scc": {
+        "individual_seed_values": {
+          "123": 0.0,
+          "2026": 0.0,
+          "42": 0.0
+        },
+        "mean": 0.0,
+        "sample_standard_deviation": 0.0
+      }
+    },
+    "hard_per_class_f1": {
+      "bcc": {
+        "individual_seed_values": {
+          "123": 0.15794306703397615,
+          "2026": 0.5474860335195529,
+          "42": 0.0
+        },
+        "mean": 0.23514303351784305,
+        "sample_standard_deviation": 0.2817891327634476
+      },
+      "melanoma": {
+        "individual_seed_values": {
+          "123": 0.44782308223911543,
+          "2026": 0.5281980742778541,
+          "42": 0.4332084893882648
+        },
+        "mean": 0.46974321530174484,
+        "sample_standard_deviation": 0.051148064327857595
+      },
+      "non_malignant": {
+        "individual_seed_values": {
+          "123": 0.7110072248193795,
+          "2026": 0.7914438502673796,
+          "42": 0.7530143912874369
+        },
+        "mean": 0.751821822124732,
+        "sample_standard_deviation": 0.04023157148647491
+      },
+      "scc": {
+        "individual_seed_values": {
+          "123": 0.0,
+          "2026": 0.2,
+          "42": 0.0
+        },
+        "mean": 0.06666666666666667,
+        "sample_standard_deviation": 0.11547005383792516
+      }
+    },
+    "oracle_minus_fusion_macro_f1": {
+      "individual_seed_values": {
+        "123": 0.20141783589965073,
+        "2026": 0.23324735562928833,
+        "42": 0.3034807768256119
+      },
+      "mean": 0.24604865611818363,
+      "sample_standard_deviation": 0.05222179572045857
+    },
+    "path_soft_minus_hard_macro_f1": {
+      "individual_seed_values": {
+        "123": -0.10427585211510662,
+        "2026": 0.0038385509496994263,
+        "42": -0.03886116062851702
+      },
+      "mean": -0.04643282059797474,
+      "sample_standard_deviation": 0.054453453182829945
+    },
+    "primary_contrast_macro_f1": {
+      "individual_seed_values": {
+        "123": -0.0393442386583403,
+        "2026": -0.034531542138406035,
+        "42": -0.028043251932908575
+      },
+      "mean": -0.03397301090988497,
+      "sample_standard_deviation": 0.005671158884392233
+    },
+    "seeds": {
+      "123": {
+        "primary_statistics": {
+          "bootstrap_replicates": 10000,
+          "bootstrap_seed": 42,
+          "bootstrap_unit": "image",
+          "confidence_interval_95": [
+            -0.05195122943755053,
+            -0.026580162313426327
+          ],
+          "mcnemar": {
+            "interpretation": "paired_correctness_not_macro_f1",
+            "method": "exact_two_sided",
+            "minuend_correct_subtrahend_wrong": 626,
+            "minuend_wrong_subtrahend_correct": 233,
+            "p_value": 2.8417808975783095e-42,
+            "unit": "image"
+          },
+          "point_difference": -0.0393442386583403
+        },
+        "rescue": {
+          "dataset": "isic",
+          "hard_wrong_fusion_wrong_prediction_changed": 201,
+          "malignant_routed_nm": {
+            "by_class": {
+              "bcc": {
+                "count": 331,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "melanoma": {
+                "count": 241,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "scc": {
+                "count": 63,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              }
+            },
+            "count": 635,
+            "fusion_correct": 0,
+            "fusion_still_incorrect": 635,
+            "hard_correct": 0,
+            "harmed": 0,
+            "rescued": 0,
+            "rescued_true_subtype_counts": {
+              "bcc": 0,
+              "melanoma": 0,
+              "scc": 0
+            },
+            "total": 635
+          },
+          "nm_routed_malignant": {
+            "changed_to_another_incorrect_class": 0,
+            "corrections": 626,
+            "count": 725,
+            "fusion_correct": 626,
+            "fusion_still_incorrect": 99,
+            "hard_correct": 0,
+            "harmed": 0,
+            "made_worse_correct_to_wrong_count": 0,
+            "new_errors": 0,
+            "rescued": 626,
+            "total": 725,
+            "unchanged_incorrect_prediction": 99
+          },
+          "pairwise_partition": {
+            "both_correct": 1850,
+            "both_wrong_different_predictions": 201,
+            "both_wrong_same_prediction": 758,
+            "hard_correct_fusion_wrong": 233,
+            "hard_wrong_fusion_correct": 626
+          },
+          "sample_count": 3668,
+          "seed": 123
+        }
+      },
+      "2026": {
+        "primary_statistics": {
+          "bootstrap_replicates": 10000,
+          "bootstrap_seed": 42,
+          "bootstrap_unit": "image",
+          "confidence_interval_95": [
+            -0.05449161288258886,
+            -0.014043673793353762
+          ],
+          "mcnemar": {
+            "interpretation": "paired_correctness_not_macro_f1",
+            "method": "exact_two_sided",
+            "minuend_correct_subtrahend_wrong": 401,
+            "minuend_wrong_subtrahend_correct": 186,
+            "p_value": 4.099090019732154e-19,
+            "unit": "image"
+          },
+          "point_difference": -0.034531542138406035
+        },
+        "rescue": {
+          "dataset": "isic",
+          "hard_wrong_fusion_wrong_prediction_changed": 142,
+          "malignant_routed_nm": {
+            "by_class": {
+              "bcc": {
+                "count": 66,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "melanoma": {
+                "count": 225,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "scc": {
+                "count": 23,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              }
+            },
+            "count": 314,
+            "fusion_correct": 0,
+            "fusion_still_incorrect": 314,
+            "hard_correct": 0,
+            "harmed": 0,
+            "rescued": 0,
+            "rescued_true_subtype_counts": {
+              "bcc": 0,
+              "melanoma": 0,
+              "scc": 0
+            },
+            "total": 314
+          },
+          "nm_routed_malignant": {
+            "changed_to_another_incorrect_class": 35,
+            "corrections": 327,
+            "count": 622,
+            "fusion_correct": 327,
+            "fusion_still_incorrect": 295,
+            "hard_correct": 0,
+            "harmed": 0,
+            "made_worse_correct_to_wrong_count": 0,
+            "new_errors": 0,
+            "rescued": 327,
+            "total": 622,
+            "unchanged_incorrect_prediction": 260
+          },
+          "pairwise_partition": {
+            "both_correct": 2300,
+            "both_wrong_different_predictions": 142,
+            "both_wrong_same_prediction": 639,
+            "hard_correct_fusion_wrong": 186,
+            "hard_wrong_fusion_correct": 401
+          },
+          "sample_count": 3668,
+          "seed": 2026
+        }
+      },
+      "42": {
+        "primary_statistics": {
+          "bootstrap_replicates": 10000,
+          "bootstrap_seed": 42,
+          "bootstrap_unit": "image",
+          "confidence_interval_95": [
+            -0.037939910946900274,
+            -0.018381826287365836
+          ],
+          "mcnemar": {
+            "interpretation": "paired_correctness_not_macro_f1",
+            "method": "exact_two_sided",
+            "minuend_correct_subtrahend_wrong": 308,
+            "minuend_wrong_subtrahend_correct": 198,
+            "p_value": 1.1510148246195257e-06,
+            "unit": "image"
+          },
+          "point_difference": -0.028043251932908575
+        },
+        "rescue": {
+          "dataset": "isic",
+          "hard_wrong_fusion_wrong_prediction_changed": 61,
+          "malignant_routed_nm": {
+            "by_class": {
+              "bcc": {
+                "count": 395,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "melanoma": {
+                "count": 331,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              },
+              "scc": {
+                "count": 82,
+                "fusion_correct": 0,
+                "hard_correct": 0,
+                "harmed": 0,
+                "rescued": 0
+              }
+            },
+            "count": 808,
+            "fusion_correct": 0,
+            "fusion_still_incorrect": 808,
+            "hard_correct": 0,
+            "harmed": 0,
+            "rescued": 0,
+            "rescued_true_subtype_counts": {
+              "bcc": 0,
+              "melanoma": 0,
+              "scc": 0
+            },
+            "total": 808
+          },
+          "nm_routed_malignant": {
+            "changed_to_another_incorrect_class": 0,
+            "corrections": 308,
+            "count": 462,
+            "fusion_correct": 308,
+            "fusion_still_incorrect": 154,
+            "hard_correct": 0,
+            "harmed": 0,
+            "made_worse_correct_to_wrong_count": 0,
+            "new_errors": 0,
+            "rescued": 308,
+            "total": 462,
+            "unchanged_incorrect_prediction": 154
+          },
+          "pairwise_partition": {
+            "both_correct": 2085,
+            "both_wrong_different_predictions": 61,
+            "both_wrong_same_prediction": 1016,
+            "hard_correct_fusion_wrong": 198,
+            "hard_wrong_fusion_correct": 308
+          },
+          "sample_count": 3668,
+          "seed": 42
+        }
+      }
+    },
+    "summary_sha256": "dfb970ff0c56918dd1892119bf87f201993011b28d4e32dc140d7727d6475b88",
+    "systems_accuracy": {
+      "flat": {
+        "individual_seed_values": {
+          "123": 0.7341875681570338,
+          "2026": 0.779989094874591,
+          "42": 0.7726281352235551
+        },
+        "mean": 0.7622682660850599,
+        "sample_standard_deviation": 0.0245955306679859
+      },
+      "fusion": {
+        "individual_seed_values": {
+          "123": 0.6750272628135223,
+          "2026": 0.7363685932388222,
+          "42": 0.6523991275899673
+        },
+        "mean": 0.6879316612141039,
+        "sample_standard_deviation": 0.04344663869506196
+      },
+      "hard": {
+        "individual_seed_values": {
+          "123": 0.5678844056706652,
+          "2026": 0.677753544165758,
+          "42": 0.6224100327153762
+        },
+        "mean": 0.6226826608505998,
+        "sample_standard_deviation": 0.05493507661766344
+      },
+      "oracle": {
+        "individual_seed_values": {
+          "123": 0.833969465648855,
+          "2026": 0.9143947655398037,
+          "42": 0.8696837513631407
+        },
+        "mean": 0.8726826608505998,
+        "sample_standard_deviation": 0.04029643047743482
+      },
+      "path_soft": {
+        "individual_seed_values": {
+          "123": 0.6624863685932388,
+          "2026": 0.7112868047982552,
+          "42": 0.6494002181025081
+        },
+        "mean": 0.6743911304980008,
+        "sample_standard_deviation": 0.03261563919685398
+      }
+    },
+    "systems_balanced_accuracy": {
+      "flat": {
+        "individual_seed_values": {
+          "123": 0.672657252564784,
+          "2026": 0.6562017283231981,
+          "42": 0.6688917519948724
+        },
+        "mean": 0.6659169109609514,
+        "sample_standard_deviation": 0.008621677847100296
+      },
+      "fusion": {
+        "individual_seed_values": {
+          "123": 0.3049443858082325,
+          "2026": 0.48159549043710026,
+          "42": 0.2888859570782929
+        },
+        "mean": 0.3584752777745419,
+        "sample_standard_deviation": 0.10692711703713813
+      },
+      "hard": {
+        "individual_seed_values": {
+          "123": 0.3370578974618499,
+          "2026": 0.5594439600245271,
+          "42": 0.3297847148926958
+        },
+        "mean": 0.4087621907930243,
+        "sample_standard_deviation": 0.130544902160992
+      },
+      "oracle": {
+        "individual_seed_values": {
+          "123": 0.5105243984788712,
+          "2026": 0.7298918891532993,
+          "42": 0.5869495681842414
+        },
+        "mean": 0.6091219519388039,
+        "sample_standard_deviation": 0.11135185199276441
+      },
+      "path_soft": {
+        "individual_seed_values": {
+          "123": 0.26338627814230636,
+          "2026": 0.5299690810606946,
+          "42": 0.28033378356103045
+        },
+        "mean": 0.35789638092134385,
+        "sample_standard_deviation": 0.14926005857199248
+      }
+    },
+    "systems_macro_f1": {
+      "flat": {
+        "individual_seed_values": {
+          "123": 0.6305680177940693,
+          "2026": 0.6554484990648527,
+          "42": 0.6652618039984523
+        },
+        "mean": 0.6504261069524581,
+        "sample_standard_deviation": 0.017883875899727106
+      },
+      "fusion": {
+        "individual_seed_values": {
+          "123": 0.28984910486477744,
+          "2026": 0.48225044737779066,
+          "42": 0.2685124682360168
+        },
+        "mean": 0.34687067349286166,
+        "sample_standard_deviation": 0.11772669790029712
+      },
+      "hard": {
+        "individual_seed_values": {
+          "123": 0.32919334352311774,
+          "2026": 0.5167819895161967,
+          "42": 0.2965557201689254
+        },
+        "mean": 0.3808436844027466,
+        "sample_standard_deviation": 0.11885167526118685
+      },
+      "oracle": {
+        "individual_seed_values": {
+          "123": 0.4912669407644282,
+          "2026": 0.715497803007079,
+          "42": 0.5719932450616287
+        },
+        "mean": 0.5929193296110453,
+        "sample_standard_deviation": 0.11357066371404044
+      },
+      "path_soft": {
+        "individual_seed_values": {
+          "123": 0.22491749140801112,
+          "2026": 0.5206205404658961,
+          "42": 0.2576945595404084
+        },
+        "mean": 0.33441086380477186,
+        "sample_standard_deviation": 0.16209292646663914
+      }
+    }
+  },
+  "phase": "COM-06A",
+  "purpose": "read_only_evidence_inventory",
+  "scientific_recomputation": false,
+  "seeds": [
+    42,
+    123,
+    2026
+  ],
+  "status": "PASS",
+  "validation_fit": {
+    "summary": {
+      "fits": {
+        "123": {
+          "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed123/best_checkpoint.pt",
+          "checkpoint_selected_epoch": 1,
+          "checkpoint_sha256": "b646b789057fa14968111c2eea2af7bc4ae0ddadeaeafdce6a7f088ec3ea01e0",
+          "classes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "classifier_specification": {
+            "C": 1.0,
+            "class_weight": null,
+            "fit_intercept": true,
+            "max_iter": 1000,
+            "model": "multinomial_logistic_regression",
+            "objective": "joint_four_class_multinomial_softmax",
+            "penalty": "l2",
+            "solver": "lbfgs",
+            "tol": 0.0001
+          },
+          "coefficient_shape": [
+            4,
+            4
+          ],
+          "config_path": "configs/extensions/paul2026_swin/shared_hard_seed123.yaml",
+          "config_sha256": "3e9d08633cc3f0ad69da8385560c34c141c10742aa357684789a18d8e726b162",
+          "converged": true,
+          "dataset": "isic2019",
+          "feature_order": [
+            "p_task1_malignant",
+            "p_task2_melanoma",
+            "p_task2_bcc",
+            "p_task2_scc"
+          ],
+          "fitting_partition": "isic2019_validation_all_four_classes",
+          "historical_run_name": "paul2026_shared_hard_swin_t_seed123",
+          "intercept_shape": [
+            4
+          ],
+          "n_iter": [
+            38
+          ],
+          "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+          "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+          "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+          "run_summary_sha256": "5588c220ba21c4a4ec970911e2c1fc6494644a79344b3ab4c8393e3362a72686",
+          "seed": 123,
+          "sklearn_version": "1.9.0",
+          "split": "validation",
+          "stage": "flat_four_class",
+          "validation_class_counts": {
+            "0": 2398,
+            "1": 678,
+            "2": 498,
+            "3": 94
+          },
+          "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+          "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+          "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+          "validation_sample_count": 3668
+        },
+        "2026": {
+          "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed2026/best_checkpoint.pt",
+          "checkpoint_selected_epoch": 26,
+          "checkpoint_sha256": "39aad436180677dfcca8aa05e1bb480dec3a41f8c04aa1749ec2b1fe9b1e7cde",
+          "classes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "classifier_specification": {
+            "C": 1.0,
+            "class_weight": null,
+            "fit_intercept": true,
+            "max_iter": 1000,
+            "model": "multinomial_logistic_regression",
+            "objective": "joint_four_class_multinomial_softmax",
+            "penalty": "l2",
+            "solver": "lbfgs",
+            "tol": 0.0001
+          },
+          "coefficient_shape": [
+            4,
+            4
+          ],
+          "config_path": "configs/extensions/paul2026_swin/shared_hard_seed2026.yaml",
+          "config_sha256": "7487b530a7f5af2f388303c52f3e4ba469a66de5db68e6ad45f7ac328887f1ec",
+          "converged": true,
+          "dataset": "isic2019",
+          "feature_order": [
+            "p_task1_malignant",
+            "p_task2_melanoma",
+            "p_task2_bcc",
+            "p_task2_scc"
+          ],
+          "fitting_partition": "isic2019_validation_all_four_classes",
+          "historical_run_name": "paul2026_shared_hard_swin_t_seed2026",
+          "intercept_shape": [
+            4
+          ],
+          "n_iter": [
+            47
+          ],
+          "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+          "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+          "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+          "run_summary_sha256": "1bb28f933381dbd2c4eac1c5cc9fead2d8d0ee73da5c516b5b065decfef08080",
+          "seed": 2026,
+          "sklearn_version": "1.9.0",
+          "split": "validation",
+          "stage": "flat_four_class",
+          "validation_class_counts": {
+            "0": 2398,
+            "1": 678,
+            "2": 498,
+            "3": 94
+          },
+          "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+          "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+          "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+          "validation_sample_count": 3668
+        },
+        "42": {
+          "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed42/best_checkpoint.pt",
+          "checkpoint_selected_epoch": 10,
+          "checkpoint_sha256": "bd68813713805293feb0d2a4663230fd3d3450cbe644963c32545fc763aff982",
+          "classes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "classifier_specification": {
+            "C": 1.0,
+            "class_weight": null,
+            "fit_intercept": true,
+            "max_iter": 1000,
+            "model": "multinomial_logistic_regression",
+            "objective": "joint_four_class_multinomial_softmax",
+            "penalty": "l2",
+            "solver": "lbfgs",
+            "tol": 0.0001
+          },
+          "coefficient_shape": [
+            4,
+            4
+          ],
+          "config_path": "configs/extensions/paul2026_swin/shared_hard_seed42.yaml",
+          "config_sha256": "2c24bdcfc90c2fe246600f1e8ece346a9fd49f144186391ca3136db396506c14",
+          "converged": true,
+          "dataset": "isic2019",
+          "feature_order": [
+            "p_task1_malignant",
+            "p_task2_melanoma",
+            "p_task2_bcc",
+            "p_task2_scc"
+          ],
+          "fitting_partition": "isic2019_validation_all_four_classes",
+          "historical_run_name": "paul2026_shared_hard_swin_t_seed42",
+          "intercept_shape": [
+            4
+          ],
+          "n_iter": [
+            37
+          ],
+          "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+          "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+          "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+          "run_summary_sha256": "dbdcf8b962bab530a9ace7e084c1f86acfec78f439c705b6df81b9e4ebb1c52c",
+          "seed": 42,
+          "sklearn_version": "1.9.0",
+          "split": "validation",
+          "stage": "flat_four_class",
+          "validation_class_counts": {
+            "0": 2398,
+            "1": 678,
+            "2": 498,
+            "3": 94
+          },
+          "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+          "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+          "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+          "validation_sample_count": 3668
+        }
+      },
+      "phase": "COM-03",
+      "seeds_completed": [
+        42,
+        123,
+        2026
+      ]
+    },
+    "summary_sha256": "857734dbbff8f1fdbe8a4c43182619b74f3823506192d78c7c30b01f997bb34c"
+  }
+}

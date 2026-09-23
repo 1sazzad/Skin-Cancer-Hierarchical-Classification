@@ -1,0 +1,82 @@
+{
+  "checkpoints": [
+    {
+      "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed42/best_checkpoint.pt",
+      "checkpoint_selected_epoch": 10,
+      "checkpoint_sha256": "bd68813713805293feb0d2a4663230fd3d3450cbe644963c32545fc763aff982",
+      "config_path": "configs/extensions/paul2026_swin/shared_hard_seed42.yaml",
+      "config_sha256": "2c24bdcfc90c2fe246600f1e8ece346a9fd49f144186391ca3136db396506c14",
+      "historical_run_name": "paul2026_shared_hard_swin_t_seed42",
+      "run_summary_sha256": "dbdcf8b962bab530a9ace7e084c1f86acfec78f439c705b6df81b9e4ebb1c52c",
+      "seed": 42
+    },
+    {
+      "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed123/best_checkpoint.pt",
+      "checkpoint_selected_epoch": 1,
+      "checkpoint_sha256": "b646b789057fa14968111c2eea2af7bc4ae0ddadeaeafdce6a7f088ec3ea01e0",
+      "config_path": "configs/extensions/paul2026_swin/shared_hard_seed123.yaml",
+      "config_sha256": "3e9d08633cc3f0ad69da8385560c34c141c10742aa357684789a18d8e726b162",
+      "historical_run_name": "paul2026_shared_hard_swin_t_seed123",
+      "run_summary_sha256": "5588c220ba21c4a4ec970911e2c1fc6494644a79344b3ab4c8393e3362a72686",
+      "seed": 123
+    },
+    {
+      "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed2026/best_checkpoint.pt",
+      "checkpoint_selected_epoch": 26,
+      "checkpoint_sha256": "39aad436180677dfcca8aa05e1bb480dec3a41f8c04aa1749ec2b1fe9b1e7cde",
+      "config_path": "configs/extensions/paul2026_swin/shared_hard_seed2026.yaml",
+      "config_sha256": "7487b530a7f5af2f388303c52f3e4ba469a66de5db68e6ad45f7ac328887f1ec",
+      "historical_run_name": "paul2026_shared_hard_swin_t_seed2026",
+      "run_summary_sha256": "1bb28f933381dbd2c4eac1c5cc9fead2d8d0ee73da5c516b5b065decfef08080",
+      "seed": 2026
+    }
+  ],
+  "classifier_specification": {
+    "C": 1.0,
+    "class_weight": null,
+    "fit_intercept": true,
+    "max_iter": 1000,
+    "model": "multinomial_logistic_regression",
+    "objective": "joint_four_class_multinomial_softmax",
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "tol": 0.0001
+  },
+  "created_before_validation_inference": true,
+  "dataset": "isic2019",
+  "feature_order": [
+    "p_task1_malignant",
+    "p_task2_melanoma",
+    "p_task2_bcc",
+    "p_task2_scc"
+  ],
+  "historical_checkpoint_lock_sha256": "6805994ae0ec48e9b30d98b6d8649c72d3f68b9632fc312321773fd48e88d542",
+  "phase": "COM-03",
+  "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+  "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+  "schema_version": 1,
+  "seeds": [
+    42,
+    123,
+    2026
+  ],
+  "sklearn_version": "1.9.0",
+  "source_sha256": {
+    "requirements.txt": "bc7fbb1501abab3da3f49de686c0df076e0557823837540dc72ebfcb36b94848",
+    "scripts/comesyso2026/launch_comesyso2026_validation_fit.py": "91626b03da4740b6165d6c1b4234de0ed5a21fe04ae0ef63cf13230a692b40e8",
+    "scripts/comesyso2026/modal_comesyso2026_probability_fusion.py": "22a3a9cf275941e6a97a7591d196740792270b0628d903d045fd5161d501b27b",
+    "src/data/isic2019_dataset.py": "4ded4f858558cf280dc086ef25ff219225645576c2be852cfa0213df8feeae40",
+    "src/data/transforms.py": "ae1eb5da8f70f75e8ec5a646c568595d6851deef6c686a576fc445d5e80c691d",
+    "src/evaluation/comesyso2026_probability_fusion.py": "ff2ae39fe4021bab84e2aaa7755246d64c8ecf1aa9034834f51981b087c59b8b",
+    "src/evaluation/comesyso2026_validation_fit.py": "7545926fd40daa8d81de00c3acee22e79cd61c1e912c64e998dcbc467ac70cfc",
+    "src/evaluation/paul2026_swin_evaluation.py": "5b3c3d4c51692de0f27d08f78eedee3232416739d7654d59a9ebf28de8bde27f",
+    "src/models/shared_three_task.py": "e73abefcdc8fb0d3fc09d3fc45121fece4f9a737cca444df19d96ce31dba74c8",
+    "src/models/transformer_extension.py": "d02e096f19298677a9f0713651e19c0d5f29ffa4402d4d302c0b222e5bec553d"
+  },
+  "split": "validation",
+  "stage": "flat_four_class",
+  "status": "PASS",
+  "torch_version": "2.13.0+cu130",
+  "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+  "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906"
+}

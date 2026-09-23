@@ -1,0 +1,13 @@
+{
+  "artifacts": {
+    "metrics_and_statistics.json": "81b8330db1944f077011e8a0ce55ed9c5458ff1980d28058d02b335735ac7059",
+    "rescue_analysis.json": "61ef63dcafc9e731ba3a33a5b1194b7cdcdce8ad85d3ceb946858cf78a3aaf6d"
+  },
+  "cohort_sha256": "da4dfe00fc0050e67a02b40076a7775a830e1779bbe05bd35f66e597a534bdab",
+  "inference_completion_sha256": "829775c62b23a4b9b45d2e3b4fb6fc3b23709ee2fbf9128c2d695dc2fc5cf9bc",
+  "phase": "COM-05",
+  "preflight_lock_sha256": "1bd8cf9194f896f2f431a294a690898a5f9c76a4de721cce5599283473846798",
+  "seed": 123,
+  "stage": "analysis",
+  "status": "PASS"
+}

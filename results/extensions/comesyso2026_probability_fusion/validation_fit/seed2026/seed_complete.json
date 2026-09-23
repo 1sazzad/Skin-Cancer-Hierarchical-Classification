@@ -1,0 +1,25 @@
+{
+  "artifacts": {
+    "fit_metadata.json": "815787ca3e93a4bb47aa1a644687ace9724e65dd2659118173295407b59cc473",
+    "fusion_model.json": "681b97593bbc1bce0e5ac93a922e05e1f9e3018d5c6144e080d14686979a4f55",
+    "validation_probabilities.csv": "75c69d4149fbe354a4f2e0da2efdebdc557ac9c4c33aa92cc15f7dd97191f10e"
+  },
+  "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed2026/best_checkpoint.pt",
+  "checkpoint_selected_epoch": 26,
+  "checkpoint_sha256": "39aad436180677dfcca8aa05e1bb480dec3a41f8c04aa1749ec2b1fe9b1e7cde",
+  "config_path": "configs/extensions/paul2026_swin/shared_hard_seed2026.yaml",
+  "config_sha256": "7487b530a7f5af2f388303c52f3e4ba469a66de5db68e6ad45f7ac328887f1ec",
+  "dataset": "isic2019",
+  "fitting_partition": "isic2019_validation_all_four_classes",
+  "historical_run_name": "paul2026_shared_hard_swin_t_seed2026",
+  "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+  "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+  "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+  "run_summary_sha256": "1bb28f933381dbd2c4eac1c5cc9fead2d8d0ee73da5c516b5b065decfef08080",
+  "seed": 2026,
+  "split": "validation",
+  "stage": "flat_four_class",
+  "status": "PASS",
+  "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+  "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906"
+}

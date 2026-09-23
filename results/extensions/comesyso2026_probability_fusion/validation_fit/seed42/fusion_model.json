@@ -1,0 +1,67 @@
+{
+  "classes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "classifier_specification": {
+    "C": 1.0,
+    "class_weight": null,
+    "fit_intercept": true,
+    "max_iter": 1000,
+    "model": "multinomial_logistic_regression",
+    "objective": "joint_four_class_multinomial_softmax",
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "tol": 0.0001
+  },
+  "coefficients": [
+    [
+      -2.4948130168317335,
+      1.212840634805283,
+      -0.28688332374456005,
+      -0.7696852853183827
+    ],
+    [
+      2.466634594874241,
+      1.768455593665657,
+      -0.5379836873657885,
+      -1.2653812594643512
+    ],
+    [
+      0.09072415691969926,
+      -2.1649770748907184,
+      0.8221795346959135,
+      1.3161699718819435
+    ],
+    [
+      -0.062545734962216,
+      -0.8163191535801958,
+      0.00268747641438073,
+      0.7188965729008416
+    ]
+  ],
+  "feature_order": [
+    "p_task1_malignant",
+    "p_task2_melanoma",
+    "p_task2_bcc",
+    "p_task2_scc"
+  ],
+  "fitting_partition": "isic2019_validation_all_four_classes",
+  "fitting_sample_count": 3668,
+  "intercepts": [
+    2.4982960058631605,
+    -0.8895254366978027,
+    -0.017675518220149827,
+    -1.591095050945698
+  ],
+  "n_iter": [
+    37
+  ],
+  "protocol_identity": "comesyso2026_probability_fusion/COM-01B/47fa88a",
+  "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+  "schema_version": 1,
+  "seed": 42,
+  "sklearn_version": "1.9.0"
+}

@@ -1,0 +1,39 @@
+{
+  "checkpoint_provenance": [
+    {
+      "epoch": 9,
+      "path": "results/extensions/paul2026_swin/runs/paul2026_flat_swin_t_seed42/best_checkpoint.pt",
+      "seed": 42,
+      "sha256": "0dbb655fa4361f2278ba25564a345ec16e43b7e20d164d14c7e4769b9bba80e6",
+      "system": "flat"
+    },
+    {
+      "epoch": 10,
+      "path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed42/best_checkpoint.pt",
+      "seed": 42,
+      "sha256": "bd68813713805293feb0d2a4663230fd3d3450cbe644963c32545fc763aff982",
+      "system": "shared_hard"
+    }
+  ],
+  "class_order": [
+    "non_malignant",
+    "melanoma",
+    "bcc",
+    "scc"
+  ],
+  "cohort_sha256": "da4dfe00fc0050e67a02b40076a7775a830e1779bbe05bd35f66e597a534bdab",
+  "feature_order": [
+    "p_task1_malignant",
+    "p_task2_melanoma",
+    "p_task2_bcc",
+    "p_task2_scc"
+  ],
+  "fusion_sha256": "444d4e173f867e0b07a3e383864f5dbf8a33fece64ce2c9f32349f4c8ff9549c",
+  "patient_count": 568,
+  "phase": "COM-05",
+  "preflight_lock_sha256": "1bd8cf9194f896f2f431a294a690898a5f9c76a4de721cce5599283473846798",
+  "sample_count": 1232,
+  "seed": 42,
+  "statistics_performed": false,
+  "zero_shot": true
+}

@@ -1,0 +1,196 @@
+{
+  "fits": {
+    "123": {
+      "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed123/best_checkpoint.pt",
+      "checkpoint_selected_epoch": 1,
+      "checkpoint_sha256": "b646b789057fa14968111c2eea2af7bc4ae0ddadeaeafdce6a7f088ec3ea01e0",
+      "classes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "classifier_specification": {
+        "C": 1.0,
+        "class_weight": null,
+        "fit_intercept": true,
+        "max_iter": 1000,
+        "model": "multinomial_logistic_regression",
+        "objective": "joint_four_class_multinomial_softmax",
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "coefficient_shape": [
+        4,
+        4
+      ],
+      "config_path": "configs/extensions/paul2026_swin/shared_hard_seed123.yaml",
+      "config_sha256": "3e9d08633cc3f0ad69da8385560c34c141c10742aa357684789a18d8e726b162",
+      "converged": true,
+      "dataset": "isic2019",
+      "feature_order": [
+        "p_task1_malignant",
+        "p_task2_melanoma",
+        "p_task2_bcc",
+        "p_task2_scc"
+      ],
+      "fitting_partition": "isic2019_validation_all_four_classes",
+      "historical_run_name": "paul2026_shared_hard_swin_t_seed123",
+      "intercept_shape": [
+        4
+      ],
+      "n_iter": [
+        38
+      ],
+      "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+      "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+      "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+      "run_summary_sha256": "5588c220ba21c4a4ec970911e2c1fc6494644a79344b3ab4c8393e3362a72686",
+      "seed": 123,
+      "sklearn_version": "1.9.0",
+      "split": "validation",
+      "stage": "flat_four_class",
+      "validation_class_counts": {
+        "0": 2398,
+        "1": 678,
+        "2": 498,
+        "3": 94
+      },
+      "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+      "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+      "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+      "validation_sample_count": 3668
+    },
+    "2026": {
+      "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed2026/best_checkpoint.pt",
+      "checkpoint_selected_epoch": 26,
+      "checkpoint_sha256": "39aad436180677dfcca8aa05e1bb480dec3a41f8c04aa1749ec2b1fe9b1e7cde",
+      "classes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "classifier_specification": {
+        "C": 1.0,
+        "class_weight": null,
+        "fit_intercept": true,
+        "max_iter": 1000,
+        "model": "multinomial_logistic_regression",
+        "objective": "joint_four_class_multinomial_softmax",
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "coefficient_shape": [
+        4,
+        4
+      ],
+      "config_path": "configs/extensions/paul2026_swin/shared_hard_seed2026.yaml",
+      "config_sha256": "7487b530a7f5af2f388303c52f3e4ba469a66de5db68e6ad45f7ac328887f1ec",
+      "converged": true,
+      "dataset": "isic2019",
+      "feature_order": [
+        "p_task1_malignant",
+        "p_task2_melanoma",
+        "p_task2_bcc",
+        "p_task2_scc"
+      ],
+      "fitting_partition": "isic2019_validation_all_four_classes",
+      "historical_run_name": "paul2026_shared_hard_swin_t_seed2026",
+      "intercept_shape": [
+        4
+      ],
+      "n_iter": [
+        47
+      ],
+      "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+      "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+      "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+      "run_summary_sha256": "1bb28f933381dbd2c4eac1c5cc9fead2d8d0ee73da5c516b5b065decfef08080",
+      "seed": 2026,
+      "sklearn_version": "1.9.0",
+      "split": "validation",
+      "stage": "flat_four_class",
+      "validation_class_counts": {
+        "0": 2398,
+        "1": 678,
+        "2": 498,
+        "3": 94
+      },
+      "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+      "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+      "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+      "validation_sample_count": 3668
+    },
+    "42": {
+      "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed42/best_checkpoint.pt",
+      "checkpoint_selected_epoch": 10,
+      "checkpoint_sha256": "bd68813713805293feb0d2a4663230fd3d3450cbe644963c32545fc763aff982",
+      "classes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "classifier_specification": {
+        "C": 1.0,
+        "class_weight": null,
+        "fit_intercept": true,
+        "max_iter": 1000,
+        "model": "multinomial_logistic_regression",
+        "objective": "joint_four_class_multinomial_softmax",
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "tol": 0.0001
+      },
+      "coefficient_shape": [
+        4,
+        4
+      ],
+      "config_path": "configs/extensions/paul2026_swin/shared_hard_seed42.yaml",
+      "config_sha256": "2c24bdcfc90c2fe246600f1e8ece346a9fd49f144186391ca3136db396506c14",
+      "converged": true,
+      "dataset": "isic2019",
+      "feature_order": [
+        "p_task1_malignant",
+        "p_task2_melanoma",
+        "p_task2_bcc",
+        "p_task2_scc"
+      ],
+      "fitting_partition": "isic2019_validation_all_four_classes",
+      "historical_run_name": "paul2026_shared_hard_swin_t_seed42",
+      "intercept_shape": [
+        4
+      ],
+      "n_iter": [
+        37
+      ],
+      "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+      "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+      "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+      "run_summary_sha256": "dbdcf8b962bab530a9ace7e084c1f86acfec78f439c705b6df81b9e4ebb1c52c",
+      "seed": 42,
+      "sklearn_version": "1.9.0",
+      "split": "validation",
+      "stage": "flat_four_class",
+      "validation_class_counts": {
+        "0": 2398,
+        "1": 678,
+        "2": 498,
+        "3": 94
+      },
+      "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+      "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+      "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+      "validation_sample_count": 3668
+    }
+  },
+  "phase": "COM-03",
+  "seeds_completed": [
+    42,
+    123,
+    2026
+  ]
+}
