@@ -252,7 +252,7 @@ def main():
     lines += _rescue_table(inv)
     lines += _narrative(inv)
 
-    OUTPUT.write_text("\n".join(lines), encoding="utf-8")
+    OUTPUT.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     print("COM-06B: PASS")
     print(f"OUTPUT: {OUTPUT}")
     print(f"ISIC primary contrast: {_fmt(inv['internal_isic']['primary_contrast_macro_f1'])}")
