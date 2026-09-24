@@ -1,0 +1,62 @@
+{
+  "checkpoint_path": "results/extensions/paul2026_swin/runs/paul2026_shared_hard_swin_t_seed123/best_checkpoint.pt",
+  "checkpoint_selected_epoch": 1,
+  "checkpoint_sha256": "b646b789057fa14968111c2eea2af7bc4ae0ddadeaeafdce6a7f088ec3ea01e0",
+  "classes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "classifier_specification": {
+    "C": 1.0,
+    "class_weight": null,
+    "fit_intercept": true,
+    "max_iter": 1000,
+    "model": "multinomial_logistic_regression",
+    "objective": "joint_four_class_multinomial_softmax",
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "tol": 0.0001
+  },
+  "coefficient_shape": [
+    4,
+    4
+  ],
+  "config_path": "configs/extensions/paul2026_swin/shared_hard_seed123.yaml",
+  "config_sha256": "3e9d08633cc3f0ad69da8385560c34c141c10742aa357684789a18d8e726b162",
+  "converged": true,
+  "dataset": "isic2019",
+  "feature_order": [
+    "p_task1_malignant",
+    "p_task2_melanoma",
+    "p_task2_bcc",
+    "p_task2_scc"
+  ],
+  "fitting_partition": "isic2019_validation_all_four_classes",
+  "historical_run_name": "paul2026_shared_hard_swin_t_seed123",
+  "intercept_shape": [
+    4
+  ],
+  "n_iter": [
+    38
+  ],
+  "preflight_lock_sha256": "8beadd2c463c3ca0cca1b4be05ffca9820b9378b68ac5d169487d37d1a7a4a7f",
+  "protocol_path": "configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml",
+  "protocol_sha256": "f174e7b87ae592a68505d6a151be677d2e66eed16adb4444119bb341ce1290b5",
+  "run_summary_sha256": "5588c220ba21c4a4ec970911e2c1fc6494644a79344b3ab4c8393e3362a72686",
+  "seed": 123,
+  "sklearn_version": "1.9.0",
+  "split": "validation",
+  "stage": "flat_four_class",
+  "validation_class_counts": {
+    "0": 2398,
+    "1": 678,
+    "2": 498,
+    "3": 94
+  },
+  "validation_cohort_sha256": "d5ded4babde572d383b453409e331dc516f5a7168121aa15839f378239f4ea9f",
+  "validation_manifest_path": "data/manifests/isic2019_train_val_test_split_seed42.csv",
+  "validation_manifest_sha256": "4aff7b36a942ba19144c01d22910f356534d45603b00844d242e4021892fc906",
+  "validation_sample_count": 3668
+}

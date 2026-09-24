@@ -1,0 +1,10 @@
+{
+  "artifacts": {
+    "metrics_and_statistics.json": "fd0a1538f5f1399d3a4f99c9939e0ff34c2fd97c193a17975f5a6540e100d2b6",
+    "paired_predictions.csv": "21e65d6afdce0e83f97b45a8b978af56e424f62852a78a4527f001755b70f973",
+    "rescue_analysis.json": "ba08d0fdf10b616f661ec8b8f973898974cc89c5b18ca8ba380c4a89b986993e"
+  },
+  "preflight_lock_sha256": "eb7359755869b25a94b0bc36bb60ac8a1ce373827cf2c9efe6414caed63365a7",
+  "seed": 2026,
+  "status": "PASS"
+}

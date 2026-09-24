@@ -1,0 +1,12 @@
+{
+  "artifacts": {
+    "inference_metadata.json": "1cbd67636dcdd974d150b0f81456bcc455a4aac3e6b0281dc134d28cb532b820",
+    "paired_predictions.csv": "90dac1719e82d3bbfa44b301f99aa9c1aef4879fcfdfcb7e75197040a5c84d25"
+  },
+  "cohort_sha256": "da4dfe00fc0050e67a02b40076a7775a830e1779bbe05bd35f66e597a534bdab",
+  "phase": "COM-05",
+  "preflight_lock_sha256": "1bd8cf9194f896f2f431a294a690898a5f9c76a4de721cce5599283473846798",
+  "seed": 2026,
+  "stage": "inference",
+  "status": "PASS"
+}

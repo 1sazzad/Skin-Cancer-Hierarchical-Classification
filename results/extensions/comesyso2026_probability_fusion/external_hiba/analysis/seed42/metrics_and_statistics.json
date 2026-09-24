@@ -1,0 +1,439 @@
+{
+  "additional_paired_tests": "none_declared_for_hiba_in_COM-01B",
+  "cohort_sha256": "da4dfe00fc0050e67a02b40076a7775a830e1779bbe05bd35f66e597a534bdab",
+  "contrasts": {
+    "fusion_minus_flat": {
+      "accuracy": -0.16720779220779225,
+      "balanced_accuracy": -0.31148726461327303,
+      "macro_f1": -0.3886620767353974,
+      "weighted_f1": -0.2914552893670193
+    },
+    "fusion_minus_hard": {
+      "accuracy": -0.006493506493506551,
+      "balanced_accuracy": -0.04868930330752991,
+      "macro_f1": -0.06621487622115535,
+      "weighted_f1": -0.040689195678959844
+    },
+    "oracle_minus_fusion": {
+      "accuracy": 0.2410714285714286,
+      "balanced_accuracy": 0.3398730200557861,
+      "macro_f1": 0.3544869536627367,
+      "weighted_f1": 0.35454992336204855
+    },
+    "path_soft_minus_hard": {
+      "accuracy": -0.00730519480519487,
+      "balanced_accuracy": -0.050881128313394364,
+      "macro_f1": -0.070422430250034,
+      "weighted_f1": -0.043711919203087424
+    }
+  },
+  "oracle_diagnostic_only": true,
+  "patient_count": 568,
+  "phase": "COM-05",
+  "preflight_lock_sha256": "1bd8cf9194f896f2f431a294a690898a5f9c76a4de721cce5599283473846798",
+  "primary_contrast": "fusion_minus_hard",
+  "primary_endpoint": "four_class_macro_f1",
+  "sample_count": 1232,
+  "seed": 42,
+  "statistics": {
+    "bootstrap": {
+      "confidence_level": 0.95,
+      "contrasts": {
+        "fusion_minus_flat": {
+          "confidence_interval": [
+            -0.4301062856180942,
+            -0.3454818525395573
+          ],
+          "point_difference": -0.3886620767353974
+        },
+        "fusion_minus_hard": {
+          "confidence_interval": [
+            -0.08702599216956727,
+            -0.04473668671272054
+          ],
+          "point_difference": -0.06621487622115535
+        },
+        "oracle_minus_fusion": {
+          "confidence_interval": [
+            0.3254159290981907,
+            0.3840903207970123
+          ],
+          "point_difference": 0.3544869536627367
+        },
+        "path_soft_minus_hard": {
+          "confidence_interval": [
+            -0.0929006980902843,
+            -0.047613183335623054
+          ],
+          "point_difference": -0.070422430250034
+        }
+      },
+      "interval": "percentile",
+      "metric": "four_class_macro_f1",
+      "paired": true,
+      "patients_per_replicate": 568,
+      "quantile_method": "linear",
+      "replicates": 5000,
+      "rng": "numpy_default_rng",
+      "seed": 42,
+      "unit": "patient_cluster"
+    }
+  },
+  "systems": {
+    "flat": {
+      "accuracy": 0.7386363636363636,
+      "balanced_accuracy": 0.57627292025484,
+      "class_names": [
+        "non_malignant",
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          654,
+          32,
+          7,
+          3
+        ],
+        [
+          63,
+          122,
+          5,
+          6
+        ],
+        [
+          69,
+          23,
+          100,
+          37
+        ],
+        [
+          44,
+          19,
+          14,
+          34
+        ]
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "macro_f1": 0.5997482652083028,
+      "per_class": {
+        "bcc": {
+          "f1": 0.5633802816901409,
+          "precision": 0.7936507936507936,
+          "recall": 0.4366812227074236,
+          "support": 229
+        },
+        "melanoma": {
+          "f1": 0.6224489795918368,
+          "precision": 0.6224489795918368,
+          "recall": 0.6224489795918368,
+          "support": 196
+        },
+        "non_malignant": {
+          "f1": 0.8571428571428571,
+          "precision": 0.7879518072289157,
+          "recall": 0.9396551724137931,
+          "support": 696
+        },
+        "scc": {
+          "f1": 0.3560209424083769,
+          "precision": 0.425,
+          "recall": 0.3063063063063063,
+          "support": 111
+        }
+      },
+      "sample_count": 1232,
+      "weighted_f1": 0.7200518163034096
+    },
+    "fusion": {
+      "accuracy": 0.5714285714285714,
+      "balanced_accuracy": 0.264785655641567,
+      "class_names": [
+        "non_malignant",
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          691,
+          5,
+          0,
+          0
+        ],
+        [
+          183,
+          13,
+          0,
+          0
+        ],
+        [
+          229,
+          0,
+          0,
+          0
+        ],
+        [
+          107,
+          4,
+          0,
+          0
+        ]
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "macro_f1": 0.21108618847290544,
+      "per_class": {
+        "bcc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 229
+        },
+        "melanoma": {
+          "f1": 0.11926605504587157,
+          "precision": 0.5909090909090909,
+          "recall": 0.0663265306122449,
+          "support": 196
+        },
+        "non_malignant": {
+          "f1": 0.7250786988457502,
+          "precision": 0.5710743801652892,
+          "recall": 0.992816091954023,
+          "support": 696
+        },
+        "scc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 111
+        }
+      },
+      "sample_count": 1232,
+      "weighted_f1": 0.42859652693639033
+    },
+    "hard": {
+      "accuracy": 0.577922077922078,
+      "balanced_accuracy": 0.3134749589490969,
+      "class_names": [
+        "non_malignant",
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          649,
+          47,
+          0,
+          0
+        ],
+        [
+          133,
+          63,
+          0,
+          0
+        ],
+        [
+          218,
+          11,
+          0,
+          0
+        ],
+        [
+          103,
+          8,
+          0,
+          0
+        ]
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "macro_f1": 0.2773010646940608,
+      "per_class": {
+        "bcc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 229
+        },
+        "melanoma": {
+          "f1": 0.3876923076923077,
+          "precision": 0.4883720930232558,
+          "recall": 0.32142857142857145,
+          "support": 196
+        },
+        "non_malignant": {
+          "f1": 0.7215119510839355,
+          "precision": 0.5883952855847688,
+          "recall": 0.9324712643678161,
+          "support": 696
+        },
+        "scc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 111
+        }
+      },
+      "sample_count": 1232,
+      "weighted_f1": 0.4692857226153502
+    },
+    "oracle": {
+      "accuracy": 0.8125,
+      "balanced_accuracy": 0.6046586756973531,
+      "class_names": [
+        "non_malignant",
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          696,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          118,
+          78,
+          0
+        ],
+        [
+          0,
+          42,
+          187,
+          0
+        ],
+        [
+          0,
+          29,
+          82,
+          0
+        ]
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "macro_f1": 0.5655731421356421,
+      "per_class": {
+        "bcc": {
+          "f1": 0.6493055555555555,
+          "precision": 0.5389048991354467,
+          "recall": 0.8165938864628821,
+          "support": 229
+        },
+        "melanoma": {
+          "f1": 0.612987012987013,
+          "precision": 0.6243386243386243,
+          "recall": 0.6020408163265306,
+          "support": 196
+        },
+        "non_malignant": {
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 696
+        },
+        "scc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 111
+        }
+      },
+      "sample_count": 1232,
+      "weighted_f1": 0.7831464502984389
+    },
+    "path_soft": {
+      "accuracy": 0.5706168831168831,
+      "balanced_accuracy": 0.2625938306357025,
+      "class_names": [
+        "non_malignant",
+        "melanoma",
+        "bcc",
+        "scc"
+      ],
+      "confusion_matrix": [
+        [
+          692,
+          4,
+          0,
+          0
+        ],
+        [
+          185,
+          11,
+          0,
+          0
+        ],
+        [
+          229,
+          0,
+          0,
+          0
+        ],
+        [
+          109,
+          2,
+          0,
+          0
+        ]
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "macro_f1": 0.2068786344440268,
+      "per_class": {
+        "bcc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 229
+        },
+        "melanoma": {
+          "f1": 0.10328638497652583,
+          "precision": 0.6470588235294118,
+          "recall": 0.05612244897959184,
+          "support": 196
+        },
+        "non_malignant": {
+          "f1": 0.7242281527995813,
+          "precision": 0.5695473251028806,
+          "recall": 0.9942528735632183,
+          "support": 696
+        },
+        "scc": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 111
+        }
+      },
+      "sample_count": 1232,
+      "weighted_f1": 0.42557380341226275
+    }
+  }
+}

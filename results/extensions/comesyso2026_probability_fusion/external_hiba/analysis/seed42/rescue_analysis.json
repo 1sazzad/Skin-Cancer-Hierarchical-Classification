@@ -1,0 +1,64 @@
+{
+  "dataset": "hiba",
+  "hard_wrong_fusion_wrong_prediction_changed": 15,
+  "malignant_routed_nm": {
+    "by_class": {
+      "bcc": {
+        "count": 218,
+        "fusion_correct": 0,
+        "hard_correct": 0,
+        "harmed": 0,
+        "rescued": 0
+      },
+      "melanoma": {
+        "count": 133,
+        "fusion_correct": 0,
+        "hard_correct": 0,
+        "harmed": 0,
+        "rescued": 0
+      },
+      "scc": {
+        "count": 103,
+        "fusion_correct": 0,
+        "hard_correct": 0,
+        "harmed": 0,
+        "rescued": 0
+      }
+    },
+    "count": 454,
+    "fusion_correct": 0,
+    "fusion_still_incorrect": 454,
+    "hard_correct": 0,
+    "harmed": 0,
+    "rescued": 0,
+    "rescued_true_subtype_counts": {
+      "bcc": 0,
+      "melanoma": 0,
+      "scc": 0
+    },
+    "total": 454
+  },
+  "nm_routed_malignant": {
+    "changed_to_another_incorrect_class": 0,
+    "corrections": 42,
+    "count": 47,
+    "fusion_correct": 42,
+    "fusion_still_incorrect": 5,
+    "hard_correct": 0,
+    "harmed": 0,
+    "made_worse_correct_to_wrong_count": 0,
+    "new_errors": 0,
+    "rescued": 42,
+    "total": 47,
+    "unchanged_incorrect_prediction": 5
+  },
+  "pairwise_partition": {
+    "both_correct": 662,
+    "both_wrong_different_predictions": 15,
+    "both_wrong_same_prediction": 463,
+    "hard_correct_fusion_wrong": 50,
+    "hard_wrong_fusion_correct": 42
+  },
+  "sample_count": 1232,
+  "seed": 42
+}

@@ -1,0 +1,368 @@
+# Declarative protocol only; not a training or evaluation entry point.
+protocol:
+  name: comesyso2026_probability_fusion
+  phase: COM-01B
+  status: frozen
+  scope: protocol_configuration_only
+  execute_now: false
+  authoritative_repository: https://github.com/1sazzad/Skin-Cancer-Hierarchical-Classification
+  documentation: docs/extensions/comesyso2026_probability_fusion/COM01_PROTOCOL_FREEZE.md
+  result_dependent_changes_allowed: false
+
+provenance:
+  iccit_branch: main
+  itt_branch: itt2026-consensus-selective-referral
+  historical_name_usage: provenance_identifiers_only
+  paul_manuscript_submitted: false
+  historical_swin_experiments_incorporated_into: ICCIT
+  inspected_source: authoritative_repository_via_read_only_connector
+  local_remote_equivalence_verified: false
+  sources:
+    - configs/extensions/paul2026_swin/shared_hard_seed42.yaml
+    - configs/extensions/paul2026_swin/shared_hard_seed123.yaml
+    - configs/extensions/paul2026_swin/shared_hard_seed2026.yaml
+    - configs/extensions/paul2026_swin/flat_seed42.yaml
+    - configs/extensions/paul2026_swin/flat_seed123.yaml
+    - configs/extensions/paul2026_swin/flat_seed2026.yaml
+    - src/evaluation/paul2026_swin_evaluation.py
+    - configs/paper/evaluation/phase06f_hiba_external.yaml
+    - docs/extensions/paul2026_swin_hiba_evaluation.md
+  itt_source_on_itt_branch: configs/extensions/itt2026_consensus/itt2026_protocol.yaml
+
+classes:
+  final: {0: non_malignant, 1: melanoma, 2: bcc, 3: scc}
+  task1: {0: non_malignant, 1: malignant}
+  task2: {0: melanoma, 1: bcc, 2: scc}
+  fixed_class_labels: [0, 1, 2, 3]
+  task1_target_rule: "0 if true_final_class == 0 else 1"
+  task2_to_final: {0: 1, 1: 2, 2: 3}
+
+models:
+  architecture: swin_t
+  seeds: [42, 123, 2026]
+  parameters_frozen: true
+  checkpoint_filename: best_checkpoint.pt
+  checkpoint_root: results/extensions/paul2026_swin/runs
+  checkpoint_path_rule: "{checkpoint_root}/{run_name}/best_checkpoint.pt"
+  checkpoint_identity_source: src/evaluation/paul2026_swin_evaluation.py
+  verify_existing_checkpoint_locks_before_future_execution: true
+  missing_or_mismatched_checkpoint_policy: stop_without_substitution
+  selections:
+    - seed: 42
+      shared_hard_run: paul2026_shared_hard_swin_t_seed42
+      shared_hard_selected_epoch: 10
+      flat_run: paul2026_flat_swin_t_seed42
+      flat_selected_epoch: 9
+    - seed: 123
+      shared_hard_run: paul2026_shared_hard_swin_t_seed123
+      shared_hard_selected_epoch: 1
+      flat_run: paul2026_flat_swin_t_seed123
+      flat_selected_epoch: 10
+    - seed: 2026
+      shared_hard_run: paul2026_shared_hard_swin_t_seed2026
+      shared_hard_selected_epoch: 26
+      flat_run: paul2026_flat_swin_t_seed2026
+      flat_selected_epoch: 17
+  task3: preserve_existing_head_but_exclude_from_four_class_fusion_features
+  retraining_allowed: false
+  fine_tuning_allowed: false
+  checkpoint_reselection_allowed: false
+  architecture_modification_allowed: false
+  seed_replacement_allowed: false
+  seed_dropping_allowed: false
+
+probability_contract:
+  task1: softmax_over_two_frozen_logits
+  task2: softmax_over_three_frozen_logits
+  task2_required_for: every_sample_including_task1_predicted_non_malignant
+  task2_training_semantics: malignant_subtype_conditional_head
+  task2_non_malignant_semantics: frozen_head_output_not_a_true_subtype_target
+  calibration: none
+  feature_scaling: none
+  argmax_tie_break: first_class_in_declared_order
+  hard_routing: preserve_existing_shared_hard_procedure
+  true_labels_available_to_predictors: oracle_only
+
+systems:
+  flat:
+    display_name: Flat Swin-T
+    role: contextual_comparator
+    checkpoint: corresponding_same_seed_frozen_flat
+    prediction: argmax_four_class_flat_probabilities
+    new_contribution: false
+  hard:
+    display_name: Hard Routing
+    role: iccit_hierarchical_baseline
+    prediction: "0 if task1_prediction == 0 else task2_argmax + 1"
+  path_soft:
+    display_name: Path-Soft
+    role: parameter_free_probabilistic_hierarchical_baseline
+    final_probabilities:
+      non_malignant: "p_task1_non_malignant"
+      melanoma: "p_task1_malignant * p_task2_melanoma"
+      bcc: "p_task1_malignant * p_task2_bcc"
+      scc: "p_task1_malignant * p_task2_scc"
+    prediction: argmax_in_fixed_final_class_order
+    can_rescue_strict_non_malignant_root_preference: false
+    limitation: >-
+      If p_task1_non_malignant > p_task1_malignant, every malignant
+      leaf probability is at most p_task1_malignant and thus strictly
+      below p_task1_non_malignant. Path-Soft cannot rescue this NM-root preference.
+    primary_routing_error_remedy: false
+  fusion:
+    display_name: Probability Fusion
+    role: primary_new_comesyso_method
+    fit_independently_per_seed: true
+    fit_partition: isic2019_validation_all_four_classes
+    target: true_final_class
+    feature_order:
+      - p_task1_malignant
+      - p_task2_melanoma
+      - p_task2_bcc
+      - p_task2_scc
+    classifier:
+      model: multinomial_logistic_regression
+      objective: joint_four_class_multinomial_softmax
+      penalty: l2
+      C: 1.0
+      solver: lbfgs
+      fit_intercept: true
+      max_iter: 1000
+      class_weight: null
+      tol: 0.0001
+    prediction: argmax_fusion_probabilities_aligned_to_fixed_final_class_order
+    hyperparameter_search: false
+    threshold_search: false
+    feature_selection: false
+    alternative_meta_classifier_selection: false
+    underlying_swin_parameters_frozen: true
+    convergence_failure_policy: report_and_stop_without_changing_frozen_specification
+    hiba_transfer: unchanged_isic_validation_coefficients_intercepts_and_class_mapping
+  oracle:
+    display_name: Oracle Routing
+    role: diagnostic_routing_associated_headroom
+    prediction: "0 if task1_target == 0 else task2_argmax + 1"
+    deployable: false
+    proposed_practical_system: false
+
+datasets:
+  isic:
+    name: ISIC 2019
+    manifest: data/manifests/isic2019_train_val_test_split_seed42.csv
+    split_seed: 42
+    same_partition_for_all_model_seeds: true
+    regenerate_split: false
+    inclusion_policy: preserve_frozen_four_class_cohort
+    validation:
+      uses: [task1_probabilities, task2_probabilities, fusion_fitting]
+      include_all_four_classes: true
+      independent_calibration_cohort: false
+      independent_generalization_evidence: false
+    internal_test:
+      partition: internal_test
+      expected_images: 3668
+      role: evaluation_only
+      influence_on_fitting_hyperparameters_features_methods_thresholds_checkpoints: forbidden
+  hiba:
+    name: HIBA frozen external cohort
+    manifest: data/external/hiba/manifests/hiba_external_dermoscopic_4class_final.csv
+    canonical_crlf_manifest_sha256: a2f30f14a249d8acb2bd9f03884e5e41c773ddbee19910d5b739407521e3706a
+    expected_images: 1232
+    expected_unique_patients: 568
+    expected_class_counts: {non_malignant: 696, melanoma: 196, bcc: 229, scc: 111}
+    patient_field: patient_id
+    source_sample_id_field: isic_id
+    zero_shot: true
+    use_frozen_manifest_without_new_filtering: true
+    unchanged_fusion_transfer: true
+    forbidden: [fitting, fine_tuning, calibration, threshold_selection, feature_selection, checkpoint_selection, model_selection]
+
+preprocessing:
+  preserve_historical_evaluation_transform: true
+  color: RGB
+  resize_short_side: 256
+  interpolation: bilinear_antialiased
+  center_crop: [224, 224]
+  normalization: imagenet
+  augmentation: false
+
+endpoints:
+  primary_metric: four_class_macro_f1
+  primary_comparison: {id: fusion_minus_hard, minuend: fusion, subtrahend: hard}
+  secondary_comparisons:
+    - {id: path_soft_minus_hard, minuend: path_soft, subtrahend: hard}
+    - {id: fusion_minus_flat, minuend: fusion, subtrahend: flat}
+    - {id: oracle_minus_fusion, minuend: oracle, subtrahend: fusion}
+  hierarchy_independent_of_result_direction: true
+
+metrics:
+  report_for_every_system: [accuracy, balanced_accuracy, macro_f1, weighted_f1, per_class_precision, per_class_recall, per_class_f1, confusion_matrix]
+  labels: [0, 1, 2, 3]
+  zero_division: 0
+  macro_f1: arithmetic_mean_of_all_four_class_f1_scores
+  balanced_accuracy: arithmetic_mean_of_all_four_class_recalls
+  absent_classes_in_bootstrap: retain_with_zero_undefined_scores
+  confusion_matrix_rows: true_class
+  confusion_matrix_columns: predicted_class
+
+routing_rescue:
+  report_per_dataset_and_seed: true
+  fields:
+    - dataset
+    - seed
+    - sample_id
+    - patient_id
+    - true_final_class
+    - task1_target
+    - task1_prediction
+    - p_task1_non_malignant
+    - p_task1_malignant
+    - p_task2_melanoma
+    - p_task2_bcc
+    - p_task2_scc
+    - flat_prediction
+    - hard_prediction
+    - path_soft_prediction
+    - fusion_prediction
+    - oracle_prediction
+    - hard_correct
+    - path_soft_correct
+    - fusion_correct
+    - oracle_correct
+  patient_id: mandatory_on_hiba_nullable_on_isic
+  correct_definition: prediction_equals_true_final_class
+  malignant_routed_nm:
+    subset: "true_final_class in [1, 2, 3] and task1_prediction == 0"
+    report: [total, fusion_correct, fusion_still_incorrect, rescued_true_subtype_counts]
+    rescue_requires: exact_final_class_correctness
+  nm_routed_malignant:
+    subset: "true_final_class == 0 and task1_prediction == 1"
+    report: [total, fusion_correct, fusion_still_incorrect, unchanged_incorrect_prediction, changed_to_another_incorrect_class]
+    made_worse_correct_to_wrong_count: 0
+    made_worse_note: all_hard_predictions_in_this_subset_are_already_wrong
+  pairwise_partition:
+    - hard_wrong_fusion_correct
+    - hard_correct_fusion_wrong
+    - both_correct
+    - both_wrong_same_prediction
+    - both_wrong_different_predictions
+  additional_required_alias:
+    hard_wrong_fusion_wrong_prediction_changed: both_wrong_different_predictions
+  alias_is_not_an_additional_disjoint_category: true
+
+statistics:
+  separately_for_each_seed_and_dataset: true
+  metric: four_class_macro_f1
+  contrast_source: endpoints
+  report_point_difference_and_confidence_interval: true
+  internal_isic:
+    bootstrap:
+      paired: true
+      unit: image
+      replacement: true
+      replicates: 10000
+      seed: 42
+      confidence_level: 0.95
+      interval: percentile
+      quantiles: [0.025, 0.975]
+      quantile_method: linear
+      resampling: same_image_indices_for_targets_and_all_system_predictions
+      recompute_metric_each_replicate: true
+    mcnemar:
+      method: exact_two_sided
+      unit: image
+      comparisons: all_declared_primary_and_secondary
+      report_discordant_counts: [minuend_correct_subtrahend_wrong, minuend_wrong_subtrahend_correct]
+      zero_discordance_p_value: 1.0
+      interpretation: paired_correctness_not_macro_f1
+      report_separately_from_bootstrap: true
+  hiba:
+    bootstrap:
+      paired: true
+      unit: patient_cluster
+      replacement: true
+      replicates: 5000
+      seed: 42
+      rng: numpy_default_rng
+      confidence_level: 0.95
+      interval: percentile
+      quantiles: [0.025, 0.975]
+      quantile_method: linear
+      patient_order: sorted_unique_patient_ids
+      patients_per_replicate: 568
+      preserve_all_images_for_each_sampled_patient: true
+      preserve_repeated_cluster_multiplicity: true
+      same_patient_draws_for_all_systems: true
+      recompute_image_based_metric_on_resampled_clusters: true
+    primary_image_independence_assumption: false
+    image_level_mcnemar_primary: false
+    inherit_other_frozen_swin_hiba_settings: true
+    supersede_historical_contrasts_with: endpoints
+  three_seed_reporting:
+    seeds: [42, 123, 2026]
+    individual_results_required: true
+    scalar_metrics_and_contrasts_summary: [arithmetic_mean, sample_standard_deviation]
+    std_ddof: 1
+    seed_image_pair_pooling: false
+    best_or_representative_seed_selection: false
+
+limitations:
+  validation_reuse: >-
+    ISIC validation was already involved in selecting each underlying Swin-T
+    best_checkpoint.pt and is reused for post-hoc Probability Fusion fitting.
+    It is not an independent calibration dataset, and validation performance
+    must not be presented as independent evidence of generalization.
+  internal_test_untouched_during_fitting: true
+  hiba_untouched_zero_shot_evaluation: true
+
+scientific_separation:
+  iccit_question: Does hard hierarchical routing introduce routing-associated degradation compared with flat classification?
+  comesyso_question: Can probability-preserving post-hoc inference reduce degradation caused by irreversible hard routing without retraining the underlying hierarchical representation?
+  iccit_role: problem_diagnosis
+  comesyso_role: new_inference_stage_response
+  fusion_was_part_of_iccit_baseline: false
+  itt_scope: seven_frozen_flat_cnns_consensus_disagreement_majority_weighted_ensembles_selective_referral
+  itt_consensus_inputs_allowed: false
+
+prohibited:
+  - fit_fusion_on_internal_test
+  - fit_fusion_on_hiba
+  - calibrate_on_hiba
+  - tune_C_using_test_or_hiba
+  - change_solver_after_results
+  - select_alternative_meta_classifiers_using_test_or_hiba
+  - select_features_using_test_or_hiba
+  - select_thresholds_using_test_or_hiba
+  - drop_or_replace_seeds
+  - reselect_checkpoints
+  - retrain_swin_t
+  - fine_tune_swin_t
+  - modify_architecture
+  - change_primary_comparison_after_results
+  - change_path_soft_or_fusion_definitions_after_results
+  - overwrite_iccit_results_or_manuscript_artifacts
+  - overwrite_itt_results_or_manuscript_artifacts
+
+outputs:
+  allowed_future_roots:
+    - configs/extensions/comesyso2026_probability_fusion/
+    - docs/extensions/comesyso2026_probability_fusion/
+    - results/extensions/comesyso2026_probability_fusion/
+    - scripts/comesyso2026/
+  protected_roots:
+    - results/paper/
+    - configs/paper/
+    - results/extensions/itt2026_consensus/
+    - configs/extensions/itt2026_consensus/
+  historical_inputs_read_only: true
+  iccit_and_itt_manuscripts_protected: true
+
+com01b_boundary:
+  allowed_changes:
+    - configs/extensions/comesyso2026_probability_fusion/comesyso2026_protocol.yaml
+    - docs/extensions/comesyso2026_probability_fusion/COM01_PROTOCOL_FREEZE.md
+  implement_inference: false
+  implement_fusion_fitting: false
+  execute_fitting_inference_training_evaluation: false
+  inspect_new_internal_test_or_hiba_performance: false
+  execute_tests_scripts_modal_or_git: false
